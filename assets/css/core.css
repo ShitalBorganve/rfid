@@ -1,0 +1,20 @@
+.row{
+	margin-top:1em;
+}
+
+.table-header{
+	text-align: center;
+}
+
+.help-block{
+	color: red;
+}
+
+.modal-body{
+	max-height: 25em;
+	overflow: auto;
+}
+
+.modal-title{
+	text-transform: uppercase;
+}
