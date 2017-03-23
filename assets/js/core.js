@@ -135,6 +135,8 @@ $(document).on("submit","#student_add_form", function(e) {
 				if(data.is_successful){
 					$("#student_add_modal").modal("hide");
 					$("#alert-modal").modal("show");
+					$("#rfid_scan_add_modal").modal("show");
+					
 					$("#alert-modal-title").html("Add Student");
 					$("#alert-modal-body p").html("You have successfully added a student in the list.");
 				}

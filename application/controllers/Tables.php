@@ -79,9 +79,6 @@ class Tables extends CI_Controller {
 						<td>
 						<a href="#" class="edit_student" id="'.$student_data->id.'">Edit info</a>
 						</td>
-						<td>
-						<a href="#" class="view_gate_logs" id="'.$rfid_data->id.'">Gate Logs</a>
-						</td>
 					</tr>
 					';
 				}
@@ -94,8 +91,11 @@ class Tables extends CI_Controller {
 	public function gate_logs($arg='')
 	{
 		$where = "";
-		$where["ref_table"]=$this->input->post("ref_table");
-
+		$table = ((
+			$this->input->post("ref_table") ||
+			$this->input->post("ref_table")=="students" ||
+			$this->input->post("ref_table")=="teachers"
+			)?$this->input->post("ref_table"):"students");
 		$page = $this->input->post("page");
 		($this->input->post("ref_id")?$where["ref_id"]=$this->input->post("ref_id"):FALSE);
 		($this->input->post("date_from")?$date_from=strtotime($this->input->post("date_from")):$date_from=0);	
@@ -112,13 +112,19 @@ class Tables extends CI_Controller {
 		// exit;
 		// var_dump($this->gate_logs_model->get_list($where,$between,$page,$this->config->item("max_item_perpage")));exit;
 		// $students_log_data = $this->gate_logs_model->get_list($where,$between,$page,$this->config->item("max_item_perpage"));
-		$gate_logs_data = $this->gate_logs_model->get_list($where,$between);
-		// echo '
-		// <tr>
-		// 	<td>'.$gate_logs_data["query"].'</td>
-		// </tr>
-		// ';
-		// var_dump($gate_logs_data);
+		$gate_logs_data = $this->gate_logs_model->get_list($table,$where,$between);
+		echo '
+		<tr>
+			<td>';
+		// echo $gate_logs_data["query"];
+		// echo "<br><br>";
+		// echo $gate_logs_data["count"];
+		echo $gate_logs_data["query"].'</td>
+		</tr>
+		';
+
+		// var_dump($gate_logs_data["query"]);
+		// echo $this->input->post("ref_table");
 		// exit;
 		foreach ($gate_logs_data["result"] as $gate_log_data) {
 			if($gate_log_data->type=="exit"){

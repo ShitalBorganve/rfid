@@ -15,21 +15,37 @@ class Gate_logs_model extends CI_Model {
         return ($this->db->insert("gate_logs",$data));
     }
 
-    function get_list($where='',$between='',$page=1,$maxitem=50)
+    function get_list($table="students",$where='',$between='',$page=1,$maxitem=50)
     {
-        if($where!=""){
-            $this->db->where($where);
-        }
-        if($between!=""){
-            $this->db->where($between);
-        }
-        $this->db->order_by("id","DESC");
-        $limit = ($page*$maxitem)-$maxitem;
-        $this->db->limit($maxitem,$limit);
 
-        $gate_logs_data = $this->db->get("gate_logs")->result();
+
+        // $limit = ($page*$maxitem)-$maxitem;
+        // $this->db->limit($maxitem,$limit);
+
+        $test[] = 'gate_logs.*';
+        $test[] = $table.'.middle_name';
+        $test[] = $table.'.last_name';
+        $test[] = $table.'.first_name';
+
+        $this->db->where("ref_table",$table);
+        ($where!=""?$this->db->where($where):false);
+        ($between!=""?$this->db->where($between):false);
+
+        $this->db->order_by("id","DESC");
+        $this->db->select($test);
+        $this->db->from('gate_logs');
+        $this->db->join($table, $table.'.id = gate_logs.ref_id');
+        $gate_logs_query = $this->db->get();
+
+        // $gate_logs_data = $this->db->get("gate_logs")->result();
         $data["query"] = $this->db->last_query();
+
+        $this->db->where("gate_logs.ref_table","students");
+        $this->db->select($test);
         $data["count"] = $this->db->count_all_results("gate_logs");
+        // return $data;
+        // exit;
+        $gate_logs_data = $gate_logs_query->result();
         foreach ($gate_logs_data as $gate_log_data) {
             $get_rfid_data = array();
             $get_rfid_data["id"] = $gate_log_data->rfid_id;
