@@ -62,7 +62,6 @@ class Rfid_ajax extends CI_Controller {
 				$data["is_valid"] = TRUE;
 				$data["type"] = $type;
 				$data["rfid_scanned_add"] = $rfid_scan_add;
-				$this->session->set_userdata("rfid_scanned_add",$rfid_scan_add);
 			}
 			echo json_encode($data);
 		}
@@ -90,7 +89,6 @@ class Rfid_ajax extends CI_Controller {
 				$rfid_owner_log_data["rfid_id"] = $rfid_owner_data["rfid_data"]["id"];
 				$rfid_owner_log_data["ref_table"] = $rfid_owner_data["rfid_data"]["ref_table"];
 				$rfid_owner_log_data["ref_id"] = $rfid_owner_data["rfid_data"]["ref_id"];
-				$rfid_owner_log_data["type"] = $arg;
 				$rfid_owner_log_data["date_time"] = strtotime(date("m/d/Y h:i:s A"));
 				$rfid_owner_log_data["date"] = strtotime(date("m/d/Y"));
 

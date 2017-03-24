@@ -87,7 +87,7 @@ class Teacher_ajax extends CI_Controller {
 
 				$filename_full_name = $filename_last_name."_".$filename_first_name."_".$filename_middle_name."_".$filename_suffix;
 
-				$filename = $this->session->userdata("rfid_scanned_add")."_".$filename_full_name;
+				$filename = $this->input->post("rfid")."_".$filename_full_name;
 
 
 
@@ -155,11 +155,11 @@ class Teacher_ajax extends CI_Controller {
 				$birthdate_str = $bday_m."/".$bday_d."/".$bday_y;
 				$teacher_data["birthdate"] = strtotime($birthdate_str);
 
-				// $teacher_data["rfid"] = $this->session->userdata("rfid_scanned_add");
+				// $teacher_data["rfid"] = $this->input->post("rfid");
 				$data["is_successful"] = TRUE;
 				$teacher_data = $this->teachers_model->add($teacher_data);
 
-				$rfid_data["rfid"] = $this->session->userdata("rfid_scanned_add");
+				$rfid_data["rfid"] = $this->input->post("rfid");
 				$rfid_data["ref_id"] = $teacher_data->id;
 				$rfid_data["ref_table"] = "teachers";
 				$rfid_data["valid"] = 1;
@@ -212,7 +212,7 @@ class Teacher_ajax extends CI_Controller {
 
 				$filename_full_name = $filename_last_name."_".$filename_first_name."_".$filename_middle_name."_".$filename_suffix;
 
-				$filename = $this->session->userdata("rfid_scanned_add")."_".$filename_full_name;
+				$filename = $this->input->post("rfid")."_".$filename_full_name;
 
 
 

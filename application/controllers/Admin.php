@@ -38,7 +38,6 @@ class Admin extends CI_Controller {
 		
 		$modal_data["guardians_list"] = $this->guardian_model->get_list();
 		$modal_data["modals_sets"] = "admin";
-		$modal_data["rfid_scanned_add"] = $this->session->userdata("rfid_scanned_add");
 		$this->data["modaljs_scripts"] = $this->load->view("layouts/modals",$modal_data,true);
 		
 		$navbar_data["navbar_type"] = "admin";

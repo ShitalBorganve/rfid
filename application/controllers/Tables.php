@@ -98,6 +98,9 @@ class Tables extends CI_Controller {
 			)?$this->input->post("ref_table"):"students");
 		$page = $this->input->post("page");
 		($this->input->post("ref_id")?$where["ref_id"]=$this->input->post("ref_id"):FALSE);
+		if(!$this->input->post("ref_id")&&$this->input->post("search_last_name")){
+			$this->db->where("last_name",$this->input->post("search_last_name"));
+		}
 		($this->input->post("date_from")?$date_from=strtotime($this->input->post("date_from")):$date_from=0);	
 		($this->input->post("date_to")?$date_to=strtotime($this->input->post("date_to")):$date_to=strtotime(date("m/d/Y")));
 		$between = "date BETWEEN '".$date_from."' AND '".$date_to."'";
@@ -137,7 +140,7 @@ class Tables extends CI_Controller {
 					<tr class="'.$status.'">
 						<td>'.strtoupper($gate_log_data->type).'</td>
 						<td>'.date("m/d/Y",$gate_log_data->date).'</td>
-						<td>'.date("h:s:i A",$gate_log_data->date_time).'</td>
+						<td>'.date("h:i:s A",$gate_log_data->date_time).'</td>
 					</tr>
 				';
 			}else{
@@ -146,7 +149,7 @@ class Tables extends CI_Controller {
 						<td><a href="#" id="'.$gate_log_data->owner_data->id.'" class="gate_logs">'.$gate_log_data->owner_data->last_name.", ".$gate_log_data->owner_data->first_name." ".$gate_log_data->owner_data->middle_name[0].". ".$gate_log_data->owner_data->suffix.'</td>
 						<td>'.$gate_log_data->rfid_data->rfid.'</td>
 						<td>'.date("m/d/Y",$gate_log_data->date).'</td>
-						<td>'.date("h:s:i A",$gate_log_data->date_time).'</td>
+						<td>'.date("h:i:s A",$gate_log_data->date_time).'</td>
 						<td>'.strtoupper($gate_log_data->type).'</td>
 					</tr>
 				';

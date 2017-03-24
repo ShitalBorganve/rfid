@@ -16,7 +16,7 @@
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-xs-12">
-			<?php echo form_open("rfid_ajax/scangate/".$type_entry,'id="gate_rfid_scan"'); ?>
+			<?php echo form_open("rfid_ajax/scangate",'id="gate_rfid_scan"'); ?>
 				<center>
 				<input type="text" name="gate_rfid_scan" autocomplete="off" autofocus>
 				</center>
@@ -72,9 +72,10 @@ $(document).on("submit","#gate_rfid_scan", function(e) {
 		type: "POST",
 		url: $("#gate_rfid_scan").attr("action"),
 		data: $("#gate_rfid_scan :input").serialize(),
-		cache: false,
+		cache: true,
 		dataType: "json",
 		success: function(data) {
+			// alert(data);
 			if(data.is_valid){
 				$("#rfid_scan").val("");
 				$("#display-photo").attr("src",data.display_photo);

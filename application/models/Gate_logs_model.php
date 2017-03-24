@@ -12,7 +12,27 @@ class Gate_logs_model extends CI_Model {
     }
 
     function add_log($data=""){
-        return ($this->db->insert("gate_logs",$data));
+        
+        $get_data["rfid_id"] = $data["rfid_id"];
+        $get_data["date"] = $data["date"];
+        $this->db->order_by("id","DESC");
+        $this->db->limit(1);
+        $get_log_data = $this->db->get_where("gate_logs",$get_data)->row();
+        if($get_log_data==NULL){
+            $data["type"] = "entry";
+            return ($this->db->insert("gate_logs",$data));
+            exit;
+        }elseif ($get_log_data->type=="exit") {
+            $data["type"] = "entry";
+        }else{
+            $data["type"] = "exit";
+        }
+        $limit_date = strtotime(date("m/d/Y h:i:s A", strtotime("+1 min",$get_log_data->date_time)));
+        if($get_log_data->date_time<=$limit_date&&$limit_date<=$data["date_time"]){
+            return ($this->db->insert("gate_logs",$data));
+        }else{
+            return FALSE;
+        }
     }
 
     function get_list($table="students",$where='',$between='',$page=1,$maxitem=50)

@@ -72,13 +72,6 @@ class Home extends CI_Controller {
 
 	public function gate($arg='')
 	{
-		if(strtolower($arg)=="entry"||strtolower($arg)=="exit"){
-			// var_dump($this->data);
-			$this->data["type_entry"] = $arg; 
-			$this->data["navbar_scripts"] = "";
-			$this->load->view('students-entry',$this->data);
-		}else{
-			show_404();
-		}
+		$this->load->view('students-entry',$this->data);
 	}
 }

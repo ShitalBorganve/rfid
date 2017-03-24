@@ -59,16 +59,7 @@ if($modals_sets=="admin"){
         </div>
         <div class="modal-body">
           <p>'.form_open_multipart("student_ajax/add",'id="student_add_form" class="form-horizontal"').'
-
-            <div class="form-group">
-              <label class="col-sm-2" for="rfid_scaned">RFID:</label>
-              <div class="col-sm-10">
-                <input type="number" class="form-control rfid_scanned_add" name="rfid" value="'.$rfid_scanned_add.'" readonly>
-                <p class="help-block" id="student_rfid_help-block"></p>
-              </div>
-              
-            </div>
-
+            <input type="hidden" class="form-control rfid_scanned_add" name="rfid">
             <div class="form-group">
               <label class="col-sm-2" for="first_name">First Name:</label>
               <div class="col-sm-10">
@@ -189,16 +180,7 @@ if($modals_sets=="admin"){
         </div>
         <div class="modal-body">
           <p>'.form_open_multipart("teacher_ajax/add",'id="teacher_add_form" class="form-horizontal"').'
-
-            <div class="form-group">
-              <label class="col-sm-2" for="rfid_scaned">RFID:</label>
-              <div class="col-sm-10">
-                <input type="number" class="form-control rfid_scanned_add" name="rfid" value="'.$rfid_scanned_add.'" readonly>
-                <p class="help-block" id="teacher_rfid_help-block"></p>
-              </div>
-              
-            </div>
-
+            <input type="hidden" class="form-control rfid_scanned_add" name="rfid">
             <div class="form-group">
               <label class="col-sm-2" for="first_name">First Name:</label>
               <div class="col-sm-10">
@@ -301,16 +283,7 @@ if($modals_sets=="admin"){
         </div>
         <div class="modal-body">
           <p>'.form_open_multipart("guard_ajax/add",'id="guard_add_form" class="form-horizontal"').'
-
-            <div class="form-group">
-              <label class="col-sm-2" for="rfid_scaned">RFID:</label>
-              <div class="col-sm-10">
-                <input type="number" class="form-control rfid_scanned_add" name="rfid" value="'.$rfid_scanned_add.'" readonly>
-                <p class="help-block" id="guard_rfid_help-block"></p>
-              </div>
-              
-            </div>
-
+            <input type="hidden" class="form-control rfid_scanned_add" name="rfid">
             <div class="form-group">
               <label class="col-sm-2" for="first_name">First Name:</label>
               <div class="col-sm-10">

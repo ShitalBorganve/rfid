@@ -87,7 +87,7 @@ class Guard_ajax extends CI_Controller {
 
 				$filename_full_name = $filename_last_name."_".$filename_first_name."_".$filename_middle_name."_".$filename_suffix;
 
-				$filename = $this->session->userdata("rfid_scanned_add")."_".$filename_full_name;
+				$filename = $this->input->post("rfid_scanned_add")."_".$filename_full_name;
 
 
 
@@ -159,7 +159,7 @@ class Guard_ajax extends CI_Controller {
 				$data["is_successful"] = TRUE;
 				$guard_data = $this->guards_model->add($guard_data);
 
-				$rfid_data["rfid"] = $this->session->userdata("rfid_scanned_add");
+				$rfid_data["rfid"] = $this->input->post("rfid_scanned_add");
 				$rfid_data["ref_id"] = $guard_data->id;
 				$rfid_data["ref_table"] = "guards";
 				$this->rfid_model->add($rfid_data);
@@ -211,7 +211,7 @@ class Guard_ajax extends CI_Controller {
 
 				$filename_full_name = $filename_last_name."_".$filename_first_name."_".$filename_middle_name."_".$filename_suffix;
 
-				$filename = $this->session->userdata("rfid_scanned_add")."_".$filename_full_name;
+				$filename = $this->input->post("rfid_scanned_add")."_".$filename_full_name;
 
 
 

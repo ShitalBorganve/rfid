@@ -29,7 +29,7 @@
 				<input type="text" name="date_from" id="datepicker_from" readonly>
 				<label>Date To:</label>
 				<input type="text" name="date_to" id="datepicker_to" readonly>
-				<!-- <button type="submit" class="btn btn-primary" form="gate_logs-form">Search</button> -->
+				<button type="submit" class="btn btn-primary" form="gate_logs-form">Search</button>
 				</form>
 				<table class="table table-hover" id="gatelogs-table">
 					<thead>
@@ -54,8 +54,8 @@
 <?php echo $js_scripts; ?>
 <script>
 $(document).on("submit","#gate_logs-form",function(e) {
-	// e.preventDefault();
-	$('input[name="ref_id"]').val("");
+	e.preventDefault();
+	$('input[name="ref_id"]').removeAttr("value");
 	show_gatelogs();
 });
 $(document).on("click",".gate_logs",function(e) {
@@ -80,7 +80,8 @@ $("#search_last_name").autocomplete({
 	},
 	select: function(event, ui){
 			$('input[name="ref_id"]').val(ui.item.data);
-			show_gatelogs();
+			
+			show_gatelogs(1,true);
 	}
 });
 
@@ -101,7 +102,7 @@ $(document).on("click","#gate_logs-reset_search",function(e) {
 
 
 show_gatelogs();
-function show_gatelogs(page=1) {
+function show_gatelogs(page=1,clear) {
 	var data_str = $("#gate_logs-form").serialize();
 	$.ajax({
 		type: "POST",
@@ -110,7 +111,9 @@ function show_gatelogs(page=1) {
 		cache: false,
 		success: function(data) {
 			$("#gatelogs-table tbody").html(data);
-			$("#search_last_name").val("");
+			if(clear){
+				$("#search_last_name").val("");
+			}
 			
 		}
 	});
