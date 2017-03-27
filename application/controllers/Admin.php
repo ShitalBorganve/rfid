@@ -24,6 +24,7 @@ class Admin extends CI_Controller {
 		$this->load->database();
 		$this->load->helper('form');
 		$this->load->helper('url');
+		$this->load->helper('app_helper');
 		$this->load->library('session');
 
 		$this->load->model("students_model");
@@ -93,5 +94,138 @@ class Admin extends CI_Controller {
 		$this->load->model("teachers_model");
 		$this->data["teachers_list"] = $this->teachers_model->get_list();
 		$this->load->view("teachers-list",$this->data);
+	}
+
+	public function test($value='')
+	{
+
+		var_dump(send_sms("639301167850","test message"));
+		exit;
+
+		$data = array(
+			'message_type' => "SEND",
+			// 'mobile_number' => "639301167850",
+			'shortcode' => "29290247219",
+			'message_id' => "100011",
+			'message' => "This is a test message",
+			'client_id' => "2ef99635eb9bf11a9a141c2e6903c75ca70bd1970e46c808a764ba9a83d79ced",
+			'secret_key' => "544397679cc9d7301079d673d2f3c018d349bd44a2354bc440fc92defbc5f881",
+		);
+
+		$data = http_build_query($data);
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+			CURLOPT_URL => "https://post.chikka.com/smsapi/request",
+			CURLOPT_RETURNTRANSFER => TRUE,
+			CURLOPT_SSL_VERIFYPEER => FALSE,
+			CURLOPT_POSTFIELDS => $data,
+		));
+		$result = curl_exec($curl);
+		$result = json_decode($result);
+		curl_close($curl);
+		// var_dump($result);
+		// $data
+		exit;
+		$data = array(
+			// 'emailaddress' => "admin",
+			'rfid_scan_add' => "7393422",
+			'type' => "students",
+			// 'message_type' => "SEND",
+			// 'mobile_number' => "639301167850",
+			// 'shortcode' => "29290247219",
+			// 'message_id' => "100010",
+			// 'message' => "This is a test message",
+			// 'client_id' => "2ef99635eb9bf11a9a141c2e6903c75ca70bd1970e46c808a764ba9a83d79ced",
+			// 'secret_key' => "544397679cc9d7301079d673d2f3c018d349bd44a2354bc440fc92defbc5f881",
+		);
+
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, "http://www.qfcdavao.com/rfid/rfid_ajax/scan_add");
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_POST, true);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+
+		$output = curl_exec($ch);
+		$info = curl_getinfo($ch);
+		// $output = file_get_contents($output);
+		// curl_close($ch);
+		print $output;
+		// var_dump($info);
+		exit;
+		$qry_str = "?x=10&y=20";
+		$ch = curl_init();
+
+		// Set query data here with the URL
+		curl_setopt($ch, CURLOPT_URL, "localhost/rfid/admin/test_2" . $qry_str); 
+
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_TIMEOUT, '3');
+		$content = trim(curl_exec($ch));
+		curl_close($ch);
+		print $content;
+		exit;
+		$hidden = array(
+			'message_type' => "SEND",
+			'shortcode' => "29290247219",
+			'message_id' => "100000",
+			'client_id' => "2ef99635eb9bf11a9a141c2e6903c75ca70bd1970e46c808a764ba9a83d79ced",
+			'secret_key' => "544397679cc9d7301079d673d2f3c018d349bd44a2354bc440fc92defbc5f881",
+			 );
+		echo form_open("https://post.chikka.com/smsapi/request",'id="form-test"',$hidden);
+
+		$data = array();
+		$data = array(
+		        'name' => 'mobile_number',
+		        'id' => 'mobile_number',
+		        'placeholder' => 'mobile_number'
+		);
+
+		echo form_input($data);
+
+		$data = array();
+		$data = array(
+		        'name' => 'message',
+		        'id' => 'message',
+		        'placeholder'   => 'message'
+		);
+
+		echo form_input($data);
+
+		$data = array();
+		$data = array(
+		        'type' => 'submit',
+		        'content' => 'Reset',
+		        'form' => 'form-test'
+		);
+
+		echo form_button($data);
+		echo form_close();
+		echo $this->load->view("scripts/js","",true);
+		?>
+
+		<script type="text/javascript">
+			$(document).on("submit","#form-test",function(e) {
+				e.preventDefault();
+				$.ajax({
+					type: "POST",
+					url: $("#form-test").attr("action"),
+					data: $("##form-test").serialize(),
+					cache: false,
+					dataType: "json",
+					success: function(data) {
+						console.log(data)
+					}
+				});
+				
+			});
+		</script>
+		<?php
+		# code...
+	}
+
+	public function test_2($value='')
+	{
+		var_dump($_POST);
+		# code...
 	}
 }

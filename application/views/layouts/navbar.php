@@ -36,24 +36,23 @@ if($navbar_type=="admin"){
             <ul class="dropdown-menu">
               <li><a href="'.base_url("admin/teachers").'">List of Teachers</a></li>
               <li><a href="#" class="rfid_scan_add" id="teachers">Add Teachers</a></li>
-              ';
               
-              echo '
             </ul>
           </li>
+          ';
 
+          echo '
           <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Guardians
             <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a href="'.base_url("student/").'">List of Guardians</a></li>
               <li><a href="#" id="register_guardian">Add Guardians</a></li>
-              ';
-              
-              echo '
             </ul>
           </li>
-
+          ';
+          
+          echo '
           <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Canteen
             <span class="caret"></span></a>

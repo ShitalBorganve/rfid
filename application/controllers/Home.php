@@ -72,6 +72,7 @@ class Home extends CI_Controller {
 
 	public function gate($arg='')
 	{
+		$this->data["navbar_scripts"] = "";
 		$this->load->view('students-entry',$this->data);
 	}
 }
