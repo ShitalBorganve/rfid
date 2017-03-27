@@ -36,6 +36,8 @@ if($navbar_type=="admin"){
             <ul class="dropdown-menu">
               <li><a href="'.base_url("admin/teachers").'">List of Teachers</a></li>
               <li><a href="#" class="rfid_scan_add" id="teachers">Add Teachers</a></li>
+              <li><a href="#" id="class_list">List of Classes</a></li>
+              <li><a href="#" id="class_add" >Add a Class</a></li>
               
             </ul>
           </li>
@@ -66,6 +68,7 @@ if($navbar_type=="admin"){
           </li>
 
         ';
+
 
         echo '
         </ul>

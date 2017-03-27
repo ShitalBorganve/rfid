@@ -40,7 +40,7 @@
 echo '
 
 <!--Edit teacher Modal -->
-<div id="teacher_edit_modal" class="modal fade" role="dialog">
+<div id="teacher_edit_modal" class="modal fade" role="dialog" tabindex="-1">
   <div class="modal-dialog modal-lg">
 
     <!-- Modal content-->

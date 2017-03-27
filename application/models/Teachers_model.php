@@ -38,6 +38,7 @@ class Teachers_model extends CI_Model {
             $data["count"] = $this->db->count_all_results("teachers");
             $teachers_data = $query->result();
             foreach ($teachers_data as $teacher_data) {
+                $teacher_data->full_name = $teacher_data->last_name.", ".$teacher_data->first_name." ".$teacher_data->middle_name[0]." ".$teacher_data->suffix;
                 $get_data = array();
                 $get_data["ref_id"] = $teacher_data->id;
                 $get_data["ref_table"] = "teachers";

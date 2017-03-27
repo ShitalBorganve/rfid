@@ -108,7 +108,7 @@ $(document).on("submit","#rfid_scan_add_form",function(e) {
 			if(data.is_valid){
 				$(".rfid_scanned_add").val(data.rfid_scanned_add);
 				// $("#rfid_scan_add_modal").modal("hide");
-				$("#students_add_modal").modal("show");
+				// $("#students_add_modal").modal("show");
 				$("#rfid_scan_add_form")[0].reset();
 				$("#"+data.type+"_add_modal").modal("show");
 				$(".help-block").html("");
@@ -153,6 +153,7 @@ $(document).on("submit","#student_add_form", function(e) {
 				$("#student_suffix_help-block").html(data.suffix_error);
 				$("#student_bday_help-block").html(data.bday_error);
 				$("#student_guardian_id_help-block").html(data.guardian_id_error);
+				$("#student_class_id_help-block").html(data.class_id_error);
 				$("#student_photo_help-block").html(data.photo_error);
 			}
 		}
@@ -262,6 +263,7 @@ $(document).on("click","#add_canteen",function(e) {
 
 $(document).on("submit","#add_canteen_form",function(e) {
 	e.preventDefault();
+	$('button[form="add_canteen_form"]').prop('disabled', true);
 	$.ajax({
 		type: "POST",
 		url: $("#add_canteen_form").attr("action"),
@@ -269,9 +271,40 @@ $(document).on("submit","#add_canteen_form",function(e) {
 		cache: false,
 		dataType: "json",
 		success: function(data) {
+			$('button[form="add_canteen_form"]').prop('disabled', false);
 			if(data.is_valid){
 
 			}
+		}
+	});
+});
+
+$(document).on("click","#class_add",function(e) {
+	$("#class_add_modal").modal("show");
+});
+
+$(document).on("submit","#class_add_form",function(e) {
+	e.preventDefault();
+	$('button[form="class_add_form"]').prop('disabled', true);
+	$.ajax({
+		type: "POST",
+		url: $("#class_add_form").attr("action"),
+		data: $("#class_add_form").serialize(),
+		cache: false,
+		dataType: "json",
+		success: function(data) {
+			// alert(data);
+			if(data.is_valid){
+				$("#class_add_form")[0].reset();
+				$("#alert-modal").modal("show");
+				$(".help-block").html("");
+			}else{
+				$("#class_adviser_help-block").html(data.class_adviser_error);
+				$("#class_name_help-block").html(data.class_name_error);
+				$("#class_room_help-block").html(data.class_room_error);
+				$("#class_schedule_help-block").html(data.class_schedule_error);
+			}
+			$('button[form="class_add_form"]').prop('disabled', false);
 		}
 	});
 });

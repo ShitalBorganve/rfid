@@ -98,6 +98,7 @@ class Tables extends CI_Controller {
 			)?$this->input->post("ref_table"):"students");
 		$page = $this->input->post("page");
 		($this->input->post("ref_id")?$where["ref_id"]=$this->input->post("ref_id"):FALSE);
+		($this->input->post("class_id")?$where["class_id"]=$this->input->post("class_id"):FALSE);
 		if(!$this->input->post("ref_id")&&$this->input->post("search_last_name")){
 			$this->db->where("last_name",$this->input->post("search_last_name"));
 		}

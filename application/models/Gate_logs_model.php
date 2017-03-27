@@ -8,7 +8,6 @@ class Gate_logs_model extends CI_Model {
         parent::__construct();
         $this->load->database();
         $this->load->library('session');
-        
     }
 
     function add_log($data=""){
@@ -43,7 +42,11 @@ class Gate_logs_model extends CI_Model {
         // $this->db->limit($maxitem,$limit);
 
         $test[] = 'gate_logs.*';
-        $test[] = $table.'.middle_name';
+        if($table=="students"){
+            $test[] = 'classes.class_name';
+            $test[] = $table.'.class_id';
+        }
+        $test[] = $table.'.first_name';
         $test[] = $table.'.last_name';
         $test[] = $table.'.first_name';
 
@@ -55,6 +58,9 @@ class Gate_logs_model extends CI_Model {
         $this->db->select($test);
         $this->db->from('gate_logs');
         $this->db->join($table, $table.'.id = gate_logs.ref_id');
+        if($table=="students"){
+            $this->db->join("classes", $table.'.class_id = classes.id');
+        }
         $gate_logs_query = $this->db->get();
 
         // $gate_logs_data = $this->db->get("gate_logs")->result();

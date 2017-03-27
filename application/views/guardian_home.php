@@ -48,7 +48,7 @@
 </div>
 <?php echo $modaljs_scripts; ?>
 <!-- Alert Modal -->
-<div id="view_gate_logs-modal" class="modal fade" role="dialog">
+<div id="view_gate_logs-modal" class="modal fade" role="dialog" tabindex="-1">
   <div class="modal-dialog modal-lg">
 
     <!-- Modal content-->

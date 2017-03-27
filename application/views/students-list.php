@@ -41,7 +41,7 @@
 echo '
 
 <!--Edit Student Modal -->
-<div id="student_edit_modal" class="modal fade" role="dialog">
+<div id="student_edit_modal" class="modal fade" role="dialog" tabindex="-1">
   <div class="modal-dialog modal-lg">
 
     <!-- Modal content-->
@@ -137,6 +137,25 @@ echo '
             </div>
           </div>
 
+
+          <div class="form-group">
+            <label class="col-sm-2" for="class_id">Class:</label>
+            <div class="col-sm-10"> 
+              <select name="class_id" data-live-search="true">
+                <option value="">Select a Class</option>
+                ';
+                foreach ($classes_list["result"] as $class_data) {
+                  echo '<option data-tokens="'.$class_data->class_name.'" value="'.$class_data->id.'">'.$class_data->class_name.'</option>';
+                }
+
+                echo '
+              </select>
+
+              <p class="class_help-block"></p>
+            </div>
+          </div>
+
+
           <div class="form-group">
             <label class="col-sm-2" for="student_photo">Photo:</label>
             <div class="col-sm-10">
@@ -149,7 +168,7 @@ echo '
       </div>
       <div class="modal-footer">
       <p class="help-block" id="student_id_help-block"></p>
-        <button type="submit" class="btn btn-primary" form="student_edit_form">Add Student</button>
+        <button type="submit" class="btn btn-primary" form="student_edit_form">Submit</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
@@ -187,6 +206,7 @@ function show_student_data(id) {
       $('select[name="bday_d"]').val(data.bday_d);
       $('select[name="bday_y"]').val(data.bday_y);
       $('select[name="guardian_id"]').val(data.guardian_id);
+      $('select[name="class_id"]').val(data.class_id);
       $("#student_edit_modal").modal("show");
     }
   });

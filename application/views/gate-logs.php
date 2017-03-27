@@ -25,10 +25,26 @@
 				</select>
 				<label>Last Name:</label>
 				<input type="text" name="search_last_name" id="search_last_name">
+				<!-- 
+				<label>Class:</label>
+				<?php
+				echo '
+				<select name="class_id">
+				  <option value="">Select a Class</option>
+				  ';
+				  foreach ($classes_list["result"] as $class_data) {
+				    echo '<option data-tokens="'.$class_data->class_name.'" value="'.$class_data->id.'">'.$class_data->class_name.'</option>';
+				  }
+
+				  echo '
+				</select>
+				';
+				?>
+				 -->
 				<label>Date From:</label>
-				<input type="text" name="date_from" id="datepicker_from" readonly>
+				<input type="text" name="date_from" id="datepicker_from" value="<?php echo date("m/dY");?>" readonly>
 				<label>Date To:</label>
-				<input type="text" name="date_to" id="datepicker_to" readonly>
+				<input type="text" name="date_to" id="datepicker_to" value="<?php echo date("m/dY");?>" readonly>
 				<button type="submit" class="btn btn-primary" form="gate_logs-form">Search</button>
 				</form>
 				<table class="table table-hover" id="gatelogs-table">
@@ -89,14 +105,15 @@ $(document).on("change","#ref_table",function(e) {
 	$('input[name="ref_id"]').val("");
 	show_gatelogs();
 });
+$(document).on("change",'select[name="class_id"]',function(e) {
+	show_gatelogs();
+});
 $(document).on("change","#datepicker_from,#datepicker_to",function(e) {
 	show_gatelogs();
 });
 $(document).on("click","#gate_logs-reset_search",function(e) {
+	$("#gate_logs-form")[0].reset();
 	$('input[name="ref_id"]').val("");
-	$("#search_last_name").val("");
-	$("#datepicker_from").val("");
-	$("#datepicker_to").val("");
 	show_gatelogs();
 });
 

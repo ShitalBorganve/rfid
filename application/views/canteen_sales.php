@@ -110,7 +110,7 @@
 <?php echo $modaljs_scripts; ?>
 
 <!-- Modal -->
-<div id="student-data-modal" class="modal fade" role="dialog">
+<div id="student-data-modal" class="modal fade" role="dialog" tabindex="-1">
   <div class="modal-dialog">
 
     <!-- Modal content-->

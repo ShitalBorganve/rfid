@@ -6,7 +6,7 @@ if($modals_sets=="admin"){
 
   echo '
   <!--RFID Scan to Add Student Modal -->
-  <div id="rfid_scan_add_modal" class="modal fade" role="dialog">
+  <div id="rfid_scan_add_modal" class="modal fade" role="dialog" tabindex="-1">
     <div class="modal-dialog modal-sm">
 
       <!-- Modal content-->
@@ -48,7 +48,7 @@ if($modals_sets=="admin"){
   echo '
 
   <!--Add Student Modal -->
-  <div id="students_add_modal" class="modal fade" role="dialog">
+  <div id="students_add_modal" class="modal fade" role="dialog" tabindex="-1">
     <div class="modal-dialog modal-lg">
 
       <!-- Modal content-->
@@ -144,6 +144,23 @@ if($modals_sets=="admin"){
             </div>
 
             <div class="form-group">
+              <label class="col-sm-2" for="class_id">Class:</label>
+              <div class="col-sm-10"> 
+                <select class="selectpicker" name="class_id" data-live-search="true">
+                  <option value="">Select a Class</option>
+                  ';
+                  foreach ($classes_list["result"] as $class_data) {
+                    echo '<option data-tokens="'.$class_data->class_name.'" value="'.$class_data->id.'">'.$class_data->class_name.'</option>';
+                  }
+
+                  echo '
+                </select>
+
+                <p class="help-block" id="student_class_id_help-block"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
               <label class="col-sm-2" for="student_photo">Photo:</label>
               <div class="col-sm-10">
               <input type="file" name="student_photo" size="20" class="form-control">
@@ -169,7 +186,7 @@ if($modals_sets=="admin"){
   echo '
 
   <!--Add Teachers Modal -->
-  <div id="teachers_add_modal" class="modal fade" role="dialog">
+  <div id="teachers_add_modal" class="modal fade" role="dialog" tabindex="-1">
     <div class="modal-dialog modal-lg">
 
       <!-- Modal content-->
@@ -269,10 +286,12 @@ if($modals_sets=="admin"){
   ';
 
 
+
+
   echo '
 
   <!--Add Guards Modal -->
-  <div id="guards_add_modal" class="modal fade" role="dialog">
+  <div id="guards_add_modal" class="modal fade" role="dialog" tabindex="-1">
     <div class="modal-dialog modal-lg">
 
       <!-- Modal content-->
@@ -376,7 +395,7 @@ if($modals_sets=="admin"){
 
   echo '
   <!--RFID Scan to Load up Student Modal -->
-  <div id="rfid_scan_add_load_credits_modal" class="modal fade" role="dialog">
+  <div id="rfid_scan_add_load_credits_modal" class="modal fade" role="dialog" tabindex="-1">
     <div class="modal-dialog modal-sm">
 
       <!-- Modal content-->
@@ -416,7 +435,7 @@ if($modals_sets=="admin"){
 
   echo '
   <!-- Load up Student Modal -->
-  <div id="add_load_credits_data_modal" class="modal fade" role="dialog">
+  <div id="add_load_credits_data_modal" class="modal fade" role="dialog" tabindex="-1">
     <div class="modal-dialog modal-lg">
 
       <!-- Modal content-->
@@ -477,7 +496,7 @@ if($modals_sets=="admin"){
 
   echo '
   <!-- Add Guardian Modal -->
-  <div id="register_guardian_modal" class="modal fade" role="dialog">
+  <div id="register_guardian_modal" class="modal fade" role="dialog" tabindex="-1">
     <div class="modal-dialog">
 
       <!-- Modal content-->
@@ -548,7 +567,7 @@ if($modals_sets=="admin"){
 
   echo '
   <!-- Add Canteen Modal -->
-  <div id="add_canteen_modal" class="modal fade" role="dialog">
+  <div id="add_canteen_modal" class="modal fade" role="dialog" tabindex="-1">
     <div class="modal-dialog">
 
       <!-- Modal content-->
@@ -606,7 +625,7 @@ if($modals_sets=="admin"){
 
   echo '
   <!-- Add Canteen Users Modal -->
-  <div id="add_canteen_users_modal" class="modal fade" role="dialog">
+  <div id="add_canteen_users_modal" class="modal fade" role="dialog" tabindex="-1">
     <div class="modal-dialog modal-lg">
 
       <!-- Modal content-->
@@ -658,13 +677,87 @@ if($modals_sets=="admin"){
   </div>
 
   ';
+
+
+  echo '
+  <!-- Add Clas Modal -->
+  <div id="class_add_modal" class="modal fade" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" id="rfid_add_modal_title">Add students</h4>
+      </div>
+        <div class="modal-body">
+          <p>
+          '.form_open("class_ajax/add",'id="class_add_form"  class="form-horizontal"').'
+
+            <div class="form-group">
+              <label class="col-sm-4" for="class_adviser">Class Adviser:</label>
+              <div class="col-sm-8">
+              ';
+              // var_dump($teachers_list);
+              echo '
+                <select class="selectpicker" name="class_adviser" data-live-search="true">
+                  <option value="">Select a Class Adviser</option>
+                  ';
+                  foreach ($teachers_list["result"] as $teacher_data) {
+                    echo '<option data-tokens="'.$teacher_data->full_name.'" value="'.$teacher_data->id.'">'.$teacher_data->full_name.'</option>';
+                  }
+
+                  echo '
+                </select>
+                <p class="help-block" id="class_adviser_help-block"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-4" for="class_name">Class Name:</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" name="class_name" placeholder="Enter Class Name">
+                <p class="help-block" id="class_name_help-block"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-4" for="class_room">Classroom:</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" name="class_room" placeholder="Enter Classroom">
+                <p class="help-block" id="class_room_help-block"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-4" for="class_schedule">Class Schedule:</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" name="class_schedule" placeholder="Enter Class Schedule">
+                <p class="help-block" id="class_schedule_help-block"></p>
+              </div>
+            </div>
+
+          </form>
+          </p>
+        </div>
+        <div class="modal-footer">
+         
+          <button type="submit" class="btn btn-primary" form="class_add_form">Submit</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  ';
 }
 
-
+// var_dump();
 
 echo '
 <!-- Alert Modal -->
-<div id="alert-modal" class="modal fade" role="dialog">
+<div id="alert-modal" class="modal fade" role="dialog" tabindex="-1">
   <div class="modal-dialog">
 
     <!-- Modal content-->

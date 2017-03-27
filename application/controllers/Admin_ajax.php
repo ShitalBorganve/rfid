@@ -33,6 +33,7 @@ class Admin_ajax extends CI_Controller {
 		$this->load->model('guardian_model');
 		$this->load->model("admin_model");
 		$this->load->model("students_model");
+		$this->load->model("classes_model");
 		$this->load->model("gate_logs_model");
 		$this->load->model("canteen_model");
 		$this->load->model("canteen_items_model");

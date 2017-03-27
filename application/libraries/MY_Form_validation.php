@@ -57,5 +57,15 @@ class MY_Form_validation extends CI_Form_validation{
             ? ($this->CI->db->get("rfid")->num_rows()===1)
             : FALSE;
     }
+
+    public function is_valid($str,$field)
+    {
+        sscanf($field, '%[^.].%[^.]', $table, $field);
+        $this->CI->db->where(array($field => $str));
+        $this->CI->db->where(array("deleted" => 0));
+        return isset($this->CI->db)
+            ? ($this->CI->db->get($table)->num_rows()===1)
+            : FALSE;
+    }
 }
 ?>

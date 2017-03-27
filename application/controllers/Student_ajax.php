@@ -60,15 +60,14 @@ class Student_ajax extends CI_Controller {
 			$this->form_validation->set_rules('last_name', 'Last Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
 			$this->form_validation->set_rules('middle_name', 'Middle Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
 			$this->form_validation->set_rules('suffix', 'Suffix', 'custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
+			$this->form_validation->set_rules('suffix', 'Suffix', 'custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
 			$this->form_validation->set_rules('bday_m', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('bday_d', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('bday_y', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('guardian_id', 'Guardian', 'is_in_db[guardians.id]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('class_id', 'Class', 'required|is_valid[classes.id]|trim|htmlspecialchars');
 
 			$this->form_validation->set_message('is_in_db', 'This account is not valid');
-
-
-
 
 			//uploads files
 			if($_FILES['student_photo']["error"]==0){
@@ -134,6 +133,7 @@ class Student_ajax extends CI_Controller {
 				$data["suffix_error"] = form_error('suffix');
 				$data["bday_error"] = form_error('bday_m');
 				$data["guardian_id_error"] = form_error('guardian_id');
+				$data["class_id_error"] = form_error('class_id');
 			}
 			else
 			{
@@ -144,12 +144,14 @@ class Student_ajax extends CI_Controller {
 				$data["suffix_error"] = "";
 				$data["bday_error"] = "";
 				$data["guardian_id_error"] = "";
+				$data["class_id_error"] = "";
 
 				$student_data["first_name"] = $this->input->post("first_name");
 				$student_data["last_name"] = $this->input->post("last_name");
 				$student_data["middle_name"] = $this->input->post("middle_name");
 				$student_data["suffix"] = $this->input->post("suffix");
 				$student_data["guardian_id"] = $this->input->post("guardian_id");
+				$student_data["class_id"] = $this->input->post("class_id");
 				$student_data["display_photo"] = $filename;
 				// $student_data["display_photo_type"] = $new_image_data['file_type'];
 				$bday_m = sprintf("%02d",$this->input->post("bday_m"));
@@ -182,6 +184,8 @@ class Student_ajax extends CI_Controller {
 
 			// $data["guardian_id"] = $this->input->post("guardian_id");
 			// $data["class_id"] = $this->input->post("class_id");
+			// var_dump($this->input->post("class_id"));
+			// exit;
 
 			$this->form_validation->set_rules('student_id', 'First Name', 'required|trim|htmlspecialchars|is_in_db[students.id]');
 			$this->form_validation->set_rules('first_name', 'First Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
@@ -192,6 +196,7 @@ class Student_ajax extends CI_Controller {
 			$this->form_validation->set_rules('bday_d', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('bday_y', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('guardian_id', 'Guardian', 'is_in_db[guardians.id]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('class_id', 'Class', 'required|is_valid[classes.id]|trim|htmlspecialchars');
 
 			$this->form_validation->set_message('is_in_db', 'An Error has occured please refresh the page and try again.');
 
@@ -266,6 +271,7 @@ class Student_ajax extends CI_Controller {
 				$data["suffix_error"] = form_error('suffix');
 				$data["bday_error"] = form_error('bday_m');
 				$data["guardian_id_error"] = form_error('guardian_id');
+				$data["class_id_error"] = form_error('class_id');
 				$data["student_id_error"] = form_error('student_id');
 				// echo json_encode($data);
 			}
@@ -278,12 +284,14 @@ class Student_ajax extends CI_Controller {
 				$data["suffix_error"] = "";
 				$data["bday_error"] = "";
 				$data["guardian_id_error"] = "";
+				$data["class_id_error"] = "";
 
 				$student_data["first_name"] = $this->input->post("first_name");
 				$student_data["last_name"] = $this->input->post("last_name");
 				$student_data["middle_name"] = $this->input->post("middle_name");
 				$student_data["suffix"] = $this->input->post("suffix");
 				$student_data["guardian_id"] = $this->input->post("guardian_id");
+				$student_data["class_id"] = $this->input->post("class_id");
 				$student_data["display_photo"] = $filename;
 				// $student_data["display_photo_type"] = $new_image_data['file_type'];
 				$bday_m = sprintf("%02d",$this->input->post("bday_m"));
@@ -312,6 +320,7 @@ class Student_ajax extends CI_Controller {
 			$student_data["bday_d"] = date("j",$student_data["birthdate"]);
 			$student_data["bday_y"] = date("Y",$student_data["birthdate"]);
 			($student_data["guardian_id"]==0?$student_data["guardian_id"]="":FALSE);
+			($student_data["class_id"]==0?$student_data["class_id"]="":FALSE);
 			echo json_encode($student_data);
 		}
 	}

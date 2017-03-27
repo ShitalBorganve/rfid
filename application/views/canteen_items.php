@@ -47,7 +47,7 @@
 
 
 <!-- Add Items Modal -->
-<div id="additems-modal" class="modal fade" role="dialog">
+<div id="additems-modal" class="modal fade" role="dialog" tabindex="-1">
   <div class="modal-dialog">
 
     <!-- Modal content-->

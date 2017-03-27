@@ -30,7 +30,9 @@ class Admin extends CI_Controller {
 		$this->load->model("students_model");
 		$this->load->model("rfid_model");
 		$this->load->model("guardian_model");
+		$this->load->model("teachers_model");
 		$this->load->model("gate_logs_model");
+		$this->load->model("classes_model");
 		
 		$this->data["title"] = "Main Title";
 		$this->data["css_scripts"] = $this->load->view("scripts/css","",true);
@@ -38,6 +40,8 @@ class Admin extends CI_Controller {
 		$this->data["meta_scripts"] = $this->load->view("scripts/meta","",true);
 		
 		$modal_data["guardians_list"] = $this->guardian_model->get_list();
+		$modal_data["teachers_list"] = $this->teachers_model->get_list();
+		$modal_data["classes_list"] = $this->classes_model->get_list();
 		$modal_data["modals_sets"] = "admin";
 		$this->data["modaljs_scripts"] = $this->load->view("layouts/modals",$modal_data,true);
 		
@@ -49,6 +53,7 @@ class Admin extends CI_Controller {
 	public function index($student_id='')
 	{
 
+		// var_dump($)
 		// var_dump($this->rfid_model->get_data('rfid="2222"',TRUE));
 		// $date1 = strtotime(date("m/d/Y h:i:s A"));
 		// var_dump($date1);
@@ -98,6 +103,58 @@ class Admin extends CI_Controller {
 
 	public function test($value='')
 	{
+		exit;
+		$hidden = array(
+			"1" => "09301167850",
+			"2" => "This is a test Message",
+			"3" => "TR-JBTEC167850_X6UFC",
+			// "5" => "HIGH",
+			// 'username' => "anonympox@gmail.com",
+			// 'password' => "g1fth",
+			// 'msgid' => "1001",
+			// 'tel' => "639301167850",
+			// 'msg' => "This is a Test Message",
+			// 'pricegroup' => "0",
+			// 'campaignid' => "372429",
+			// 'message_type' => "SEND",
+			// 'shortcode' => "29290247219",
+			// 'message_id' => "100000",
+			// 'client_id' => "2ef99635eb9bf11a9a141c2e6903c75ca70bd1970e46c808a764ba9a83d79ced",
+			// 'secret_key' => "544397679cc9d7301079d673d2f3c018d349bd44a2354bc440fc92defbc5f881",
+			 );
+		echo form_open("https://www.itexmo.com/php_api/api.php",'id="form-test"',$hidden);
+
+		$data = array();
+		$data = array(
+		        'name' => 'mobile_number',
+		        'id' => 'mobile_number',
+		        'placeholder' => 'mobile_number'
+		);
+
+
+		echo form_input($data);
+
+		$data = array();
+		$data = array(
+		        'name' => 'message',
+		        'id' => 'message',
+		        'placeholder'   => 'message'
+		);
+
+		echo form_input($data);
+
+		$data = array();
+		$data = array(
+		        'type' => 'submit',
+		        'content' => 'Reset',
+		        'form' => 'form-test'
+		);
+
+		echo form_button($data);
+		echo form_close();
+		// echo $this->load->view("scripts/js","",true);
+		
+		exit;
 
 		var_dump(send_sms("639301167850","test message"));
 		exit;
