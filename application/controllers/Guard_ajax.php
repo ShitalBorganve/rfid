@@ -65,7 +65,7 @@ class Guard_ajax extends CI_Controller {
 			$this->form_validation->set_rules('bday_d', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('bday_y', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 
-			$this->form_validation->set_message('is_in_db', 'This account is not valid');
+			$this->form_validation->set_message('is_in_db', 'This account is invalid');
 
 
 

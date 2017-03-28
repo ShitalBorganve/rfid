@@ -32,7 +32,7 @@ class Teacher_ajax extends CI_Controller {
 		$this->load->helper('string');
 		$this->load->model('guardian_model');
 		$this->load->model("admin_model");
-		$this->load->model("students_model");
+		$this->load->model("teachers_model");
 		$this->load->model("teachers_model");
 		$this->load->model("gate_logs_model");
 		$this->load->model("rfid_model");
@@ -64,14 +64,15 @@ class Teacher_ajax extends CI_Controller {
 			$this->form_validation->set_rules('bday_m', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('bday_d', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('bday_y', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('class_id', 'Class', 'trim|htmlspecialchars');
 
-			$this->form_validation->set_message('is_in_db', 'This account is not valid');
+			$this->form_validation->set_message('is_in_db', 'This account is invalid');
 
 
 
 
 			//uploads files
-			if($_FILES['student_photo']["error"]==0){
+			if($_FILES['teacher_photo']["error"]==0){
 
 				$filename_first_name_array = explode(" ", $this->input->post("first_name"));
 				$filename_first_name = implode("-", $filename_first_name_array);
@@ -92,12 +93,12 @@ class Teacher_ajax extends CI_Controller {
 
 
 				$config['overwrite'] = TRUE;
-				$config['upload_path'] = './assets/images/student_photo/';
+				$config['upload_path'] = './assets/images/teacher_photo/';
 				$config['allowed_types'] = 'gif|jpg|png';
 				$config['file_name'] = $filename;
 				$config['max_size']	= '20480';
 				$this->load->library('upload', $config);
-				if ( ! $this->upload->do_upload("student_photo"))
+				if ( ! $this->upload->do_upload("teacher_photo"))
 				{
 					$data["is_valid_photo"] = FALSE;
 					$data["photo_error"] = $this->upload->display_errors("","");
@@ -132,6 +133,7 @@ class Teacher_ajax extends CI_Controller {
 				$data["last_name_error"] = form_error('last_name');
 				$data["middle_name_error"] = form_error('middle_name');
 				$data["suffix_error"] = form_error('suffix');
+				$data["class_id_error"] = form_error('class_id');
 				$data["bday_error"] = form_error('bday_m');
 			}
 			else
@@ -141,12 +143,14 @@ class Teacher_ajax extends CI_Controller {
 				$data["last_name_error"] = "";
 				$data["middle_name_error"] = "";
 				$data["suffix_error"] = "";
+				$data["class_id_error"] = "";
 				$data["bday_error"] = "";
 
 				$teacher_data["first_name"] = $this->input->post("first_name");
 				$teacher_data["last_name"] = $this->input->post("last_name");
 				$teacher_data["middle_name"] = $this->input->post("middle_name");
 				$teacher_data["suffix"] = $this->input->post("suffix");
+				$teacher_data["class_id"] = $this->input->post("class_id");
 				$teacher_data["display_photo"] = $filename;
 				// $teacher_data["display_photo_type"] = $new_image_data['file_type'];
 				$bday_m = sprintf("%02d",$this->input->post("bday_m"));
@@ -180,7 +184,7 @@ class Teacher_ajax extends CI_Controller {
 			// $data["guardian_id"] = $this->input->post("guardian_id");
 			// $data["class_id"] = $this->input->post("class_id");
 
-			$this->form_validation->set_rules('student_id', 'First Name', 'required|trim|htmlspecialchars|is_in_db[students.id]');
+			$this->form_validation->set_rules('teacher_id', 'First Name', 'required|trim|htmlspecialchars|is_in_db[teachers.id]');
 			$this->form_validation->set_rules('first_name', 'First Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
 			$this->form_validation->set_rules('last_name', 'Last Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
 			$this->form_validation->set_rules('middle_name', 'Middle Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
@@ -189,6 +193,7 @@ class Teacher_ajax extends CI_Controller {
 			$this->form_validation->set_rules('bday_d', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('bday_y', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('guardian_id', 'Guardian', 'is_in_db[guardians.id]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('class_id', 'Class', 'required|is_valid[classes.id]|trim|htmlspecialchars');
 
 			$this->form_validation->set_message('is_in_db', 'An Error has occured please refresh the page and try again.');
 
@@ -196,7 +201,7 @@ class Teacher_ajax extends CI_Controller {
 
 
 			//uploads files
-			if($_FILES['student_photo']["error"]==0){
+			if($_FILES['teacher_photo']["error"]==0){
 
 				$filename_first_name_array = explode(" ", $this->input->post("first_name"));
 				$filename_first_name = implode("-", $filename_first_name_array);
@@ -217,12 +222,12 @@ class Teacher_ajax extends CI_Controller {
 
 
 				$config['overwrite'] = TRUE;
-				$config['upload_path'] = './assets/images/student_photo/';
+				$config['upload_path'] = './assets/images/teacher_photo/';
 				$config['allowed_types'] = 'gif|jpg|png';
 				$config['file_name'] = $filename;
 				$config['max_size']	= '20480';
 				$this->load->library('upload', $config);
-				if ( ! $this->upload->do_upload("student_photo"))
+				if ( ! $this->upload->do_upload("teacher_photo"))
 				{
 					$data["is_valid_photo"] = FALSE;
 					$data["photo_error"] = $this->upload->display_errors("","");
@@ -249,9 +254,9 @@ class Teacher_ajax extends CI_Controller {
 			}else{
 				$data["is_valid_photo"] = TRUE;
 				$filename = "empty.jpg";
-				$get_data["id"] = $this->input->post("student_id");
-				$student_data_db = $this->teachers_model->get_data($get_data);
-				$filename = $student_data_db["display_photo"];
+				$get_data["id"] = $this->input->post("teacher_id");
+				$teacher_data_db = $this->teachers_model->get_data($get_data);
+				$filename = $teacher_data_db["display_photo"];
 			}
 
 			if ($this->form_validation->run() == FALSE|| $data["is_valid_photo"] == FALSE)
@@ -263,7 +268,8 @@ class Teacher_ajax extends CI_Controller {
 				$data["suffix_error"] = form_error('suffix');
 				$data["bday_error"] = form_error('bday_m');
 				$data["guardian_id_error"] = form_error('guardian_id');
-				$data["student_id_error"] = form_error('student_id');
+				$data["class_id_error"] = form_error('class_id');
+				$data["teacher_id_error"] = form_error('teacher_id');
 				// echo json_encode($data);
 			}
 			else
@@ -275,24 +281,26 @@ class Teacher_ajax extends CI_Controller {
 				$data["suffix_error"] = "";
 				$data["bday_error"] = "";
 				$data["guardian_id_error"] = "";
+				$data["class_id_error"] = "";
 
-				$student_data["first_name"] = $this->input->post("first_name");
-				$student_data["last_name"] = $this->input->post("last_name");
-				$student_data["middle_name"] = $this->input->post("middle_name");
-				$student_data["suffix"] = $this->input->post("suffix");
-				$student_data["guardian_id"] = $this->input->post("guardian_id");
-				$student_data["display_photo"] = $filename;
-				// $student_data["display_photo_type"] = $new_image_data['file_type'];
+				$teacher_data["first_name"] = $this->input->post("first_name");
+				$teacher_data["last_name"] = $this->input->post("last_name");
+				$teacher_data["middle_name"] = $this->input->post("middle_name");
+				$teacher_data["suffix"] = $this->input->post("suffix");
+				$teacher_data["class_id"] = $this->input->post("class_id");
+				$teacher_data["guardian_id"] = $this->input->post("guardian_id");
+				$teacher_data["display_photo"] = $filename;
+				// $teacher_data["display_photo_type"] = $new_image_data['file_type'];
 				$bday_m = sprintf("%02d",$this->input->post("bday_m"));
 				$bday_d = sprintf("%02d",$this->input->post("bday_d"));
 				$bday_y = sprintf("%04d",$this->input->post("bday_y"));
 				$birthdate_str = $bday_m."/".$bday_d."/".$bday_y;
-				$student_data["birthdate"] = strtotime($birthdate_str);
+				$teacher_data["birthdate"] = strtotime($birthdate_str);
 
-				($this->teachers_model->edit_info($student_data,$this->input->post("student_id"))?$data["is_successful"] = TRUE:$data["is_successful"] = FALSE);
+				($this->teachers_model->edit_info($teacher_data,$this->input->post("teacher_id"))?$data["is_successful"] = TRUE:$data["is_successful"] = FALSE);
 
 			}
-			// var_dump($this->teachers_model->edit_info($student_data,$this->input->post("student_id")));
+			// var_dump($this->teachers_model->edit_info($teacher_data,$this->input->post("teacher_id")));
 			echo json_encode($data);
 
 			
@@ -302,15 +310,13 @@ class Teacher_ajax extends CI_Controller {
 
 	public function get_data($value='')
 	{
-		if($_POST){
-			$teacher_data["id"] = $_POST["teacher_id"];
-			$teacher_data = $this->teachers_model->get_data($teacher_data);
-			$teacher_data["bday_m"] = date("n",$teacher_data["birthdate"]);
-			$teacher_data["bday_d"] = date("j",$teacher_data["birthdate"]);
-			$teacher_data["bday_y"] = date("Y",$teacher_data["birthdate"]);
-			($teacher_data["guardian_id"]==0?$teacher_data["guardian_id"]="":FALSE);
-			echo json_encode($teacher_data);
-		}
+		$teacher_data["id"] = $this->input->get("teacher_id");
+		$teacher_data = $this->teachers_model->get_data($teacher_data);
+		$teacher_data["bday_m"] = date("n",$teacher_data["birthdate"]);
+		$teacher_data["bday_d"] = date("j",$teacher_data["birthdate"]);
+		$teacher_data["bday_y"] = date("Y",$teacher_data["birthdate"]);
+		($teacher_data["class_id"]==0?$teacher_data["class_id"]="":FALSE);
+		echo json_encode($teacher_data);
 	}
 
 

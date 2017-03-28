@@ -89,20 +89,25 @@ class Admin extends CI_Controller {
 
 	public function students($value='')
 	{
-		$this->load->model("students_model");
-		$this->data["students_list"] = $this->students_model->get_list();
 		$this->load->view("students-list",$this->data);
 	}
 
 	public function teachers($value='')
 	{
-		$this->load->model("teachers_model");
-		$this->data["teachers_list"] = $this->teachers_model->get_list();
 		$this->load->view("teachers-list",$this->data);
+	}
+
+	public function classes($value='')
+	{
+		$this->load->view("classes-list",$this->data);
 	}
 
 	public function test($value='')
 	{
+		echo '
+		{"id":"1","last_name":"last","first_name":"first","middle_name":"middle","suffix":"suff","birthdate":"01\/01\/1980","display_photo":"\/\/localhost\/rfid\/assets\/images\/student_photo\/_last_first_middle_suff.png","display_photo_type":"","guardian_id":"1","class_id":"1","deleted":"0","rfid_data":{"id":"1","rfid":"2222","load_credits":"0","ref_id":"1","ref_table":"students","pin":"0","valid":"1","deleted":"0"},"is_valid":false,"full_name":"first m. last","gate_logs_data":{"rfid_id":"1","ref_table":"students","ref_id":"1","date_time":1490680818,"date":1490630400,"type":"entry","is_valid":true,"gate_logs_data":{"id":"39","rfid_id":"1","date_time":"1490680818","date":"1490630400","type":"entry","ref_id":"1","ref_table":"students"}},"message":"first m. last enters the school premises on 03\/28\/2017 02:00:18 PM."}
+		';
+		// echo date("m/d/Y h:i:s A",1490703420);
 		exit;
 		$hidden = array(
 			"1" => "09301167850",

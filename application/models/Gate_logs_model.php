@@ -28,8 +28,15 @@ class Gate_logs_model extends CI_Model {
         }
         $limit_date = strtotime(date("m/d/Y h:i:s A", strtotime("+1 min",$get_log_data->date_time)));
         if($get_log_data->date_time<=$limit_date&&$limit_date<=$data["date_time"]){
-            return ($this->db->insert("gate_logs",$data));
+            $this->db->insert("gate_logs",$data);
+            $this->db->limit(1);
+            $this->db->order_by("id","DESC");
+            $data["is_valid"] = TRUE;
+            $data["gate_logs_data"] = $this->db->get("gate_logs")->row();
+            return $data;
         }else{
+            $data["is_valid"] = FALSE;
+            $data["gate_logs_data"] = FALSE;
             return FALSE;
         }
     }
@@ -42,7 +49,7 @@ class Gate_logs_model extends CI_Model {
         // $this->db->limit($maxitem,$limit);
 
         $test[] = 'gate_logs.*';
-        if($table=="students"){
+        if($table=="students"||$table=="teachers"){
             $test[] = 'classes.class_name';
             $test[] = $table.'.class_id';
         }
@@ -58,7 +65,7 @@ class Gate_logs_model extends CI_Model {
         $this->db->select($test);
         $this->db->from('gate_logs');
         $this->db->join($table, $table.'.id = gate_logs.ref_id');
-        if($table=="students"){
+        if($table=="students"||$table=="teachers"){
             $this->db->join("classes", $table.'.class_id = classes.id');
         }
         $gate_logs_query = $this->db->get();

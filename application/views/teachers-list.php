@@ -121,18 +121,19 @@ echo '
           </div>
 
           <div class="form-group">
-            <label class="col-sm-2" for="guardian">Guardians Email:</label>
+            <label class="col-sm-2" for="class_id">Class:</label>
             <div class="col-sm-10"> 
-              <select name="guardian_id">
-                <option value="">Select a Guardians Email</option>
+              <select name="class_id">
+                <option value="">Select a Class</option>
                 ';
-                foreach ($guardians_list as $guardian_data) {
-                  echo '<option value="'.$guardian_data->id.'">'.$guardian_data->email_address.'</option>';
+                foreach ($classes_list["result"] as $class_data) {
+                  echo '<option data-tokens="'.$class_data->class_name.'" value="'.$class_data->id.'">'.$class_data->class_name.'</option>';
                 }
+
                 echo '
               </select>
 
-              <p class="guardian_id_help-block"></p>
+              <p class="help-block" id="teacher_class_id_help-block"></p>
             </div>
           </div>
 
@@ -185,6 +186,7 @@ function show_teacher_data(id) {
       $('select[name="bday_d"]').val(data.bday_d);
       $('select[name="bday_y"]').val(data.bday_y);
       $('select[name="guardian_id"]').val(data.guardian_id);
+      $('select[name="class_id"]').val(data.class_id);
       $("#teacher_edit_modal").modal("show");
     }
   });
@@ -205,7 +207,8 @@ $(document).on("submit","#teacher_edit_form",function(e) {
 			$("#middle_name_help-block").html(data.middle_name_error);
 			$("#suffix_help-block").html(data.suffix_error);
 			$("#bday_help-block").html(data.bday_error);
-			$("#guardian_id_help-block").html(data.guardian_id_error);
+      $("#guardian_id_help-block").html(data.guardian_id_error);
+			$("#teacher_class_id_help-block").html(data.class_id_error);
 			$("#teacher_photo_help-block").html(data.teacher_photo_error);
 			$("#teacher_id_help-block").html(data.teacher_id_error);
 			if(data.is_valid){

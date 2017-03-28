@@ -56,6 +56,9 @@
 							<th>Suffix:</th>
 							<td><span id="gate_rfid_suffix">Value</span></td>
 						</tr>
+						<tr>
+							<th colspan="2" id="gate_status" class="table-header">Value</th>
+						</tr>
 					</tbody>
 				</table>
 			</div>
@@ -65,7 +68,7 @@
 <?php echo $modaljs_scripts; ?>
 <?php echo $js_scripts; ?>
 <script>
-
+// $("#gate_status").addClass("danger");
 $(document).on("submit","#gate_rfid_scan", function(e) {
 	e.preventDefault();
 	$.ajax({
@@ -75,7 +78,7 @@ $(document).on("submit","#gate_rfid_scan", function(e) {
 		cache: true,
 		dataType: "json",
 		success: function(data) {
-			// alert(data);
+			// console.log(data);
 			if(data.is_valid){
 				$("#rfid_scan").val("");
 				$("#display-photo").attr("src",data.display_photo);
@@ -84,6 +87,14 @@ $(document).on("submit","#gate_rfid_scan", function(e) {
 				$("#gate_rfid_first_name").html(data.first_name);
 				$("#gate_rfid_middle_name").html(data.middle_name);
 				$("#gate_rfid_suffix").html(data.suffix);
+				if(data.gate_logs_data.is_valid){
+					// $("#gate_status").html(data.sms_status);
+					$("#gate_status").html("Success!");
+					$("#gate_status").removeClass( "danger success" ).addClass("success");
+				}else{
+					$("#gate_status").html("Error!");
+					$("#gate_status").removeClass( "danger success" ).addClass("danger");
+				}
 				$("#gate_rfid_scan")[0].reset();
 				$(".help-block").html("");
 			}else{

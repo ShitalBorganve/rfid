@@ -21,7 +21,7 @@ $(document).on("submit","#rfid_scan_add_load_credit_form",function(e) {
 				$("#rfid_scan_add_load_credits_form")[0].reset();
 				$(".help-block").html("");
 			}else{
-				$('#rfid_scan_add_load_credits_help-block').html("RFID is not valid or available.");
+				$('#rfid_scan_add_load_credits_help-block').html("RFID is invalid or available.");
 			}
 		}
 	});
@@ -114,7 +114,7 @@ $(document).on("submit","#rfid_scan_add_form",function(e) {
 				$(".help-block").html("");
 			}else{
 				$("#rfid_scan_add_form")[0].reset();
-				$("#rfid_scan_help-block").html("RFID is not valid or available.");
+				$("#rfid_scan_help-block").html("RFID is invalid or available.");
 			}
 		}
 	});
@@ -192,6 +192,7 @@ $(document).on("submit","#teacher_add_form", function(e) {
 				$("#teacher_suffix_help-block").html(data.suffix_error);
 				$("#teacher_bday_help-block").html(data.bday_error);
 				$("#teacher_guardian_id_help-block").html(data.guardian_id_error);
+				$("#teacher_class_id_help-block").html(data.class_id_error);
 				$("#teacher_photo_help-block").html(data.photo_error);
 			}
 		}

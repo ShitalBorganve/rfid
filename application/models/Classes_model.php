@@ -29,15 +29,14 @@ class Classes_model extends CI_Model {
             $data["query"] = $this->db->last_query();
             $data["count"] = $this->db->count_all_results("classes");
             $classes_data = $query->result();
-            foreach ($classes_data as $class_data) {
-                $get_data = array();
-                $get_data["ref_id"] = $class_data->id;
-                $get_data["ref_table"] = "classes";
-                $class_data->rfid_data = $this->db->get_where("rfid",$get_data)->row();
-            }
             $data["result"] = $classes_data;
 
             
             return $data;
+    }
+
+    function get_data($where=''){
+        $query = $this->db->get_where("classes",$where);
+        return $query->row_array();
     }
 }

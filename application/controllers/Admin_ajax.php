@@ -54,7 +54,7 @@ class Admin_ajax extends CI_Controller {
 		if($_POST){
 			$this->form_validation->set_rules('account', 'Account', 'required|min_length[5]|max_length[12]|is_in_db[admins.username]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('account_password', 'Password', 'required|min_length[5]|max_length[12]|trim|htmlspecialchars');
-			$this->form_validation->set_message('is_in_db', 'This account is not valid');
+			$this->form_validation->set_message('is_in_db', 'This account is invalid');
 
 			if ($this->form_validation->run() == FALSE)
 			{

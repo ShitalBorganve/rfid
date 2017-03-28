@@ -46,11 +46,11 @@ class Class_ajax extends CI_Controller {
 
 	public function add($arg='')
 	{
-		$this->form_validation->set_rules('class_adviser', 'Class Adviser', 'required|is_in_db[teachers.id]|trim|htmlspecialchars');
+		$this->form_validation->set_rules('class_adviser', 'Class Adviser', 'trim|htmlspecialchars');
 		$this->form_validation->set_rules('class_name', 'Class Name', 'required|max_length[50]|trim|htmlspecialchars');
 		$this->form_validation->set_rules('class_room', 'Classroom', 'required|max_length[50]|trim|htmlspecialchars');
 		$this->form_validation->set_rules('class_schedule', 'Class Schedule', 'required|max_length[50]|trim|htmlspecialchars');
-		$this->form_validation->set_message('is_in_db', 'This Teacher is not valid');
+		$this->form_validation->set_message('is_in_db', 'This Teacher is invalid');
 
 		$data["class_adviser_error"] = "";
 		$data["class_name_error"] = "";
@@ -70,5 +70,15 @@ class Class_ajax extends CI_Controller {
 			$data["is_valid"] = $this->classes_model->add($insert_data);
 		}
 		echo json_encode($data);
+	}
+
+	public function get_data($value='')
+	{
+		if($_POST){
+			$class_data["id"] = $this->input->post("class_id");
+			$class_data = $this->classes_model->get_data($class_data);
+			($class_data["class_id"]==0?$class_data["id"]="":FALSE);
+			echo json_encode($class_data);
+		}
 	}
 }

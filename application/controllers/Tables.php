@@ -32,6 +32,7 @@ class Tables extends CI_Controller {
 		$this->load->helper('string');
 		$this->load->model('guardian_model');
 		$this->load->model("admin_model");
+		$this->load->model("classes_model");
 		$this->load->model("teachers_model");
 		$this->load->model("students_model");
 		$this->load->model("gate_logs_model");
@@ -50,22 +51,22 @@ class Tables extends CI_Controller {
 		
 		if($arg=="list"){
 
-				$page = $this->input->post("page");
+				$page = $this->input->get("page");
 				$search = "";
 				$where = "";
 
-				if($this->input->post("search_last_name")){
+				if($this->input->get("search_last_name")){
 					$search["search"] = "last_name";
-					$search["value"] = $this->input->post("search_last_name");
+					$search["value"] = $this->input->get("search_last_name");
 				}
 
-				if($this->input->post("owner_id")){
+				if($this->input->get("owner_id")){
 					$search = "";
-					$where["id"] = $this->input->post("owner_id");
+					$where["id"] = $this->input->get("owner_id");
 				}
 				$students_list_data = $this->students_model->get_list($where,$page,$this->config->item("max_item_perpage"),$search);
 
-				// var_dump($this->input->post("owner_id"));
+				// var_dump($this->input->get("owner_id"));
 				// var_dump($students_list_data["query"]);
 				// exit;
 				foreach ($students_list_data["result"] as $student_data) {
@@ -92,26 +93,26 @@ class Tables extends CI_Controller {
 	{
 		$where = "";
 		$table = ((
-			$this->input->post("ref_table") ||
-			$this->input->post("ref_table")=="students" ||
-			$this->input->post("ref_table")=="teachers"
-			)?$this->input->post("ref_table"):"students");
-		$page = $this->input->post("page");
-		($this->input->post("ref_id")?$where["ref_id"]=$this->input->post("ref_id"):FALSE);
-		($this->input->post("class_id")?$where["class_id"]=$this->input->post("class_id"):FALSE);
-		if(!$this->input->post("ref_id")&&$this->input->post("search_last_name")){
-			$this->db->where("last_name",$this->input->post("search_last_name"));
+			$this->input->get("ref_table") ||
+			$this->input->get("ref_table")=="students" ||
+			$this->input->get("ref_table")=="teachers"
+			)?$this->input->get("ref_table"):"students");
+		$page = $this->input->get("page");
+		($this->input->get("ref_id")?$where["ref_id"]=$this->input->get("ref_id"):FALSE);
+		($this->input->get("class_id")?$where["class_id"]=$this->input->get("class_id"):FALSE);
+		if(!$this->input->get("ref_id")&&$this->input->get("search_last_name")){
+			$this->db->where("last_name",$this->input->get("search_last_name"));
 		}
-		($this->input->post("date_from")?$date_from=strtotime($this->input->post("date_from")):$date_from=0);	
-		($this->input->post("date_to")?$date_to=strtotime($this->input->post("date_to")):$date_to=strtotime(date("m/d/Y")));
+		($this->input->get("date_from")?$date_from=strtotime($this->input->get("date_from")):$date_from=0);	
+		($this->input->get("date_to")?$date_to=strtotime($this->input->get("date_to")):$date_to=strtotime(date("m/d/Y")));
 		$between = "date BETWEEN '".$date_from."' AND '".$date_to."'";
 
 		// $where["ref_id"]=1;
 		// $where["ref_table"]="students";
-		// if($this->input->post("search_last_name")){
-		// 	$this->db->like('last_name', $this->input->post("search_last_name"));
+		// if($this->input->get("search_last_name")){
+		// 	$this->db->like('last_name', $this->input->get("search_last_name"));
 		// }
-		$for_guardian = ($this->input->post("for_guardian")?TRUE:FALSE);
+		$for_guardian = ($this->input->get("for_guardian")?TRUE:FALSE);
 		// var_dump($between);
 		// exit;
 		// var_dump($this->gate_logs_model->get_list($where,$between,$page,$this->config->item("max_item_perpage")));exit;
@@ -128,7 +129,7 @@ class Tables extends CI_Controller {
 		';
 
 		// var_dump($gate_logs_data["query"]);
-		// echo $this->input->post("ref_table");
+		// echo $this->input->get("ref_table");
 		// exit;
 		foreach ($gate_logs_data["result"] as $gate_log_data) {
 			if($gate_log_data->type=="exit"){
@@ -186,6 +187,32 @@ class Tables extends CI_Controller {
 				$attrib["href"] = "#";
 				$attrib["class"] = "paging";
 				echo paging($page,$teachers_list_data["count"],$this->config->item("max_item_perpage"),$attrib,'<tr><td colspan="20" style="text-align:center">','</td></tr>');	
+		}
+	}
+
+	public function classes($arg='')
+	{
+		
+		if($arg=="list"){
+
+				$page = $this->input->post("page");
+				$classes_list_data = $this->classes_model->get_list("",$page,$this->config->item("max_item_perpage"));
+
+				// var_dump($classes_list);
+				// exit;
+				foreach ($classes_list_data["result"] as $class_data) {
+					echo '
+					<tr>
+						<td>'.$class_data->class_name.'</td>
+						<td>'.$class_data->room.'</td>
+						<td>'.$class_data->schedule.'</td>
+						<td><a href="#" class="edit_class" id="'.$class_data->id.'">Edit info</a></td>
+					</tr>
+					';
+				}
+				$attrib["href"] = "#";
+				$attrib["class"] = "paging";
+				echo paging($page,$classes_list_data["count"],$this->config->item("max_item_perpage"),$attrib,'<tr><td colspan="20" style="text-align:center">','</td></tr>');	
 		}
 	}
 

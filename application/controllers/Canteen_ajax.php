@@ -54,7 +54,7 @@ class Canteen_ajax extends CI_Controller {
 		$canteen_user_data = $this->session->userdata("canteen_sessions");
 		$this->form_validation->set_rules('account', 'Account', 'required|min_length[5]|max_length[50]|is_in_db[canteen_users.username]|trim|htmlspecialchars');
 		$this->form_validation->set_rules('account_password', 'Password', 'required|min_length[5]|max_length[50]|trim|htmlspecialchars');
-		$this->form_validation->set_message('is_in_db', 'This account is not valid');
+		$this->form_validation->set_message('is_in_db', 'This account is invalid');
 
 		if ($this->form_validation->run() == FALSE)
 		{

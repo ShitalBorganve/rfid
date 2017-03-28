@@ -74,8 +74,9 @@ class Rfid_ajax extends CI_Controller {
 
 			if ($this->form_validation->run() == FALSE)
 			{
-				$student_data["is_valid"] = FALSE;
-				$student_data["display_photo"] = base_url("assets/images/empty.jpg");
+				$rfid_owner_data["is_valid"] = FALSE;
+				$rfid_owner_data["display_photo"] = base_url("assets/images/empty.jpg");
+				$rfid_owner_data["full_name"] = "";
 			}else{
 				$get_data["rfid"] = $this->input->post("gate_rfid_scan"); 
 				$get_data["deleted"] = 0;
@@ -92,9 +93,25 @@ class Rfid_ajax extends CI_Controller {
 				$rfid_owner_log_data["date_time"] = strtotime(date("m/d/Y h:i:s A"));
 				$rfid_owner_log_data["date"] = strtotime(date("m/d/Y"));
 
-				$this->gate_logs_model->add_log($rfid_owner_log_data);
+				$rfid_owner_data["gate_logs_data"] = $this->gate_logs_model->add_log($rfid_owner_log_data);
+				if($rfid_owner_data["gate_logs_data"]["is_valid"]){
+					if($rfid_owner_data["gate_logs_data"]["gate_logs_data"]->type=="entry"){
+						$type_status = "enters";
+					}else{
+						$type_status = "exits";
+					}
+					$rfid_owner_data["message"] = $rfid_owner_data["full_name"].' '.$type_status.' the school premises on '.date("m/d/Y h:i:s A").'.';
+					// $message = $rfid_owner_data["full_name"].' exited the school premises at '.date("m/d/Y h:i:s A").'.';
+					// $rfid_owner_data["sms_status"] = send_sms("09301167850",$rfid_owner_data["message"]);					
+				}else{
+					$rfid_owner_data["gate_logs_data"]["is_valid"] = FALSE;
+				}
+
 			}
+			// var_dump($rfid_owner_data);
+			// exit;
 			echo json_encode($rfid_owner_data);
+			
 		}
 	}
 

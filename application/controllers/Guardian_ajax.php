@@ -54,7 +54,7 @@ class Guardian_ajax extends CI_Controller {
 			$this->form_validation->set_rules('email_address', 'Email Address', 'required|valid_email|trim|htmlspecialchars|is_available[guardians.email_address]|min_length[2]|max_length[50]');
 			$this->form_validation->set_rules('guardian_name', 'Guardian Name', 'required|custom_alpha_dash|trim|htmlspecialchars|min_length[2]|max_length[50]');
 			$this->form_validation->set_rules('contact_number', 'Contact Number', 'trim|htmlspecialchars|min_length[2]|max_length[50]');
-			$this->form_validation->set_message('is_available', 'This Email is not valid or already taken');
+			$this->form_validation->set_message('is_available', 'This Email is invalid or already taken');
 
 			if ($this->form_validation->run() == FALSE)
 			{
@@ -108,7 +108,7 @@ class Guardian_ajax extends CI_Controller {
 		if($_POST){
 			$this->form_validation->set_rules('account', 'Account', 'required|min_length[5]|max_length[50]|is_in_db[guardians.email_address]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('account_password', 'Password', 'required|min_length[5]|max_length[50]|trim|htmlspecialchars');
-			$this->form_validation->set_message('is_in_db', 'This account is not valid');
+			$this->form_validation->set_message('is_in_db', 'This account is invalid');
 
 			if ($this->form_validation->run() == FALSE)
 			{

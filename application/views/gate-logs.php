@@ -17,7 +17,6 @@
 					Gate Logs
 				</h1>
 				<?php echo form_open("tables/gate_logs", 'id="gate_logs-form"'); ?>
-				<span class="btn btn-danger" id="gate_logs-reset_search">Reset</span>
 				<input type="hidden" name="ref_id">
 				<select name="ref_table" id="ref_table">
 					<option value="students">Students</option>
@@ -25,7 +24,6 @@
 				</select>
 				<label>Last Name:</label>
 				<input type="text" name="search_last_name" id="search_last_name">
-				<!-- 
 				<label>Class:</label>
 				<?php
 				echo '
@@ -40,12 +38,12 @@
 				</select>
 				';
 				?>
-				 -->
 				<label>Date From:</label>
-				<input type="text" name="date_from" id="datepicker_from" value="<?php echo date("m/dY");?>" readonly>
+				<input type="text" name="date_from" id="datepicker_from" value="<?php echo date("m/d/Y");?>" readonly>
 				<label>Date To:</label>
-				<input type="text" name="date_to" id="datepicker_to" value="<?php echo date("m/dY");?>" readonly>
+				<input type="text" name="date_to" id="datepicker_to" value="<?php echo date("m/d/Y");?>" readonly>
 				<button type="submit" class="btn btn-primary" form="gate_logs-form">Search</button>
+				<span class="btn btn-danger" id="gate_logs-reset_search">Reset</span>
 				</form>
 				<table class="table table-hover" id="gatelogs-table">
 					<thead>
@@ -122,7 +120,7 @@ show_gatelogs();
 function show_gatelogs(page=1,clear) {
 	var data_str = $("#gate_logs-form").serialize();
 	$.ajax({
-		type: "POST",
+		type: "GET",
 		url: $("#gate_logs-form").attr("action"),
 		data: data_str+"&page="+page,
 		cache: false,

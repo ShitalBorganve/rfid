@@ -128,7 +128,7 @@ echo '
                 <option value="">Select a Guardians Email</option>
                 ';
                 foreach ($guardians_list as $guardian_data) {
-                  echo '<option value="'.$guardian_data->id.'">'.$guardian_data->email_address.'</option>';
+                  echo '<option value="'.$guardian_data->id.'">'.$guardian_data->contact_number.'</option>';
                 }
                 echo '
               </select>
@@ -191,7 +191,7 @@ $(document).on("click",".edit_student",function(e) {
 
 function show_student_data(id) {
   $.ajax({
-    type: "POST",
+    type: "GET",
     url: "<?php echo base_url("student_ajax/get_data"); ?>",
     data: "student_id="+id,
     cache: false,
@@ -263,7 +263,7 @@ function show_student_list(page='1',clear=false) {
 
   var datastr = $("#student-list-form").serialize();
 	$.ajax({
-		type: "POST",
+		type: "GET",
     url: $("#student-list-form").attr("action"),
 		data: datastr+"&page="+page,
 		cache: false,

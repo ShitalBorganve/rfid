@@ -67,7 +67,7 @@ class Student_ajax extends CI_Controller {
 			$this->form_validation->set_rules('guardian_id', 'Guardian', 'is_in_db[guardians.id]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('class_id', 'Class', 'required|is_valid[classes.id]|trim|htmlspecialchars');
 
-			$this->form_validation->set_message('is_in_db', 'This account is not valid');
+			$this->form_validation->set_message('is_in_db', 'This account is invalid');
 
 			//uploads files
 			if($_FILES['student_photo']["error"]==0){
@@ -313,16 +313,15 @@ class Student_ajax extends CI_Controller {
 
 	public function get_data($value='')
 	{
-		if($_POST){
-			$student_data["id"] = $_POST["student_id"];
-			$student_data = $this->students_model->get_data($student_data);
-			$student_data["bday_m"] = date("n",$student_data["birthdate"]);
-			$student_data["bday_d"] = date("j",$student_data["birthdate"]);
-			$student_data["bday_y"] = date("Y",$student_data["birthdate"]);
-			($student_data["guardian_id"]==0?$student_data["guardian_id"]="":FALSE);
-			($student_data["class_id"]==0?$student_data["class_id"]="":FALSE);
-			echo json_encode($student_data);
-		}
+		
+		$student_data["id"] = $this->input->get("student_id");
+		$student_data = $this->students_model->get_data($student_data);
+		$student_data["bday_m"] = date("n",$student_data["birthdate"]);
+		$student_data["bday_d"] = date("j",$student_data["birthdate"]);
+		$student_data["bday_y"] = date("Y",$student_data["birthdate"]);
+		($student_data["guardian_id"]==0?$student_data["guardian_id"]="":FALSE);
+		($student_data["class_id"]==0?$student_data["class_id"]="":FALSE);
+		echo json_encode($student_data);
 	}
 
 
