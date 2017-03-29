@@ -16,13 +16,14 @@
 			<div class="table-responsive">
       <?php echo form_open("tables/teachers/list",'id="teacher-list-form"');?>
       <label>Seaarch</label>
-      <input type="text" name="last_name" placeholder="Enter Last Name" id="search_last_name">
+      <input type="text" name="search_last_name" placeholder="Enter Last Name" id="search_last_name">
       </form>
 				<table class="table table-hover" id="teacher-list-table">
 					<thead>
 						<tr>
 							<th>RFID</th>
 							<th>Full Name</th>
+              <th>Class</th>
 							<th>Edit</th>
 						</tr>
 					</thead>
@@ -171,7 +172,7 @@ $(document).on("click",".edit_teacher",function(e) {
 });
 function show_teacher_data(id) {
   $.ajax({
-    type: "POST",
+    type: "GET",
     url: "<?php echo base_url("teacher_ajax/get_data"); ?>",
     data: "teacher_id="+id,
     cache: false,
@@ -216,6 +217,7 @@ $(document).on("submit","#teacher_edit_form",function(e) {
 				$("#alert-modal").modal("show");
 				$("#alert-modal-title").html("Edit teacher Information");
 				$("#alert-modal-body p").html("You have successfully editted a teacher's information.");
+        show_teacher_list();
 			}
 		}
 	});

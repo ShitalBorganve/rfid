@@ -44,6 +44,20 @@ class Teachers_model extends CI_Model {
                 $get_data["ref_table"] = "teachers";
                 $teacher_data->rfid_data = $this->db->get_where("rfid",$get_data)->row();
             }
+
+            foreach ($teachers_data as $teacher_data) {
+                $get_data = array();
+                if($teacher_data->class_id != 0){
+                    $get_data["id"] = $teacher_data->class_id;
+                    $teacher_data->class_data = $this->db->get_where("classes",$get_data)->row();                    
+                }else{
+                    $class_data = new stdClass();
+                    $class_data->id = 0;
+                    $class_data->class_name = "";
+                    $teacher_data->class_data = $class_data;                    
+                }
+
+            }
             $data["result"] = $teachers_data;
 
             
@@ -73,6 +87,7 @@ class Teachers_model extends CI_Model {
         $query = $this->db->get_where("teachers",'id="'.$data["id"].'"');
         return $query->row_array();
     }
+
 
 }
 

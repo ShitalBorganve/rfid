@@ -44,7 +44,7 @@ class Gate_logs_model extends CI_Model {
     function get_list($table="students",$where='',$between='',$page=1,$maxitem=50)
     {
 
-
+    
         // $limit = ($page*$maxitem)-$maxitem;
         // $this->db->limit($maxitem,$limit);
 

@@ -37,6 +37,7 @@ class Teacher_ajax extends CI_Controller {
 		$this->load->model("gate_logs_model");
 		$this->load->model("rfid_model");
 		$this->load->model("canteen_model");
+		$this->load->model("classes_model");
 		$this->load->model("canteen_items_model");
 
 		$this->load->library('form_validation');
@@ -150,7 +151,7 @@ class Teacher_ajax extends CI_Controller {
 				$teacher_data["last_name"] = $this->input->post("last_name");
 				$teacher_data["middle_name"] = $this->input->post("middle_name");
 				$teacher_data["suffix"] = $this->input->post("suffix");
-				$teacher_data["class_id"] = $this->input->post("class_id");
+				// $teacher_data["class_id"] = $this->input->post("class_id");
 				$teacher_data["display_photo"] = $filename;
 				// $teacher_data["display_photo_type"] = $new_image_data['file_type'];
 				$bday_m = sprintf("%02d",$this->input->post("bday_m"));
@@ -168,6 +169,11 @@ class Teacher_ajax extends CI_Controller {
 				$rfid_data["ref_table"] = "teachers";
 				$rfid_data["valid"] = 1;
 				$this->rfid_model->add($rfid_data);
+
+
+				$teacher_id = $teacher_data->id;
+				$class_id = ($this->input->post("class_id")?$this->input->post("class_id"):"0");
+				$this->classes_model->change_class($teacher_id,$class_id);
 
 			}
 
@@ -193,7 +199,7 @@ class Teacher_ajax extends CI_Controller {
 			$this->form_validation->set_rules('bday_d', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('bday_y', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('guardian_id', 'Guardian', 'is_in_db[guardians.id]|trim|htmlspecialchars');
-			$this->form_validation->set_rules('class_id', 'Class', 'required|is_valid[classes.id]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('class_id', 'Class', 'is_valid[classes.id]|trim|htmlspecialchars');
 
 			$this->form_validation->set_message('is_in_db', 'An Error has occured please refresh the page and try again.');
 
@@ -287,7 +293,7 @@ class Teacher_ajax extends CI_Controller {
 				$teacher_data["last_name"] = $this->input->post("last_name");
 				$teacher_data["middle_name"] = $this->input->post("middle_name");
 				$teacher_data["suffix"] = $this->input->post("suffix");
-				$teacher_data["class_id"] = $this->input->post("class_id");
+				// $teacher_data["class_id"] = $this->input->post("class_id");
 				$teacher_data["guardian_id"] = $this->input->post("guardian_id");
 				$teacher_data["display_photo"] = $filename;
 				// $teacher_data["display_photo_type"] = $new_image_data['file_type'];
@@ -299,8 +305,14 @@ class Teacher_ajax extends CI_Controller {
 
 				($this->teachers_model->edit_info($teacher_data,$this->input->post("teacher_id"))?$data["is_successful"] = TRUE:$data["is_successful"] = FALSE);
 
+				$teacher_id = ($this->input->post("teacher_id")?$this->input->post("teacher_id"):"0");
+				$class_id = ($this->input->post("class_id")?$this->input->post("class_id"):"0");
+				$this->classes_model->change_class($teacher_id,$class_id);
+
 			}
 			// var_dump($this->teachers_model->edit_info($teacher_data,$this->input->post("teacher_id")));
+			// var_dump($data);
+			// exit;
 			echo json_encode($data);
 
 			

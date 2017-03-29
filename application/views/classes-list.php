@@ -24,6 +24,7 @@
 							<th>Class Name</th>
 							<th>Classroom</th>
               <th>Schedule</th>
+              <th>Class Adviser</th>
 							<th></th>
 						</tr>
 					</thead>
@@ -41,7 +42,7 @@
 
 echo '
 <!-- Edit Class Modal -->
-<div id="class_add_modal" class="modal fade" role="dialog" tabindex="-1">
+<div id="class_edit_modal" class="modal fade" role="dialog" tabindex="-1">
   <div class="modal-dialog">
 
     <!-- Modal content-->
@@ -52,8 +53,8 @@ echo '
     </div>
       <div class="modal-body">
         <p>
-        '.form_open("class_ajax/edit",'id="class_add_form"  class="form-horizontal"').'
-
+        '.form_open("class_ajax/edit",'id="class_edit_form"  class="form-horizontal"').'
+          <input type="hidden" name="class_id">
           <div class="form-group">
             <label class="col-sm-4" for="class_adviser">Class Adviser:</label>
             <div class="col-sm-8">
@@ -102,7 +103,7 @@ echo '
       </div>
       <div class="modal-footer">
        
-        <button type="submit" class="btn btn-primary" form="class_add_form">Submit</button>
+        <button type="submit" class="btn btn-primary" form="class_edit_form">Submit</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
@@ -125,23 +126,18 @@ $(document).on("click",".edit_class",function(e) {
 });
 function show_class_data(id) {
   $.ajax({
-    type: "POST",
+    type: "GET",
     url: "<?php echo base_url("class_ajax/get_data"); ?>",
     data: "class_id="+id,
     cache: false,
-    // dataType: "json",
+    dataType: "json",
     success: function(data) {
-      alert(data);
-/*      $('input[name="class_id"]').val(id);
-      $('input[name="first_name"]').val(data.first_name);
-      $('input[name="last_name"]').val(data.last_name);
-      $('input[name="middle_name"]').val(data.middle_name);
-      $('input[name="suffix"]').val(data.suffix);
-      $('select[name="bday_m"]').val(data.bday_m);
-      $('select[name="bday_d"]').val(data.bday_d);
-      $('select[name="bday_y"]').val(data.bday_y);
-      $('select[name="guardian_id"]').val(data.guardian_id);
-      $('select[name="class_id"]').val(data.class_id);*/
+      // alert(data);
+      $('select[name="class_adviser"]').val(data.teacher_id);
+      $('input[name="class_name"]').val(data.class_name);
+      $('input[name="class_room"]').val(data.room);
+      $('input[name="class_schedule"]').val(data.schedule);
+      $('input[name="class_id"]').val(id);
       $("#class_edit_modal").modal("show");
     }
   });
@@ -149,44 +145,43 @@ function show_class_data(id) {
 
 $(document).on("submit","#class_edit_form",function(e) {
 	e.preventDefault();
-	$.ajax({
-		url: $(this).attr('action'),
-		data: new FormData(this),
-		processData: false,
-		contentType: false,
-		method:"POST",
+		$.ajax({
+		type: "POST",
+		url: $("#class_edit_form").attr("action"),
+		data: $("#class_edit_form").serialize(),
+		cache: false,
 		dataType: "json",
 		success: function(data) {
-			$("#first_name_help-block").html(data.first_name_error);
-			$("#last_name_help-block").html(data.last_name_error);
-			$("#middle_name_help-block").html(data.middle_name_error);
-			$("#suffix_help-block").html(data.suffix_error);
-			$("#bday_help-block").html(data.bday_error);
-      $("#guardian_id_help-block").html(data.guardian_id_error);
-			$("#class_class_id_help-block").html(data.class_id_error);
-			$("#class_photo_help-block").html(data.class_photo_error);
-			$("#class_id_help-block").html(data.class_id_error);
+			// alert(data);
 			if(data.is_valid){
+				$(".help-block").html("");
+				$("#alert-modal-title").html("Edit Class");
+				$("#alert-modal-body p").html("You have successfully the class information.");
 				$("#class_edit_modal").modal("hide");
-				$("#alert-modal").modal("show");
-				$("#alert-modal-title").html("Edit class Information");
-				$("#alert-modal-body p").html("You have successfully editted a class's information.");
+				$("#alert-modal").modal("show")
+				show_class_list();
+			}else{
+				$("#class_adviser_help-block").html(data.class_adviser_error);
+				$("#class_name_help-block").html(data.class_name_error);
+				$("#class_room_help-block").html(data.class_room_error);
+				$("#class_schedule_help-block").html(data.class_schedule_error);
+				$("#class_schedule_help-block").html(data.class_schedule_error);
 			}
 		}
+		});
 	});
-});
 $(document).on("click",".paging",function(e) {
 	show_class_list(e.target.id);
 });
 
 $("#search_last_name").autocomplete({
-  source: "<?php echo base_url("search/classes/list"); ?>",
-  select: function(event, ui){
-      show_class_data(ui.item.data);
-      $("#search_last_name").val("");
-      // alert(data);
-    // window.location='item?s='+ui.item.data;
-  }
+	source: "<?php echo base_url("search/classes/list"); ?>",
+	select: function(event, ui){
+		show_class_data(ui.item.data);
+		$("#search_last_name").val("");
+		// alert(data);
+		// window.location='item?s='+ui.item.data;
+	}
 });
 
 show_class_list();

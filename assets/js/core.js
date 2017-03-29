@@ -297,6 +297,8 @@ $(document).on("submit","#class_add_form",function(e) {
 			// alert(data);
 			if(data.is_valid){
 				$("#class_add_form")[0].reset();
+				$("#alert-modal-title").html("Add Class");
+				$("#alert-modal-body p").html("You have successfully added a class in the list.");
 				$("#alert-modal").modal("show");
 				$(".help-block").html("");
 			}else{

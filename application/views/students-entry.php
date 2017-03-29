@@ -88,7 +88,7 @@ $(document).on("submit","#gate_rfid_scan", function(e) {
 				$("#gate_rfid_middle_name").html(data.middle_name);
 				$("#gate_rfid_suffix").html(data.suffix);
 				if(data.gate_logs_data.is_valid){
-					// $("#gate_status").html(data.sms_status);
+					$("#gate_status").html(data.sms_status);
 					$("#gate_status").html("Success!");
 					$("#gate_status").removeClass( "danger success" ).addClass("success");
 				}else{

@@ -118,15 +118,15 @@ class Tables extends CI_Controller {
 		// var_dump($this->gate_logs_model->get_list($where,$between,$page,$this->config->item("max_item_perpage")));exit;
 		// $students_log_data = $this->gate_logs_model->get_list($where,$between,$page,$this->config->item("max_item_perpage"));
 		$gate_logs_data = $this->gate_logs_model->get_list($table,$where,$between);
-		echo '
-		<tr>
-			<td>';
-		// echo $gate_logs_data["query"];
-		// echo "<br><br>";
-		// echo $gate_logs_data["count"];
-		echo $gate_logs_data["query"].'</td>
-		</tr>
-		';
+		// echo '
+		// <tr>
+		// 	<td>';
+		// // echo $gate_logs_data["query"];
+		// // echo "<br><br>";
+		// // echo $gate_logs_data["count"];
+		// echo $gate_logs_data["query"].'</td>
+		// </tr>
+		// ';
 
 		// var_dump($gate_logs_data["query"]);
 		// echo $this->input->get("ref_table");
@@ -170,7 +170,7 @@ class Tables extends CI_Controller {
 				$page = $this->input->post("page");
 				$teachers_list_data = $this->teachers_model->get_list("",$page,$this->config->item("max_item_perpage"));
 
-				// var_dump($teachers_list);
+				// var_dump($teachers_list_data);
 				// exit;
 				foreach ($teachers_list_data["result"] as $teacher_data) {
 					$get_data["ref_id"] = $teacher_data->id;
@@ -180,6 +180,7 @@ class Tables extends CI_Controller {
 					<tr>
 						<td>'.$rfid_data->rfid.'</td>
 						<td>'.$teacher_data->last_name.", ".$teacher_data->first_name." ".$teacher_data->middle_name[0].". $teacher_data->suffix".'</td>
+						<td>'.$teacher_data->class_data->class_name.'</td>
 						<td><a href="#" class="edit_teacher" id="'.$teacher_data->id.'">Edit info</a></td>
 					</tr>
 					';
@@ -198,7 +199,7 @@ class Tables extends CI_Controller {
 				$page = $this->input->post("page");
 				$classes_list_data = $this->classes_model->get_list("",$page,$this->config->item("max_item_perpage"));
 
-				// var_dump($classes_list);
+				// var_dump($classes_list_data["result"]);
 				// exit;
 				foreach ($classes_list_data["result"] as $class_data) {
 					echo '
@@ -206,6 +207,7 @@ class Tables extends CI_Controller {
 						<td>'.$class_data->class_name.'</td>
 						<td>'.$class_data->room.'</td>
 						<td>'.$class_data->schedule.'</td>
+						<td>'.$class_data->teacher_data->full_name.'</td>
 						<td><a href="#" class="edit_class" id="'.$class_data->id.'">Edit info</a></td>
 					</tr>
 					';
