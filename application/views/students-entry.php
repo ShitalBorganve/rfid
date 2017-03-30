@@ -75,7 +75,7 @@ $(document).on("submit","#gate_rfid_scan", function(e) {
 		type: "POST",
 		url: $("#gate_rfid_scan").attr("action"),
 		data: $("#gate_rfid_scan :input").serialize(),
-		cache: true,
+		cache: false,
 		dataType: "json",
 		success: function(data) {
 			// console.log(data);

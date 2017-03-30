@@ -121,4 +121,10 @@ class Class_ajax extends CI_Controller {
 		($class_data["teacher_id"]==0?$class_data["teacher_id"]="":FALSE);
 		echo json_encode($class_data);
 	}
+
+	public function get_list($arg='')
+	{
+		echo json_encode($this->classes_model->get_list()["result"]);
+	}
+
 }

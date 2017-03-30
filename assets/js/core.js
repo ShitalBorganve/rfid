@@ -1,3 +1,4 @@
+var base_url = "//localhost/rfid/";
 $(document).on("submit","#rfid_scan_add_load_credit_form",function(e) {
 	e.preventDefault();
 	$.ajax({
@@ -54,8 +55,10 @@ $(document).on("submit","#add_load_credits_form",function(e) {
 
 
 
-$(document).on("click","#register_guardian",function(e) {
+$(document).on("click","#register_guardian, #add_guardian",function(e) {
 	$("#register_guardian_modal").modal("show");
+	// $('select[name="guardian_id"]').html("");
+	// $('#guardian_id').html("");
 });
 
 $(document).on("submit","#register_guardian_form",function(e) {
@@ -78,6 +81,7 @@ $(document).on("submit","#register_guardian_form",function(e) {
 				$("#alert-modal").modal("show");
 				$("#alert-modal-title").html("Add Guardian");
 				$("#alert-modal-body p").html("You have successfully registered a guardian.");
+				update_select_options("guardian_id",base_url);
 			}
 		}
 	});
@@ -119,6 +123,8 @@ $(document).on("submit","#rfid_scan_add_form",function(e) {
 		}
 	});
 });
+
+
 
 $(document).on("submit","#student_add_form", function(e) {
 	e.preventDefault();
@@ -313,4 +319,63 @@ $(document).on("submit","#class_add_form",function(e) {
 });
 
 $("#datepicker_from,#datepicker_to").datepicker();
+$('.ui.dropdown').dropdown();
+
+$('.ui.dropdown .remove.icon').on('click', function(e){
+	  $(this).parent('.dropdown').dropdown('clear');
+    console.log('clear');
+    e.stopPropagation();
+});	
+
+
+// update_select_options("guardian_id",base_url);
+// update_select_options("class_adviser",base_url);
+// update_select_options("class_id",base_url);
+function update_select_options(type,base_url) {
+	if(type=="guardian_id"){
+		$('select[name="'+type+'"]').html("");
+		$('select[name="'+type+'"]').append('<option value="">Select a Guardians Email</option>');
+		$.ajax({
+			type: "GET",
+			url: base_url+"guardian_ajax/get_list",
+			cache: false,
+			dataType: "json",
+			success: function(data) {
+				$.each(data, function(i, item) {
+					console.log(data[i]);
+				    $('select[name="guardian_id"]').append('<option data-tokens="'+data[i].email_address+'" value="'+data[i].id+'">'+data[i].email_address+'</option>');
+				})
+			}
+		});
+	}else if(type=="class_adviser"){
+		$('select[name="'+type+'"]').html("");
+		$('select[name="'+type+'"]').append('<option value="">Select a Class Adviser</option>');
+		$.ajax({
+			type: "GET",
+			url: base_url+"teacher_ajax/get_list",
+			cache: false,
+			dataType: "json",
+			success: function(data) {
+				$.each(data, function(i, item) {
+
+				    $('select[name="class_adviser"]').append('<option data-tokens="'+data[i].full_name+'" value="'+data[i].id+'">'+data[i].full_name+'</option>');
+				})
+			}
+		});
+	}else if(type=="class_id"){
+		$('select[name="'+type+'"]').html("");
+		$('select[name="'+type+'"]').append('<option value="">Select a Class</option>');
+		$.ajax({
+			type: "GET",
+			url: base_url+"class_ajax/get_list",
+			cache: false,
+			dataType: "json",
+			success: function(data) {
+				$.each(data, function(i, item) {
+				    $('select[name="class_id"]').append('<option data-tokens="'+data[i].class_name+'" value="'+data[i].id+'">'+data[i].class_name+'</option>');
+				})
+			}
+		});
+	}
+}
 

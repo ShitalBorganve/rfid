@@ -128,12 +128,12 @@ if($modals_sets=="admin"){
 
             <div class="form-group">
               <label class="col-sm-2" for="guardian">Guardians Email:</label>
-              <div class="col-sm-10"> 
-                <select class="selectpicker" name="guardian_id" data-live-search="true">
+              <div class="col-sm-8"> 
+                <select class="ui search dropdown form-control" name="guardian_id">
                   <option value="">Select a Guardians Email</option>
                   ';
                   foreach ($guardians_list as $guardian_data) {
-                    echo '<option data-tokens="'.$guardian_data->email_address.'" value="'.$guardian_data->id.'">'.$guardian_data->email_address.'</option>';
+                    echo '<option value="'.$guardian_data->id.'">'.$guardian_data->email_address.'</option>';
                   }
 
                   echo '
@@ -141,12 +141,15 @@ if($modals_sets=="admin"){
 
                 <p class="guardian_id_help-block"></p>
               </div>
+              <div class="col-sm-2"> 
+                <button type="button" class="btn btn-default btn-block" id="add_guardian">Add</button>
+              </div>
             </div>
 
             <div class="form-group">
               <label class="col-sm-2" for="class_id">Class:</label>
               <div class="col-sm-10"> 
-                <select class="selectpicker" name="class_id" data-live-search="true">
+                <select class="ui search dropdown form-control" name="class_id" data-live-search="true">
                   <option value="">Select a Class</option>
                   ';
                   foreach ($classes_list["result"] as $class_data) {

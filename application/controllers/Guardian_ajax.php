@@ -138,4 +138,9 @@ class Guardian_ajax extends CI_Controller {
 			echo json_encode($data);
 		}
 	}
+
+	public function get_list($arg='')
+	{
+		echo json_encode($this->guardian_model->get_list());
+	}
 }
