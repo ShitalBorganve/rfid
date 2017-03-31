@@ -15,24 +15,25 @@ class Guardian_model extends CI_Model {
         return ($this->db->insert("guardians",$data));
     }
 
-    function edit_info($value=''){
-    	# code...
-    }
 
     function delete($value=''){
     	# code...
     }
 
-    function get_list($data=''){
-    	if($data==""){
-            $query = $this->db->get_where("guardians",'deleted=0');
-            return $query->result();
+    function get_list($where='',$page=1,$maxitem=50){
+    	if($where==""){
+            $this->db->where("deleted",0);
         }
+        $limit = ($page*$maxitem)-$maxitem;
+        $this->db->limit($maxitem,$limit);
+        $query = $this->db->get("guardians");
+        $data["result"] = $query->result();
+        $data["count"] = $this->db->count_all_results("guardians");
+        return $data;
     }
 
-    function get_data($id){
-        $this->db->where("id",$id);
-    	$query = $this->db->get("guardians");
+    function get_data($where){
+        $query = $this->db->get_where("guardians",$where);
         return $query->row_array();
     }
 
@@ -42,6 +43,13 @@ class Guardian_model extends CI_Model {
         $data = $login_query->row(0);
         $this->session->set_userdata("guardian_sessions",$data);
         return ($login_query->num_rows()===1);
+    }
+
+    function edit_info($data='',$id=''){
+        $this->db->where('id', $id);
+        $this->db->update('guardians', $data);
+        return $this->db->last_query();
+        # code...
     }
 }
 

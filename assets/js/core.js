@@ -77,8 +77,10 @@ $(document).on("submit","#register_guardian_form",function(e) {
 			$("#contact_number_help-block").html(data.contact_number_error);
 			if(data.is_valid){
 				$("#register_guardian_form")[0].reset();
+				$('.ui.dropdown').dropdown('clear');
 				$(".help-block").html("");
 				$("#alert-modal").modal("show");
+				$("#register_guardian_modal").modal("hide");
 				$("#alert-modal-title").html("Add Guardian");
 				$("#alert-modal-body p").html("You have successfully registered a guardian.");
 				update_select_options("guardian_id",base_url);
@@ -137,10 +139,12 @@ $(document).on("submit","#student_add_form", function(e) {
 		method:"POST",
 		dataType: "json",
 		success: function(data){
+			// console.log(data);
 			$("button[form='student_add_form']").prop('disabled', false);
 			// alert(data);
 			if(data.is_valid){
 				$("#student_add_form")[0].reset();
+				$('.ui.dropdown').dropdown('clear');
 				$(".help-block").html("");
 				// $("#students_add_modal").modal("hide");
 
@@ -153,10 +157,12 @@ $(document).on("submit","#student_add_form", function(e) {
 					$("#alert-modal-body p").html("You have successfully added a student in the list.");
 				}
 			}else{
+				// alert(data.contact_number_error);
 				$("#student_first_name_help-block").html(data.first_name_error);
 				$("#student_last_name_help-block").html(data.last_name_error);
 				$("#student_middle_name_help-block").html(data.middle_name_error);
 				$("#student_suffix_help-block").html(data.suffix_error);
+				$("#student_contact_number_help-block").html(data.contact_number_error);
 				$("#student_bday_help-block").html(data.bday_error);
 				$("#student_guardian_id_help-block").html(data.guardian_id_error);
 				$("#student_class_id_help-block").html(data.class_id_error);
@@ -183,6 +189,7 @@ $(document).on("submit","#teacher_add_form", function(e) {
 			// alert(data);
 			if(data.is_valid){
 				$("#teacher_add_form")[0].reset();
+				$('.ui.dropdown').dropdown('clear');
 				$(".help-block").html("");
 
 				if(data.is_successful){
@@ -190,12 +197,14 @@ $(document).on("submit","#teacher_add_form", function(e) {
 					$("#alert-modal").modal("show");
 					$("#alert-modal-title").html("Add teacher");
 					$("#alert-modal-body p").html("You have successfully added a teacher in the list.");
+					update_select_options("class_adviser",base_url);
 				}
 			}else{
 				$("#teacher_first_name_help-block").html(data.first_name_error);
 				$("#teacher_last_name_help-block").html(data.last_name_error);
 				$("#teacher_middle_name_help-block").html(data.middle_name_error);
 				$("#teacher_suffix_help-block").html(data.suffix_error);
+				$("#teacher_contact_number_help-block").html(data.contact_number_error);
 				$("#teacher_bday_help-block").html(data.bday_error);
 				$("#teacher_guardian_id_help-block").html(data.guardian_id_error);
 				$("#teacher_class_id_help-block").html(data.class_id_error);
@@ -220,6 +229,7 @@ $(document).on("submit","#guard_add_form", function(e) {
 			// alert(data);
 			if(data.is_valid){
 				$("#guard_add_form")[0].reset();
+				$('.ui.dropdown').dropdown('clear');
 				$(".help-block").html("");
 
 				if(data.is_successful){
@@ -303,10 +313,12 @@ $(document).on("submit","#class_add_form",function(e) {
 			// alert(data);
 			if(data.is_valid){
 				$("#class_add_form")[0].reset();
+				$('.ui.dropdown').dropdown('clear');
 				$("#alert-modal-title").html("Add Class");
 				$("#alert-modal-body p").html("You have successfully added a class in the list.");
 				$("#alert-modal").modal("show");
 				$(".help-block").html("");
+				update_select_options("class_id",base_url);
 			}else{
 				$("#class_adviser_help-block").html(data.class_adviser_error);
 				$("#class_name_help-block").html(data.class_name_error);
@@ -321,16 +333,11 @@ $(document).on("submit","#class_add_form",function(e) {
 $("#datepicker_from,#datepicker_to").datepicker();
 $('.ui.dropdown').dropdown();
 
-$('.ui.dropdown .remove.icon').on('click', function(e){
-	  $(this).parent('.dropdown').dropdown('clear');
-    console.log('clear');
-    e.stopPropagation();
-});	
 
 
-// update_select_options("guardian_id",base_url);
-// update_select_options("class_adviser",base_url);
-// update_select_options("class_id",base_url);
+update_select_options("guardian_id",base_url);
+update_select_options("class_adviser",base_url);
+update_select_options("class_id",base_url);
 function update_select_options(type,base_url) {
 	if(type=="guardian_id"){
 		$('select[name="'+type+'"]').html("");

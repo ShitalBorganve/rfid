@@ -28,10 +28,10 @@
 				<?php
 				echo '
 				<select name="class_id">
-				  <option value="">Select a Class</option>
+				  <option value="">All Class</option>
 				  ';
 				  foreach ($classes_list["result"] as $class_data) {
-				    echo '<option data-tokens="'.$class_data->class_name.'" value="'.$class_data->id.'">'.$class_data->class_name.'</option>';
+				    echo '<option value="'.$class_data->id.'">'.$class_data->class_name.'</option>';
 				  }
 
 				  echo '
@@ -115,6 +115,9 @@ $(document).on("click","#gate_logs-reset_search",function(e) {
 	show_gatelogs();
 });
 
+$(document).on("click",".paging",function(e) {
+	show_gatelogs(e.target.id);
+});
 
 show_gatelogs();
 function show_gatelogs(page=1,clear) {

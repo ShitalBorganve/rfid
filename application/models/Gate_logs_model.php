@@ -19,7 +19,12 @@ class Gate_logs_model extends CI_Model {
         $get_log_data = $this->db->get_where("gate_logs",$get_data)->row();
         if($get_log_data==NULL){
             $data["type"] = "entry";
-            return ($this->db->insert("gate_logs",$data));
+            $this->db->insert("gate_logs",$data);
+            $this->db->limit(1);
+            $this->db->order_by("id","DESC");
+            $data["is_valid"] = TRUE;
+            $data["gate_logs_data"] = $this->db->get("gate_logs")->row();
+            return $data;
             exit;
         }elseif ($get_log_data->type=="exit") {
             $data["type"] = "entry";
@@ -33,49 +38,49 @@ class Gate_logs_model extends CI_Model {
             $this->db->order_by("id","DESC");
             $data["is_valid"] = TRUE;
             $data["gate_logs_data"] = $this->db->get("gate_logs")->row();
-            return $data;
         }else{
             $data["is_valid"] = FALSE;
             $data["gate_logs_data"] = FALSE;
-            return FALSE;
         }
+        return $data;
     }
 
     function get_list($table="students",$where='',$between='',$page=1,$maxitem=50)
     {
 
     
-        // $limit = ($page*$maxitem)-$maxitem;
-        // $this->db->limit($maxitem,$limit);
+        $limit = ($page*$maxitem)-$maxitem;
+        $this->db->limit($maxitem,$limit);
 
-        $test[] = 'gate_logs.*';
+        //start repeat
+        $select[] = 'gate_logs.*';
         if($table=="students"||$table=="teachers"){
-            $test[] = 'classes.class_name';
-            $test[] = $table.'.class_id';
+            $select[] = 'classes.class_name';
+            $select[] = $table.'.class_id';
         }
-        $test[] = $table.'.first_name';
-        $test[] = $table.'.last_name';
-        $test[] = $table.'.first_name';
+        $select[] = $table.'.first_name';
+        $select[] = $table.'.last_name';
+        $select[] = $table.'.first_name';
 
         $this->db->where("ref_table",$table);
         ($where!=""?$this->db->where($where):false);
         ($between!=""?$this->db->where($between):false);
 
         $this->db->order_by("id","DESC");
-        $this->db->select($test);
+        $this->db->select($select);
         $this->db->from('gate_logs');
         $this->db->join($table, $table.'.id = gate_logs.ref_id');
         if($table=="students"||$table=="teachers"){
             $this->db->join("classes", $table.'.class_id = classes.id');
         }
         $gate_logs_query = $this->db->get();
+        //end repeat
 
         // $gate_logs_data = $this->db->get("gate_logs")->result();
         $data["query"] = $this->db->last_query();
 
-        $this->db->where("gate_logs.ref_table","students");
-        $this->db->select($test);
-        $data["count"] = $this->db->count_all_results("gate_logs");
+
+
         // return $data;
         // exit;
         $gate_logs_data = $gate_logs_query->result();
@@ -114,6 +119,31 @@ class Gate_logs_model extends CI_Model {
         // $query = $this->db->get();
         // $data["result"] = $query->result();
         // $data["query"] = $this->db->last_query();
+
+        //start repeat
+        $select[] = 'gate_logs.*';
+        if($table=="students"||$table=="teachers"){
+            $select[] = 'classes.class_name';
+            $select[] = $table.'.class_id';
+        }
+        $select[] = $table.'.first_name';
+        $select[] = $table.'.last_name';
+        $select[] = $table.'.first_name';
+
+        $this->db->where("ref_table",$table);
+        ($where!=""?$this->db->where($where):false);
+        ($between!=""?$this->db->where($between):false);
+
+        $this->db->order_by("id","DESC");
+        $this->db->select($select);
+        $this->db->from('gate_logs');
+        $this->db->join($table, $table.'.id = gate_logs.ref_id');
+        if($table=="students"||$table=="teachers"){
+            $this->db->join("classes", $table.'.class_id = classes.id');
+        }
+        $gate_logs_query = $this->db->get();
+        //end repeat
+        $data["count"] = $gate_logs_query->num_rows();
         return $data;
     }
 

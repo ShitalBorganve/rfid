@@ -76,7 +76,8 @@ class Tables extends CI_Controller {
 					echo '
 					<tr>
 						<td>'.$rfid_data->rfid.'</td>
-						<td>'.$student_data->last_name.", ".$student_data->first_name." ".$student_data->middle_name[0].". $student_data->suffix".'</td>
+						<td>'.$student_data->last_name.", ".$student_data->first_name." ".$student_data->middle_name[0].' '. $student_data->suffix.'</td>
+						<td>'.$student_data->contact_number.'</td>
 						<td>
 						<a href="#" class="edit_student" id="'.$student_data->id.'">Edit info</a>
 						</td>
@@ -117,7 +118,7 @@ class Tables extends CI_Controller {
 		// exit;
 		// var_dump($this->gate_logs_model->get_list($where,$between,$page,$this->config->item("max_item_perpage")));exit;
 		// $students_log_data = $this->gate_logs_model->get_list($where,$between,$page,$this->config->item("max_item_perpage"));
-		$gate_logs_data = $this->gate_logs_model->get_list($table,$where,$between);
+		$gate_logs_data = $this->gate_logs_model->get_list($table,$where,$between,$page,$this->config->item("max_item_perpage"));
 		// echo '
 		// <tr>
 		// 	<td>';
@@ -128,8 +129,7 @@ class Tables extends CI_Controller {
 		// </tr>
 		// ';
 
-		// var_dump($gate_logs_data["query"]);
-		// echo $this->input->get("ref_table");
+		// var_dump($gate_logs_data);
 		// exit;
 		foreach ($gate_logs_data["result"] as $gate_log_data) {
 			if($gate_log_data->type=="exit"){
@@ -158,6 +158,9 @@ class Tables extends CI_Controller {
 			}
 
 		}
+		$attrib["href"] = "#";
+		$attrib["class"] = "paging";
+		echo paging($page,$gate_logs_data["count"],$this->config->item("max_item_perpage"),$attrib,'<tr><td colspan="20" style="text-align:center">','</td></tr>');	
 		// $attrib["href"] = "#";
 		// $attrib["class"] = "paging";
 		// echo paging($page,$students_log_data["count"],$this->config->item("max_item_perpage"),$attrib,'<tr><td colspan="20" style="text-align:center">','</td></tr>');
@@ -179,8 +182,9 @@ class Tables extends CI_Controller {
 					echo '
 					<tr>
 						<td>'.$rfid_data->rfid.'</td>
-						<td>'.$teacher_data->last_name.", ".$teacher_data->first_name." ".$teacher_data->middle_name[0].". $teacher_data->suffix".'</td>
+						<td>'.$teacher_data->last_name.", ".$teacher_data->first_name." ".$teacher_data->middle_name[0].' '. $teacher_data->suffix.'</td>
 						<td>'.$teacher_data->class_data->class_name.'</td>
+						<td>'.$teacher_data->contact_number.'</td>
 						<td><a href="#" class="edit_teacher" id="'.$teacher_data->id.'">Edit info</a></td>
 					</tr>
 					';
@@ -215,6 +219,33 @@ class Tables extends CI_Controller {
 				$attrib["href"] = "#";
 				$attrib["class"] = "paging";
 				echo paging($page,$classes_list_data["count"],$this->config->item("max_item_perpage"),$attrib,'<tr><td colspan="20" style="text-align:center">','</td></tr>');	
+		}
+	}
+
+	public function guardians($arg='')
+	{
+		if($arg=="list"){
+
+				$page = $this->input->post("page");
+				$guardians_list_data = $this->guardian_model->get_list("",$page,$this->config->item("max_item_perpage"));
+
+				// var_dump($guardians_list_data["result"]);
+				// exit;
+				foreach ($guardians_list_data["result"] as $guardian_data) {
+					echo '
+					<tr>
+						<td>'.$guardian_data->name.'</td>
+						<td>'.$guardian_data->contact_number.'</td>
+						<td>'.$guardian_data->email_address.'</td>
+						<td style="text-align: center">'.($guardian_data->email_subscription==1?"YES":"NO").'</td>
+						<td style="text-align: center">'.($guardian_data->sms_subscription==1?"YES":"NO").'</td>
+						<td><a href="#" class="edit_guardian" id="'.$guardian_data->id.'">Edit info</a></td>
+					</tr>
+					';
+				}
+				$attrib["href"] = "#";
+				$attrib["class"] = "paging";
+				echo paging($page,$guardians_list_data["count"],$this->config->item("max_item_perpage"),$attrib,'<tr><td colspan="20" style="text-align:center">','</td></tr>');	
 		}
 	}
 

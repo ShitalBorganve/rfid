@@ -78,7 +78,7 @@ $(document).on("submit","#gate_rfid_scan", function(e) {
 		cache: false,
 		dataType: "json",
 		success: function(data) {
-			// console.log(data);
+			console.log(data);
 			if(data.is_valid){
 				$("#rfid_scan").val("");
 				$("#display-photo").attr("src",data.display_photo);

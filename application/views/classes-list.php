@@ -54,18 +54,18 @@ echo '
       <div class="modal-body">
         <p>
         '.form_open("class_ajax/edit",'id="class_edit_form"  class="form-horizontal"').'
-          <input type="hidden" name="class_id">
+          <input type="hidden" name="class_id" class="edit_field">
           <div class="form-group">
             <label class="col-sm-4" for="class_adviser">Class Adviser:</label>
             <div class="col-sm-8">
             ';
             // var_dump($teachers_list);
             echo '
-              <select name="class_adviser">
+              <select name="class_adviser" class="ui search dropdown form-control edit_field" id="edit-class_adviser">
                 <option value="">Select a Class Adviser</option>
                 ';
                 foreach ($teachers_list["result"] as $teacher_data) {
-                  echo '<option data-tokens="'.$teacher_data->full_name.'" value="'.$teacher_data->id.'">'.$teacher_data->full_name.'</option>';
+                  echo '<option value="'.$teacher_data->id.'">'.$teacher_data->full_name.'</option>';
                 }
 
                 echo '
@@ -77,7 +77,7 @@ echo '
           <div class="form-group">
             <label class="col-sm-4" for="class_name">Class Name:</label>
             <div class="col-sm-8">
-              <input type="text" class="form-control" name="class_name" placeholder="Enter Class Name">
+              <input type="text" class="form-control edit_field" name="class_name" placeholder="Enter Class Name">
               <p class="help-block" id="class_name_help-block"></p>
             </div>
           </div>
@@ -85,7 +85,7 @@ echo '
           <div class="form-group">
             <label class="col-sm-4" for="class_room">Classroom:</label>
             <div class="col-sm-8">
-              <input type="text" class="form-control" name="class_room" placeholder="Enter Classroom">
+              <input type="text" class="form-control edit_field" name="class_room" placeholder="Enter Classroom">
               <p class="help-block" id="class_room_help-block"></p>
             </div>
           </div>
@@ -93,7 +93,7 @@ echo '
           <div class="form-group">
             <label class="col-sm-4" for="class_schedule">Class Schedule:</label>
             <div class="col-sm-8">
-              <input type="text" class="form-control" name="class_schedule" placeholder="Enter Class Schedule">
+              <input type="text" class="form-control edit_field" name="class_schedule" placeholder="Enter Class Schedule">
               <p class="help-block" id="class_schedule_help-block"></p>
             </div>
           </div>
@@ -133,10 +133,14 @@ function show_class_data(id) {
     dataType: "json",
     success: function(data) {
       // alert(data);
-      $('select[name="class_adviser"]').val(data.teacher_id);
-      $('input[name="class_name"]').val(data.class_name);
-      $('input[name="class_room"]').val(data.room);
-      $('input[name="class_schedule"]').val(data.schedule);
+      if(data.teacher_id!=""){
+	      $('#edit-class_adviser').dropdown('set value',data.teacher_id);
+      }else{
+	      $('#edit-class_adviser').dropdown('clear');
+      }
+      $('input[name="class_name"].edit_field').val(data.class_name);
+      $('input[name="class_room"].edit_field').val(data.room);
+      $('input[name="class_schedule"].edit_field').val(data.schedule);
       $('input[name="class_id"]').val(id);
       $("#class_edit_modal").modal("show");
     }

@@ -67,5 +67,16 @@ class MY_Form_validation extends CI_Form_validation{
             ? ($this->CI->db->get($table)->num_rows()===1)
             : FALSE;
     }
+
+    public function is_unique_edit($str,$field)
+    {
+        sscanf($field, '%[^.].%[^.].%[^.]', $table, $field, $id);
+        $this->CI->db->where(array($field => $str));
+        $this->CI->db->where(array("deleted" => 0));
+        $this->CI->db->where("id !=",$this->_field_data[$id]['postdata']);
+        return isset($this->CI->db)
+            ? ($this->CI->db->get($table)->num_rows()===0)
+            : FALSE;
+    }
 }
 ?>

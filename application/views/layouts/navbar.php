@@ -14,9 +14,10 @@ if($navbar_type=="admin"){
       </div>
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
-          <li><a href="'.base_url("admin").'">Home</a></li>
-          <li><a href="#" id="rfid_add_load_credits">Add load</a></li>
-          <li class="dropdown">
+          <li><a href="'.base_url("admin").'">Home</a></li>';
+          
+          // echo '<li><a href="#" id="rfid_add_load_credits">Add load</a></li>';
+          echo '<li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Students
             <span class="caret"></span></a>
             <ul class="dropdown-menu">
@@ -48,13 +49,13 @@ if($navbar_type=="admin"){
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Guardians
             <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="'.base_url("student/").'">List of Guardians</a></li>
+              <li><a href="'.base_url("admin/guardians").'">List of Guardians</a></li>
               <li><a href="#" id="register_guardian">Add Guardians</a></li>
             </ul>
           </li>
           ';
           
-          echo '
+/*          echo '
           <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Canteen
             <span class="caret"></span></a>
@@ -68,13 +69,13 @@ if($navbar_type=="admin"){
           </li>
 
         ';
-
+*/
 
         echo '
         </ul>
         <ul class="nav navbar-nav navbar-right"> ';
         
-        echo '
+/*        echo '
           <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">Guards
             <span class="caret"></span></a>
@@ -86,7 +87,7 @@ if($navbar_type=="admin"){
               echo '
             </ul>
           </li>
-        ';
+        ';*/
         echo '
 
           <li class="dropdown">

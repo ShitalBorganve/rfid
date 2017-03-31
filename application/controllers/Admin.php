@@ -102,10 +102,15 @@ class Admin extends CI_Controller {
 		$this->load->view("classes-list",$this->data);
 	}
 
+	public function guardians($value='')
+	{
+		$this->load->view("guardians-list",$this->data);
+	}
+
 	public function test($value='')
 	{
 		echo '
-		{"id":"1","last_name":"last","first_name":"first","middle_name":"middle","suffix":"suff","birthdate":"01\/01\/1980","display_photo":"\/\/localhost\/rfid\/assets\/images\/student_photo\/_last_first_middle_suff.png","display_photo_type":"","guardian_id":"1","class_id":"1","deleted":"0","rfid_data":{"id":"1","rfid":"2222","load_credits":"0","ref_id":"1","ref_table":"students","pin":"0","valid":"1","deleted":"0"},"is_valid":false,"full_name":"first m. last","gate_logs_data":{"rfid_id":"1","ref_table":"students","ref_id":"1","date_time":1490680818,"date":1490630400,"type":"entry","is_valid":true,"gate_logs_data":{"id":"39","rfid_id":"1","date_time":"1490680818","date":"1490630400","type":"entry","ref_id":"1","ref_table":"students"}},"message":"first m. last enters the school premises on 03\/28\/2017 02:00:18 PM."}
+		{"id":"1","last_name":"first","first_name":"first","middle_name":"first","suffix":"first","birthdate":"01\/01\/1980","display_photo":"\/\/localhost\/rfid\/assets\/images\/student_photo\/empty.jpg","display_photo_type":"","guardian_id":"1","class_id":"1","deleted":"0","rfid_data":{"id":"1","rfid":"123","load_credits":"0","ref_id":"1","ref_table":"students","pin":"0","valid":"1","deleted":"0"},"is_valid":true,"full_name":"first f. first","gate_logs_data":true}
 		';
 		// echo date("m/d/Y h:i:s A",1490703420);
 		exit;

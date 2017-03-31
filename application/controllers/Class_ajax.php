@@ -124,7 +124,8 @@ class Class_ajax extends CI_Controller {
 
 	public function get_list($arg='')
 	{
-		echo json_encode($this->classes_model->get_list()["result"]);
+		$data = $this->classes_model->get_list();
+		echo json_encode($data["result"]);
 	}
 
 }

@@ -127,12 +127,20 @@ if($modals_sets=="admin"){
             </div>
 
             <div class="form-group">
+              <label class="col-sm-2" for="contact_number">Contact Number:</label>
+              <div class="col-sm-10"> 
+                <input type="text" class="form-control" name="contact_number" placeholder="Enter Contact Number">
+                <p class="help-block" id="student_contact_number_help-block"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
               <label class="col-sm-2" for="guardian">Guardians Email:</label>
               <div class="col-sm-8"> 
                 <select class="ui search dropdown form-control" name="guardian_id">
                   <option value="">Select a Guardians Email</option>
                   ';
-                  foreach ($guardians_list as $guardian_data) {
+                  foreach ($guardians_list["result"] as $guardian_data) {
                     echo '<option value="'.$guardian_data->id.'">'.$guardian_data->email_address.'</option>';
                   }
 
@@ -153,7 +161,7 @@ if($modals_sets=="admin"){
                   <option value="">Select a Class</option>
                   ';
                   foreach ($classes_list["result"] as $class_data) {
-                    echo '<option data-tokens="'.$class_data->class_name.'" value="'.$class_data->id.'">'.$class_data->class_name.'</option>';
+                    echo '<option value="'.$class_data->id.'">'.$class_data->class_name.'</option>';
                   }
 
                   echo '
@@ -235,6 +243,14 @@ if($modals_sets=="admin"){
             </div>
 
             <div class="form-group">
+              <label class="col-sm-2" for="contact_number">Contact Number:</label>
+              <div class="col-sm-10"> 
+                <input type="text" class="form-control" name="contact_number" placeholder="Enter Contact Number">
+                <p class="help-block" id="teacher_contact_number_help-block"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
               <label class="col-sm-2" for="last_name">Birth Date:</label>
               <div class="col-sm-10">
                 <select class="" name="bday_m" required>
@@ -269,18 +285,20 @@ if($modals_sets=="admin"){
 
             <div class="form-group">
               <label class="col-sm-2" for="class_id">Class:</label>
-              <div class="col-sm-10"> 
-                <select class="selectpicker" name="class_id" data-live-search="true">
+              <div class="col-sm-8"> 
+                <select class="ui search dropdown form-control" name="class_id" data-live-search="true">
                   <option value="">Select a Class</option>
                   ';
                   foreach ($classes_list["result"] as $class_data) {
-                    echo '<option data-tokens="'.$class_data->class_name.'" value="'.$class_data->id.'">'.$class_data->class_name.'</option>';
+                    echo '<option value="'.$class_data->id.'">'.$class_data->class_name.'</option>';
                   }
 
                   echo '
                 </select>
-
                 <p class="help-block" id="teacher_class_id_help-block"></p>
+              </div>
+              <div class="col-sm-2"> 
+                <button class="btn btn-block btn-default" type="button">Add</button>
               </div>
             </div>
 
@@ -558,13 +576,13 @@ if($modals_sets=="admin"){
 
 
           <div class="form-group">
-            <label class="col-sm-4" for="email_substription">Subscription:</label>
+            <label class="col-sm-4" for="email_subscription">Subscription:</label>
             <div class="col-sm-8"> 
               <div class="checkbox">
-                <label><input type="checkbox" name="email_substription" value="1"> Email Subscription</label>
+                <label><input type="checkbox" name="email_subscription" value="1"> Email Subscription</label>
               </div>
               <div class="checkbox">
-                <label><input type="checkbox" name="sms_substription" value="1"> SMS Subscription</label>
+                <label><input type="checkbox" name="sms_subscription" value="1"> SMS Subscription</label>
               </div>
               <p class="help-block" id="contact_number_help-block"></p>
             </div>
@@ -718,13 +736,12 @@ if($modals_sets=="admin"){
               <label class="col-sm-4" for="class_adviser">Class Adviser:</label>
               <div class="col-sm-8">
               ';
-              // var_dump($teachers_list);
               echo '
-                <select class="selectpicker" name="class_adviser" data-live-search="true">
+                <select class="ui search dropdown form-control" name="class_adviser" data-live-search="true">
                   <option value="">Select a Class Adviser</option>
                   ';
                   foreach ($teachers_list["result"] as $teacher_data) {
-                    echo '<option data-tokens="'.$teacher_data->full_name.'" value="'.$teacher_data->id.'">'.$teacher_data->full_name.'</option>';
+                    echo '<option value="'.$teacher_data->id.'">'.$teacher_data->full_name.'</option>';
                   }
 
                   echo '

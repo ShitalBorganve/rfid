@@ -461,14 +461,14 @@ class Ajax extends CI_Controller {
 					$data["email_address_error"] = "";
 					$data["contact_number_error"] = "";
 
-					($this->input->post("email_substription")!=NULL?$email_substription=1:$email_substription=0);
-					($this->input->post("sms_substription")!=NULL?$sms_substription=1:$sms_substription=0);
+					($this->input->post("email_subscription")!=NULL?$email_subscription=1:$email_subscription=0);
+					($this->input->post("sms_subscription")!=NULL?$sms_subscription=1:$sms_subscription=0);
 
 					$guardian_data["name"] = $this->input->post("guardian_name");
 					$guardian_data["email_address"] = $this->input->post("email_address");
 					$guardian_data["contact_number"] = $this->input->post("contact_number");
-					$guardian_data["sms_subscription"] = $sms_substription;
-					$guardian_data["email_subscription"] = $email_substription;
+					$guardian_data["sms_subscription"] = $sms_subscription;
+					$guardian_data["email_subscription"] = $email_subscription;
 					$guardian_data["password"] = random_string('alnum', 8);
 					$this->guardian_model->add($guardian_data);
 

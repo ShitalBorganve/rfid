@@ -103,19 +103,24 @@ class Rfid_ajax extends CI_Controller {
 					}
 					$rfid_owner_data["message"] = $rfid_owner_data["full_name"].' '.$type_status.' the school premises on '.date("m/d/Y h:i:s A").'.';
 					if($rfid_owner_data["guardian_id"]!="0"){
-						$guardian_data = $this->guardian_model->get_data($rfid_owner_data["guardian_id"]);
+						$get_data = array();
+						$get_data["id"] = $rfid_owner_data["guardian_id"];
+
+						$guardian_data = $this->guardian_model->get_data($get_data);
 						$message = $rfid_owner_data["full_name"].' exited the school premises at '.date("m/d/Y h:i:s A").'.';
+						// $rfid_owner_data["message"] = $message;
 						// $rfid_owner_data["sms_status"] = $guardian_data["contact_number"].$message;
 						// $rfid_owner_data["sms_status"] = "09301167850",$rfid_owner_data["message"]);	
-						$rfid_owner_data["sms_status"] = send_sms($guardian_data["contact_number"],$rfid_owner_data["message"]);	
+						// $rfid_owner_data["sms_status"] = send_sms($guardian_data["contact_number"],$rfid_owner_data["message"]);	
 					}
 				
 				}else{
+					// $rfid_owner_data["gate_logs_data"] = array();
 					$rfid_owner_data["gate_logs_data"]["is_valid"] = FALSE;
 				}
 
 			}
-			// var_dump($rfid_owner_data);
+			// var_dump($rfid_owner_data["gate_logs_data"]);
 			// exit;
 			echo json_encode($rfid_owner_data);
 			

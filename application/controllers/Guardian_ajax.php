@@ -53,7 +53,7 @@ class Guardian_ajax extends CI_Controller {
 		if($_POST){
 			$this->form_validation->set_rules('email_address', 'Email Address', 'required|valid_email|trim|htmlspecialchars|is_available[guardians.email_address]|min_length[2]|max_length[50]');
 			$this->form_validation->set_rules('guardian_name', 'Guardian Name', 'required|custom_alpha_dash|trim|htmlspecialchars|min_length[2]|max_length[50]');
-			$this->form_validation->set_rules('contact_number', 'Contact Number', 'trim|htmlspecialchars|min_length[2]|max_length[50]');
+			$this->form_validation->set_rules('contact_number', 'Contact Number', 'trim|htmlspecialchars|min_length[11]|max_length[11]');
 			$this->form_validation->set_message('is_available', 'This Email is invalid or already taken');
 
 			if ($this->form_validation->run() == FALSE)
@@ -68,14 +68,14 @@ class Guardian_ajax extends CI_Controller {
 				$data["email_address_error"] = "";
 				$data["contact_number_error"] = "";
 
-				($this->input->post("email_substription")!=NULL?$email_substription=1:$email_substription=0);
-				($this->input->post("sms_substription")!=NULL?$sms_substription=1:$sms_substription=0);
+				($this->input->post("email_subscription")!=NULL?$email_subscription=1:$email_subscription=0);
+				($this->input->post("sms_subscription")!=NULL?$sms_subscription=1:$sms_subscription=0);
 
 				$guardian_data["name"] = $this->input->post("guardian_name");
 				$guardian_data["email_address"] = $this->input->post("email_address");
 				$guardian_data["contact_number"] = $this->input->post("contact_number");
-				$guardian_data["sms_subscription"] = $sms_substription;
-				$guardian_data["email_subscription"] = $email_substription;
+				$guardian_data["sms_subscription"] = $sms_subscription;
+				$guardian_data["email_subscription"] = $email_subscription;
 				$guardian_data["password"] = random_string('alnum', 8);
 
 
@@ -98,6 +98,43 @@ class Guardian_ajax extends CI_Controller {
 
 				$guardian_data["password"] = md5($guardian_data["password"]);
 				$this->guardian_model->add($guardian_data);
+			}
+			echo json_encode($data);
+		}
+	}
+
+
+	public function edit($value='')
+	{
+		if($_POST){
+			$this->form_validation->set_rules('guardian_name', 'Guardian Name', 'required|custom_alpha_dash|trim|htmlspecialchars|min_length[2]|max_length[50]');
+			$this->form_validation->set_rules('contact_number', 'Contact Number', 'trim|htmlspecialchars|min_length[11]|max_length[11]');
+			$this->form_validation->set_rules('guardian_id', 'Guardian', 'required|trim|htmlspecialchars|is_in_db[guardians.id]');
+			$this->form_validation->set_rules('email_address', 'Email Address', 'required|is_unique_edit[guardians.email_address.guardian_id]|valid_email|trim|htmlspecialchars|min_length[2]|max_length[50]');
+			$this->form_validation->set_message('is_available', 'This Email is invalid or already taken');
+
+			if ($this->form_validation->run() == FALSE)
+			{
+				$data["is_valid"] = FALSE;
+				$data["guardian_name_error"] = form_error("guardian_name");
+				$data["email_address_error"] = form_error("email_address");
+				$data["contact_number_error"] = form_error("contact_number");
+			}else{
+				$data["is_valid"] = TRUE;
+				$data["guardian_name_error"] = "";
+				$data["email_address_error"] = "";
+				$data["contact_number_error"] = "";
+
+				($this->input->post("email_subscription")!=NULL?$email_subscription=1:$email_subscription=0);
+				($this->input->post("sms_subscription")!=NULL?$sms_subscription=1:$sms_subscription=0);
+
+				$guardian_id = $this->input->post("guardian_id");
+				$guardian_data["name"] = $this->input->post("guardian_name");
+				$guardian_data["email_address"] = $this->input->post("email_address");
+				$guardian_data["contact_number"] = $this->input->post("contact_number");
+				$guardian_data["sms_subscription"] = $sms_subscription;
+				$guardian_data["email_subscription"] = $email_subscription;
+				$this->guardian_model->edit_info($guardian_data,$guardian_id);
 			}
 			echo json_encode($data);
 		}
@@ -139,8 +176,17 @@ class Guardian_ajax extends CI_Controller {
 		}
 	}
 
+	public function get_data($value='')
+	{
+		$guardian_data["id"] = $this->input->get("guardian_id");
+		$guardian_data = $this->guardian_model->get_data($guardian_data);
+		($guardian_data["id"]==0?$guardian_data["id"]="":FALSE);
+		echo json_encode($guardian_data);
+	}
+
 	public function get_list($arg='')
 	{
-		echo json_encode($this->guardian_model->get_list());
+		$data = $this->guardian_model->get_list();
+		echo json_encode($data["result"]);
 	}
 }

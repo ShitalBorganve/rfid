@@ -24,6 +24,7 @@
 							<th>RFID</th>
 							<th>Full Name</th>
               <th>Class</th>
+              <th>Contact Number</th>
 							<th>Edit</th>
 						</tr>
 					</thead>
@@ -58,7 +59,7 @@ echo '
           <div class="form-group">
             <label class="col-sm-2" for="first_name">First Name:</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" name="first_name" placeholder="Enter First Name">
+              <input type="text" class="form-control edit_field" name="first_name" placeholder="Enter First Name">
               <p class="help-block" id="first_name_help-block"></p>
             </div>
             
@@ -67,7 +68,7 @@ echo '
           <div class="form-group">
             <label class="col-sm-2" for="last_name">Last Name:</label>
             <div class="col-sm-10"> 
-              <input type="text" class="form-control" name="last_name" placeholder="Enter Last Name">
+              <input type="text" class="form-control edit_field" name="last_name" placeholder="Enter Last Name">
               <p class="help-block" id="last_name_help-block"></p>
             </div>
           </div>
@@ -75,7 +76,7 @@ echo '
           <div class="form-group">
             <label class="col-sm-2" for="middle_name">Middle Name:</label>
             <div class="col-sm-10"> 
-              <input type="text" class="form-control" name="middle_name" placeholder="Enter Middle Name">
+              <input type="text" class="form-control edit_field" name="middle_name" placeholder="Enter Middle Name">
               <p class="help-block" id="middle_name_help-block"></p>
             </div>
           </div>
@@ -83,15 +84,23 @@ echo '
           <div class="form-group">
             <label class="col-sm-2" for="suffix">Suffix:</label>
             <div class="col-sm-10"> 
-              <input type="text" class="form-control" name="suffix" placeholder="Enter Suffix (Jr. III etc.)">
+              <input type="text" class="form-control edit_field" name="suffix" placeholder="Enter Suffix (Jr. III etc.)">
               <p class="help-block" id="suffix_help-block"></p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2" for="contact_number">Contact Number:</label>
+            <div class="col-sm-10"> 
+              <input type="text" class="form-control edit_field" name="contact_number" placeholder="Enter Contact Number">
+              <p class="help-block" id="contact_number_help-block"></p>
             </div>
           </div>
 
           <div class="form-group">
             <label class="col-sm-2" for="last_name">Birth Date:</label>
             <div class="col-sm-10">
-              <select class="" name="bday_m" required>
+              <select class="edit_field" name="bday_m" required>
                 <option value="">MM</option>
                 ';
                 for ($i=1; $i <= 12; $i++) { 
@@ -100,7 +109,7 @@ echo '
                 echo '
               </select>
               /
-              <select class="" name="bday_d" required>
+              <select class="edit_field" name="bday_d" required>
                 <option value="">DD</option>
                 ';
                 for ($i=1; $i <= 31; $i++) { 
@@ -109,7 +118,7 @@ echo '
                 echo '
               </select>
               /
-              <select class="" name="bday_y" required>
+              <select class="edit_field" name="bday_y" required>
                 <option value="">YYYY</option>
                 ';
                 for ($i=1980; $i <= date("Y"); $i++) { 
@@ -124,11 +133,11 @@ echo '
           <div class="form-group">
             <label class="col-sm-2" for="class_id">Class:</label>
             <div class="col-sm-10"> 
-              <select name="class_id">
+              <select name="class_id" class="ui search dropdown form-control edit_field" id="edit-class_id">
                 <option value="">Select a Class</option>
                 ';
                 foreach ($classes_list["result"] as $class_data) {
-                  echo '<option data-tokens="'.$class_data->class_name.'" value="'.$class_data->id.'">'.$class_data->class_name.'</option>';
+                  echo '<option value="'.$class_data->id.'">'.$class_data->class_name.'</option>';
                 }
 
                 echo '
@@ -179,15 +188,20 @@ function show_teacher_data(id) {
     dataType: "json",
     success: function(data) {
       $('input[name="teacher_id"]').val(id);
-      $('input[name="first_name"]').val(data.first_name);
-      $('input[name="last_name"]').val(data.last_name);
-      $('input[name="middle_name"]').val(data.middle_name);
-      $('input[name="suffix"]').val(data.suffix);
-      $('select[name="bday_m"]').val(data.bday_m);
-      $('select[name="bday_d"]').val(data.bday_d);
-      $('select[name="bday_y"]').val(data.bday_y);
-      $('select[name="guardian_id"]').val(data.guardian_id);
-      $('select[name="class_id"]').val(data.class_id);
+      $('input[name="first_name"].edit_field').val(data.first_name);
+      $('input[name="last_name"].edit_field').val(data.last_name);
+      $('input[name="middle_name"].edit_field').val(data.middle_name);
+      $('input[name="suffix"].edit_field').val(data.suffix);
+      $('input[name="contact_number"].edit_field').val(data.contact_number);
+      $('select[name="bday_m"].edit_field').val(data.bday_m);
+      $('select[name="bday_d"].edit_field').val(data.bday_d);
+      $('select[name="bday_y"].edit_field').val(data.bday_y);
+      $('select[name="guardian_id"].edit_field').val(data.guardian_id);
+      if(data.class_id!=""){
+        $('#edit-class_id').dropdown('set value',data.class_id);
+      }else{
+        $('#edit-class_id').dropdown('clear');
+      }
       $("#teacher_edit_modal").modal("show");
     }
   });
@@ -206,7 +220,8 @@ $(document).on("submit","#teacher_edit_form",function(e) {
 			$("#first_name_help-block").html(data.first_name_error);
 			$("#last_name_help-block").html(data.last_name_error);
 			$("#middle_name_help-block").html(data.middle_name_error);
-			$("#suffix_help-block").html(data.suffix_error);
+      $("#suffix_help-block").html(data.suffix_error);
+			$("#contact_number_help-block").html(data.contact_number_error);
 			$("#bday_help-block").html(data.bday_error);
       $("#guardian_id_help-block").html(data.guardian_id_error);
 			$("#teacher_class_id_help-block").html(data.class_id_error);

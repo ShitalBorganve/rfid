@@ -66,6 +66,7 @@ class Teacher_ajax extends CI_Controller {
 			$this->form_validation->set_rules('bday_d', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('bday_y', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('class_id', 'Class', 'trim|htmlspecialchars');
+			$this->form_validation->set_rules('contact_number', 'Contact Number', 'numeric|min_length[11]|max_length[11]trim|htmlspecialchars');
 
 			$this->form_validation->set_message('is_in_db', 'This account is invalid');
 
@@ -134,6 +135,7 @@ class Teacher_ajax extends CI_Controller {
 				$data["last_name_error"] = form_error('last_name');
 				$data["middle_name_error"] = form_error('middle_name');
 				$data["suffix_error"] = form_error('suffix');
+				$data["contact_number_error"] = form_error('contact_number');
 				$data["class_id_error"] = form_error('class_id');
 				$data["bday_error"] = form_error('bday_m');
 			}
@@ -144,6 +146,7 @@ class Teacher_ajax extends CI_Controller {
 				$data["last_name_error"] = "";
 				$data["middle_name_error"] = "";
 				$data["suffix_error"] = "";
+				$data["contact_numbererror"] = "";
 				$data["class_id_error"] = "";
 				$data["bday_error"] = "";
 
@@ -151,6 +154,7 @@ class Teacher_ajax extends CI_Controller {
 				$teacher_data["last_name"] = $this->input->post("last_name");
 				$teacher_data["middle_name"] = $this->input->post("middle_name");
 				$teacher_data["suffix"] = $this->input->post("suffix");
+				$teacher_data["contact_number"] = $this->input->post("contact_number");
 				// $teacher_data["class_id"] = $this->input->post("class_id");
 				$teacher_data["display_photo"] = $filename;
 				// $teacher_data["display_photo_type"] = $new_image_data['file_type'];
@@ -200,6 +204,7 @@ class Teacher_ajax extends CI_Controller {
 			$this->form_validation->set_rules('bday_y', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('guardian_id', 'Guardian', 'is_in_db[guardians.id]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('class_id', 'Class', 'is_valid[classes.id]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('contact_number', 'Contact Number', 'numeric|min_length[11]|max_length[11]trim|htmlspecialchars');
 
 			$this->form_validation->set_message('is_in_db', 'An Error has occured please refresh the page and try again.');
 
@@ -272,6 +277,7 @@ class Teacher_ajax extends CI_Controller {
 				$data["last_name_error"] = form_error('last_name');
 				$data["middle_name_error"] = form_error('middle_name');
 				$data["suffix_error"] = form_error('suffix');
+				$data["contact_number_error"] = form_error('contact_number');
 				$data["bday_error"] = form_error('bday_m');
 				$data["guardian_id_error"] = form_error('guardian_id');
 				$data["class_id_error"] = form_error('class_id');
@@ -285,6 +291,7 @@ class Teacher_ajax extends CI_Controller {
 				$data["last_name_error"] = "";
 				$data["middle_name_error"] = "";
 				$data["suffix_error"] = "";
+				$data["contact_number_error"] = "";
 				$data["bday_error"] = "";
 				$data["guardian_id_error"] = "";
 				$data["class_id_error"] = "";
@@ -293,6 +300,7 @@ class Teacher_ajax extends CI_Controller {
 				$teacher_data["last_name"] = $this->input->post("last_name");
 				$teacher_data["middle_name"] = $this->input->post("middle_name");
 				$teacher_data["suffix"] = $this->input->post("suffix");
+				$teacher_data["contact_number"] = $this->input->post("contact_number");
 				// $teacher_data["class_id"] = $this->input->post("class_id");
 				$teacher_data["guardian_id"] = $this->input->post("guardian_id");
 				$teacher_data["display_photo"] = $filename;
@@ -333,7 +341,8 @@ class Teacher_ajax extends CI_Controller {
 
 	public function get_list($arg='')
 	{
-		echo json_encode($this->teachers_model->get_list()["result"]);
+		$data = $this->teachers_model->get_list();
+		echo json_encode($data["result"]);
 	}
 
 

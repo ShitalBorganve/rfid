@@ -9,3 +9,4 @@ $lang['is_valid_date']		= 'The selected date is invalid.';
 $lang['is_available']		= 'The %s is invalid.';
 $lang['is_valid_rfid']		= 'This RFID is invalid.';
 $lang['is_valid']		= 'This %s is invalid.';
+$lang['is_unique_edit']		= 'This %s is already taken.';
