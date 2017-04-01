@@ -97,6 +97,7 @@ if($navbar_type=="admin"){
               <li>';
               if($navbar_is_logged_in){
                 echo '<a href="'.base_url("$navbar_type/logout").'"><span class="glyphicon glyphicon-log-out"></span> Logout</a>';
+                echo '<a href="#" id="send-sms">Send SMS</a>';
               }else{
                 echo '<a href="'.base_url("$navbar_type/login").'"><span class="glyphicon glyphicon-log-in"></span> Login</a>';
               }

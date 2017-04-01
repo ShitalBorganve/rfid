@@ -788,6 +788,66 @@ if($modals_sets=="admin"){
   </div>
 
   ';
+
+  echo '
+<!-- SMS Modal -->
+<div id="sms-modal" class="modal fade" role="dialog" tabindex="-1">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Send SMS</h4>
+      </div>
+      <div class="modal-body">';
+      echo form_open("sms_ajax/send",'id="sms-form" class="form-horizontal"');
+
+      echo '
+      <div class="form-group">
+        <label class="col-sm-4" for="type_recipient">Send to:</label>
+        <div class="col-sm-8">
+          <select name="type_recipient" class="form-control">
+            <option value="all">Teachers and Students of the class</option>
+            <option value="teachers">Teachers of the class</option>
+            <option value="students">Students of the class</option>
+          </select>
+          <p class="help-block" id="first_name_help-block"></p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-4" for="sms_message">Message:</label>
+        <div class="col-sm-8">
+          <textarea class="form-control" name="message" placeholder="Enter your message."></textarea>
+          <p class="help-block" id="first_name_help-block"></p>
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <label class="col-sm-4" for="sms_recipient">Send to:</label>
+        <div class="col-sm-8">
+          <select class="ui fluid search dropdown" multiple="" name="class_id[]">
+          </select>
+          <p class="help-block" id="first_name_help-block"></p>
+        </div>
+      </div>
+
+      ';
+
+      echo '</form>';
+
+      echo '</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+';
 }
 
 // var_dump();

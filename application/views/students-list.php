@@ -11,31 +11,30 @@
 <body>
 
 <div class="container-fluid">
-	<div class="row">
-		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-			<div class="table-responsive">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="table-responsive">
       <?php echo form_open("tables/students/list",'id="student-list-form"');?>
       <label>Seaarch</label>
       <input type="text" name="search_last_name" placeholder="Enter Last Name" id="search_last_name">
       <input type="hidden" name="owner_id">
       </form>
-				<table class="table table-hover" id="student-list-table">
-					<thead>
-						<tr>
-							<th>RFID</th>
+        <table class="table table-hover" id="student-list-table">
+          <thead>
+            <tr>
+              <th>RFID</th>
               <th>Full Name</th>
-							<th>Contact Number</th>
-							<th>Edit</th>
-						</tr>
-					</thead>
-					<tbody>
+              <th>Contact Number</th>
+              <th>Edit</th>
+            </tr>
+          </thead>
+          <tbody>
 
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</div>
-
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
 
 <?php

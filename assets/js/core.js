@@ -329,14 +329,17 @@ $(document).on("submit","#class_add_form",function(e) {
 		}
 	});
 });
-
+$("#send-sms").on("click",function(e) {
+	$("#sms-modal").modal("show");
+});
 $("#datepicker_from,#datepicker_to").datepicker();
-$('.ui.dropdown').dropdown();
+$('.ui.dropdown').dropdown({forceSelection:false});
 
 
 
 update_select_options("guardian_id",base_url);
 update_select_options("class_adviser",base_url);
+update_select_options("class_id[]",base_url);
 update_select_options("class_id",base_url);
 function update_select_options(type,base_url) {
 	if(type=="guardian_id"){
@@ -350,7 +353,7 @@ function update_select_options(type,base_url) {
 			success: function(data) {
 				$.each(data, function(i, item) {
 					console.log(data[i]);
-				    $('select[name="guardian_id"]').append('<option data-tokens="'+data[i].email_address+'" value="'+data[i].id+'">'+data[i].email_address+'</option>');
+				    $('select[name="'+type+'"]').append('<option data-tokens="'+data[i].email_address+'" value="'+data[i].id+'">'+data[i].email_address+'</option>');
 				})
 			}
 		});
@@ -365,11 +368,11 @@ function update_select_options(type,base_url) {
 			success: function(data) {
 				$.each(data, function(i, item) {
 
-				    $('select[name="class_adviser"]').append('<option data-tokens="'+data[i].full_name+'" value="'+data[i].id+'">'+data[i].full_name+'</option>');
+				    $('select[name="'+type+'"]').append('<option data-tokens="'+data[i].full_name+'" value="'+data[i].id+'">'+data[i].full_name+'</option>');
 				})
 			}
 		});
-	}else if(type=="class_id"){
+	}else if(type=="class_id[]"||type=="class_id"){
 		$('select[name="'+type+'"]').html("");
 		$('select[name="'+type+'"]').append('<option value="">Select a Class</option>');
 		$.ajax({
@@ -379,7 +382,7 @@ function update_select_options(type,base_url) {
 			dataType: "json",
 			success: function(data) {
 				$.each(data, function(i, item) {
-				    $('select[name="class_id"]').append('<option data-tokens="'+data[i].class_name+'" value="'+data[i].id+'">'+data[i].class_name+'</option>');
+				    $('select[name="'+type+'"]').append('<option data-tokens="'+data[i].class_name+'" value="'+data[i].id+'">'+data[i].class_name+'</option>');
 				})
 			}
 		});
