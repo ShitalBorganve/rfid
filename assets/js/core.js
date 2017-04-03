@@ -332,9 +332,65 @@ $(document).on("submit","#class_add_form",function(e) {
 $("#send-sms").on("click",function(e) {
 	$("#sms-modal").modal("show");
 });
+
+$("#add-class").on("click",function(e) {
+	$("#class_add_modal").modal("show");
+});
+
+
 $("#datepicker_from,#datepicker_to").datepicker();
 $('.ui.dropdown').dropdown({forceSelection:false});
 
+$(document).on("change",'select[name="type_recipient"]',function(e) {
+	if(e.target.value=="all_teachers"||e.target.value=="all_teachers_students"||e.target.value=="all_students"||e.target.value=="all_members"||e.target.value=="all_guardians"){
+		$("#send-to-container").css("display","none");
+	}else{
+		$("#send-to-container").css("display","block");
+	}
+});
+
+
+
+$(document).on("submit","#sms-form",function(e) {
+	e.preventDefault();
+	$('button[form="sms-form"]').prop('disabled', true);
+	$('button[form="sms-form"]').html("Sending..");
+	$.ajax({
+		type: "POST",
+		url: $("#sms-form").attr("action"),
+		data: $("#sms-form").serialize(),
+		cache: false,
+		dataType: "json",
+		success: function(data) {
+			$('button[form="sms-form"]').html("Submit");
+			$('button[form="sms-form"]').prop('disabled', false);
+			if(data.is_valid){
+				$("#sms-form")[0].reset();
+				$('.ui.dropdown').dropdown('clear');
+				$(".help-block").html("");
+
+				$("#sms-modal").modal("hide");
+				$("#sms-list-modal").modal("show");
+				$("#message_id_txt").html(data.sms_data.id);
+				$('.sms_list_table tbody').html("");
+				$.each(data.sms_list, function(i, item) {
+				    $('.sms_list_table tbody').append('\
+				    	<tr>\
+				    	<td>'+data.sms_list[i].message+'</td>\
+				    	<td>'+data.sms_list[i].mobile_number+'</td>\
+				    	<td>'+data.sms_list[i].recipient+'</td>\
+				    	<td>'+data.sms_list[i].status+'</td>\
+				    	</tr>\
+				    	');
+				});
+			}else{
+				$("#type_recipient_help-block").html(data.type_recipient_error);
+				$("#message_help-block").html(data.message_error);
+				$("#class_id_help-block").html(data.class_id_error);
+			}
+		}
+	});
+});
 
 
 update_select_options("guardian_id",base_url);
@@ -353,7 +409,7 @@ function update_select_options(type,base_url) {
 			success: function(data) {
 				$.each(data, function(i, item) {
 					console.log(data[i]);
-				    $('select[name="'+type+'"]').append('<option data-tokens="'+data[i].email_address+'" value="'+data[i].id+'">'+data[i].email_address+'</option>');
+				    $('select[name="'+type+'"]').append('<option value="'+data[i].id+'">'+data[i].email_address+'</option>');
 				})
 			}
 		});
@@ -368,7 +424,7 @@ function update_select_options(type,base_url) {
 			success: function(data) {
 				$.each(data, function(i, item) {
 
-				    $('select[name="'+type+'"]').append('<option data-tokens="'+data[i].full_name+'" value="'+data[i].id+'">'+data[i].full_name+'</option>');
+				    $('select[name="'+type+'"]').append('<option value="'+data[i].id+'">'+data[i].full_name+'</option>');
 				})
 			}
 		});
@@ -382,10 +438,9 @@ function update_select_options(type,base_url) {
 			dataType: "json",
 			success: function(data) {
 				$.each(data, function(i, item) {
-				    $('select[name="'+type+'"]').append('<option data-tokens="'+data[i].class_name+'" value="'+data[i].id+'">'+data[i].class_name+'</option>');
+				    $('select[name="'+type+'"]').append('<option value="'+data[i].id+'">'+data[i].class_name+'</option>');
 				})
 			}
 		});
 	}
 }
-

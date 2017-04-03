@@ -298,7 +298,7 @@ if($modals_sets=="admin"){
                 <p class="help-block" id="teacher_class_id_help-block"></p>
               </div>
               <div class="col-sm-2"> 
-                <button class="btn btn-block btn-default" type="button">Add</button>
+                <button class="btn btn-block btn-default" type="button" id="add-class">Add</button>
               </div>
             </div>
 
@@ -808,29 +808,36 @@ if($modals_sets=="admin"){
         <label class="col-sm-4" for="type_recipient">Send to:</label>
         <div class="col-sm-8">
           <select name="type_recipient" class="form-control">
-            <option value="all">Teachers and Students of the class</option>
+            <option value="teachers_students">Teachers and Students of the class</option>
             <option value="teachers">Teachers of the class</option>
             <option value="students">Students of the class</option>
+            <option value="guardian">Students Guardian&apos;s of the class</option>
+            <option value="members">All members of the class including Student&apos;s Guardian</option>
+            <option value="all_teachers_students">All Students and Teachers</option>
+            <option value="all_teachers">All Teachers</option>
+            <option value="all_students">All Students</option>
+            <option value="all_guardians">All Student&apos;s Guardians</option>
+            <option value="all_members">All members including Student&apos;s Guardian</option>
           </select>
-          <p class="help-block" id="first_name_help-block"></p>
+          <p class="help-block" id="type_recipient_help-block"></p>
         </div>
       </div>
 
       <div class="form-group">
-        <label class="col-sm-4" for="sms_message">Message:</label>
+        <label class="col-sm-4" for="message">Message:</label>
         <div class="col-sm-8">
           <textarea class="form-control" name="message" placeholder="Enter your message."></textarea>
-          <p class="help-block" id="first_name_help-block"></p>
+          <p class="help-block" id="message_help-block"></p>
         </div>
       </div>
 
 
-      <div class="form-group">
-        <label class="col-sm-4" for="sms_recipient">Send to:</label>
+      <div class="form-group" id="send-to-container">
+        <label class="col-sm-4" for="sms_recipient">Send to Class:</label>
         <div class="col-sm-8">
           <select class="ui fluid search dropdown" multiple="" name="class_id[]">
           </select>
-          <p class="help-block" id="first_name_help-block"></p>
+          <p class="help-block" id="class_id_help-block"></p>
         </div>
       </div>
 
@@ -840,6 +847,7 @@ if($modals_sets=="admin"){
 
       echo '</div>
       <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" form="sms-form">Submit</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
@@ -848,6 +856,44 @@ if($modals_sets=="admin"){
 </div>
 
 ';
+
+
+
+echo '
+<!-- SMS list Modal -->
+<div id="sms-list-modal" class="modal fade" role="dialog" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">SMS Status of Message ID: <span id="message_id_txt"></span></h4>
+      </div>
+      <div class="modal-body">
+        <table class="table table-hover sms_list_table">
+          <thead>
+            <tr>
+              <th>Message</th>
+              <th>Mobile Number</th>
+              <th>Recipient</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+';
+
 }
 
 // var_dump();
@@ -875,5 +921,8 @@ echo '
 </div>
 
 ';
+
+
+
 
 ?>

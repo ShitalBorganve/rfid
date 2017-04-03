@@ -33,6 +33,7 @@ class Admin extends CI_Controller {
 		$this->load->model("teachers_model");
 		$this->load->model("gate_logs_model");
 		$this->load->model("classes_model");
+		$this->load->model("sms_model");
 		
 		$this->data["title"] = "Main Title";
 		$this->data["css_scripts"] = $this->load->view("scripts/css","",true);
@@ -59,7 +60,7 @@ class Admin extends CI_Controller {
 		// var_dump($date1);
 		// echo "<br>";
 		// $date2 = date("m/d/Y h:i:s A",$date1);
-		// var_dump($date1);
+		var_dump($this->session->userdata("admin_sessions"));
 		
 		// exit;
 		$this->data["login_type"] = "admin";
@@ -106,6 +107,12 @@ class Admin extends CI_Controller {
 	{
 		$this->load->view("guardians-list",$this->data);
 	}
+	public function sms($value='')
+	{
+		$this->data["messages_list"] = $this->sms_model->get_list();
+		$this->load->view("sms",$this->data);
+	}
+
 
 	public function test($value='')
 	{
