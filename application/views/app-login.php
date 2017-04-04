@@ -15,7 +15,7 @@
 
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-xs-12 col-sm-8 col-md-4 col-lg-4 col-sm-push-2 col-md-push-4 col-lg-push-4">
+		<div class="col-sm-8 col-md-4 col-lg-4 col-sm-push-2 col-md-push-4 col-lg-push-4">
 			<div id="login-container">
 				<?php echo form_open($login_type."_ajax/applogin",'class="form-horizontal" id="app-login"');?>
 					<div class="form-group">
@@ -33,7 +33,7 @@
 					  </div>
 					</div>
 					<div class="form-group"> 
-					  <div class="col-xs-12">
+					  <div class="col-sm-12">
 					    <button type="submit" class="btn btn-default btn-block">Login</button>
 					  </div>
 					</div>

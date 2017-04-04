@@ -72,7 +72,7 @@ class Teacher_ajax extends CI_Controller {
 
 
 
-
+			$has_uploaded_pic = FALSE;
 			//uploads files
 			if($_FILES['teacher_photo']["error"]==0){
 
@@ -90,7 +90,7 @@ class Teacher_ajax extends CI_Controller {
 
 				$filename_full_name = $filename_last_name."_".$filename_first_name."_".$filename_middle_name."_".$filename_suffix;
 
-				$filename = $this->input->post("rfid")."_".$filename_full_name;
+				$filename = $filename_full_name;
 
 
 
@@ -113,7 +113,10 @@ class Teacher_ajax extends CI_Controller {
 					$filename = $filename.$image_data["file_ext"];
 					$image_data = $this->upload->data();
 					$config['image_library'] = 'gd2';
-					$config['source_image'] = $image_data["full_path"]; 
+					$config['source_image'] = $image_data["full_path"];
+					$full_path = $image_data["full_path"];
+					$file_path = $image_data["file_path"];
+					$file_name = $image_data["file_name"];
 					$config['create_thumb'] = FALSE;
 					$config['new_image'] = $filename;
 					$config['maintain_ratio'] = TRUE;
@@ -122,6 +125,8 @@ class Teacher_ajax extends CI_Controller {
 					$this->load->library('image_lib', $config); 
 					$this->image_lib->resize();
 					$this->image_lib->clear();
+
+					$has_uploaded_pic = TRUE;
 				}
 			}else{
 				$data["is_valid_photo"] = TRUE;
@@ -168,7 +173,15 @@ class Teacher_ajax extends CI_Controller {
 				$data["is_successful"] = TRUE;
 				$teacher_data = $this->teachers_model->add($teacher_data);
 
-				$rfid_data["rfid"] = $this->input->post("rfid");
+				if($has_uploaded_pic){
+					rename($full_path,$file_path.$teacher_data->id."_".$file_name);
+					$edit_data = array();
+					$edit_data["display_photo"] = $teacher_data->id."_".$file_name;
+					$this->teachers_model->edit_info($edit_data,$teacher_data->id);
+				}
+
+
+				// $rfid_data["rfid"] = $this->input->post("rfid");
 				$rfid_data["ref_id"] = $teacher_data->id;
 				$rfid_data["ref_table"] = "teachers";
 				$rfid_data["valid"] = 1;
@@ -210,7 +223,7 @@ class Teacher_ajax extends CI_Controller {
 
 
 
-
+			$has_uploaded_pic = FALSE;
 			//uploads files
 			if($_FILES['teacher_photo']["error"]==0){
 
@@ -228,7 +241,13 @@ class Teacher_ajax extends CI_Controller {
 
 				$filename_full_name = $filename_last_name."_".$filename_first_name."_".$filename_middle_name."_".$filename_suffix;
 
-				$filename = $this->input->post("rfid")."_".$filename_full_name;
+				$get_data = array();
+				$get_data["ref_id"] = $this->input->post("teacher_id");
+				$get_data["ref_table"] = "teachers";
+				$rfid_data = $this->rfid_model->get_data($get_data);
+				
+
+				$filename = $filename_full_name;
 
 
 
@@ -252,7 +271,9 @@ class Teacher_ajax extends CI_Controller {
 					$image_data = $this->upload->data();
 					$config['image_library'] = 'gd2';
 					$config['source_image'] = $image_data["full_path"]; 
-				$data["guardian_id_error"] = form_error('guardian_id');
+					$full_path = $image_data["full_path"];
+					$file_path = $image_data["file_path"];
+					$file_name = $image_data["file_name"];
 					$config['create_thumb'] = FALSE;
 					$config['new_image'] = $filename;
 					$config['maintain_ratio'] = TRUE;
@@ -261,10 +282,14 @@ class Teacher_ajax extends CI_Controller {
 					$this->load->library('image_lib', $config); 
 					$this->image_lib->resize();
 					$this->image_lib->clear();
+
+					$has_uploaded_pic = TRUE;
 				}
 			}else{
 				$data["is_valid_photo"] = TRUE;
 				$filename = "empty.jpg";
+
+				$get_data = array();
 				$get_data["id"] = $this->input->post("teacher_id");
 				$teacher_data_db = $this->teachers_model->get_data($get_data);
 				$filename = $teacher_data_db["display_photo"];
@@ -313,6 +338,14 @@ class Teacher_ajax extends CI_Controller {
 
 				($this->teachers_model->edit_info($teacher_data,$this->input->post("teacher_id"))?$data["is_successful"] = TRUE:$data["is_successful"] = FALSE);
 
+				if($has_uploaded_pic){
+					$teacher_id = $this->input->post("teacher_id");
+					rename($full_path,$file_path.$teacher_id."_".$file_name);
+					$edit_data = array();
+					$edit_data["display_photo"] = $teacher_id."_".$file_name;
+					$this->teachers_model->edit_info($edit_data,$teacher_id);
+				}
+
 				$teacher_id = ($this->input->post("teacher_id")?$this->input->post("teacher_id"):"0");
 				$class_id = ($this->input->post("class_id")?$this->input->post("class_id"):"0");
 				$this->classes_model->change_class($teacher_id,$class_id);
@@ -343,6 +376,24 @@ class Teacher_ajax extends CI_Controller {
 	{
 		$data = $this->teachers_model->get_list();
 		echo json_encode($data["result"]);
+	}
+
+	public function delete()
+	{
+		if($_POST){
+			$data = array();
+			$data["deleted"] = 1;
+			$data["class_id"] = 0;
+			$this->teachers_model->delete($data,$this->input->post("id"));
+
+			$data = array();
+			$data["deleted"] = 1;
+			$edit_data["ref_id"] = $this->input->post("id");
+			$edit_data["ref_table"] = "teachers";
+			$this->rfid_model->edit_info($data,$edit_data);
+
+
+		}
 	}
 
 

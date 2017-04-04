@@ -60,7 +60,6 @@ class Admin extends CI_Controller {
 		// var_dump($date1);
 		// echo "<br>";
 		// $date2 = date("m/d/Y h:i:s A",$date1);
-		var_dump($this->session->userdata("admin_sessions"));
 		
 		// exit;
 		$this->data["login_type"] = "admin";
@@ -85,7 +84,8 @@ class Admin extends CI_Controller {
 	}
 	public function logout($value='')
 	{
-		$this->session->unset_userdata('admin_sessions');
+		$this->session->sess_destroy();
+		redirect("admin");
 	}
 
 	public function students($value='')

@@ -46,7 +46,7 @@ class Tables extends CI_Controller {
 		$this->form_validation->set_error_delimiters('', '');
 	}
 
-	public function students($arg='')
+	public function students($arg='',$arg_2='')
 	{
 		
 		if($arg=="list"){
@@ -64,25 +64,66 @@ class Tables extends CI_Controller {
 					$search = "";
 					$where["id"] = $this->input->get("owner_id");
 				}
+
 				$students_list_data = $this->students_model->get_list($where,$page,$this->config->item("max_item_perpage"),$search);
 
 				// var_dump($this->input->get("owner_id"));
-				// var_dump($students_list_data["query"]);
+				// var_dump($students_list_data["count"]);
 				// exit;
 				foreach ($students_list_data["result"] as $student_data) {
+					if($student_data->guardian_id!=0){
+						$get_data = array();
+						$get_data["id"] = $student_data->guardian_id;
+						$student_data->guardian_data = $this->guardian_model->get_data($get_data,TRUE);
+					}else{
+						$student_data->guardian_data = new stdClass();
+						$student_data->guardian_data->name = "";
+					}
+
+					$get_data = array();
 					$get_data["ref_id"] = $student_data->id;
 					$get_data["ref_table"] = "students";
 					$rfid_data = $this->rfid_model->get_data($get_data);
-					echo '
-					<tr>
-						<td>'.$rfid_data->rfid.'</td>
-						<td>'.$student_data->last_name.", ".$student_data->first_name." ".$student_data->middle_name[0].' '. $student_data->suffix.'</td>
-						<td>'.$student_data->contact_number.'</td>
-						<td>
-						<a href="#" class="edit_student" id="'.$student_data->id.'">Edit info</a>
-						</td>
-					</tr>
-					';
+					$get_data = array();
+					$get_data["id"] = $student_data->class_id;
+					$class_data = $this->classes_model->get_data($get_data,TRUE);
+					$class_name = ($class_data!=NULL?$class_data->class_name:"");
+					if($arg_2=="jbtech"){
+						echo '
+						<tr>
+							<td>'.$student_data->first_name.'</td>
+							<td>'.$student_data->middle_name.'</td>
+							<td>'.$student_data->last_name.'</td>
+							<td>'.date("m/d/Y",$student_data->birthdate).'</td>
+							<td>'.$student_data->guardian_data->name.'</td>
+							<td>'.$student_data->contact_number.'</td>
+							<td>'.$class_name.'</td>
+							<td><a href="#" class="view_student" id="'.$student_data->id.'">View</a></td>
+						</tr>
+						';
+
+					}else{
+
+						if($rfid_data->rfid==""){
+							$rfid_status = '<a href="#" class="add_rfid_student" id="'.$student_data->id.'">Scan</a>';
+						}else{
+							$rfid_status = '<a href="#" class="edit_rfid_student" id="'.$student_data->id.'">'.$rfid_data->rfid.'</a>';
+						}
+						echo '
+						<tr>
+							<td>'.$rfid_status.'</td>
+							<td>'.$student_data->first_name.'</td>
+							<td>'.$student_data->middle_name.'</td>
+							<td>'.$student_data->last_name.'</td>
+							<td>'.date("m/d/Y",$student_data->birthdate).'</td>
+							<td>'.$student_data->guardian_data->name.'</td>
+							<td>'.$student_data->contact_number.'</td>
+							<td>'.$class_name.'</td>
+							<td><a href="#" class="edit_student" id="'.$student_data->id.'">Edit info</a></td>
+							<td><a href="#" class="delete_student" id="'.$student_data->id.'" data-balloon="Delete" data-balloon-pos="down">&times;</a></td>
+						</tr>
+						';
+					}
 				}
 				$attrib["href"] = "#";
 				$attrib["class"] = "paging";
@@ -176,16 +217,20 @@ class Tables extends CI_Controller {
 				// var_dump($teachers_list_data);
 				// exit;
 				foreach ($teachers_list_data["result"] as $teacher_data) {
+					$get_data = array();
 					$get_data["ref_id"] = $teacher_data->id;
 					$get_data["ref_table"] = "teachers";
 					$rfid_data = $this->rfid_model->get_data($get_data);
 					echo '
 					<tr>
-						<td>'.$rfid_data->rfid.'</td>
-						<td>'.$teacher_data->last_name.", ".$teacher_data->first_name." ".$teacher_data->middle_name[0].' '. $teacher_data->suffix.'</td>
-						<td>'.$teacher_data->class_data->class_name.'</td>
+						<td>'.$teacher_data->first_name.'</td>
+						<td>'.$teacher_data->middle_name.'</td>
+						<td>'.$teacher_data->last_name.'</td>
+						<td>'.date("m/d/Y",$teacher_data->birthdate).'</td>
 						<td>'.$teacher_data->contact_number.'</td>
+						<td>'.$teacher_data->class_data->class_name.'</td>
 						<td><a href="#" class="edit_teacher" id="'.$teacher_data->id.'">Edit info</a></td>
+						<td><a href="#" class="delete_teacher" id="'.$teacher_data->id.'" data-balloon="Delete" data-balloon-pos="down">&times;</a></td>
 					</tr>
 					';
 				}
@@ -213,6 +258,7 @@ class Tables extends CI_Controller {
 						<td>'.$class_data->schedule.'</td>
 						<td>'.$class_data->teacher_data->full_name.'</td>
 						<td><a href="#" class="edit_class" id="'.$class_data->id.'">Edit info</a></td>
+						<td><a href="#" class="delete_class" id="'.$class_data->id.'" data-balloon="Delete" data-balloon-pos="down">&times;</a></td>
 					</tr>
 					';
 				}

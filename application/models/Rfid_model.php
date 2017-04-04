@@ -38,6 +38,17 @@ class Rfid_model extends CI_Model {
     	# code...
     }
 
+
+    function edit_info($data='',$where){
+        $this->db->where($where);
+        $this->db->update('rfid', $data);
+        
+        $this->db->where($where);
+        return $this->db->get_where("rfid",$data)->row();
+        # code...
+    }
+
+
     function load_credits($data,$load_credits)
     {
     	$rfid_data = $this->db->get_where("rfid",$data)->row_array();

@@ -13,12 +13,13 @@ if($modals_sets=="admin"){
       <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title" id="rfid_add_modal_title">Add students</h4>
+        <h4 class="modal-title" id="rfid_add_modal_title">Add studentsss</h4>
       </div>
         <div class="modal-body">
           <p>
           '.form_open("rfid_ajax/scan_add",'id="rfid_scan_add_form"').'
           <input type="hidden" name="type">
+          <input type="hidden" name="id">
 
             <div class="form-group">
 
@@ -59,7 +60,7 @@ if($modals_sets=="admin"){
         </div>
         <div class="modal-body">
           <p>'.form_open_multipart("student_ajax/add",'id="student_add_form" class="form-horizontal"').'
-            <input type="hidden" class="form-control rfid_scanned_add" name="rfid">
+            <!-- <input type="hidden" class="form-control rfid_scanned_add" name="rfid"> -->
             <div class="form-group">
               <label class="col-sm-2" for="first_name">First Name:</label>
               <div class="col-sm-10">

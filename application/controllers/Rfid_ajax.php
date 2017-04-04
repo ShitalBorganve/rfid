@@ -78,6 +78,12 @@ class Rfid_ajax extends CI_Controller {
 				$rfid_owner_data["is_valid"] = FALSE;
 				$rfid_owner_data["display_photo"] = base_url("assets/images/empty.jpg");
 				$rfid_owner_data["full_name"] = "";
+				$rfid_owner_data["last_name"] = "";
+				$rfid_owner_data["first_name"] = "";
+				$rfid_owner_data["message"] = "";
+				$rfid_owner_data["middle_name"] = "";
+				$rfid_owner_data["suffix"] = "";
+				
 			}else{
 				$get_data["rfid"] = $this->input->post("gate_rfid_scan"); 
 				$get_data["deleted"] = 0;

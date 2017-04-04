@@ -124,6 +124,22 @@ $(document).on("click",".edit_class",function(e) {
     // alert(id);
     show_class_data(id);
 });
+
+$(document).on("click",".delete_class",function(e) {
+  var datastr = "id="+e.target.id;
+  if(confirm("Are you sure you want to delete this class? This acton is irreversible.")){
+    $.ajax({
+      type: "POST",
+      url: "<?php echo base_url("class_ajax/delete"); ?>",
+      data: datastr,
+      cache: false,
+      success: function(data) {
+        show_class_list();
+      }
+    });
+  }
+});
+
 function show_class_data(id) {
   $.ajax({
     type: "GET",

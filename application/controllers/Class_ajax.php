@@ -128,4 +128,13 @@ class Class_ajax extends CI_Controller {
 		echo json_encode($data["result"]);
 	}
 
+	public function delete()
+	{
+		if($_POST){
+			$data["deleted"] = 1;
+			$data["teacher_id"] = 0;
+			$this->classes_model->delete($data,$this->input->post("id"));
+		}
+	}
+
 }

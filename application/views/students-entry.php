@@ -79,14 +79,19 @@ $(document).on("submit","#gate_rfid_scan", function(e) {
 		dataType: "json",
 		success: function(data) {
 			console.log(data);
+			$("#gate_rfid_scan")[0].reset();
+
+			$("#gate_rfid_last_name").html(data.last_name);
+			$("#gate_rfid_first_name").html(data.first_name);
+			$("#gate_rfid_middle_name").html(data.middle_name);
+			$("#gate_rfid_suffix").html(data.suffix);
+			$("#gate_status").removeClass( "danger success" );
+			$("#gate_status").html("");
 			if(data.is_valid){
 				$("#rfid_scan").val("");
 				$("#display-photo").attr("src",data.display_photo);
 				$("#rfid_owner").html(data.rfid_data.ref_table + "'s");
-				$("#gate_rfid_last_name").html(data.last_name);
-				$("#gate_rfid_first_name").html(data.first_name);
-				$("#gate_rfid_middle_name").html(data.middle_name);
-				$("#gate_rfid_suffix").html(data.suffix);
+
 				if(data.gate_logs_data.is_valid){
 					$("#gate_status").html(data.sms_status);
 					$("#gate_status").html("Success!");
@@ -95,7 +100,6 @@ $(document).on("submit","#gate_rfid_scan", function(e) {
 					$("#gate_status").html("Error!");
 					$("#gate_status").removeClass( "danger success" ).addClass("danger");
 				}
-				$("#gate_rfid_scan")[0].reset();
 				$(".help-block").html("");
 			}else{
 				$("#display-photo").attr("src",data.display_photo);

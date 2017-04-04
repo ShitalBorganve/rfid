@@ -86,6 +86,7 @@ class Sms_ajax extends CI_Controller {
 					case 'teachers_students':
 						foreach ($classes as $class) {
 							$get_list["class_id"] = $class;
+							$get_list["deleted"] = 0;
 							$students_list = $this->students_model->get_list($get_list,1,$this->db->get("students")->num_rows());
 							foreach ($students_list["result"] as $students_data) {
 								if($students_data->contact_number!=""){
@@ -99,6 +100,7 @@ class Sms_ajax extends CI_Controller {
 							}
 
 							$get_list["class_id"] = $class;
+							$get_list["deleted"] = 0;
 							$teachers_list = $this->teachers_model->get_list($get_list,1,$this->db->get("teachers")->num_rows());
 							foreach ($teachers_list["result"] as $teachers_data) {
 								if($teachers_data->contact_number!=""){
@@ -115,6 +117,7 @@ class Sms_ajax extends CI_Controller {
 					case 'teachers':
 						foreach ($classes as $class) {
 							$get_list["class_id"] = $class;
+							$get_list["deleted"] = 0;
 							$teachers_list = $this->teachers_model->get_list($get_list,1,$this->db->get("teachers")->num_rows());
 							foreach ($teachers_list["result"] as $teachers_data) {
 								if($teachers_data->contact_number!=""){
@@ -132,6 +135,7 @@ class Sms_ajax extends CI_Controller {
 					case 'students':
 						foreach ($classes as $class) {
 							$get_list["class_id"] = $class;
+							$get_list["deleted"] = 0;
 							$students_list = $this->students_model->get_list($get_list,1,$this->db->get("students")->num_rows());
 							foreach ($students_list["result"] as $students_data) {
 								if($students_data->contact_number!=""){
@@ -149,6 +153,7 @@ class Sms_ajax extends CI_Controller {
 					case 'guardian':
 						foreach ($classes as $class) {
 							$get_list["class_id"] = $class;
+							$get_list["deleted"] = 0;
 							$students_list = $this->students_model->get_list($get_list,1,$this->db->get("students")->num_rows());
 							foreach ($students_list["result"] as $students_data) {
 								$get_data["id"] = $students_data->guardian_id;
@@ -163,6 +168,7 @@ class Sms_ajax extends CI_Controller {
 					case 'members':
 						foreach ($classes as $class) {
 							$get_list["class_id"] = $class;
+							$get_list["deleted"] = 0;
 							$students_list = $this->students_model->get_list($get_list,1,$this->db->get("students")->num_rows());
 							foreach ($students_list["result"] as $students_data) {
 								if($students_data->contact_number!=""){
@@ -176,6 +182,7 @@ class Sms_ajax extends CI_Controller {
 							}
 
 							$get_list["class_id"] = $class;
+							$get_list["deleted"] = 0;
 							$teachers_list = $this->teachers_model->get_list($get_list,1,$this->db->get("teachers")->num_rows());
 							foreach ($teachers_list["result"] as $teachers_data) {
 								if($teachers_data->contact_number!=""){
@@ -189,6 +196,7 @@ class Sms_ajax extends CI_Controller {
 							}
 
 							$get_list["class_id"] = $class;
+							$get_list["deleted"] = 0;
 							$students_list = $this->students_model->get_list($get_list,1,$this->db->get("students")->num_rows());
 							foreach ($students_list["result"] as $students_data) {
 								$get_data["id"] = $students_data->guardian_id;

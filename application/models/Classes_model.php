@@ -52,9 +52,13 @@ class Classes_model extends CI_Model {
             return $data;
     }
 
-    function get_data($where=''){
+    function get_data($where='',$to_object=FALSE){
         $query = $this->db->get_where("classes",$where);
-        return $query->row_array();
+        if($to_object){
+            return $query->row();
+        }else{
+            return $query->row_array();
+        }
     }
 
     function edit($data="",$class_id=""){
@@ -104,6 +108,19 @@ class Classes_model extends CI_Model {
         $this->db->where("id",$class_id);
         $this->db->update('classes');
 
+    }
+
+    function delete($data='',$id=''){
+            $this->db->where('id', $id);
+            $this->db->update('classes', $data);
+            
+            $this->db->where("class_id",$id);
+            $this->db->set("class_id",0);
+            $this->db->update('teachers');
+
+            $this->db->where('id', $id);
+            return $this->db->get("classes")->row();
+            # code...
     }
 
 }

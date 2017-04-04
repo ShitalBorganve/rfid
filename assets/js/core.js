@@ -90,40 +90,24 @@ $(document).on("submit","#register_guardian_form",function(e) {
 });
 
 
-$(document).on("click",".rfid_scan_add",function(e) {
-	$("#rfid_scan_add_modal").modal("show");
-	$('input[name="rfid_scan_add"]').attr("autofocus","true");
-	$("#rfid_add_modal_title").html("Add "+e.target.id);
-	$('input[name="type"]').val(e.target.id);
+// $(document).on("click",".rfid_scan_add",function(e) {
+// 	$("#rfid_scan_add_modal").modal("show");
+// 	$('input[name="rfid_scan_add"]').attr("autofocus","true");
+// 	$("#rfid_add_modal_title").html("Add "+e.target.id);
+// 	$('input[name="type"]').val(e.target.id);
+// });
+
+/* new process*/
+$(".rfid_scan_add#students").click(function(e) {
+	$("#students_add_modal").modal("show");
+});
+
+$(".rfid_scan_add#teachers").click(function(e) {
+	$("#teachers_add_modal").modal("show");
 });
 
 $('#rfid_scan_add_modal').on('hidden.bs.modal', function (e) {
 	$('input[name="rfid_scan_add"]').removeAttr("autofocus");
-});
-
-$(document).on("submit","#rfid_scan_add_form",function(e) {
-	e.preventDefault();
-	$.ajax({
-		type: "POST",
-		url: $("#rfid_scan_add_form").attr("action"),
-		data: $("#rfid_scan_add_form :input").serialize(),
-		cache: false,
-		dataType: "json",
-		success: function(data) {
-			// alert(data);
-			if(data.is_valid){
-				$(".rfid_scanned_add").val(data.rfid_scanned_add);
-				// $("#rfid_scan_add_modal").modal("hide");
-				// $("#students_add_modal").modal("show");
-				$("#rfid_scan_add_form")[0].reset();
-				$("#"+data.type+"_add_modal").modal("show");
-				$(".help-block").html("");
-			}else{
-				$("#rfid_scan_add_form")[0].reset();
-				$("#rfid_scan_help-block").html("RFID is invalid or available.");
-			}
-		}
-	});
 });
 
 
@@ -269,7 +253,6 @@ $(document).on("submit","#app-login",function(e) {
 				$("#account_help-block").html(data.account_error);
 				$("#account_password_help-block").html(data.account_password_error);
 			}
-			// alert(data);
 		}
 	});
 });

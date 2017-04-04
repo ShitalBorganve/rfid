@@ -37,12 +37,23 @@ if($navbar_type=="admin"){
             <ul class="dropdown-menu">
               <li><a href="'.base_url("admin/teachers").'">List of Teachers</a></li>
               <li><a href="#" class="rfid_scan_add" id="teachers">Add Teachers</a></li>
+              
+            </ul>
+          </li>
+          ';
+
+          echo '
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Classes
+            <span class="caret"></span></a>
+            <ul class="dropdown-menu">
               <li><a href="'.base_url("admin/classes").'">List of Classes</a></li>
               <li><a href="#" id="class_add" >Add a Class</a></li>
               
             </ul>
           </li>
           ';
+
 
           echo '
           <li class="dropdown">
@@ -75,19 +86,18 @@ if($navbar_type=="admin"){
         </ul>
         <ul class="nav navbar-nav navbar-right"> ';
         
-/*        echo '
-          <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Guards
-            <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li><a href="'.base_url("admin/guards").'">List of Guards</a></li>
-              <li><a href="#" class="rfid_scan_add" id="guards">Add Guards</a></li>
-              ';
-              
-              echo '
-            </ul>
-          </li>
-        ';*/
+        echo '
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Non-Teaching
+          <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="'.base_url("admin/staff").'">List of Staffs</a></li>
+            <li><a href="#" class="rfid_scan_add" id="staff">Add Staff</a></li>
+            
+          </ul>
+        </li>
+        ';
+
         echo '
 
           <li class="dropdown">
@@ -193,5 +203,52 @@ if($navbar_type=="admin"){
     </div>
   </nav>
   ';
+}elseif ($navbar_type=="jbtech") {
+
+    echo '
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span> 
+          </button>
+          <a class="navbar-brand" href="#"></a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+          <ul class="nav navbar-nav">
+            <li><a href="'.base_url("admin").'">Home</a></li>';
+            
+
+          echo '
+          </ul>
+          <ul class="nav navbar-nav navbar-right"> ';
+
+          echo '
+
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+              <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li>';
+                if($navbar_is_logged_in){
+                  echo '<a href="'.base_url("$navbar_type/logout").'"><span class="glyphicon glyphicon-log-out"></span> Logout</a>';
+                  echo '<a href="#" id="send-sms">Send SMS</a>';
+                  echo '<a href="'.base_url("admin/sms").'">SMS Status</a>';
+                }else{
+                  echo '<a href="'.base_url("$navbar_type/login").'"><span class="glyphicon glyphicon-log-in"></span> Login</a>';
+                }
+                echo '</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    ';
+
+
+  # code...
 }
 ?>

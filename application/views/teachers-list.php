@@ -21,11 +21,13 @@
 				<table class="table table-hover" id="teacher-list-table">
 					<thead>
 						<tr>
-							<th>RFID</th>
-							<th>Full Name</th>
-              <th>Class</th>
+              <th>First Name</th>
+              <th>Middle Name</th>
+              <th>Last Name</th>
+              <th>Birthday</th>
               <th>Contact Number</th>
-							<th>Edit</th>
+              <th>Class</th>
+              <th>Edit</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -178,6 +180,21 @@ echo '
 $(document).on("click",".edit_teacher",function(e) {
     var id = e.target.id;
     show_teacher_data(id);
+});
+
+$(document).on("click",".delete_teacher",function(e) {
+  var datastr = "id="+e.target.id;
+  if(confirm("Are you sure you want to delete this teacher? This acton is irreversible.")){
+    $.ajax({
+      type: "POST",
+      url: "<?php echo base_url("teacher_ajax/delete"); ?>",
+      data: datastr,
+      cache: false,
+      success: function(data) {
+        show_teacher_list();
+      }
+    });
+  }
 });
 function show_teacher_data(id) {
   $.ajax({

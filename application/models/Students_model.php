@@ -17,7 +17,9 @@ class Students_model extends CI_Model {
     function edit_info($data='',$id=''){
         $this->db->where('id', $id);
         $this->db->update('students', $data);
-        return $this->db->last_query();
+
+        $this->db->where('id', $id);
+        return $this->db->get("students")->row();
     	# code...
     }
 
@@ -38,7 +40,6 @@ class Students_model extends CI_Model {
             $this->db->limit($maxitem,$limit);
             $query = $this->db->get("students");
             $data["query"] = $this->db->last_query();
-            $data["count"] = $this->db->count_all_results("students");
             $students_data = $query->result();
             foreach ($students_data as $student_data) {
                 $get_data = array();
@@ -48,6 +49,18 @@ class Students_model extends CI_Model {
             }
             $data["result"] = $students_data;
 
+
+
+            if($where==""){
+                $this->db->where('deleted=0');
+            }else{
+                $this->db->where($where);
+            }
+            if($search!=""){
+                $this->db->like($search["search"],$search["value"]);
+            }
+            $query = $this->db->get("students");
+            $data["count"] = $query->num_rows();
             
             return $data;
     }

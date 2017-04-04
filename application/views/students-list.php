@@ -22,9 +22,13 @@
         <table class="table table-hover" id="student-list-table">
           <thead>
             <tr>
-              <th>RFID</th>
-              <th>Full Name</th>
+              <th>First Name</th>
+              <th>Middle Name</th>
+              <th>Last Name</th>
+              <th>Birthday</th>
+              <th>Guardian</th>
               <th>Contact Number</th>
+              <th>Class</th>
               <th>Edit</th>
             </tr>
           </thead>
@@ -191,10 +195,58 @@ echo '
 <?php echo $js_scripts; ?>
 <script>
 
+$(document).on("click",".add_rfid_student",function(e) {
+  var id = e.target.id;
+  $('input[name="type"]').val("students");
+  $('input[name="id"]').val(id);
+  $("#rfid_add_modal_title").html("scan student&apos;s rfid");
+  $("#rfid_scan_add_modal").modal("show");
+});
+
+
+$(document).on("submit","#rfid_scan_add_form",function(e) {
+  e.preventDefault();
+  $.ajax({
+    type: "POST",
+    url: $("#rfid_scan_add_form").attr("action"),
+    data: $("#rfid_scan_add_form :input").serialize(),
+    cache: false,
+    dataType: "json",
+    success: function(data) {
+      // alert(data);
+
+      if(data.is_valid){
+        $("#rfid_scan_add_modal").modal("hide");
+        $("#rfid_scan_add_form")[0].reset();
+        $(".help-block").html("");
+      }else{
+        $("#rfid_scan_add_form")[0].reset();
+        $("#rfid_scan_help-block").html("RFID is invalid or available.");
+      }
+    }
+  });
+});
+
+
 
 $(document).on("click",".edit_student",function(e) {
     var id = e.target.id;
     show_student_data(id);
+});
+
+$(document).on("click",".delete_student",function(e) {
+  var datastr = "id="+e.target.id;
+  if(confirm("Are you sure you want to delete this student? This acton is irreversible.")){
+    $.ajax({
+      type: "POST",
+      url: "<?php echo base_url("student_ajax/delete"); ?>",
+      data: datastr,
+      cache: false,
+      success: function(data) {
+        show_student_list();
+      }
+    });
+  }
 });
 
 function show_student_data(id) {

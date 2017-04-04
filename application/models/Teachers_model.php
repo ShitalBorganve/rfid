@@ -17,12 +17,23 @@ class Teachers_model extends CI_Model {
     function edit_info($data='',$id=''){
         $this->db->where('id', $id);
         $this->db->update('teachers', $data);
-        return $this->db->last_query();
+        
+        $this->db->where('id', $id);
+        return $this->db->get("teachers")->row();
     	# code...
     }
 
-    function delete($value=''){
-    	# code...
+    function delete($data='',$id=''){
+    	    $this->db->where('id', $id);
+            $this->db->update('teachers', $data);
+            
+            $this->db->where("teacher_id",$id);
+            $this->db->set("teacher_id",0);
+            $this->db->update('classes');
+
+            $this->db->where('id', $id);
+            return $this->db->get("teachers")->row();
+            # code...
     }
 
     function get_list($where='',$page=1,$maxitem=50){
@@ -35,7 +46,6 @@ class Teachers_model extends CI_Model {
             $this->db->limit($maxitem,$limit);
             $query = $this->db->get("teachers");
             $data["query"] = $this->db->last_query();
-            $data["count"] = $this->db->count_all_results("teachers");
             $teachers_data = $query->result();
             foreach ($teachers_data as $teacher_data) {
                 $teacher_data->full_name = $teacher_data->last_name.", ".$teacher_data->first_name." ".$teacher_data->middle_name[0]." ".$teacher_data->suffix;
@@ -60,6 +70,15 @@ class Teachers_model extends CI_Model {
             }
             $data["result"] = $teachers_data;
 
+
+
+            if($where==""){
+                $this->db->where('deleted="0"');
+            }else{
+                $this->db->where($where);
+            }
+            $query = $this->db->get("teachers");
+            $data["count"] = $query->num_rows();
             
             return $data;
     }
