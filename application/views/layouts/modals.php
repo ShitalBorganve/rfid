@@ -23,9 +23,9 @@ if($modals_sets=="admin"){
 
             <div class="form-group">
 
-              <label for="rfid_scan_add"></label>
+              <label for="rfid"></label>
               <div class="col-sm-12">
-                <input type="text" class="form-control" name="rfid_scan_add" placeholder="Scan RFID using RFID Scanner..." autocomplete="off">
+                <input type="text" class="form-control" name="rfid" placeholder="Scan RFID using RFID Scanner..." autocomplete="off">
                 <p class="help-block" id="rfid_scan_help-block"></p>
               </div>
 
@@ -727,7 +727,7 @@ if($modals_sets=="admin"){
       <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title" id="rfid_add_modal_title">Add students</h4>
+        <h4 class="modal-title" id="rfid_add_modal_title">Add class</h4>
       </div>
         <div class="modal-body">
           <p>
@@ -803,7 +803,7 @@ if($modals_sets=="admin"){
       </div>
       <div class="modal-body">';
       echo form_open("sms_ajax/send",'id="sms-form" class="form-horizontal"');
-
+      echo '<input type="hidden" name="sender" value="admin">';
       echo '
       <div class="form-group">
         <label class="col-sm-4" for="type_recipient">Send to:</label>

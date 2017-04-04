@@ -15,12 +15,14 @@
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			<div class="table-responsive">
       <?php echo form_open("tables/teachers/list",'id="teacher-list-form"');?>
-      <label>Seaarch</label>
+      <label>Search</label>
       <input type="text" name="search_last_name" placeholder="Enter Last Name" id="search_last_name">
+      <input type="hidden" name="owner_id">
       </form>
 				<table class="table table-hover" id="teacher-list-table">
 					<thead>
 						<tr>
+              <th>RFID</th>
               <th>First Name</th>
               <th>Middle Name</th>
               <th>Last Name</th>
@@ -176,11 +178,67 @@ echo '
 <?php echo $js_scripts; ?>
 <script>
 
+$(document).on("click",".add_rfid_teacher",function(e) {
+  var id = e.target.id;
+  $('input[name="type"]').val("teachers");
+  $('input[name="id"]').val(id);
+  $("#rfid_add_modal_title").html("scan teacher&apos;s rfid");
+  $("#rfid_scan_add_modal").modal("show");
+});
+
+
+
+
+$(document).on("submit","#rfid_scan_add_form",function(e) {
+  e.preventDefault();
+  $.ajax({
+    type: "POST",
+    url: $("#rfid_scan_add_form").attr("action"),
+    data: $("#rfid_scan_add_form :input").serialize(),
+    cache: false,
+    dataType: "json",
+    success: function(data) {
+      $("#rfid_scan_add_form")[0].reset();
+      console.log(data);
+      
+      if(data.is_valid){
+        $("#rfid_scan_add_modal").modal("hide");
+        $(".help-block").html("");
+
+        $("#alert-modal").modal("show");
+        $("#alert-modal-title").html("scan teacher&apos;s rfid");
+        $("#alert-modal-body p").html("You have successfully added the rfid of the teacher.");
+        show_teacher_list();
+        $("#rfid_scan_help-block").html(data.error);
+      }else{
+        $("#rfid_scan_help-block").html(data.error);
+      }
+    }
+  });
+});
 
 $(document).on("click",".edit_teacher",function(e) {
     var id = e.target.id;
     show_teacher_data(id);
 });
+
+
+
+$(document).on("click",".delete_rfid_teacher",function(e) {
+  if(confirm("Are you sure you want to remove the rfid of this teacher? This action is irreversible.")){
+    var datastr = "id="+e.target.id+"&type=teachers";
+    $.ajax({
+      type: "POST",
+      url: "<?php echo base_url("rfid_ajax/delete"); ?>",
+      data: datastr,
+      cache: false,
+      success: function(data) {
+        show_teacher_list();
+      }
+    });
+  }
+});
+
 
 $(document).on("click",".delete_teacher",function(e) {
   var datastr = "id="+e.target.id;
@@ -261,22 +319,31 @@ $(document).on("click",".paging",function(e) {
 $("#search_last_name").autocomplete({
   source: "<?php echo base_url("search/teachers/list"); ?>",
   select: function(event, ui){
-      show_teacher_data(ui.item.data);
-      $("#search_last_name").val("");
-      // alert(data);
-    // window.location='item?s='+ui.item.data;
+      $('input[name="owner_id"]').val(ui.item.data);
+      show_teacher_list(1,true);
   }
 });
 
+
+$(document).on("submit","#teacher-list-form",function(e) {
+  e.preventDefault();
+  $('input[name="owner_id"]').removeAttr('value');
+  show_teacher_list();
+});
+
+
 show_teacher_list();
-function show_teacher_list(page='1') {
+function show_teacher_list(page='1',clear=false) {
   var datastr = $("#teacher-list-form").serialize();
 	$.ajax({
-		type: "POST",
+		type: "GET",
     url: $("#teacher-list-form").attr("action"),
 		data: datastr+"&page="+page,
 		cache: false,
 		success: function(data) {
+      if(clear){
+        $("#search_last_name").val("");
+      }
 			$("#teacher-list-table tbody").html(data);
 		}
 	});

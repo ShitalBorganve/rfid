@@ -64,11 +64,17 @@ class Tables extends CI_Controller {
 					$search = "";
 					$where["id"] = $this->input->get("owner_id");
 				}
+				if($arg_2=="jbtech"){
+					$where["rfid_status"] = 0;
+				}
 
+				if($arg_2=="teachers"){
+					$where["class_id"] = $this->input->get("class_id");
+				}
 				$students_list_data = $this->students_model->get_list($where,$page,$this->config->item("max_item_perpage"),$search);
 
 				// var_dump($this->input->get("owner_id"));
-				// var_dump($students_list_data["count"]);
+				// var_dump($students_list_data["query"]);
 				// exit;
 				foreach ($students_list_data["result"] as $student_data) {
 					if($student_data->guardian_id!=0){
@@ -102,16 +108,28 @@ class Tables extends CI_Controller {
 						</tr>
 						';
 
+					}elseif ($arg_2=="teachers") {
+						echo '
+						<tr>
+							<td>'.$student_data->last_name.'</td>
+							<td>'.$student_data->first_name.'</td>
+							<td>'.$student_data->middle_name.'</td>
+							<td>'.$student_data->suffix.'</td>
+							<td>'.date("m/d/Y",$student_data->birthdate).'</td>
+							<td>'.$student_data->contact_number.'</td>
+						</tr>
+						';
 					}else{
 
 						if($rfid_data->rfid==""){
 							$rfid_status = '<a href="#" class="add_rfid_student" id="'.$student_data->id.'">Scan</a>';
 						}else{
-							$rfid_status = '<a href="#" class="edit_rfid_student" id="'.$student_data->id.'">'.$rfid_data->rfid.'</a>';
+							$rfid_status = '<a href="#" class="delete_rfid_student" id="'.$student_data->id.'">'.$rfid_data->rfid.'</a>';
 						}
 						echo '
 						<tr>
 							<td>'.$rfid_status.'</td>
+							<td>'.$student_data->first_name.'</td>
 							<td>'.$student_data->first_name.'</td>
 							<td>'.$student_data->middle_name.'</td>
 							<td>'.$student_data->last_name.'</td>
@@ -130,6 +148,134 @@ class Tables extends CI_Controller {
 				echo paging($page,$students_list_data["count"],$this->config->item("max_item_perpage"),$attrib,'<tr><td colspan="20" style="text-align:center">','</td></tr>');	
 		}	
 	}
+
+
+	public function teachers($arg='',$arg_2='')
+	{
+		
+		if($arg=="list"){
+			$page = $this->input->get("page");
+			$search = "";
+			$where = "";
+
+			if($this->input->get("search_last_name")){
+				$search["search"] = "last_name";
+				$search["value"] = $this->input->get("search_last_name");
+			}
+
+			if($this->input->get("owner_id")){
+				$search = "";
+				$where["id"] = $this->input->get("owner_id");
+			}
+			if($arg_2=="jbtech"){
+				$where["rfid_status"] = 0;
+			}
+
+			$teachers_list_data = $this->teachers_model->get_list($where,$page,$this->config->item("max_item_perpage"),$search);
+
+			// var_dump($teachers_list_data);
+			// exit;
+			foreach ($teachers_list_data["result"] as $teacher_data) {
+				$get_data = array();
+				$get_data["ref_id"] = $teacher_data->id;
+				$get_data["ref_table"] = "teachers";
+				$rfid_data = $this->rfid_model->get_data($get_data);
+				if($arg_2=="jbtech"){
+					echo '
+					<tr>
+						<td>'.$teacher_data->first_name.'</td>
+						<td>'.$teacher_data->middle_name.'</td>
+						<td>'.$teacher_data->last_name.'</td>
+						<td>'.date("m/d/Y",$teacher_data->birthdate).'</td>
+						<td>'.$teacher_data->contact_number.'</td>
+						<td>'.$teacher_data->class_data->class_name.'</td>
+						<td><a href="#" class="view_student" id="'.$teacher_data->id.'">View</a></td>
+					</tr>
+					';
+				}else{
+					
+					if($rfid_data->rfid==""){
+						$rfid_status = '<a href="#" class="add_rfid_teacher" id="'.$teacher_data->id.'">Scan</a>';
+					}else{
+						$rfid_status = '<a href="#" class="delete_rfid_teacher" id="'.$teacher_data->id.'">'.$rfid_data->rfid.'</a>';
+					}
+					echo '
+					<tr>
+						<td>'.$rfid_status.'</td>
+						<td>'.$teacher_data->first_name.'</td>
+						<td>'.$teacher_data->middle_name.'</td>
+						<td>'.$teacher_data->last_name.'</td>
+						<td>'.date("m/d/Y",$teacher_data->birthdate).'</td>
+						<td>'.$teacher_data->contact_number.'</td>
+						<td>'.$teacher_data->class_data->class_name.'</td>
+						<td><a href="#" class="edit_teacher" id="'.$teacher_data->id.'">Edit info</a></td>
+						<td><a href="#" class="delete_teacher" id="'.$teacher_data->id.'" data-balloon="Delete" data-balloon-pos="down">&times;</a></td>
+					</tr>
+					';
+				}
+
+			}
+			$attrib["href"] = "#";
+			$attrib["class"] = "paging";
+			echo paging($page,$teachers_list_data["count"],$this->config->item("max_item_perpage"),$attrib,'<tr><td colspan="20" style="text-align:center">','</td></tr>');	
+		}
+	}
+
+	public function classes($arg='')
+	{
+		
+		if($arg=="list"){
+
+				$page = $this->input->post("page");
+				$classes_list_data = $this->classes_model->get_list("",$page,$this->config->item("max_item_perpage"));
+
+				// var_dump($classes_list_data["result"]);
+				// exit;
+				foreach ($classes_list_data["result"] as $class_data) {
+					echo '
+					<tr>
+						<td>'.$class_data->class_name.'</td>
+						<td>'.$class_data->room.'</td>
+						<td>'.$class_data->schedule.'</td>
+						<td>'.$class_data->teacher_data->full_name.'</td>
+						<td><a href="#" class="edit_class" id="'.$class_data->id.'">Edit info</a></td>
+						<td><a href="#" class="delete_class" id="'.$class_data->id.'" data-balloon="Delete" data-balloon-pos="down">&times;</a></td>
+					</tr>
+					';
+				}
+				$attrib["href"] = "#";
+				$attrib["class"] = "paging";
+				echo paging($page,$classes_list_data["count"],$this->config->item("max_item_perpage"),$attrib,'<tr><td colspan="20" style="text-align:center">','</td></tr>');	
+		}
+	}
+
+	public function guardians($arg='')
+	{
+		if($arg=="list"){
+
+				$page = $this->input->post("page");
+				$guardians_list_data = $this->guardian_model->get_list("",$page,$this->config->item("max_item_perpage"));
+
+				// var_dump($guardians_list_data["result"]);
+				// exit;
+				foreach ($guardians_list_data["result"] as $guardian_data) {
+					echo '
+					<tr>
+						<td>'.$guardian_data->name.'</td>
+						<td>'.$guardian_data->contact_number.'</td>
+						<td>'.$guardian_data->email_address.'</td>
+						<td style="text-align: center">'.($guardian_data->email_subscription==1?"YES":"NO").'</td>
+						<td style="text-align: center">'.($guardian_data->sms_subscription==1?"YES":"NO").'</td>
+						<td><a href="#" class="edit_guardian" id="'.$guardian_data->id.'">Edit info</a></td>
+					</tr>
+					';
+				}
+				$attrib["href"] = "#";
+				$attrib["class"] = "paging";
+				echo paging($page,$guardians_list_data["count"],$this->config->item("max_item_perpage"),$attrib,'<tr><td colspan="20" style="text-align:center">','</td></tr>');	
+		}
+	}
+
 
 	public function gate_logs($arg='')
 	{
@@ -187,8 +333,13 @@ class Tables extends CI_Controller {
 					</tr>
 				';
 			}else{
+
+
+
+	
 				echo '
 					<tr class="'.$status.'">
+						
 						<td><a href="#" id="'.$gate_log_data->owner_data->id.'" class="gate_logs">'.$gate_log_data->owner_data->last_name.", ".$gate_log_data->owner_data->first_name." ".$gate_log_data->owner_data->middle_name[0].". ".$gate_log_data->owner_data->suffix.'</td>
 						<td>'.$gate_log_data->rfid_data->rfid.'</td>
 						<td>'.date("m/d/Y",$gate_log_data->date).'</td>
@@ -205,94 +356,6 @@ class Tables extends CI_Controller {
 		// $attrib["href"] = "#";
 		// $attrib["class"] = "paging";
 		// echo paging($page,$students_log_data["count"],$this->config->item("max_item_perpage"),$attrib,'<tr><td colspan="20" style="text-align:center">','</td></tr>');
-	}
-	public function teachers($arg='')
-	{
-		
-		if($arg=="list"){
-
-				$page = $this->input->post("page");
-				$teachers_list_data = $this->teachers_model->get_list("",$page,$this->config->item("max_item_perpage"));
-
-				// var_dump($teachers_list_data);
-				// exit;
-				foreach ($teachers_list_data["result"] as $teacher_data) {
-					$get_data = array();
-					$get_data["ref_id"] = $teacher_data->id;
-					$get_data["ref_table"] = "teachers";
-					$rfid_data = $this->rfid_model->get_data($get_data);
-					echo '
-					<tr>
-						<td>'.$teacher_data->first_name.'</td>
-						<td>'.$teacher_data->middle_name.'</td>
-						<td>'.$teacher_data->last_name.'</td>
-						<td>'.date("m/d/Y",$teacher_data->birthdate).'</td>
-						<td>'.$teacher_data->contact_number.'</td>
-						<td>'.$teacher_data->class_data->class_name.'</td>
-						<td><a href="#" class="edit_teacher" id="'.$teacher_data->id.'">Edit info</a></td>
-						<td><a href="#" class="delete_teacher" id="'.$teacher_data->id.'" data-balloon="Delete" data-balloon-pos="down">&times;</a></td>
-					</tr>
-					';
-				}
-				$attrib["href"] = "#";
-				$attrib["class"] = "paging";
-				echo paging($page,$teachers_list_data["count"],$this->config->item("max_item_perpage"),$attrib,'<tr><td colspan="20" style="text-align:center">','</td></tr>');	
-		}
-	}
-
-	public function classes($arg='')
-	{
-		
-		if($arg=="list"){
-
-				$page = $this->input->post("page");
-				$classes_list_data = $this->classes_model->get_list("",$page,$this->config->item("max_item_perpage"));
-
-				// var_dump($classes_list_data["result"]);
-				// exit;
-				foreach ($classes_list_data["result"] as $class_data) {
-					echo '
-					<tr>
-						<td>'.$class_data->class_name.'</td>
-						<td>'.$class_data->room.'</td>
-						<td>'.$class_data->schedule.'</td>
-						<td>'.$class_data->teacher_data->full_name.'</td>
-						<td><a href="#" class="edit_class" id="'.$class_data->id.'">Edit info</a></td>
-						<td><a href="#" class="delete_class" id="'.$class_data->id.'" data-balloon="Delete" data-balloon-pos="down">&times;</a></td>
-					</tr>
-					';
-				}
-				$attrib["href"] = "#";
-				$attrib["class"] = "paging";
-				echo paging($page,$classes_list_data["count"],$this->config->item("max_item_perpage"),$attrib,'<tr><td colspan="20" style="text-align:center">','</td></tr>');	
-		}
-	}
-
-	public function guardians($arg='')
-	{
-		if($arg=="list"){
-
-				$page = $this->input->post("page");
-				$guardians_list_data = $this->guardian_model->get_list("",$page,$this->config->item("max_item_perpage"));
-
-				// var_dump($guardians_list_data["result"]);
-				// exit;
-				foreach ($guardians_list_data["result"] as $guardian_data) {
-					echo '
-					<tr>
-						<td>'.$guardian_data->name.'</td>
-						<td>'.$guardian_data->contact_number.'</td>
-						<td>'.$guardian_data->email_address.'</td>
-						<td style="text-align: center">'.($guardian_data->email_subscription==1?"YES":"NO").'</td>
-						<td style="text-align: center">'.($guardian_data->sms_subscription==1?"YES":"NO").'</td>
-						<td><a href="#" class="edit_guardian" id="'.$guardian_data->id.'">Edit info</a></td>
-					</tr>
-					';
-				}
-				$attrib["href"] = "#";
-				$attrib["class"] = "paging";
-				echo paging($page,$guardians_list_data["count"],$this->config->item("max_item_perpage"),$attrib,'<tr><td colspan="20" style="text-align:center">','</td></tr>');	
-		}
 	}
 
 	public function canteen($arg='')

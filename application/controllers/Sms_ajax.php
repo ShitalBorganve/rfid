@@ -52,6 +52,7 @@ class Sms_ajax extends CI_Controller {
 
 			$type_recipient = $this->input->post("type_recipient");
 			$message = $this->input->post("message");
+			$sender = $this->input->post("sender");
 			$classes = ($this->input->post("class_id")?$this->input->post("class_id"):NULL);
 
 			$this->form_validation->set_rules('type_recipient', 'Recipient', 'required');
@@ -81,7 +82,14 @@ class Sms_ajax extends CI_Controller {
 				$data["message_error"] = form_error('message');
 				$data["class_id_error"] = ($is_valid_class?"":"The Class field is required.");
 
-				$sms_db_data = $this->sms_model->add();
+				if($sender=="admin"){
+					$sms_sender = $this->session->userdata("admin_sessions");
+					$sms_sender->sender = "admins";
+					$sms_db_data = $this->sms_model->add($sms_sender);
+				}else{
+					$sms_db_data = $this->sms_model->add();
+				}
+				
 				switch ($type_recipient) {
 					case 'teachers_students':
 						foreach ($classes as $class) {

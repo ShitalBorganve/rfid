@@ -23,6 +23,8 @@ class Sms_model extends CI_Model {
 
        $sms_data["date_time"] = strtotime(date("m/d/Y h:i:s A"));
        $sms_data["date"] = strtotime(date("m/d/Y"));
+       $sms_data["sent_by_id"] = $data->id;
+       $sms_data["sent_by_table"] = $data->sender;
        $this->db->insert("sms",$sms_data);
        $this->db->limit(1);
        $this->db->order_by("id","DESC");

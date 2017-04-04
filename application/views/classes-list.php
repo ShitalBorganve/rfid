@@ -15,7 +15,7 @@
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			<div class="table-responsive">
       <?php echo form_open("tables/classes/list",'id="class-list-form"');?>
-      <label>Seaarch</label>
+      <label>Search</label>
       <input type="text" name="last_name" placeholder="Enter Last Name" id="search_last_name">
       </form>
 				<table class="table table-hover" id="class-list-table">

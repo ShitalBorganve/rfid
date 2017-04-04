@@ -75,4 +75,29 @@ class Search extends CI_Controller {
 		}
 	}
 
+	public function teachers($type='')
+	{
+		if($type=="gate_logs"){
+			$search_data["last_name"] = $this->input->get("term");
+			$where["deleted"] = "0";
+			// $where["stocks >"] = "0";
+			// $where["canteen_id"] = $this->canteen_user_data->canteen_id;
+			$order_by["last_name"] = "ASC";
+			$label_value = "last_name";
+			$data_value = "id";
+			echo $this->search_model->rfid_owner_list($this->input->get("ref_table"),"*",$label_value,$data_value,$search_data,$where,"both",$order_by);
+		}elseif ($type=="list") {
+			
+			$search_data["last_name"] = $this->input->get("term");
+			$where["deleted"] = "0";
+			// $where["stocks >"] = "0";
+			// $where["canteen_id"] = $this->canteen_user_data->canteen_id;
+			$order_by["last_name"] = "ASC";
+			$label_value = "last_name";
+			$data_value = "id";
+			echo $this->search_model->rfid_owner_list("teachers","*",$label_value,$data_value,$search_data,$where,"both",$order_by);
+			
+		}
+	}
+
 }

@@ -57,7 +57,7 @@ class Admin extends CI_Controller {
 		// var_dump($)
 		// var_dump($this->rfid_model->get_data('rfid="2222"',TRUE));
 		// $date1 = strtotime(date("m/d/Y h:i:s A"));
-		// var_dump($date1);
+		// var_dump($this->session->userdata("admin_sessions"));
 		// echo "<br>";
 		// $date2 = date("m/d/Y h:i:s A",$date1);
 		

@@ -375,4 +375,20 @@ class Student_ajax extends CI_Controller {
 			$this->rfid_model->edit_info($data,$edit_data); 
 		}
 	}
+
+
+	public function get_list($arg='')
+	{
+		$where = "";
+		if($arg=="teachers"){
+			$where["class_id"] = $this->input->get("class_id");
+			$where["deleted"] = 0;
+			$data = $this->students_model->get_list($where,1,$this->db->get_where("students",$where)->num_rows());
+
+			foreach ($data["result"] as $student_data) {
+				$student_data->full_name = $student_data->last_name.", ".$student_data->first_name." ".$student_data->middle_name[0].". ".$student_data->suffix;
+			}
+			echo json_encode($data["result"]);
+		}
+	}
 }

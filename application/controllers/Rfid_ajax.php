@@ -33,6 +33,8 @@ class Rfid_ajax extends CI_Controller {
 		$this->load->model("rfid_model");
 		$this->load->model("gate_logs_model");
 		$this->load->model("guardian_model");
+		$this->load->model("students_model");
+		$this->load->model("teachers_model");
 
 		$this->load->library('form_validation');
 		$this->load->library('session');
@@ -48,21 +50,33 @@ class Rfid_ajax extends CI_Controller {
 	public function scan_add($value='')
 	{
 		if($_POST){
-			$rfid_scan_add = $this->input->post("rfid_scan_add");
+			$rfid = $this->input->post("rfid");
 			$type = $this->input->post("type");
+			$id = $this->input->post("id");
 
-			(($type=="teachers" || $type=="students" || $type=="employee" || $type=="guards")?false:$type="students");
+			(($type=="teachers" || $type=="students" || $type=="employee")?false:$type="students");
 
-			$this->form_validation->set_rules('rfid_scan_add', 'RFID', 'required|numeric|is_available[rfid.rfid]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('rfid', 'RFID', 'required|numeric|is_available[rfid.rfid]|max_length[50]|trim|htmlspecialchars');
 
 			if ($this->form_validation->run() == FALSE)
 			{
 				$data["is_valid"] = FALSE;
-				$data["rfid_scanned_add"] = "";
+				$data["error"] = form_error("rfid");
 			}else{
 				$data["is_valid"] = TRUE;
-				$data["type"] = $type;
-				$data["rfid_scanned_add"] = $rfid_scan_add;
+				$data["error"] = "";
+				$get_data = array();
+				$get_data["ref_table"] = $type;
+				$get_data["ref_id"] = $id;
+				$update_data = array();
+				$update_data["rfid"] = $rfid;
+				$this->rfid_model->edit_info($update_data,$get_data);
+
+				$update_data = array();
+				$update_data["rfid_status"] = 1;
+
+				$model = $type."_model";
+				$this->$model->edit_info($update_data,$id);
 			}
 			echo json_encode($data);
 		}
@@ -159,6 +173,23 @@ class Rfid_ajax extends CI_Controller {
 			echo json_encode($student_data);
 		}
 	*/}
+
+	public function delete($arg='')
+	{
+		$id = $this->input->post("id");
+		$type = $this->input->post("type");
+		$update_data = array();
+		$update_data["rfid_status"] = 0;
+		$model = $type."_model";
+		$this->$model->edit_info($update_data,$id);
+
+		$update_data = array();
+		$update_data["rfid"] = "";
+		$get_data = array();
+		$get_data["ref_id"] = $id;
+		$get_data["ref_table"] = $type;
+		$this->rfid_model->edit_info($update_data,$get_data);
+	}
 
 
 	public function rfid_scan_add_load_credit($arg='')

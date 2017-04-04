@@ -106,9 +106,6 @@ $(".rfid_scan_add#teachers").click(function(e) {
 	$("#teachers_add_modal").modal("show");
 });
 
-$('#rfid_scan_add_modal').on('hidden.bs.modal', function (e) {
-	$('input[name="rfid_scan_add"]').removeAttr("autofocus");
-});
 
 
 
@@ -312,7 +309,7 @@ $(document).on("submit","#class_add_form",function(e) {
 		}
 	});
 });
-$("#send-sms").on("click",function(e) {
+$("#send-sms-admin").on("click",function(e) {
 	$("#sms-modal").modal("show");
 });
 

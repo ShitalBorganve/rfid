@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Jbtech extends CI_Controller {
+class Teacher extends CI_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -34,7 +34,6 @@ class Jbtech extends CI_Controller {
 		$this->load->model("gate_logs_model");
 		$this->load->model("classes_model");
 		$this->load->model("sms_model");
-		$this->load->model("jbtech_model");
 		
 		$this->data["title"] = "Main Title";
 		$this->data["css_scripts"] = $this->load->view("scripts/css","",true);
@@ -44,20 +43,20 @@ class Jbtech extends CI_Controller {
 		$modal_data["guardians_list"] = $this->guardian_model->get_list();
 		$modal_data["teachers_list"] = $this->teachers_model->get_list();
 		$modal_data["classes_list"] = $this->classes_model->get_list();
-		$modal_data["modals_sets"] = "jbtech";
+		$modal_data["modals_sets"] = "teacher";
 		$this->data["modaljs_scripts"] = $this->load->view("layouts/modals",$modal_data,true);
 		
-		$navbar_data["navbar_type"] = "jbtech";
-		($this->session->userdata("jbtech_sessions")?$navbar_data["navbar_is_logged_in"] = TRUE:$navbar_data["navbar_is_logged_in"] = FALSE);
+		$navbar_data["navbar_type"] = "teacher";
+		($this->session->userdata("teacher_sessions")?$navbar_data["navbar_is_logged_in"] = TRUE:$navbar_data["navbar_is_logged_in"] = FALSE);
 		$this->data["navbar_scripts"] = $this->load->view("layouts/navbar",$navbar_data,true);
 	}
 
 	public function index($student_id='')
 	{
-		$this->data["login_type"] = "jbtech";
-		if($this->session->userdata("jbtech_sessions")){
-
-			$this->load->view('jbtech-students',$this->data);
+		$this->data["login_type"] = "teacher";
+		if($this->session->userdata("teacher_sessions")){
+			$this->data["teacher_data"] = $this->session->userdata("teacher_sessions");
+			$this->load->view('teacher',$this->data);
 		}else{
 			$this->load->view('app-login',$this->data);
 		}
@@ -65,10 +64,10 @@ class Jbtech extends CI_Controller {
 
 	public function teacher($student_id='')
 	{
-		$this->data["login_type"] = "jbtech";
-		if($this->session->userdata("jbtech_sessions")){
+		$this->data["login_type"] = "teacher";
+		if($this->session->userdata("teacher_sessions")){
 
-			$this->load->view('jbtech-teachers',$this->data);
+			$this->load->view('teacher-teachers',$this->data);
 		}else{
 			$this->load->view('app-login',$this->data);
 		}
@@ -77,7 +76,7 @@ class Jbtech extends CI_Controller {
 	public function logout($value='')
 	{
 		$this->session->sess_destroy();
-		redirect("admin");		
+		redirect("teacher");		
 		# code...
 	}
 

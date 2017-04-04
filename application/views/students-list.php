@@ -15,13 +15,14 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <div class="table-responsive">
       <?php echo form_open("tables/students/list",'id="student-list-form"');?>
-      <label>Seaarch</label>
+      <label>Search</label>
       <input type="text" name="search_last_name" placeholder="Enter Last Name" id="search_last_name">
       <input type="hidden" name="owner_id">
       </form>
         <table class="table table-hover" id="student-list-table">
           <thead>
             <tr>
+              <th>RFID</th>
               <th>First Name</th>
               <th>Middle Name</th>
               <th>Last Name</th>
@@ -203,6 +204,21 @@ $(document).on("click",".add_rfid_student",function(e) {
   $("#rfid_scan_add_modal").modal("show");
 });
 
+$(document).on("click",".delete_rfid_student",function(e) {
+  if(confirm("Are you sure you want to remove the rfid of this student? This action is irreversible.")){
+    var datastr = "id="+e.target.id+"&type=students";
+    $.ajax({
+      type: "POST",
+      url: "<?php echo base_url("rfid_ajax/delete"); ?>",
+      data: datastr,
+      cache: false,
+      success: function(data) {
+        show_student_list();
+      }
+    });
+  }
+});
+
 
 $(document).on("submit","#rfid_scan_add_form",function(e) {
   e.preventDefault();
@@ -213,15 +229,20 @@ $(document).on("submit","#rfid_scan_add_form",function(e) {
     cache: false,
     dataType: "json",
     success: function(data) {
-      // alert(data);
-
+      $("#rfid_scan_add_form")[0].reset();
+      console.log(data);
+      
       if(data.is_valid){
         $("#rfid_scan_add_modal").modal("hide");
-        $("#rfid_scan_add_form")[0].reset();
         $(".help-block").html("");
+
+        $("#alert-modal").modal("show");
+        $("#alert-modal-title").html("scan student&apos;s rfid");
+        $("#alert-modal-body p").html("You have successfully added the rfid of the student.");
+        $("#rfid_scan_help-block").html(data.error);
+        show_student_list();
       }else{
-        $("#rfid_scan_add_form")[0].reset();
-        $("#rfid_scan_help-block").html("RFID is invalid or available.");
+        $("#rfid_scan_help-block").html(data.error);
       }
     }
   });
@@ -318,6 +339,7 @@ $("#search_last_name").autocomplete({
   source: "<?php echo base_url("search/students/list"); ?>",
   select: function(event, ui){
       $('input[name="owner_id"]').val(ui.item.data);
+      
       show_student_list(1,true);
   }
 });
@@ -327,6 +349,7 @@ $(document).on("submit","#student-list-form",function(e) {
   $('input[name="owner_id"]').removeAttr('value');
   show_student_list();
 });
+
 
 show_student_list();
 function show_student_list(page='1',clear=false) {

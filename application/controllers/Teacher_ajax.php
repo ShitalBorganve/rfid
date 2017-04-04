@@ -66,7 +66,7 @@ class Teacher_ajax extends CI_Controller {
 			$this->form_validation->set_rules('bday_d', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('bday_y', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('class_id', 'Class', 'trim|htmlspecialchars');
-			$this->form_validation->set_rules('contact_number', 'Contact Number', 'numeric|min_length[11]|max_length[11]trim|htmlspecialchars');
+			$this->form_validation->set_rules('contact_number', 'Contact Number', 'required|is_available[teachers.contact_number]|numeric|min_length[11]|max_length[11]trim|htmlspecialchars');
 
 			$this->form_validation->set_message('is_in_db', 'This account is invalid');
 
@@ -168,6 +168,9 @@ class Teacher_ajax extends CI_Controller {
 				$bday_y = sprintf("%04d",$this->input->post("bday_y"));
 				$birthdate_str = $bday_m."/".$bday_d."/".$bday_y;
 				$teacher_data["birthdate"] = strtotime($birthdate_str);
+				$password = random_string('alnum', 8);
+				send_sms($this->input->post("contact_number"),$password);
+				$teacher_data["password"] = md5($password);
 
 				// $teacher_data["rfid"] = $this->input->post("rfid");
 				$data["is_successful"] = TRUE;
@@ -217,7 +220,7 @@ class Teacher_ajax extends CI_Controller {
 			$this->form_validation->set_rules('bday_y', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('guardian_id', 'Guardian', 'is_in_db[guardians.id]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('class_id', 'Class', 'is_valid[classes.id]|trim|htmlspecialchars');
-			$this->form_validation->set_rules('contact_number', 'Contact Number', 'numeric|min_length[11]|max_length[11]trim|htmlspecialchars');
+			$this->form_validation->set_rules('contact_number', 'Contact Number', 'required|is_unique_edit[teachers.contact_number.teacher_id]|numeric|min_length[11]|max_length[11]trim|htmlspecialchars');
 
 			$this->form_validation->set_message('is_in_db', 'An Error has occured please refresh the page and try again.');
 
@@ -295,6 +298,8 @@ class Teacher_ajax extends CI_Controller {
 				$filename = $teacher_data_db["display_photo"];
 			}
 
+
+
 			if ($this->form_validation->run() == FALSE|| $data["is_valid_photo"] == FALSE)
 			{
 				$data["is_valid"] = FALSE;
@@ -335,6 +340,18 @@ class Teacher_ajax extends CI_Controller {
 				$bday_y = sprintf("%04d",$this->input->post("bday_y"));
 				$birthdate_str = $bday_m."/".$bday_d."/".$bday_y;
 				$teacher_data["birthdate"] = strtotime($birthdate_str);
+
+
+				$get_data = array();
+				$get_data["id"] = $this->input->post("teacher_id");
+				$teacher_data_db = $this->teachers_model->get_data($get_data);
+
+				if($teacher_data_db->contact_number!=$this->input->post("contact_number")){
+					$password = random_string('alnum', 8);
+					send_sms($this->input->post("contact_number"),$password);
+					$teacher_data["password"] = md5($password);
+				}
+
 
 				($this->teachers_model->edit_info($teacher_data,$this->input->post("teacher_id"))?$data["is_successful"] = TRUE:$data["is_successful"] = FALSE);
 
@@ -393,6 +410,42 @@ class Teacher_ajax extends CI_Controller {
 			$this->rfid_model->edit_info($data,$edit_data);
 
 
+		}
+	}
+
+	public function applogin($arg='')
+	{
+		if($_POST){
+			$this->form_validation->set_rules('account', 'Account', 'required|min_length[5]|max_length[12]|is_valid[teachers.contact_number]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('account_password', 'Password', 'required|min_length[5]|max_length[12]|trim|htmlspecialchars');
+			$this->form_validation->set_message('is_valid', 'This account is invalid');
+
+			if ($this->form_validation->run() == FALSE)
+			{
+				$data["is_valid"] = FALSE;
+				$data["account_error"] = form_error('account');
+				$data["account_password_error"] = form_error('account_password');
+			}
+			else
+			{
+				$data["contact_number"] = $account_id = $this->input->post("account");
+				$data["password"] = md5($account_password = $this->input->post("account_password"));
+				// $data["var_dump"] = $this->teachers_model->login($data);
+				$data["is_valid"] = $this->teachers_model->login($data);
+				$data["account_error"] = "";
+				
+				if($data["is_valid"]){
+					$data["account_password_error"] = "";
+					$data["redirect"] = base_url("teacher");
+
+
+				}else{
+					$data["account_password_error"] = "Incorrect Passord. Try Again.";
+					$data["redirect"] = "";
+				}
+			}
+
+			echo json_encode($data);
 		}
 	}
 

@@ -36,11 +36,14 @@ class Teachers_model extends CI_Model {
             # code...
     }
 
-    function get_list($where='',$page=1,$maxitem=50){
+    function get_list($where='',$page=1,$maxitem=50,$search=""){
         if($where==""){
             $this->db->where('deleted="0"');
         }else{
             $this->db->where($where);
+        }
+        if($search!=""){
+            $this->db->like($search["search"],$search["value"]);
         }
             $limit = ($page*$maxitem)-$maxitem;
             $this->db->limit($maxitem,$limit);
@@ -48,7 +51,7 @@ class Teachers_model extends CI_Model {
             $data["query"] = $this->db->last_query();
             $teachers_data = $query->result();
             foreach ($teachers_data as $teacher_data) {
-                $teacher_data->full_name = $teacher_data->last_name.", ".$teacher_data->first_name." ".$teacher_data->middle_name[0]." ".$teacher_data->suffix;
+                $teacher_data->full_name = $teacher_data->last_name.", ".$teacher_data->first_name." ".$teacher_data->middle_name[0].". ".$teacher_data->suffix;
                 $get_data = array();
                 $get_data["ref_id"] = $teacher_data->id;
                 $get_data["ref_table"] = "teachers";
@@ -107,6 +110,13 @@ class Teachers_model extends CI_Model {
         return $query->row_array();
     }
 
+    function login($data='')
+    {
+        $login_query = $this->db->get_where("teachers",$data);
+        $data = $login_query->row(0);
+        $this->session->set_userdata("teacher_sessions",$data);
+        return ($login_query->num_rows()===1);
+    }
 
 }
 

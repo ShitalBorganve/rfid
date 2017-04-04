@@ -15,7 +15,7 @@
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			<div class="table-responsive">
       <?php echo form_open("tables/guardians/list",'id="guardian-list-form"');?>
-      <label>Seaarch</label>
+      <label>Search</label>
       <input type="text" name="search_last_name" placeholder="Enter Last Name" id="search_last_name">
       </form>
 				<table class="table table-hover" id="guardian-list-table">
