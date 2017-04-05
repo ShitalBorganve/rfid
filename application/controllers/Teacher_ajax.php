@@ -170,7 +170,7 @@ class Teacher_ajax extends CI_Controller {
 				$teacher_data["birthdate"] = strtotime($birthdate_str);
 				$password = random_string('alnum', 8);
 
-				$message = "Your account details
+				$message = "Your account details as teacher are:
 Login: ".$this->input->post("contact_number")."
 Password: ".$password;
 
@@ -354,17 +354,25 @@ Password: ".$password;
 
 				if($teacher_data_db["contact_number"]!=$this->input->post("contact_number")){
 					$password = random_string('alnum', 8);
-					// echo "akjsndakjsdnjaksdnjkasndajkdansdasjnjkasdkj";
-					$message = "Your account details
+					$message = "Your account details as teacher are:
 Login: ".$this->input->post("contact_number")."
 Password: ".$password."
 					";
-					send_sms($this->input->post("contact_number"),$message);
+					$sms_code = send_sms($this->input->post("contact_number"),$message);
 					$teacher_data["password"] = md5($password);
+					if($sms_code==0){
+						$this->teachers_model->edit_info($teacher_data,$this->input->post("teacher_id"));
+					}else{
+						$data["is_successful"] = FALSE;
+						$data["is_valid"] = FALSE;
+						$data["contact_number_error"] = sms_status($sms_code);
+					}
+				}else{
+					$this->teachers_model->edit_info($teacher_data,$this->input->post("teacher_id"));
 				}
 
 
-				($this->teachers_model->edit_info($teacher_data,$this->input->post("teacher_id"))?$data["is_successful"] = TRUE:$data["is_successful"] = FALSE);
+				
 
 				if($has_uploaded_pic){
 					$teacher_id = $this->input->post("teacher_id");
@@ -469,13 +477,20 @@ Password: ".$password."
 
 		$password = random_string('alnum', 8);
 		// echo "akjsndakjsdnjaksdnjkasndajkdansdasjnjkasdkj";
-		$message = "Your account details
+		$message = "Your account details as teacher are:
 Login: ".$teacher_data["contact_number"]."
 Password: ".$password;
-		send_sms($teacher_data["contact_number"],$message);
-
-		$update["password"] = md5($password);
-		echo json_encode($this->teachers_model->edit_info($update,$teacher_id));
+		$sms_status_code = send_sms($teacher_data["contact_number"],$message);
+		if($sms_status_code=="0"){
+			$update["password"] = md5($password);
+			$data = $this->teachers_model->edit_info($update,$teacher_id);
+			$data["is_successful"] = TRUE;
+			echo json_encode($data);
+		}else{
+			$data["is_successful"] = FALSE;
+			$data["error"] = sms_status($sms_status_code);
+			echo json_encode($data);
+		}
 	}
 
 

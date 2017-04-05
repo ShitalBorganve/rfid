@@ -77,7 +77,7 @@ class Jbtech extends CI_Controller {
 	public function logout($value='')
 	{
 		$this->session->sess_destroy();
-		redirect("admin");		
+		redirect("jbtech");		
 		# code...
 	}
 

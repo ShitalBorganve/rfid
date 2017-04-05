@@ -29,8 +29,6 @@ class Gate extends CI_Controller {
 		$this->load->model("students_model");
 		$this->load->model("guardian_model");
 		$this->load->model("gate_logs_model");
-		$this->load->model("rfid_model");
-		$this->load->model("rfid_model");
 
 		$this->data["title"] = "Main Title";
 		$this->data["css_scripts"] = $this->load->view("scripts/css","",true);
@@ -51,12 +49,23 @@ class Gate extends CI_Controller {
 		if(!$this->session->userdata("guardian_sessions")){
 			redirect("home/login");
 		}else{
-			$guardian_data = $this->session->userdata("guardian_sessions");
-			$where["deleted"] = 0;
-			$where["guardian_id"] = $guardian_data->id;
-			$this->data["students_list"] = $this->students_model->get_list($where);
-			$this->load->view('guardian_home',$this->data);
+			$this->data["navbar_scripts"] = "";
+			$this->load->view('students-entry',$this->data);
 		}
+		
+	}
+	public function login($value='')
+	{
+
+	}
+	
+	public function logout($value='')
+	{
+		$this->session->unset_userdata('guardian_sessions');
+	}
+
+	public function gate($arg='')
+	{
 		
 	}
 }

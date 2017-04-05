@@ -61,6 +61,15 @@ if($modals_sets=="admin"){
         <div class="modal-body">
           <p>'.form_open_multipart("student_ajax/add",'id="student_add_form" class="form-horizontal"').'
             <!-- <input type="hidden" class="form-control rfid_scanned_add" name="rfid"> -->
+
+            <div class="form-group">
+              <label class="col-sm-2" for="last_name">Last Name:</label>
+              <div class="col-sm-10"> 
+                <input type="text" class="form-control" name="last_name" placeholder="Enter Last Name">
+                <p class="help-block" id="student_last_name_help-block"></p>
+              </div>
+            </div>
+
             <div class="form-group">
               <label class="col-sm-2" for="first_name">First Name:</label>
               <div class="col-sm-10">
@@ -70,13 +79,6 @@ if($modals_sets=="admin"){
               
             </div>
             
-            <div class="form-group">
-              <label class="col-sm-2" for="last_name">Last Name:</label>
-              <div class="col-sm-10"> 
-                <input type="text" class="form-control" name="last_name" placeholder="Enter Last Name">
-                <p class="help-block" id="student_last_name_help-block"></p>
-              </div>
-            </div>
             
             <div class="form-group">
               <label class="col-sm-2" for="middle_name">Middle Name:</label>
@@ -136,10 +138,10 @@ if($modals_sets=="admin"){
             </div>
 
             <div class="form-group">
-              <label class="col-sm-2" for="guardian">Guardians Email:</label>
+              <label class="col-sm-2" for="guardian">Guardians Contact Number:</label>
               <div class="col-sm-8"> 
                 <select class="ui search dropdown form-control" name="guardian_id">
-                  <option value="">Select a Guardians Email</option>
+                  <option value="">Select a Guardians Contact Number</option>
                   ';
                   foreach ($guardians_list["result"] as $guardian_data) {
                     echo '<option value="'.$guardian_data->id.'">'.$guardian_data->email_address.'</option>';
@@ -210,6 +212,16 @@ if($modals_sets=="admin"){
         <div class="modal-body">
           <p>'.form_open_multipart("teacher_ajax/add",'id="teacher_add_form" class="form-horizontal"').'
             <input type="hidden" class="form-control rfid_scanned_add" name="rfid">
+
+            <div class="form-group">
+              <label class="col-sm-2" for="last_name">Last Name:</label>
+              <div class="col-sm-10"> 
+                <input type="text" class="form-control" name="last_name" placeholder="Enter Last Name">
+                <p class="help-block" id="teacher_last_name_help-block"></p>
+              </div>
+            </div>
+
+            
             <div class="form-group">
               <label class="col-sm-2" for="first_name">First Name:</label>
               <div class="col-sm-10">
@@ -219,13 +231,7 @@ if($modals_sets=="admin"){
               
             </div>
             
-            <div class="form-group">
-              <label class="col-sm-2" for="last_name">Last Name:</label>
-              <div class="col-sm-10"> 
-                <input type="text" class="form-control" name="last_name" placeholder="Enter Last Name">
-                <p class="help-block" id="teacher_last_name_help-block"></p>
-              </div>
-            </div>
+
             
             <div class="form-group">
               <label class="col-sm-2" for="middle_name">Middle Name:</label>

@@ -71,6 +71,7 @@ $(document).on("submit","#register_guardian_form",function(e) {
 		cache: false,
 		dataType: "json",
 		success: function(data) {
+			console.log(data);
 			$("button[form='register_guardian_form']").prop('disabled', false);
 			$("#guardian_name_help-block").html(data.guardian_name_error);
 			$("#email_address_help-block").html(data.email_address_error);
@@ -406,7 +407,7 @@ function update_select_options(type,base_url) {
 			success: function(data) {
 				$.each(data, function(i, item) {
 					console.log(data[i]);
-				    $('select[name="'+type+'"]').append('<option value="'+data[i].id+'">'+data[i].email_address+'</option>');
+				    $('select[name="'+type+'"]').append('<option value="'+data[i].id+'">'+data[i].contact_number+'</option>');
 				})
 			}
 		});

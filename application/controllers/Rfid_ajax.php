@@ -129,7 +129,9 @@ class Rfid_ajax extends CI_Controller {
 							$get_data["id"] = $rfid_owner_data["guardian_id"];
 
 							$guardian_data = $this->guardian_model->get_data($get_data);
-							$rfid_owner_data["sms_status"] = send_sms($guardian_data["contact_number"],$rfid_owner_data["message"],"HIGH");	
+							if($guardian_data["sms_subscription"]=="1"){
+								$rfid_owner_data["sms_status"] = send_sms($guardian_data["contact_number"],$rfid_owner_data["message"]);
+							}
 						}
 					}
 				

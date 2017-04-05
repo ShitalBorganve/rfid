@@ -67,7 +67,8 @@ class Home extends CI_Controller {
 	}
 	public function logout($value='')
 	{
-		$this->session->unset_userdata('guardian_sessions');
+		$this->session->sess_destroy();
+		redirect("home");
 	}
 
 	public function gate($arg='')

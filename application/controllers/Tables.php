@@ -268,6 +268,8 @@ class Tables extends CI_Controller {
 						<td style="text-align: center">'.($guardian_data->email_subscription==1?"YES":"NO").'</td>
 						<td style="text-align: center">'.($guardian_data->sms_subscription==1?"YES":"NO").'</td>
 						<td><a href="#" class="edit_guardian" id="'.$guardian_data->id.'">Edit info</a></td>
+						<td><a href="#" class="reset_password_guardian" id="'.$guardian_data->id.'">Reset Password</a></td>
+						<td><a href="#" class="delete_guardian" id="'.$guardian_data->id.'" data-balloon="Delete" data-balloon-pos="down">&times;</a></td>
 					</tr>
 					';
 				}

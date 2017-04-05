@@ -52,7 +52,8 @@ class Guardian_model extends CI_Model {
     function edit_info($data='',$id=''){
         $this->db->where('id', $id);
         $this->db->update('guardians', $data);
-        return $this->db->last_query();
+        $this->db->where('id', $id);
+        return $this->db->get("guardians")->row();
         # code...
     }
 }

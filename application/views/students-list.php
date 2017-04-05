@@ -60,7 +60,15 @@ echo '
       <div class="modal-body">
         <p>'.form_open_multipart("student_ajax/edit",'id="student_edit_form" class="form-horizontal"').'
         <input type="hidden" name="student_id">
-
+        
+          <div class="form-group">
+            <label class="col-sm-2" for="last_name">Last Name:</label>
+            <div class="col-sm-10"> 
+              <input type="text" class="form-control edit_field" name="last_name" placeholder="Enter Last Name">
+              <p class="help-block" id="last_name_help-block"></p>
+            </div>
+          </div>
+        
 
           <div class="form-group">
             <label class="col-sm-2" for="first_name">First Name:</label>
@@ -70,15 +78,7 @@ echo '
             </div>
             
           </div>
-          
-          <div class="form-group">
-            <label class="col-sm-2" for="last_name">Last Name:</label>
-            <div class="col-sm-10"> 
-              <input type="text" class="form-control edit_field" name="last_name" placeholder="Enter Last Name">
-              <p class="help-block" id="last_name_help-block"></p>
-            </div>
-          </div>
-          
+
           <div class="form-group">
             <label class="col-sm-2" for="middle_name">Middle Name:</label>
             <div class="col-sm-10"> 

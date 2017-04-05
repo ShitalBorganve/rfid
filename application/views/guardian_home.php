@@ -20,9 +20,10 @@
 							<th class="table-header" colspan="20">My Students</th>
 						</tr>
 						<tr>
-							<th>Name</th>
-							<th>Remaining Load Credits</th>
-							<th></th>
+							<th>First Name</th>
+							<th>Middle Name</th>
+							<th>Last Name</th>
+							<th>Suffix</th>
 							<th></th>
 						</tr>
 					</thead>
@@ -31,10 +32,11 @@
 							foreach ($students_list["result"] as $student_data) {
 								echo '
 								<tr>
-									<td>'.$student_data->last_name.", ".$student_data->first_name." ".$student_data->middle_name[0].". ".$student_data->suffix.'</td>
-									<td style="text-align:right">'.number_format($student_data->rfid_data->load_credits,2).'</td>
+									<td>'.$student_data->first_name.'</td>
+									<td>'.$student_data->middle_name.'</td>
+									<td>'.$student_data->last_name.'</td>
+									<td>'.$student_data->suffix.'</td>
 									<td style="text-align:right"><a href="#" class="view_gate_logs" id="'.$student_data->id.'" title="Gate Logs of '.$student_data->last_name.", ".$student_data->first_name." ".$student_data->middle_name[0].". ".$student_data->suffix.'">View Gate Logs</a></td>
-									<td style="text-align:right"><a href="#" class="view-purchases" id="'.$student_data->id.'" title="Purchases of '.$student_data->last_name.", ".$student_data->first_name." ".$student_data->middle_name[0].". ".$student_data->suffix.'">View Purchases</a></td>
 								</tr>
 								';
 							}
@@ -63,9 +65,9 @@
       	<input type="hidden" name="ref_table" value="students">
       	<input type="hidden" name="for_guardian" value="true">
       	<label>Date:</label>
-      	<input id="datepicker_from" type="text" name="date_from" placeholder="Pick a Date From" readonly>
+      	<input id="datepicker_from" type="text" name="date_from" placeholder="Pick a Date From" value="<?php echo date("m/d/Y"); ?>" readonly>
       	<label> - </label>
-      	<input id="datepicker_to" type="text" name="date_to" placeholder="Pick a Date To" readonly>
+      	<input id="datepicker_to" type="text" name="date_to" placeholder="Pick a Date To" value="<?php echo date("m/d/Y"); ?>" readonly>
       		
       	</form>
         <div class="table-responsive">
@@ -111,10 +113,10 @@ $(document).on("change","#datepicker_from,#datepicker_to",function(e) {
 	show_gatelogs();
 });
 
-
+show_gatelogs();
 function show_gatelogs(page=1) {
 	$.ajax({
-		type: "POST",
+		type: "GET",
 		url: $("#view_gate_logs-form").attr("action"),
 		data: $("#view_gate_logs-form").serialize()+"&page="+page,
 		cache: false,

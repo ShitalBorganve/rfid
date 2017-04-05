@@ -60,7 +60,16 @@ echo '
         <p>'.form_open_multipart("teacher_ajax/edit",'id="teacher_edit_form" class="form-horizontal"').'
         <input type="hidden" name="teacher_id">
 
+        
+        <div class="form-group">
+          <label class="col-sm-2" for="last_name">Last Name:</label>
+          <div class="col-sm-10"> 
+            <input type="text" class="form-control edit_field" name="last_name" placeholder="Enter Last Name">
+            <p class="help-block" id="last_name_help-block"></p>
+          </div>
+        </div>
 
+        
           <div class="form-group">
             <label class="col-sm-2" for="first_name">First Name:</label>
             <div class="col-sm-10">
@@ -69,14 +78,7 @@ echo '
             </div>
             
           </div>
-          
-          <div class="form-group">
-            <label class="col-sm-2" for="last_name">Last Name:</label>
-            <div class="col-sm-10"> 
-              <input type="text" class="form-control edit_field" name="last_name" placeholder="Enter Last Name">
-              <p class="help-block" id="last_name_help-block"></p>
-            </div>
-          </div>
+
           
           <div class="form-group">
             <label class="col-sm-2" for="middle_name">Middle Name:</label>
@@ -337,9 +339,16 @@ $(document).on("click",".reset_password_teacher",function(e) {
       dataType: "json",
       cache: false,
       success: function(data) {
-        $("#alert-modal-title").html("Reset Password");
-        $("#alert-modal-body p").html("You have sent the new password to "+ data.contact_number);
-        $("#alert-modal").modal("show");
+        if(data.is_successful){
+          $("#alert-modal-title").html("Reset Password");
+          $("#alert-modal-body p").html("You have sent the new password to "+ data.contact_number);
+          $("#alert-modal").modal("show");         
+        }else{
+          $("#alert-modal-title").html("Reset Password");
+          $("#alert-modal-body p").html(data.error);
+          $("#alert-modal").modal("show");    
+        }
+ 
       }
     });
   }

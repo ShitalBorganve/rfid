@@ -26,7 +26,8 @@
               <th>Email Address</th>
               <th style="text-align: center">Email Notification</th>
               <th style="text-align: center">SMS Notification</th>
-							<th>Edit</th>
+              <th>Edit</th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -116,6 +117,47 @@
 <?php echo $js_scripts; ?>
 <script>
 
+$(document).on("click",".reset_password_guardian",function(e) {
+  var datastr = "id="+e.target.id;
+  if(confirm("Are you sure you want to reset the password of this guardian? This action is irreversible.")){
+    $.ajax({
+      type: "POST",
+      url: "<?php echo base_url("guardian_ajax/reset_password"); ?>",
+      data: datastr,
+      dataType: "json",
+      cache: false,
+      success: function(data) {
+        console.log(data);
+        if(data.is_successful){
+          $("#alert-modal-title").html("Reset Password");
+          $("#alert-modal-body p").html("You have sent the new password to "+ data.contact_number);
+          $("#alert-modal").modal("show");         
+        }else{
+          $("#alert-modal-title").html("Reset Password");
+          $("#alert-modal-body p").html(data.error);
+          $("#alert-modal").modal("show");    
+        }
+  
+      }
+    });
+  }
+});
+
+
+$(document).on("click",".delete_guardian",function(e) {
+  var datastr = "id="+e.target.id;
+  if(confirm("Are you sure you want to delete this guardian? This acton is irreversible.")){
+    $.ajax({
+      type: "POST",
+      url: "<?php echo base_url("guardian_ajax/delete"); ?>",
+      data: datastr,
+      cache: false,
+      success: function(data) {
+        show_guardian_list();
+      }
+    });
+  }
+});
 
 $(document).on("click",".edit_guardian",function(e) {
     var id = e.target.id;
@@ -147,15 +189,17 @@ function show_guardian_data(id) {
 }
 
 $(document).on("submit","#guardian_edit_form",function(e) {
-	e.preventDefault();
-	$.ajax({
-		url: $(this).attr('action'),
-		data: new FormData(this),
-		processData: false,
-		contentType: false,
-		method:"POST",
-		dataType: "json",
-		success: function(data) {
+  e.preventDefault();
+  $('button[form="guardian_edit_form"]').prop('disabled', true);
+  $.ajax({
+    url: $(this).attr('action'),
+    data: new FormData(this),
+    processData: false,
+    contentType: false,
+    method:"POST",
+    dataType: "json",
+    success: function(data) {
+      $('button[form="guardian_edit_form"]').prop('disabled', false);
       $("#guardian_id_help-block").html(data.guardian_id_error);
       $("#guardian_name_help-block").html(data.guardian_name_error);
       $("#email_address_help-block").html(data.email_address_error);
