@@ -27,8 +27,9 @@ class Admin_model extends CI_Model {
     	# code...
     }
 
-    function get_data($value=''){
-    	# code...
+    function get_data($data=''){
+    	$this->db->where($data);
+        return $this->db->get("admins")->row();
     }
 
     function login($data='')

@@ -14,6 +14,8 @@
 	<div class="row">
 		<div class="col-sm-12">
 			<?php echo form_open("tables/sms/threads_list",'id="sms_list_form"'); ?>
+			<input type="hidden" name="sent_by_id" value="<?php echo $teacher_data->id; ?>">
+			<input type="hidden" name="sent_by_table" value="teachers">
 			<label>Date From:</label>
 			<input type="text" name="date_from" id="datepicker_from" value="<?php echo date("m/d/Y");?>" readonly>
 			<label>Date To:</label>
@@ -30,6 +32,7 @@
 							<th>Time</th>
 							<th>Sender</th>
 							<th>Sender</th>
+							<th>Status</th>
 						</tr>
 					</thead>
 					<tbody>

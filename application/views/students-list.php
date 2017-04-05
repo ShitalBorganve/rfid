@@ -18,14 +18,16 @@
       <label>Search</label>
       <input type="text" name="search_last_name" placeholder="Enter Last Name" id="search_last_name">
       <input type="hidden" name="owner_id">
+      <button class="btn btn-primary" type="submit">Search</button>
       </form>
         <table class="table table-hover" id="student-list-table">
           <thead>
             <tr>
               <th>RFID</th>
+              <th>Last Name</th>
               <th>First Name</th>
               <th>Middle Name</th>
-              <th>Last Name</th>
+              <th>Suffix</th>
               <th>Birthday</th>
               <th>Guardian</th>
               <th>Contact Number</th>
@@ -196,6 +198,9 @@ echo '
 <?php echo $js_scripts; ?>
 <script>
 
+
+
+
 $(document).on("click",".add_rfid_student",function(e) {
   var id = e.target.id;
   $('input[name="type"]').val("students");
@@ -305,14 +310,16 @@ function show_student_data(id) {
 
 $(document).on("submit","#student_edit_form",function(e) {
 	e.preventDefault();
-	$.ajax({
-		url: $(this).attr('action'),
-		data: new FormData(this),
-		processData: false,
-		contentType: false,
-		method:"POST",
-		dataType: "json",
-		success: function(data) {
+  $('button[form="student_edit_form"]').prop('disabled', true);
+  $.ajax({
+    url: $(this).attr('action'),
+    data: new FormData(this),
+    processData: false,
+    contentType: false,
+    method:"POST",
+    dataType: "json",
+    success: function(data) {
+      $('button[form="student_edit_form"]').prop('disabled', false);
 			$("#first_name_help-block").html(data.first_name_error);
 			$("#last_name_help-block").html(data.last_name_error);
 			$("#middle_name_help-block").html(data.middle_name_error);

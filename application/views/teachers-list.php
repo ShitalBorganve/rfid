@@ -18,6 +18,7 @@
       <label>Search</label>
       <input type="text" name="search_last_name" placeholder="Enter Last Name" id="search_last_name">
       <input type="hidden" name="owner_id">
+      <button class="btn btn-primary" type="submit">Search</button>
       </form>
 				<table class="table table-hover" id="teacher-list-table">
 					<thead>
@@ -163,7 +164,7 @@ echo '
       </div>
       <div class="modal-footer">
       <p class="help-block" id="teacher_id_help-block"></p>
-        <button type="submit" class="btn btn-primary" form="teacher_edit_form">Add teacher</button>
+        <button type="submit" class="btn btn-primary" form="teacher_edit_form">Submit</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
@@ -284,14 +285,16 @@ function show_teacher_data(id) {
 
 $(document).on("submit","#teacher_edit_form",function(e) {
 	e.preventDefault();
-	$.ajax({
-		url: $(this).attr('action'),
-		data: new FormData(this),
-		processData: false,
-		contentType: false,
-		method:"POST",
-		dataType: "json",
-		success: function(data) {
+  $('button[form="teacher_edit_form"]').prop('disabled', true);
+  $.ajax({
+    url: $(this).attr('action'),
+    data: new FormData(this),
+    processData: false,
+    contentType: false,
+    method:"POST",
+    dataType: "json",
+    success: function(data) {
+      $('button[form="teacher_edit_form"]').prop('disabled', false);
 			$("#first_name_help-block").html(data.first_name_error);
 			$("#last_name_help-block").html(data.last_name_error);
 			$("#middle_name_help-block").html(data.middle_name_error);
@@ -321,6 +324,24 @@ $("#search_last_name").autocomplete({
   select: function(event, ui){
       $('input[name="owner_id"]').val(ui.item.data);
       show_teacher_list(1,true);
+  }
+});
+
+$(document).on("click",".reset_password_teacher",function(e) {
+  var datastr = "id="+e.target.id;
+  if(confirm("Are you sure you want to reset the password of this teacher? This action is irreversible.")){
+    $.ajax({
+      type: "POST",
+      url: "<?php echo base_url("teacher_ajax/reset_password"); ?>",
+      data: datastr,
+      dataType: "json",
+      cache: false,
+      success: function(data) {
+        $("#alert-modal-title").html("Reset Password");
+        $("#alert-modal-body p").html("You have sent the new password to "+ data.contact_number);
+        $("#alert-modal").modal("show");
+      }
+    });
   }
 });
 

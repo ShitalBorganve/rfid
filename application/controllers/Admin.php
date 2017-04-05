@@ -40,20 +40,31 @@ class Admin extends CI_Controller {
 		$this->data["js_scripts"] = $this->load->view("scripts/js","",true);
 		$this->data["meta_scripts"] = $this->load->view("scripts/meta","",true);
 		
+		// $result = file_get_contents("https://www.itexmo.com/php_api/apicode_info.php?apicode=ST-ROMEO290433_3CTWI");
+		// $sms_module_status = json_decode($result,true);
+
+
+		
 		$modal_data["guardians_list"] = $this->guardian_model->get_list();
 		$modal_data["teachers_list"] = $this->teachers_model->get_list();
 		$modal_data["classes_list"] = $this->classes_model->get_list();
 		$modal_data["modals_sets"] = "admin";
+		// $modal_data["sms_module_sms_left"] = $sms_module_status["Result "]["MessagesLeft"];
 		$this->data["modaljs_scripts"] = $this->load->view("layouts/modals",$modal_data,true);
 		
+
 		$navbar_data["navbar_type"] = "admin";
+		// $navbar_data["sms_module_sms_left"] = $sms_module_status["Result "]["MessagesLeft"];
 		($this->session->userdata("admin_sessions")?$navbar_data["navbar_is_logged_in"] = TRUE:$navbar_data["navbar_is_logged_in"] = FALSE);
 		$this->data["navbar_scripts"] = $this->load->view("layouts/navbar",$navbar_data,true);
 	}
 
 	public function index($student_id='')
 	{
+		
 
+		// exit;
+		// send_sms("09301167850","Test Message.");
 		// var_dump($)
 		// var_dump($this->rfid_model->get_data('rfid="2222"',TRUE));
 		// $date1 = strtotime(date("m/d/Y h:i:s A"));
@@ -109,7 +120,7 @@ class Admin extends CI_Controller {
 	}
 	public function sms($value='')
 	{
-		$this->data["messages_list"] = $this->sms_model->get_list();
+		
 		$this->load->view("sms",$this->data);
 	}
 

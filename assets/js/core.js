@@ -309,8 +309,13 @@ $(document).on("submit","#class_add_form",function(e) {
 		}
 	});
 });
+
 $("#send-sms-admin").on("click",function(e) {
 	$("#sms-modal").modal("show");
+});
+
+$("#send-sms-teacher").on("click",function(e) {
+	$("#sms-modal-teacher").modal("show");
 });
 
 $("#add-class").on("click",function(e) {
@@ -330,11 +335,13 @@ $(document).on("change",'select[name="type_recipient"]',function(e) {
 });
 
 
-
+var needToConfirm = false;
 $(document).on("submit","#sms-form",function(e) {
 	e.preventDefault();
+	needToConfirm = true;
 	$('button[form="sms-form"]').prop('disabled', true);
-	$('button[form="sms-form"]').html("Sending..");
+	$('button[form="sms-form"]').html("Sending...");
+	$('.loading').css("display","initial");
 	$.ajax({
 		type: "POST",
 		url: $("#sms-form").attr("action"),
@@ -342,6 +349,8 @@ $(document).on("submit","#sms-form",function(e) {
 		cache: false,
 		dataType: "json",
 		success: function(data) {
+			needToConfirm = false;
+			$('.loading').css("display","none");
 			$('button[form="sms-form"]').html("Submit");
 			$('button[form="sms-form"]').prop('disabled', false);
 			if(data.is_valid){
@@ -350,6 +359,7 @@ $(document).on("submit","#sms-form",function(e) {
 				$(".help-block").html("");
 
 				$("#sms-modal").modal("hide");
+				$("#sms-modal-teacher").modal("hide");
 				$("#sms-list-modal").modal("show");
 				$("#message_id_txt").html(data.sms_data.id);
 				$('.sms_list_table tbody').html("");
@@ -373,6 +383,13 @@ $(document).on("submit","#sms-form",function(e) {
 });
 
 
+
+window.onbeforeunload = confirmExit;
+function confirmExit()
+{
+  if (needToConfirm)
+    return "sdasdasdasd";
+}
 update_select_options("guardian_id",base_url);
 update_select_options("class_adviser",base_url);
 update_select_options("class_id[]",base_url);

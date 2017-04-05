@@ -87,7 +87,9 @@ class Sms_ajax extends CI_Controller {
 					$sms_sender->sender = "admins";
 					$sms_db_data = $this->sms_model->add($sms_sender);
 				}else{
-					$sms_db_data = $this->sms_model->add();
+					$sms_sender = $this->session->userdata("teacher_sessions");
+					$sms_sender->sender = "teachers";
+					$sms_db_data = $this->sms_model->add($sms_sender);
 				}
 				
 				switch ($type_recipient) {
@@ -326,7 +328,8 @@ class Sms_ajax extends CI_Controller {
 								$sms_data["message"] = $message;
 								$sms_data["status_code"] = send_sms($guardian_data->contact_number,$message);
 								$sms_data["status"] = sms_status($sms_data["status_code"]);
-								$this->sms_model->send($sms_data,$sms_db_data);						}
+								$this->sms_model->send($sms_data,$sms_db_data);
+							}
 						}
 						# code...
 						break;
@@ -342,24 +345,38 @@ class Sms_ajax extends CI_Controller {
 				$get_data = array();
 				$get_data["sms_id"] = $sms_db_data->id;
 				$data["sms_list"] = $this->sms_model->get_sms_list($get_data);
-
-
-
 			}
 
 			echo json_encode($data);
 			
-
-
-
 		}
 		# code...
 	}
 
-	function get_data($arg='')
+	public function get_data($arg='')
 	{
 		$sms_id = $this->input->get("sms_id");
 		$get_data["sms_id"] = $sms_id;
 		echo json_encode($this->sms_model->get_sms_list($get_data));
+	}
+
+	public function resend($value='')
+	{
+		$sms_id = $this->input->post("id");
+		$get_data["sms_id"] = $sms_id;
+		$sms_list = $this->sms_model->get_sms_list($get_data);
+		$data["is_success"] = TRUE;
+		foreach ($sms_list as $sms_data) {
+			$resend_data["status_code"] = send_sms($sms_data["mobile_number"],$sms_data["message"]);
+			$resend_data["status"] = sms_status($resend_data["status_code"]);
+			$this->sms_model->resend($resend_data,$sms_data["id"]);
+
+			if($resend_data["status"]!=0){
+				$data["is_success"] = FALSE;
+			}
+		}
+		echo json_encode($data);
+
+
 	}
 }

@@ -51,6 +51,11 @@ $(document).on("click","#clear",function(e) {
 	show_student_list();
 });
 
+$(document).on("change","#students-select",function(e) {
+	// body...
+	show_student_list();
+});
+
 $(document).on("submit","#student-list-form",function(e) {
 	e.preventDefault();
 	show_student_list();

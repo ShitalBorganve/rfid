@@ -846,8 +846,10 @@ if($modals_sets=="admin"){
 
       echo '</form>';
 
+      // echo '<span data-balloon="SMS has 500 Max Messages per Day and will reset in 12MN." data-balloon-pos="right" data-balloon-length="fit">SMS Remaining: <b>'.$sms_module_sms_left.'</b></span>';
       echo '</div>
       <div class="modal-footer">
+        <img src="'.base_url("assets/images/loading.gif").'" style="width:3rem;height:3rem;display:none" class="loading"></img>
         <button type="submit" class="btn btn-primary" form="sms-form">Submit</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
@@ -895,6 +897,96 @@ echo '
 
 ';
 
+}elseif ($modals_sets=="teacher") {
+    echo '
+  <!-- SMS Modal -->
+  <div id="sms-modal-teacher" class="modal fade" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Send SMS</h4>
+        </div>
+        <div class="modal-body">';
+        echo form_open("sms_ajax/send",'id="sms-form" class="form-horizontal"');
+        echo '<input type="hidden" name="sender" value="teacher">';
+        echo '<input type="hidden" name="class_id[]" value="'.$teacher_data->class_id.'">';
+        echo '
+        <div class="form-group">
+          <label class="col-sm-4" for="type_recipient">Send to:</label>
+          <div class="col-sm-8">
+            <select name="type_recipient" class="form-control">
+              <option value="students">Students of the class</option>
+              <option value="guardian">Students Guardian&apos;s of the class</option>
+              <option value="members">All members of the class including Student&apos;s Guardian</option>
+            </select>
+            <p class="help-block" id="type_recipient_help-block"></p>
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <label class="col-sm-4" for="message">Message:</label>
+          <div class="col-sm-8">
+            <textarea class="form-control" name="message" placeholder="Enter your message."></textarea>
+            <p class="help-block" id="message_help-block"></p>
+          </div>
+        </div>
+        ';
+
+        echo '</form>';
+
+        // echo '<span data-balloon="SMS has 500 Max Messages per Day and will reset in 12MN." data-balloon-pos="right" data-balloon-length="fit">SMS Remaining: <b>'.$sms_module_sms_left.'</b></span>';
+        echo '</div>
+        <div class="modal-footer">
+          <img src="'.base_url("assets/images/loading.gif").'" style="width:3rem;height:3rem;display:none" class="loading"></img>
+          <button type="submit" class="btn btn-primary" form="sms-form">Submit</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  ';
+
+
+  echo '
+  <!-- SMS list Modal -->
+  <div id="sms-list-modal" class="modal fade" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">SMS Status of Message ID: <span id="message_id_txt"></span></h4>
+        </div>
+        <div class="modal-body">
+          <table class="table table-hover sms_list_table">
+            <thead>
+              <tr>
+                <th>Message</th>
+                <th>Mobile Number</th>
+                <th>Recipient</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  ';
 }
 
 // var_dump();

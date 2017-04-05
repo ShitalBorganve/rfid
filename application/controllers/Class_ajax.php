@@ -48,8 +48,8 @@ class Class_ajax extends CI_Controller {
 	{
 		$this->form_validation->set_rules('class_adviser', 'Class Adviser', 'trim|htmlspecialchars');
 		$this->form_validation->set_rules('class_name', 'Class Name', 'required|max_length[50]|trim|htmlspecialchars');
-		$this->form_validation->set_rules('class_room', 'Classroom', 'required|max_length[50]|trim|htmlspecialchars');
-		$this->form_validation->set_rules('class_schedule', 'Class Schedule', 'required|max_length[50]|trim|htmlspecialchars');
+		$this->form_validation->set_rules('class_room', 'Classroom', 'max_length[50]|trim|htmlspecialchars');
+		$this->form_validation->set_rules('class_schedule', 'Class Schedule', 'max_length[50]|trim|htmlspecialchars');
 		$this->form_validation->set_message('is_in_db', 'This Teacher is invalid');
 
 		$data["class_adviser_error"] = "";
@@ -81,8 +81,8 @@ class Class_ajax extends CI_Controller {
 	{
 		$this->form_validation->set_rules('class_adviser', 'Class Adviser', 'is_valid[teachers.id]|trim|htmlspecialchars');
 		$this->form_validation->set_rules('class_name', 'Class Name', 'required|max_length[50]|trim|htmlspecialchars');
-		$this->form_validation->set_rules('class_room', 'Classroom', 'required|max_length[50]|trim|htmlspecialchars');
-		$this->form_validation->set_rules('class_schedule', 'Class Schedule', 'required|max_length[50]|trim|htmlspecialchars');
+		$this->form_validation->set_rules('class_room', 'Classroom', 'max_length[50]|trim|htmlspecialchars');
+		$this->form_validation->set_rules('class_schedule', 'Class Schedule', 'max_length[50]|trim|htmlspecialchars');
 		$this->form_validation->set_rules('class_id', 'Class', 'required|is_in_db[classes.id]|trim|htmlspecialchars');
 		$this->form_validation->set_message('is_in_db', 'This %s is invalid');
 

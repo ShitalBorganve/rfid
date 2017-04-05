@@ -110,6 +110,8 @@ $(document).on("submit","#view_gate_logs-form",function(e) {
 $(document).on("change","#datepicker_from,#datepicker_to",function(e) {
 	show_gatelogs();
 });
+
+
 function show_gatelogs(page=1) {
 	$.ajax({
 		type: "POST",

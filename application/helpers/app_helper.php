@@ -142,20 +142,12 @@ if ( ! function_exists('admin_paging'))
 		}
 	}
 
-	function send_sms($mobile_number='',$message='')
+	function send_sms($mobile_number='',$message='',$priority="NORMAL")
 	{
-		// $data["message_type"] = "SEND";
-		// // $data["shortcode"] = "29290247219";
-		// $data["message_id"] = "100011";
-		// $data["message"] = "This is a test message";
-		// // $data["client_id"] = "2ef99635eb9bf11a9a141c2e6903c75ca70bd1970e46c808a764ba9a83d79ced";
-		// // $data["secret_key"] = "544397679cc9d7301079d673d2f3c018d349bd44a2354bc440fc92defbc5f881";
-		// $data["mobile_number"] = $mobile_number;
-		// $data["message"] = $message;
-
 		$data["1"] =  $mobile_number;
 		$data["2"] =  $message;
-		$data["3"] =  "TR-JBTEC167850_X6UFC";
+		$data["3"] =  "ST-ROMEO290433_3CTWI";
+		$data["5"] =  $priority;
 
 		$data = http_build_query($data);
 		$curl = curl_init();
@@ -166,7 +158,6 @@ if ( ! function_exists('admin_paging'))
 			CURLOPT_POSTFIELDS => $data,
 		));
 		$result = curl_exec($curl);
-		// $result = json_decode($result);
 		curl_close($curl);
 		return $result;
 	}

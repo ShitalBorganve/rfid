@@ -129,10 +129,10 @@ class Tables extends CI_Controller {
 						echo '
 						<tr>
 							<td>'.$rfid_status.'</td>
-							<td>'.$student_data->first_name.'</td>
+							<td>'.$student_data->last_name.'</td>
 							<td>'.$student_data->first_name.'</td>
 							<td>'.$student_data->middle_name.'</td>
-							<td>'.$student_data->last_name.'</td>
+							<td>'.$student_data->suffix.'</td>
 							<td>'.date("m/d/Y",$student_data->birthdate).'</td>
 							<td>'.$student_data->guardian_data->name.'</td>
 							<td>'.$student_data->contact_number.'</td>
@@ -209,6 +209,7 @@ class Tables extends CI_Controller {
 						<td>'.$teacher_data->contact_number.'</td>
 						<td>'.$teacher_data->class_data->class_name.'</td>
 						<td><a href="#" class="edit_teacher" id="'.$teacher_data->id.'">Edit info</a></td>
+						<td><a href="#" class="reset_password_teacher" id="'.$teacher_data->id.'">Reset Password</a></td>
 						<td><a href="#" class="delete_teacher" id="'.$teacher_data->id.'" data-balloon="Delete" data-balloon-pos="down">&times;</a></td>
 					</tr>
 					';
@@ -421,6 +422,71 @@ class Tables extends CI_Controller {
 				';
 			}
 			# code...
+		}
+	}
+
+	public function sms($arg='')
+	{
+		$this->load->model("sms_model");
+		if($arg=="threads_list"){
+			$where ="";
+			$page = $this->input->get("page");
+			($this->input->get("sent_by_id")?$where["sent_by_id"]=$this->input->get("sent_by_id"):FALSE);
+			($this->input->get("sent_by_table")?$where["sent_by_table"]=$this->input->get("sent_by_table"):FALSE);
+			($this->input->get("date_from")?$date_from=strtotime($this->input->get("date_from")):$date_from=0);	
+			($this->input->get("date_to")?$date_to=strtotime($this->input->get("date_to")):$date_to=strtotime(date("m/d/Y")));
+
+			$between = "date BETWEEN '".$date_from."' AND '".$date_to."'";
+			$messages_list = $this->sms_model->get_list($where,$between,$page,$this->config->item("max_item_perpage"));
+			// var_dump($messages_list["	query"]);
+			// exit;	
+
+			foreach ($messages_list["result"] as $message_data) {
+				$get_data = array();
+				if($message_data->sent_by_table=="admins"){
+					$get_data["id"] = $message_data->sent_by_id;
+					$admin_data = $this->admin_model->get_data($get_data);
+					$message_data->sender_data = new stdClass();
+					$message_data->sender_data->name = $admin_data->username;
+					$message_data->sender_data->type = "Admin";
+				}elseif($message_data->sent_by_table=="teachers"){
+					$get_data["id"] = $message_data->sent_by_id;
+					$teachers_data = $this->teachers_model->get_data($get_data);
+					$message_data->sender_data = new stdClass();
+					$message_data->sender_data->name = $teachers_data["first_name"]." ".$teachers_data["middle_name"][0].". ".$teachers_data["last_name"];;
+					$message_data->sender_data->type = "Teachers";
+				}else{
+					$message_data->sender_data = new stdClass();
+					$message_data->sender_data->name = "";
+					$message_data->sender_data->type = "";
+				}
+
+				
+				if($this->sms_model->check_messages($message_data->id)){
+					$threads_status = "SENT";
+				}else{
+					$threads_status = '<a href="#" class="resend_sms" id="'.$message_data->id.'">RESEND</a>';
+				}
+				$get_data = array();
+				$get_data["sms_id"] = $message_data->id;
+				$message_content = $this->sms_model->get_sms_data($get_data,TRUE);
+
+				echo '
+				<tr>
+					<td><a href="#" class="message" id="'.$message_data->id.'">'.$message_data->id.'</a></td>
+					<td>'.$message_content->message.'</td>
+					<td>'.date("m/d/Y",$message_data->date).'</td>
+					<td>'.date("h:i:s A",$message_data->date_time).'</td>
+					<td>'.$message_data->sender_data->name.'</td>
+					<td>'.$message_data->sender_data->type.'</td>
+					<td>'.$threads_status.'</td>
+				</tr>
+				';
+			}
+
+			$attrib["href"] = "#";
+			$attrib["class"] = "paging";
+			echo paging($page,$messages_list["count"],$this->config->item("max_item_perpage"),$attrib,'<tr><td colspan="20" style="text-align:center">','</td></tr>');
 		}
 	}
 }

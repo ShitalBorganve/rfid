@@ -169,7 +169,13 @@ class Teacher_ajax extends CI_Controller {
 				$birthdate_str = $bday_m."/".$bday_d."/".$bday_y;
 				$teacher_data["birthdate"] = strtotime($birthdate_str);
 				$password = random_string('alnum', 8);
-				send_sms($this->input->post("contact_number"),$password);
+
+				$message = "Your account details
+Login: ".$this->input->post("contact_number")."
+Password: ".$password;
+
+
+				send_sms($this->input->post("contact_number"),$message);
 				$teacher_data["password"] = md5($password);
 
 				// $teacher_data["rfid"] = $this->input->post("rfid");
@@ -346,9 +352,14 @@ class Teacher_ajax extends CI_Controller {
 				$get_data["id"] = $this->input->post("teacher_id");
 				$teacher_data_db = $this->teachers_model->get_data($get_data);
 
-				if($teacher_data_db->contact_number!=$this->input->post("contact_number")){
+				if($teacher_data_db["contact_number"]!=$this->input->post("contact_number")){
 					$password = random_string('alnum', 8);
-					send_sms($this->input->post("contact_number"),$password);
+					// echo "akjsndakjsdnjaksdnjkasndajkdansdasjnjkasdkj";
+					$message = "Your account details
+Login: ".$this->input->post("contact_number")."
+Password: ".$password."
+					";
+					send_sms($this->input->post("contact_number"),$message);
 					$teacher_data["password"] = md5($password);
 				}
 
@@ -447,6 +458,24 @@ class Teacher_ajax extends CI_Controller {
 
 			echo json_encode($data);
 		}
+	}
+
+
+	public function reset_password($arg='')
+	{
+		$teacher_id = $this->input->post("id");
+		$get_data["id"] = $teacher_id;
+		$teacher_data = $this->teachers_model->get_data($get_data);
+
+		$password = random_string('alnum', 8);
+		// echo "akjsndakjsdnjaksdnjkasndajkdansdasjnjkasdkj";
+		$message = "Your account details
+Login: ".$teacher_data["contact_number"]."
+Password: ".$password;
+		send_sms($teacher_data["contact_number"],$message);
+
+		$update["password"] = md5($password);
+		echo json_encode($this->teachers_model->edit_info($update,$teacher_id));
 	}
 
 

@@ -44,18 +44,19 @@ class Teacher extends CI_Controller {
 		$modal_data["teachers_list"] = $this->teachers_model->get_list();
 		$modal_data["classes_list"] = $this->classes_model->get_list();
 		$modal_data["modals_sets"] = "teacher";
+		$modal_data["teacher_data"] = $this->session->userdata("teacher_sessions");
 		$this->data["modaljs_scripts"] = $this->load->view("layouts/modals",$modal_data,true);
 		
 		$navbar_data["navbar_type"] = "teacher";
 		($this->session->userdata("teacher_sessions")?$navbar_data["navbar_is_logged_in"] = TRUE:$navbar_data["navbar_is_logged_in"] = FALSE);
 		$this->data["navbar_scripts"] = $this->load->view("layouts/navbar",$navbar_data,true);
+		$this->data["teacher_data"] = $this->session->userdata("teacher_sessions");
 	}
 
 	public function index($student_id='')
 	{
 		$this->data["login_type"] = "teacher";
 		if($this->session->userdata("teacher_sessions")){
-			$this->data["teacher_data"] = $this->session->userdata("teacher_sessions");
 			$this->load->view('teacher',$this->data);
 		}else{
 			$this->load->view('app-login',$this->data);
@@ -71,6 +72,17 @@ class Teacher extends CI_Controller {
 		}else{
 			$this->load->view('app-login',$this->data);
 		}
+	}
+
+	public function sms($arg='')
+	{
+			$this->load->view('teacher-sms',$this->data);
+	}
+
+	public function gatelogs($arg='')
+	{
+		$this->data["teacher_data"] = $this->session->userdata("teacher_sessions");
+		$this->load->view("teacher-gatelogs",$this->data);
 	}
 
 	public function logout($value='')
