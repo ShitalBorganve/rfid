@@ -339,6 +339,7 @@ $(document).on("click",".reset_password_teacher",function(e) {
       dataType: "json",
       cache: false,
       success: function(data) {
+        console.log(data);
         if(data.is_successful){
           $("#alert-modal-title").html("Reset Password");
           $("#alert-modal-body p").html("You have sent the new password to "+ data.contact_number);

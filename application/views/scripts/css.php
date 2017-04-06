@@ -9,5 +9,6 @@ echo '<link rel="stylesheet" type="text/css" href="'.base_url("assets/semantic-u
 echo '<link rel="stylesheet" type="text/css" href="'.base_url("assets/semantic-ui/components/transition.css").'">';
 echo '<link rel="stylesheet" type="text/css" href="'.base_url("assets/css/core.css").'">';
 echo '<link rel="stylesheet" type="text/css" href="'.base_url("assets/jqueryui/jquery-ui.min.css").'">';
+echo '<link rel="shortcut icon" href="'.base_url("favicon.ico").'" type="image/x-icon" />';
 
 ?>

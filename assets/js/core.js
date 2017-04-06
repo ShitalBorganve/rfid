@@ -57,8 +57,6 @@ $(document).on("submit","#add_load_credits_form",function(e) {
 
 $(document).on("click","#register_guardian, #add_guardian",function(e) {
 	$("#register_guardian_modal").modal("show");
-	// $('select[name="guardian_id"]').html("");
-	// $('#guardian_id').html("");
 });
 
 $(document).on("submit","#register_guardian_form",function(e) {
@@ -85,6 +83,10 @@ $(document).on("submit","#register_guardian_form",function(e) {
 				$("#alert-modal-title").html("Add Guardian");
 				$("#alert-modal-body p").html("You have successfully registered a guardian.");
 				update_select_options("guardian_id",base_url);
+			}else{
+				$("#add_guardian_name_help-block").html(data.guardian_name_error);
+				$("#add_email_address_help-block").html(data.email_address_error);
+				$("#add_contact_number_help-block").html(data.contact_number_error);
 			}
 		}
 	});
@@ -105,6 +107,10 @@ $(".rfid_scan_add#students").click(function(e) {
 
 $(".rfid_scan_add#teachers").click(function(e) {
 	$("#teachers_add_modal").modal("show");
+});
+
+$(".rfid_scan_add#staffs").click(function(e) {
+	$("#staffs_add_modal").modal("show");
 });
 
 
@@ -195,6 +201,49 @@ $(document).on("submit","#teacher_add_form", function(e) {
 		}
 	})
 });
+
+
+
+$(document).on("submit","#staff_add_form", function(e) {
+	e.preventDefault();
+	$("button[form='staff_add_form']").prop('disabled', true);
+	$.ajax({
+		url: $(this).attr('action'),
+		data: new FormData(this),
+		processData: false,
+		contentType: false,
+		method:"POST",
+		dataType: "json",
+		success: function(data){
+			$("button[form='staff_add_form']").prop('disabled', false);
+			// alert(data);
+			if(data.is_valid){
+				$("#staff_add_form")[0].reset();
+				$('.ui.dropdown').dropdown('clear');
+				$(".help-block").html("");
+
+				if(data.is_successful){
+					$("#staffs_add_modal").modal("hide");
+					$("#alert-modal").modal("show");
+					$("#alert-modal-title").html("Add staff");
+					$("#alert-modal-body p").html("You have successfully added a staff in the list.");
+					update_select_options("class_adviser",base_url);
+				}
+			}else{
+				$("#staff_first_name_help-block").html(data.first_name_error);
+				$("#staff_last_name_help-block").html(data.last_name_error);
+				$("#staff_middle_name_help-block").html(data.middle_name_error);
+				$("#staff_suffix_help-block").html(data.suffix_error);
+				$("#staff_contact_number_help-block").html(data.contact_number_error);
+				$("#staff_bday_help-block").html(data.bday_error);
+				$("#staff_guardian_id_help-block").html(data.guardian_id_error);
+				$("#staff_class_id_help-block").html(data.class_id_error);
+				$("#staff_photo_help-block").html(data.photo_error);
+			}
+		}
+	})
+});
+
 
 $(document).on("submit","#guard_add_form", function(e) {
 	e.preventDefault();

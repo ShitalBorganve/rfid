@@ -17,6 +17,7 @@ class Admin extends CI_Controller {
 		$this->load->model("guardian_model");
 		$this->load->model("teachers_model");
 		$this->load->model("gate_logs_model");
+		$this->load->model("staffs_model");
 		$this->load->model("classes_model");
 		$this->load->model("sms_model");
 		
@@ -78,6 +79,12 @@ class Admin extends CI_Controller {
 	{
 		$this->data["title"] = "Teachers List";
 		$this->load->view("teachers-list",$this->data);
+	}
+
+	public function staffs($value='')
+	{
+		$this->data["title"] = "Staffs List";
+		$this->load->view("staffs-list",$this->data);
 	}
 
 	public function classes($value='')

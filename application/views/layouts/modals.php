@@ -335,41 +335,51 @@ if($modals_sets=="admin"){
 
   echo '
 
-  <!--Add Guards Modal -->
-  <div id="guards_add_modal" class="modal fade" role="dialog" tabindex="-1">
+  <!--Add Staffs Modal -->
+  <div id="staffs_add_modal" class="modal fade" role="dialog" tabindex="-1">
     <div class="modal-dialog modal-lg">
 
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Add guards</h4>
+          <h4 class="modal-title">Add staff</h4>
         </div>
         <div class="modal-body">
-          <p>'.form_open_multipart("guard_ajax/add",'id="guard_add_form" class="form-horizontal"').'
+          <p>'.form_open_multipart("staff_ajax/add",'id="staff_add_form" class="form-horizontal"').'
             <input type="hidden" class="form-control rfid_scanned_add" name="rfid">
+
             <div class="form-group">
-              <label class="col-sm-2" for="first_name">First Name:</label>
+              <label class="col-sm-2" for="position">Position:</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" name="first_name" placeholder="Enter First Name">
-                <p class="help-block" id="guard_first_name_help-block"></p>
+                <input type="text" class="form-control" name="position" placeholder="Enter Position">
+                <p class="help-block" id="staff_position_help-block"></p>
               </div>
-              
             </div>
             
             <div class="form-group">
               <label class="col-sm-2" for="last_name">Last Name:</label>
               <div class="col-sm-10"> 
                 <input type="text" class="form-control" name="last_name" placeholder="Enter Last Name">
-                <p class="help-block" id="guard_last_name_help-block"></p>
+                <p class="help-block" id="staff_last_name_help-block"></p>
               </div>
             </div>
             
+
+            <div class="form-group">
+              <label class="col-sm-2" for="first_name">First Name:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="first_name" placeholder="Enter First Name">
+                <p class="help-block" id="staff_first_name_help-block"></p>
+              </div>
+              
+            </div>
+
             <div class="form-group">
               <label class="col-sm-2" for="middle_name">Middle Name:</label>
               <div class="col-sm-10"> 
                 <input type="text" class="form-control" name="middle_name" placeholder="Enter Middle Name">
-                <p class="help-block" id="guard_middle_name_help-block"></p>
+                <p class="help-block" id="staff_middle_name_help-block"></p>
               </div>
             </div>
             
@@ -377,9 +387,18 @@ if($modals_sets=="admin"){
               <label class="col-sm-2" for="suffix">Suffix:</label>
               <div class="col-sm-10"> 
                 <input type="text" class="form-control" name="suffix" placeholder="Enter Suffix (Jr. III etc.)">
-                <p class="help-block" id="guard_suffix_help-block"></p>
+                <p class="help-block" id="staff_suffix_help-block"></p>
               </div>
             </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="contact_number">Contact Number:</label>
+              <div class="col-sm-10"> 
+                <input type="text" class="form-control" name="contact_number" placeholder="Enter Contact Number">
+                <p class="help-block" id="staff_contact_number_help-block"></p>
+              </div>
+            </div>
+
 
             <div class="form-group">
               <label class="col-sm-2" for="last_name">Birth Date:</label>
@@ -410,22 +429,22 @@ if($modals_sets=="admin"){
                   }
                   echo '
                 </select>
-                <p class="help-block" id="guard_bday_help-block"></p>
+                <p class="help-block" id="staff_bday_help-block"></p>
               </div>
             </div>
 
             <div class="form-group">
-              <label class="col-sm-2" for="student_photo">Photo:</label>
+              <label class="col-sm-2" for="staff_photo">Photo:</label>
               <div class="col-sm-10">
-              <input type="file" name="student_photo" size="20" class="form-control">
-                <p class="help-block" id="guard_photo_help-block"></p>
+              <input type="file" name="staff_photo" size="20" class="form-control">
+                <p class="help-block" id="staff_photo_help-block"></p>
               </div>
             </div>
 
           </form></p>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary" form="guard_add_form">Add Guard</button>
+          <button type="submit" class="btn btn-primary" form="staff_add_form">Add Guard</button>
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
@@ -560,7 +579,7 @@ if($modals_sets=="admin"){
             <label class="col-sm-4" for="guardian_name">Guardian Name:</label>
             <div class="col-sm-8"> 
               <input type="text" class="form-control" name="guardian_name" placeholder="Enter Guardian Name">
-              <p class="help-block" id="guardian_name_help-block"></p>
+              <p class="help-block" id="add_guardian_name_help-block"></p>
             </div>
           </div>
 
@@ -568,7 +587,7 @@ if($modals_sets=="admin"){
             <label class="col-sm-4" for="email_address">Email Address:</label>
             <div class="col-sm-8"> 
               <input type="text" class="form-control" name="email_address" placeholder="Enter Email Address">
-              <p class="help-block" id="email_address_help-block"></p>
+              <p class="help-block" id="add_email_address_help-block"></p>
             </div>
           </div>
 
@@ -576,7 +595,7 @@ if($modals_sets=="admin"){
             <label class="col-sm-4" for="contact_number">Contact Number:</label>
             <div class="col-sm-8"> 
               <input type="text" class="form-control" name="contact_number" placeholder="Enter Contact Number">
-              <p class="help-block" id="contact_number_help-block"></p>
+              <p class="help-block" id="add_contact_number_help-block"></p>
             </div>
           </div>
 
@@ -591,7 +610,7 @@ if($modals_sets=="admin"){
               <div class="checkbox">
                 <label><input type="checkbox" name="sms_subscription" value="1"> SMS Subscription</label>
               </div>
-              <p class="help-block" id="contact_number_help-block"></p>
+              <p class="help-block"></p>
             </div>
           </div>
           ';

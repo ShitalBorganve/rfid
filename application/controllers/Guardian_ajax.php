@@ -81,11 +81,12 @@ class Guardian_ajax extends CI_Controller {
 
 				$message = "Your account details as guardian are:
 Login: ".$this->input->post("contact_number")."
-Password: ".$password;
+Password: ".$password."
+You can login to ".base_url();
 				send_sms($this->input->post("contact_number"),$message);
 
 
-				$guardian_data["password"] = md5($guardian_data["password"]);
+				$guardian_data["password"] = md5($password);
 				$this->guardian_model->add($guardian_data);
 			}
 			echo json_encode($data);
@@ -133,7 +134,7 @@ Password: ".$password;
 					$message = "Your account details as guardian are:
 Login: ".$this->input->post("contact_number")."
 Password: ".$password."
-					";
+You can login to ".base_url();
 					$sms_code = send_sms($this->input->post("contact_number"),$message);
 					$guardian_data["password"] = md5($password);
 
@@ -212,7 +213,8 @@ Password: ".$password."
 		// echo "akjsndakjsdnjaksdnjkasndajkdansdasjnjkasdkj";
 		$message = "Your account details as guardian are:
 Login: ".$guardian_data["contact_number"]."
-Password: ".$password;
+Password: ".$password."
+You can login to ".base_url();
 
 		$sms_status_code = send_sms($guardian_data["contact_number"],$message);
 		if($sms_status_code=="0"){

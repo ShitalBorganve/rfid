@@ -91,8 +91,8 @@ if($navbar_type=="admin"){
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">Non-Teaching
           <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="'.base_url("admin/staff").'">List of Staffs</a></li>
-            <li><a href="#" class="rfid_scan_add" id="staff">Add Staff</a></li>
+            <li><a href="'.base_url("admin/staffs").'">List of Staffs</a></li>
+            <li><a href="#" class="rfid_scan_add" id="staffs">Add Staff</a></li>
             
           </ul>
         </li>

@@ -34,6 +34,7 @@ class Rfid_ajax extends CI_Controller {
 		$this->load->model("gate_logs_model");
 		$this->load->model("guardian_model");
 		$this->load->model("students_model");
+		$this->load->model("staffs_model");
 		$this->load->model("teachers_model");
 
 		$this->load->library('form_validation');
@@ -54,7 +55,7 @@ class Rfid_ajax extends CI_Controller {
 			$type = $this->input->post("type");
 			$id = $this->input->post("id");
 
-			(($type=="teachers" || $type=="students" || $type=="employee")?false:$type="students");
+			(($type=="teachers" || $type=="students" || $type=="staffs")?false:$type="students");
 
 			$this->form_validation->set_rules('rfid', 'RFID', 'required|numeric|is_available[rfid.rfid]|max_length[50]|trim|htmlspecialchars');
 
@@ -104,7 +105,14 @@ class Rfid_ajax extends CI_Controller {
 				$get_data["valid"] = 1;
 				$rfid_owner_data = $this->rfid_model->get_data($get_data,TRUE,TRUE);
 				$rfid_owner_data["is_valid"] = TRUE;
-				$rfid_owner_data["display_photo"] = base_url("assets/images/student_photo/".$rfid_owner_data["display_photo"]);
+				if($rfid_owner_data["rfid_data"]["ref_table"]=="students"){
+					$dir = "student_photo";
+				}elseif ($rfid_owner_data["rfid_data"]["ref_table"]=="teachers") {
+					$dir = "teacher_photo";
+				}elseif ($rfid_owner_data["rfid_data"]["ref_table"]=="staffs") {
+					$dir = "staff_photo";
+				}
+				$rfid_owner_data["display_photo"] = base_url("assets/images/".$dir."/".$rfid_owner_data["display_photo"]);
 				$rfid_owner_data["full_name"] = $rfid_owner_data["first_name"]." ".$rfid_owner_data["middle_name"][0].". ".$rfid_owner_data["last_name"];
 				$rfid_owner_data["birthdate"] = date("m/d/Y",$rfid_owner_data["birthdate"]);
 

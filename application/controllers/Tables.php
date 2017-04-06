@@ -30,6 +30,7 @@ class Tables extends CI_Controller {
 
 		//models
 		$this->load->helper('string');
+		$this->load->model('staffs_model');
 		$this->load->model('guardian_model');
 		$this->load->model("admin_model");
 		$this->load->model("classes_model");
@@ -219,6 +220,78 @@ class Tables extends CI_Controller {
 			$attrib["href"] = "#";
 			$attrib["class"] = "paging";
 			echo paging($page,$teachers_list_data["count"],$this->config->item("max_item_perpage"),$attrib,'<tr><td colspan="20" style="text-align:center">','</td></tr>');	
+		}
+	}
+
+
+	public function staffs($arg='',$arg_2='')
+	{
+		
+		if($arg=="list"){
+			$page = $this->input->get("page");
+			$search = "";
+			$where = "";
+
+			if($this->input->get("search_last_name")){
+				$search["search"] = "last_name";
+				$search["value"] = $this->input->get("search_last_name");
+			}
+
+			if($this->input->get("owner_id")){
+				$search = "";
+				$where["id"] = $this->input->get("owner_id");
+			}
+			if($arg_2=="jbtech"){
+				$where["rfid_status"] = 0;
+			}
+
+			$staffs_list_data = $this->staffs_model->get_list($where,$page,$this->config->item("max_item_perpage"),$search);
+
+			// var_dump($staffs_list_data);
+			// exit;
+			foreach ($staffs_list_data["result"] as $staff_data) {
+				$get_data = array();
+				$get_data["ref_id"] = $staff_data->id;
+				$get_data["ref_table"] = "staffs";
+				$rfid_data = $this->rfid_model->get_data($get_data);
+				if($arg_2=="jbtech"){
+					echo '
+					<tr>
+						<td>'.$staff_data->first_name.'</td>
+						<td>'.$staff_data->middle_name.'</td>
+						<td>'.$staff_data->last_name.'</td>
+						<td>'.date("m/d/Y",$staff_data->birthdate).'</td>
+						<td>'.$staff_data->contact_number.'</td>
+						<td>'.$staff_data->position.'</td>
+						<td><a href="#" class="view_student" id="'.$staff_data->id.'">View</a></td>
+					</tr>
+					';
+				}else{
+					
+					if($rfid_data->rfid==""){
+						$rfid_status = '<a href="#" class="add_rfid_staff" id="'.$staff_data->id.'">Scan</a>';
+					}else{
+						$rfid_status = '<a href="#" class="delete_rfid_staff" id="'.$staff_data->id.'">'.$rfid_data->rfid.'</a>';
+					}
+					echo '
+					<tr>
+						<td>'.$rfid_status.'</td>
+						<td>'.$staff_data->first_name.'</td>
+						<td>'.$staff_data->middle_name.'</td>
+						<td>'.$staff_data->last_name.'</td>
+						<td>'.date("m/d/Y",$staff_data->birthdate).'</td>
+						<td>'.$staff_data->contact_number.'</td>
+						<td>'.$staff_data->position.'</td>
+						<td><a href="#" class="edit_staff" id="'.$staff_data->id.'">Edit info</a></td>
+						<td><a href="#" class="delete_staff" id="'.$staff_data->id.'" data-balloon="Delete" data-balloon-pos="down">&times;</a></td>
+					</tr>
+					';
+				}
+
+			}
+			$attrib["href"] = "#";
+			$attrib["class"] = "paging";
+			echo paging($page,$staffs_list_data["count"],$this->config->item("max_item_perpage"),$attrib,'<tr><td colspan="20" style="text-align:center">','</td></tr>');	
 		}
 	}
 
@@ -471,12 +544,14 @@ class Tables extends CI_Controller {
 				}
 				$get_data = array();
 				$get_data["sms_id"] = $message_data->id;
-				$message_content = $this->sms_model->get_sms_data($get_data,TRUE);
-
+				$message_content = $this->sms_model->get_sms_data($get_data);
+				if($message_content==array()){
+					$message_content["message"] = "";
+				}
 				echo '
 				<tr>
 					<td><a href="#" class="message" id="'.$message_data->id.'">'.$message_data->id.'</a></td>
-					<td>'.$message_content->message.'</td>
+					<td>'.$message_content["message"].'</td>
 					<td>'.date("m/d/Y",$message_data->date).'</td>
 					<td>'.date("h:i:s A",$message_data->date_time).'</td>
 					<td>'.$message_data->sender_data->name.'</td>

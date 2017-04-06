@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Teacher_ajax extends CI_Controller {
+class Staff_ajax extends CI_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -33,7 +33,7 @@ class Teacher_ajax extends CI_Controller {
 		$this->load->model('guardian_model');
 		$this->load->model("admin_model");
 		$this->load->model("teachers_model");
-		$this->load->model("teachers_model");
+		$this->load->model("staffs_model");
 		$this->load->model("gate_logs_model");
 		$this->load->model("rfid_model");
 		$this->load->model("canteen_model");
@@ -58,6 +58,7 @@ class Teacher_ajax extends CI_Controller {
 			// $data["guardian_id"] = $this->input->post("guardian_id");
 			// $data["class_id"] = $this->input->post("class_id");
 
+			$this->form_validation->set_rules('position', 'Position', 'required|min_length[2]|max_length[50]trim|htmlspecialchars');
 			$this->form_validation->set_rules('first_name', 'First Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
 			$this->form_validation->set_rules('last_name', 'Last Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
 			$this->form_validation->set_rules('middle_name', 'Middle Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
@@ -65,16 +66,14 @@ class Teacher_ajax extends CI_Controller {
 			$this->form_validation->set_rules('bday_m', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('bday_d', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('bday_y', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
-			$this->form_validation->set_rules('class_id', 'Class', 'trim|htmlspecialchars');
-			$this->form_validation->set_rules('contact_number', 'Contact Number', 'required|is_available[teachers.contact_number]|numeric|min_length[11]|max_length[11]trim|htmlspecialchars');
+			$this->form_validation->set_rules('contact_number', 'Contact Number', 'numeric|min_length[11]|max_length[11]trim|htmlspecialchars');
 
-			$this->form_validation->set_message('is_in_db', 'This account is invalid');
 
 
 
 			$has_uploaded_pic = FALSE;
 			//uploads files
-			if($_FILES['teacher_photo']["error"]==0){
+			if($_FILES['staff_photo']["error"]==0){
 
 				$filename_first_name_array = explode(" ", $this->input->post("first_name"));
 				$filename_first_name = implode("-", $filename_first_name_array);
@@ -95,12 +94,12 @@ class Teacher_ajax extends CI_Controller {
 
 
 				$config['overwrite'] = TRUE;
-				$config['upload_path'] = './assets/images/teacher_photo/';
+				$config['upload_path'] = './assets/images/staff_photo/';
 				$config['allowed_types'] = 'gif|jpg|png';
 				$config['file_name'] = $filename;
 				$config['max_size']	= '20480';
 				$this->load->library('upload', $config);
-				if ( ! $this->upload->do_upload("teacher_photo"))
+				if ( ! $this->upload->do_upload("staff_photo"))
 				{
 					$data["is_valid_photo"] = FALSE;
 					$data["photo_error"] = $this->upload->display_errors("","");
@@ -136,71 +135,54 @@ class Teacher_ajax extends CI_Controller {
 			if ($this->form_validation->run() == FALSE|| $data["is_valid_photo"] == FALSE)
 			{
 				$data["is_valid"] = FALSE;
+				$data["position_error"] = form_error('position');
 				$data["first_name_error"] = form_error('first_name');
 				$data["last_name_error"] = form_error('last_name');
 				$data["middle_name_error"] = form_error('middle_name');
 				$data["suffix_error"] = form_error('suffix');
 				$data["contact_number_error"] = form_error('contact_number');
-				$data["class_id_error"] = form_error('class_id');
 				$data["bday_error"] = form_error('bday_m');
 			}
 			else
 			{
 				$data["is_valid"] = TRUE;
-				$data["first_name_error"] = "";
-				$data["last_name_error"] = "";
-				$data["middle_name_error"] = "";
-				$data["suffix_error"] = "";
-				$data["contact_numbererror"] = "";
-				$data["class_id_error"] = "";
-				$data["bday_error"] = "";
+				$data["position_error"] = form_error('position');
+				$data["first_name_error"] = form_error('first_name');
+				$data["last_name_error"] = form_error('last_name');
+				$data["middle_name_error"] = form_error('middle_name');
+				$data["suffix_error"] = form_error('suffix');
+				$data["contact_number_error"] = form_error('contact_number');
+				$data["bday_error"] = form_error('bday_m');
 
-				$teacher_data["first_name"] = $this->input->post("first_name");
-				$teacher_data["last_name"] = $this->input->post("last_name");
-				$teacher_data["middle_name"] = $this->input->post("middle_name");
-				$teacher_data["suffix"] = $this->input->post("suffix");
-				$teacher_data["contact_number"] = $this->input->post("contact_number");
-				// $teacher_data["class_id"] = $this->input->post("class_id");
-				$teacher_data["display_photo"] = $filename;
-				// $teacher_data["display_photo_type"] = $new_image_data['file_type'];
+				$staff_data["first_name"] = $this->input->post("first_name");
+				$staff_data["last_name"] = $this->input->post("last_name");
+				$staff_data["middle_name"] = $this->input->post("middle_name");
+				$staff_data["suffix"] = $this->input->post("suffix");
+				$staff_data["position"] = $this->input->post("position");
+				$staff_data["contact_number"] = $this->input->post("contact_number");
+				$staff_data["display_photo"] = $filename;
 				$bday_m = sprintf("%02d",$this->input->post("bday_m"));
 				$bday_d = sprintf("%02d",$this->input->post("bday_d"));
 				$bday_y = sprintf("%04d",$this->input->post("bday_y"));
 				$birthdate_str = $bday_m."/".$bday_d."/".$bday_y;
-				$teacher_data["birthdate"] = strtotime($birthdate_str);
-				$password = random_string('alnum', 8);
-
-				$message = "Your account details as teacher are:
-Login: ".$teacher_data["contact_number"]."
-Password: ".$password."
-You can login to ".base_url("teacher");
-
-
-				send_sms($this->input->post("contact_number"),$message);
-				$teacher_data["password"] = md5($password);
-
-				// $teacher_data["rfid"] = $this->input->post("rfid");
+				$staff_data["birthdate"] = strtotime($birthdate_str);
+				// $staff_data["rfid"] = $this->input->post("rfid");
 				$data["is_successful"] = TRUE;
-				$teacher_data = $this->teachers_model->add($teacher_data);
+				$staff_data = $this->staffs_model->add($staff_data);
 
 				if($has_uploaded_pic){
-					rename($full_path,$file_path.$teacher_data->id."_".$file_name);
+					rename($full_path,$file_path.$staff_data->id."_".$file_name);
 					$edit_data = array();
-					$edit_data["display_photo"] = $teacher_data->id."_".$file_name;
-					$this->teachers_model->edit_info($edit_data,$teacher_data->id);
+					$edit_data["display_photo"] = $staff_data->id."_".$file_name;
+					$this->staffs_model->edit_info($edit_data,$staff_data->id);
 				}
 
 
 				// $rfid_data["rfid"] = $this->input->post("rfid");
-				$rfid_data["ref_id"] = $teacher_data->id;
-				$rfid_data["ref_table"] = "teachers";
+				$rfid_data["ref_id"] = $staff_data->id;
+				$rfid_data["ref_table"] = "staffs";
 				$rfid_data["valid"] = 1;
 				$this->rfid_model->add($rfid_data);
-
-
-				$teacher_id = $teacher_data->id;
-				$class_id = ($this->input->post("class_id")?$this->input->post("class_id"):"0");
-				$this->classes_model->change_class($teacher_id,$class_id);
 
 			}
 
@@ -217,7 +199,8 @@ You can login to ".base_url("teacher");
 			// $data["guardian_id"] = $this->input->post("guardian_id");
 			// $data["class_id"] = $this->input->post("class_id");
 
-			$this->form_validation->set_rules('teacher_id', 'First Name', 'required|trim|htmlspecialchars|is_in_db[teachers.id]');
+			$this->form_validation->set_rules('staff_id', 'First Name', 'required|trim|htmlspecialchars|is_in_db[staffs.id]');
+			$this->form_validation->set_rules('position', 'Position', 'required|min_length[2]|max_length[50]trim|htmlspecialchars');
 			$this->form_validation->set_rules('first_name', 'First Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
 			$this->form_validation->set_rules('last_name', 'Last Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
 			$this->form_validation->set_rules('middle_name', 'Middle Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
@@ -225,9 +208,7 @@ You can login to ".base_url("teacher");
 			$this->form_validation->set_rules('bday_m', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('bday_d', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('bday_y', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
-			$this->form_validation->set_rules('guardian_id', 'Guardian', 'is_in_db[guardians.id]|trim|htmlspecialchars');
-			$this->form_validation->set_rules('class_id', 'Class', 'is_valid[classes.id]|trim|htmlspecialchars');
-			$this->form_validation->set_rules('contact_number', 'Contact Number', 'required|is_unique_edit[teachers.contact_number.teacher_id]|numeric|min_length[11]|max_length[11]trim|htmlspecialchars');
+			$this->form_validation->set_rules('contact_number', 'Contact Number', 'numeric|min_length[11]|max_length[11]trim|htmlspecialchars');
 
 			$this->form_validation->set_message('is_in_db', 'An Error has occured please refresh the page and try again.');
 
@@ -235,7 +216,7 @@ You can login to ".base_url("teacher");
 
 			$has_uploaded_pic = FALSE;
 			//uploads files
-			if($_FILES['teacher_photo']["error"]==0){
+			if($_FILES['staff_photo']["error"]==0){
 
 				$filename_first_name_array = explode(" ", $this->input->post("first_name"));
 				$filename_first_name = implode("-", $filename_first_name_array);
@@ -252,8 +233,8 @@ You can login to ".base_url("teacher");
 				$filename_full_name = $filename_last_name."_".$filename_first_name."_".$filename_middle_name."_".$filename_suffix;
 
 				$get_data = array();
-				$get_data["ref_id"] = $this->input->post("teacher_id");
-				$get_data["ref_table"] = "teachers";
+				$get_data["ref_id"] = $this->input->post("staff_id");
+				$get_data["ref_table"] = "staffs";
 				$rfid_data = $this->rfid_model->get_data($get_data);
 				
 
@@ -262,12 +243,12 @@ You can login to ".base_url("teacher");
 
 
 				$config['overwrite'] = TRUE;
-				$config['upload_path'] = './assets/images/teacher_photo/';
+				$config['upload_path'] = './assets/images/staff_photo/';
 				$config['allowed_types'] = 'gif|jpg|png';
 				$config['file_name'] = $filename;
 				$config['max_size']	= '20480';
 				$this->load->library('upload', $config);
-				if ( ! $this->upload->do_upload("teacher_photo"))
+				if ( ! $this->upload->do_upload("staff_photo"))
 				{
 					$data["is_valid_photo"] = FALSE;
 					$data["photo_error"] = $this->upload->display_errors("","");
@@ -300,9 +281,9 @@ You can login to ".base_url("teacher");
 				$filename = "empty.jpg";
 
 				$get_data = array();
-				$get_data["id"] = $this->input->post("teacher_id");
-				$teacher_data_db = $this->teachers_model->get_data($get_data);
-				$filename = $teacher_data_db["display_photo"];
+				$get_data["id"] = $this->input->post("staff_id");
+				$staff_data_db = $this->staffs_model->get_data($get_data);
+				$filename = $staff_data_db["display_photo"];
 			}
 
 
@@ -310,85 +291,64 @@ You can login to ".base_url("teacher");
 			if ($this->form_validation->run() == FALSE|| $data["is_valid_photo"] == FALSE)
 			{
 				$data["is_valid"] = FALSE;
+				$data["position_error"] = form_error('position');
 				$data["first_name_error"] = form_error('first_name');
 				$data["last_name_error"] = form_error('last_name');
 				$data["middle_name_error"] = form_error('middle_name');
 				$data["suffix_error"] = form_error('suffix');
 				$data["contact_number_error"] = form_error('contact_number');
 				$data["bday_error"] = form_error('bday_m');
-				$data["guardian_id_error"] = form_error('guardian_id');
-				$data["class_id_error"] = form_error('class_id');
-				$data["teacher_id_error"] = form_error('teacher_id');
+				$data["staff_id_error"] = form_error('staff_id');
 				// echo json_encode($data);
 			}
 			else
 			{
 				$data["is_valid"] = TRUE;
-				$data["first_name_error"] = "";
-				$data["last_name_error"] = "";
-				$data["middle_name_error"] = "";
-				$data["suffix_error"] = "";
-				$data["contact_number_error"] = "";
-				$data["bday_error"] = "";
-				$data["guardian_id_error"] = "";
+				$data["position_error"] = form_error('position');
+				$data["first_name_error"] = form_error('first_name');
+				$data["last_name_error"] = form_error('last_name');
+				$data["middle_name_error"] = form_error('middle_name');
+				$data["suffix_error"] = form_error('suffix');
+				$data["contact_number_error"] = form_error('contact_number');
+				$data["bday_error"] = form_error('bday_m');
 				$data["class_id_error"] = "";
 
-				$teacher_data["first_name"] = $this->input->post("first_name");
-				$teacher_data["last_name"] = $this->input->post("last_name");
-				$teacher_data["middle_name"] = $this->input->post("middle_name");
-				$teacher_data["suffix"] = $this->input->post("suffix");
-				$teacher_data["contact_number"] = $this->input->post("contact_number");
-				// $teacher_data["class_id"] = $this->input->post("class_id");
-				$teacher_data["guardian_id"] = $this->input->post("guardian_id");
-				$teacher_data["display_photo"] = $filename;
-				// $teacher_data["display_photo_type"] = $new_image_data['file_type'];
+				$staff_data["first_name"] = $this->input->post("first_name");
+				$staff_data["last_name"] = $this->input->post("last_name");
+				$staff_data["middle_name"] = $this->input->post("middle_name");
+				$staff_data["suffix"] = $this->input->post("suffix");
+				$staff_data["contact_number"] = $this->input->post("contact_number");
+				// $staff_data["class_id"] = $this->input->post("class_id");
+				$staff_data["guardian_id"] = $this->input->post("guardian_id");
+				$staff_data["display_photo"] = $filename;
+				// $staff_data["display_photo_type"] = $new_image_data['file_type'];
 				$bday_m = sprintf("%02d",$this->input->post("bday_m"));
 				$bday_d = sprintf("%02d",$this->input->post("bday_d"));
 				$bday_y = sprintf("%04d",$this->input->post("bday_y"));
 				$birthdate_str = $bday_m."/".$bday_d."/".$bday_y;
-				$teacher_data["birthdate"] = strtotime($birthdate_str);
+				$staff_data["birthdate"] = strtotime($birthdate_str);
 
 
 				$get_data = array();
-				$get_data["id"] = $this->input->post("teacher_id");
-				$teacher_data_db = $this->teachers_model->get_data($get_data);
+				$get_data["id"] = $this->input->post("staff_id");
+				$staff_data_db = $this->staffs_model->get_data($get_data);
 
-				if($teacher_data_db["contact_number"]!=$this->input->post("contact_number")){
-					$password = random_string('alnum', 8);
-					$message = "Your account details as teacher are:
-Login: ".$teacher_data["contact_number"]."
-Password: ".$password."
-You can login to ".base_url("teacher");
-					$sms_code = send_sms($this->input->post("contact_number"),$message);
-					$teacher_data["password"] = md5($password);
-					if($sms_code==0){
-						$this->teachers_model->edit_info($teacher_data,$this->input->post("teacher_id"));
-					}else{
-						$data["is_successful"] = FALSE;
-						$data["is_valid"] = FALSE;
-						$data["contact_number_error"] = sms_status($sms_code);
-					}
-				}else{
-					$this->teachers_model->edit_info($teacher_data,$this->input->post("teacher_id"));
-				}
+				
+				$this->staffs_model->edit_info($staff_data,$this->input->post("staff_id"));
 
 
 				
 
 				if($has_uploaded_pic){
-					$teacher_id = $this->input->post("teacher_id");
-					rename($full_path,$file_path.$teacher_id."_".$file_name);
+					$staff_id = $this->input->post("staff_id");
+					rename($full_path,$file_path.$staff_id."_".$file_name);
 					$edit_data = array();
-					$edit_data["display_photo"] = $teacher_id."_".$file_name;
-					$this->teachers_model->edit_info($edit_data,$teacher_id);
+					$edit_data["display_photo"] = $staff_id."_".$file_name;
+					$this->staffs_model->edit_info($edit_data,$staff_id);
 				}
 
-				$teacher_id = ($this->input->post("teacher_id")?$this->input->post("teacher_id"):"0");
-				$class_id = ($this->input->post("class_id")?$this->input->post("class_id"):"0");
-				$this->classes_model->change_class($teacher_id,$class_id);
-
 			}
-			// var_dump($this->teachers_model->edit_info($teacher_data,$this->input->post("teacher_id")));
+			// var_dump($this->staffs_model->edit_info($staff_data,$this->input->post("staff_id")));
 			// var_dump($data);
 			// exit;
 			echo json_encode($data);
@@ -400,18 +360,17 @@ You can login to ".base_url("teacher");
 
 	public function get_data($value='')
 	{
-		$teacher_data["id"] = $this->input->get("teacher_id");
-		$teacher_data = $this->teachers_model->get_data($teacher_data);
-		$teacher_data["bday_m"] = date("n",$teacher_data["birthdate"]);
-		$teacher_data["bday_d"] = date("j",$teacher_data["birthdate"]);
-		$teacher_data["bday_y"] = date("Y",$teacher_data["birthdate"]);
-		($teacher_data["class_id"]==0?$teacher_data["class_id"]="":FALSE);
-		echo json_encode($teacher_data);
+		$staff_data["id"] = $this->input->get("staff_id");
+		$staff_data = $this->staffs_model->get_data($staff_data);
+		$staff_data["bday_m"] = date("n",$staff_data["birthdate"]);
+		$staff_data["bday_d"] = date("j",$staff_data["birthdate"]);
+		$staff_data["bday_y"] = date("Y",$staff_data["birthdate"]);
+		echo json_encode($staff_data);
 	}
 
 	public function get_list($arg='')
 	{
-		$data = $this->teachers_model->get_list();
+		$data = $this->staffs_model->get_list();
 		echo json_encode($data["result"]);
 	}
 
@@ -421,12 +380,12 @@ You can login to ".base_url("teacher");
 			$data = array();
 			$data["deleted"] = 1;
 			$data["class_id"] = 0;
-			$this->teachers_model->delete($data,$this->input->post("id"));
+			$this->staffs_model->delete($data,$this->input->post("id"));
 
 			$data = array();
 			$data["deleted"] = 1;
 			$edit_data["ref_id"] = $this->input->post("id");
-			$edit_data["ref_table"] = "teachers";
+			$edit_data["ref_table"] = "staffs";
 			$this->rfid_model->edit_info($data,$edit_data);
 
 
@@ -436,7 +395,7 @@ You can login to ".base_url("teacher");
 	public function applogin($arg='')
 	{
 		if($_POST){
-			$this->form_validation->set_rules('account', 'Account', 'required|min_length[5]|max_length[12]|is_valid[teachers.contact_number]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('account', 'Account', 'required|min_length[5]|max_length[12]|is_valid[staffs.contact_number]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('account_password', 'Password', 'required|min_length[5]|max_length[12]|trim|htmlspecialchars');
 			$this->form_validation->set_message('is_valid', 'This account is invalid');
 
@@ -450,13 +409,13 @@ You can login to ".base_url("teacher");
 			{
 				$data["contact_number"] = $account_id = $this->input->post("account");
 				$data["password"] = md5($account_password = $this->input->post("account_password"));
-				// $data["var_dump"] = $this->teachers_model->login($data);
-				$data["is_valid"] = $this->teachers_model->login($data);
+				// $data["var_dump"] = $this->staffs_model->login($data);
+				$data["is_valid"] = $this->staffs_model->login($data);
 				$data["account_error"] = "";
 				
 				if($data["is_valid"]){
 					$data["account_password_error"] = "";
-					$data["redirect"] = base_url("teacher");
+					$data["redirect"] = base_url("staff");
 
 
 				}else{
@@ -468,32 +427,5 @@ You can login to ".base_url("teacher");
 			echo json_encode($data);
 		}
 	}
-
-
-	public function reset_password($arg='')
-	{
-		$teacher_id = $this->input->post("id");
-		$get_data["id"] = $teacher_id;
-		$teacher_data = $this->teachers_model->get_data($get_data);
-
-		$password = random_string('alnum', 8);
-		// echo "akjsndakjsdnjaksdnjkasndajkdansdasjnjkasdkj";
-		$message = "Your account details as teacher are:
-Login: ".$teacher_data["contact_number"]."
-Password: ".$password."
-You can login to ".base_url("teacher");
-		$sms_status_code = send_sms($teacher_data["contact_number"],$message);
-		if($sms_status_code=="0"){
-			$update["password"] = md5($password);
-			$data = $this->teachers_model->edit_info($update,$teacher_id);
-			$data->is_successful = TRUE;
-			echo json_encode($data);
-		}else{
-			$data["is_successful"] = FALSE;
-			$data["error"] = sms_status($sms_status_code);
-			echo json_encode($data);
-		}
-	}
-
 
 }
