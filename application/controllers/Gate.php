@@ -46,12 +46,9 @@ class Gate extends CI_Controller {
 
 	public function index($arg='')
 	{
-		if(!$this->session->userdata("guardian_sessions")){
-			redirect("home/login");
-		}else{
-			$this->data["navbar_scripts"] = "";
-			$this->load->view('students-entry',$this->data);
-		}
+		$this->data["modaljs_scripts"] = "";
+		$this->data["navbar_scripts"] = "";
+		$this->load->view('gate',$this->data);
 		
 	}
 	public function login($value='')

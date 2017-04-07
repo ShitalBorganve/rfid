@@ -51,9 +51,10 @@ class Guardian_ajax extends CI_Controller {
 	public function register($value='')
 	{
 		if($_POST){
-			$this->form_validation->set_rules('email_address', 'Email Address', 'valid_email|trim|htmlspecialchars|is_available[guardians.email_address]|min_length[2]|max_length[50]');
+			$this->form_validation->set_rules('email_address', 'Email Address', 'valid_email|trim|htmlspecialchars|min_length[2]|max_length[50]');
+			$this->form_validation->set_rules('email_subscription', 'Email Address', 'email_subscription[email_address]');
 			$this->form_validation->set_rules('guardian_name', 'Guardian Name', 'required|custom_alpha_dash|trim|htmlspecialchars|min_length[2]|max_length[50]');
-			$this->form_validation->set_rules('contact_number', 'Contact Number', 'required|is_available[guardians.contact_number]|trim|htmlspecialchars|min_length[11]|max_length[11]');
+			$this->form_validation->set_rules('contact_number', 'Contact Number', 'numeric|required|is_available[guardians.contact_number]|trim|htmlspecialchars|min_length[11]|max_length[11]');
 			$this->form_validation->set_message('is_available', 'This %s is invalid or already taken');
 
 			if ($this->form_validation->run() == FALSE)
@@ -62,11 +63,13 @@ class Guardian_ajax extends CI_Controller {
 				$data["guardian_name_error"] = form_error("guardian_name");
 				$data["email_address_error"] = form_error("email_address");
 				$data["contact_number_error"] = form_error("contact_number");
+				$data["subscription_error"] = form_error("email_subscription");
 			}else{
 				$data["is_valid"] = TRUE;
 				$data["guardian_name_error"] = "";
 				$data["email_address_error"] = "";
 				$data["contact_number_error"] = "";
+				$data["subscription_error"] = "";
 
 				($this->input->post("email_subscription")!=NULL?$email_subscription=1:$email_subscription=0);
 				($this->input->post("sms_subscription")!=NULL?$sms_subscription=1:$sms_subscription=0);
@@ -98,10 +101,11 @@ You can login to ".base_url();
 	{
 		if($_POST){
 			$this->form_validation->set_rules('guardian_name', 'Guardian Name', 'required|custom_alpha_dash|trim|htmlspecialchars|min_length[2]|max_length[50]');
+			$this->form_validation->set_rules('email_subscription', 'Email Address', 'email_subscription[email_address]');
 			$this->form_validation->set_rules('guardian_id', 'Guardian', 'trim|htmlspecialchars|is_in_db[guardians.id]');
-			$this->form_validation->set_rules('email_address', 'Email Address', 'required|is_unique_edit[guardians.email_address.guardian_id]|valid_email|trim|htmlspecialchars|min_length[2]|max_length[50]');
+			$this->form_validation->set_rules('email_address', 'Email Address', 'valid_email|trim|htmlspecialchars|min_length[2]|max_length[50]');
 			$this->form_validation->set_message('is_available', 'This Email is invalid or already taken');
-			$this->form_validation->set_rules('contact_number', 'Contact Number', 'required|is_unique_edit[guardians.contact_number.guardian_id]"trim|htmlspecialchars|min_length[11]|max_length[11]');
+			$this->form_validation->set_rules('contact_number', 'Contact Number', 'numeric|required|is_unique_edit[guardians.contact_number.guardian_id]"trim|htmlspecialchars|min_length[11]|max_length[11]');
 
 			if ($this->form_validation->run() == FALSE)
 			{
@@ -109,11 +113,13 @@ You can login to ".base_url();
 				$data["guardian_name_error"] = form_error("guardian_name");
 				$data["email_address_error"] = form_error("email_address");
 				$data["contact_number_error"] = form_error("contact_number");
+				$data["subscription_error"] = form_error("email_subscription");
 			}else{
 				$data["is_valid"] = TRUE;
 				$data["guardian_name_error"] = "";
 				$data["email_address_error"] = "";
 				$data["contact_number_error"] = "";
+				$data["subscription_error"] = "";
 
 				($this->input->post("email_subscription")!=NULL?$email_subscription=1:$email_subscription=0);
 				($this->input->post("sms_subscription")!=NULL?$sms_subscription=1:$sms_subscription=0);
@@ -235,6 +241,26 @@ You can login to ".base_url();
 		if($_POST){
 			$data["deleted"] = 1;
 			$this->guardian_model->edit_info($data,$this->input->post("id"));
+		}
+	}
+
+	public function email_settings($arg='')
+	{
+		if($_POST){
+			$this->form_validation->set_rules('email_address', 'Email Address', 'required|valid_email|trim|htmlspecialchars|min_length[2]|max_length[50]');
+			$this->form_validation->set_rules('id', 'Guardian', 'trim|htmlspecialchars|is_in_db[guardians.id]');
+
+			if ($this->form_validation->run() == FALSE)
+			{
+				$data["is_valid"] = FALSE;
+				$data["email_address_error"] = form_error("email_address");
+			}else{
+				$data["is_valid"] = TRUE;
+				$update_data["email_address"] = $this->input->post("email_address");
+				$update_data["email_subscription"] = ($this->input->post("email_subscription")?1:0);
+				$this->guardian_model->edit_info($update_data,$this->input->post("id"));
+			}
+			echo json_encode($data);
 		}
 	}
 }

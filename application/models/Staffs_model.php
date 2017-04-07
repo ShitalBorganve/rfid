@@ -26,10 +26,6 @@ class Staffs_model extends CI_Model {
     function delete($data='',$id=''){
     	    $this->db->where('id', $id);
             $this->db->update('staffs', $data);
-            
-            $this->db->where("staff_id",$id);
-            $this->db->set("staff_id",0);
-            $this->db->update('classes');
 
             $this->db->where('id', $id);
             return $this->db->get("staffs")->row();

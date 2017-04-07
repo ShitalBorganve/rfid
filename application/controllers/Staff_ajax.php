@@ -379,7 +379,6 @@ class Staff_ajax extends CI_Controller {
 		if($_POST){
 			$data = array();
 			$data["deleted"] = 1;
-			$data["class_id"] = 0;
 			$this->staffs_model->delete($data,$this->input->post("id"));
 
 			$data = array();
@@ -387,7 +386,6 @@ class Staff_ajax extends CI_Controller {
 			$edit_data["ref_id"] = $this->input->post("id");
 			$edit_data["ref_table"] = "staffs";
 			$this->rfid_model->edit_info($data,$edit_data);
-
 
 		}
 	}

@@ -94,7 +94,7 @@
               <div class="checkbox">
                 <label><input type="checkbox" class="edit_field" name="sms_subscription" value="1"> SMS Subscription</label>
               </div>
-              <p class="help-block" id="contact_number_help-block"></p>
+              <p class="help-block" id="subscription_help-block"></p>
             </div>
           </div>
           ';
@@ -203,7 +203,8 @@ $(document).on("submit","#guardian_edit_form",function(e) {
       $("#guardian_id_help-block").html(data.guardian_id_error);
       $("#guardian_name_help-block").html(data.guardian_name_error);
       $("#email_address_help-block").html(data.email_address_error);
-			$("#contact_number_help-block").html(data.contact_number_error);
+      $("#contact_number_help-block").html(data.contact_number_error);
+			$("#subscription_help-block").html(data.subscription_error);
 			if(data.is_valid){
 				$("#guardian_edit_modal").modal("hide");
 				$("#alert-modal").modal("show");

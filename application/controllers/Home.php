@@ -36,18 +36,34 @@ class Home extends CI_Controller {
 		$this->data["meta_scripts"] = $this->load->view("scripts/meta","",true);
 		
 		$modal_data["modals_sets"] = "home";
+		$get_data = array();
+		$get_data["id"] = $this->session->userdata("guardian_sessions")->id;
+		$modal_data["login_user_data"] = $this->guardian_model->get_data($get_data,TRUE);
 		$modal_data["rfid_scanned_addstudent"] = $this->session->userdata("rfid_scanned_addstudent");
 		$this->data["modaljs_scripts"] = $this->load->view("layouts/modals",$modal_data,true);
 		
 		$navbar_data["navbar_type"] = "home";
 		($this->session->userdata("guardian_sessions")?$navbar_data["navbar_is_logged_in"] = TRUE:$navbar_data["navbar_is_logged_in"] = FALSE);
 		$this->data["navbar_scripts"] = $this->load->view("layouts/navbar",$navbar_data,true);
+
+
+		if(current_url()==base_url()||current_url()==base_url("home")){
+			
+		}else{
+			if($this->session->userdata("guardian_sessions")==NULL){
+				redirect(base_url());
+			}
+		}
+
 	}
 
 	public function index($arg='')
 	{
+		
+		$this->data["title"] = "My Students";
 		if(!$this->session->userdata("guardian_sessions")){
-			redirect("home/login");
+			$this->data["login_type"] = "guardian";
+			$this->load->view('app-login',$this->data);
 		}else{
 			$guardian_data = $this->session->userdata("guardian_sessions");
 			$where["deleted"] = 0;
@@ -59,21 +75,11 @@ class Home extends CI_Controller {
 		}
 		
 	}
-	public function login($value='')
-	{
-		# code...
-		$this->data["login_type"] = "guardian";
-		$this->load->view('app-login',$this->data);
-	}
+
 	public function logout($value='')
 	{
 		$this->session->sess_destroy();
 		redirect("home");
 	}
 
-	public function gate($arg='')
-	{
-		$this->data["navbar_scripts"] = "";
-		$this->load->view('students-entry',$this->data);
-	}
 }

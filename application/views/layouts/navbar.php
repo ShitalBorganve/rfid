@@ -107,12 +107,11 @@ if($navbar_type=="admin"){
               <li>';
               if($navbar_is_logged_in){
                 echo '
-                <a href="#" class="email_notif"><span class="glyphicon glyphicon-cog"></span> Email Notification</a>
-                <a href="#" class="change_password"><span class="glyphicon glyphicon-cog"></span> Change Password</a>
+                <a href="#" class="change_password" id="admins"><span class="glyphicon glyphicon-cog"></span> Change Password</a>
                 ';
-                echo '<a href="#" id="send-sms-admin">Send SMS <span class="badge"></span></a>';
+                echo '<a href="#" id="send-sms-admin"><span class="glyphicon glyphicon glyphicon-send"></span> Send SMS <span class="badge"></span></a>';
                 // echo '<a href="#" id="send-sms-admin">Send SMS <span class="badge">'.$sms_module_sms_left.'</span></a>';
-                echo '<a href="'.base_url("admin/sms").'">SMS Status</a>';
+                echo '<a href="'.base_url("admin/sms").'"><span class="glyphicon glyphicon glyphicon-envelope"></span> SMS Threads</a>';
                 echo '<a href="'.base_url("$navbar_type/logout").'"><span class="glyphicon glyphicon-log-out"></span> Logout</a>';
               }else{
                 echo '<a href="'.base_url("$navbar_type/login").'"><span class="glyphicon glyphicon-log-in"></span> Login</a>';
@@ -148,8 +147,8 @@ if($navbar_type=="admin"){
           <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li>
-              <a href="#" class="email_notif"><span class="glyphicon glyphicon-cog"></span> Email Notification</a>
-              <a href="#" class="change_password"><span class="glyphicon glyphicon-cog"></span> Change Password</a>
+              <a href="#" class="email_settings" id="guardians"><span class="glyphicon glyphicon-cog"></span> Email Settings</a>
+              <a href="#" class="change_password" id="guardians"><span class="glyphicon glyphicon-cog"></span> Change Password</a>
               <a href="'.base_url("home/logout").'"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
             ';
             echo '</li>
@@ -234,7 +233,7 @@ if($navbar_type=="admin"){
                   <a href="#" class="email_notif"><span class="glyphicon glyphicon-cog"></span> Email Notification</a>
                   <a href="#" class="change_password"><span class="glyphicon glyphicon-cog"></span> Change Password</a>
                   ';
-                  echo '<a href="'.base_url("admin/sms").'">SMS Status</a>';
+                  echo '<a href="'.base_url("admin/sms").'">SMS Threads</a>';
                   echo '<a href="'.base_url("$navbar_type/logout").'"><span class="glyphicon glyphicon-log-out"></span> Logout</a>';
                 }else{
                   echo '<a href="'.base_url("$navbar_type/login").'"><span class="glyphicon glyphicon-log-in"></span> Login</a>';
@@ -297,13 +296,9 @@ if($navbar_type=="admin"){
               <ul class="dropdown-menu">
                 <li>';
                 if($navbar_is_logged_in){
-                  echo '
-                  <a href="#" class="email_notif"><span class="glyphicon glyphicon-cog"></span> Email Notification</a>
-                  <a href="#" class="change_password"><span class="glyphicon glyphicon-cog"></span> Change Password</a>
-                  ';
-                  echo '<a href="#" id="send-sms-teacher">Send SMS</a>';
-                  echo '<a href="'.base_url("teacher/sms").'">SMS Status</a>';
-                  echo '<a href="'.base_url("teacher/settings").'"><i class="fa fa-cog" aria-hidden="true"></i> Settings</a>';
+                  echo '<a href="#" id="send-sms-teacher"><span class="glyphicon glyphicon glyphicon-send"></span> Send SMS</a>';
+                  echo '<a href="'.base_url("teacher/sms").'"><span class="glyphicon glyphicon glyphicon-envelope"></span> SMS Threads</a>';
+                  echo '<a href="#" class="change_password" id="teachers"><span class="glyphicon glyphicon-cog"></span> Change Password</a>';
                   echo '<a href="'.base_url("$navbar_type/logout").'"><span class="glyphicon glyphicon-log-out"></span> Logout</a>';
                 }else{
                   echo '<a href="'.base_url("$navbar_type/login").'"><span class="glyphicon glyphicon-log-in"></span> Login</a>';

@@ -44,6 +44,7 @@ class Jbtech extends CI_Controller {
 		$modal_data["guardians_list"] = $this->guardian_model->get_list();
 		$modal_data["teachers_list"] = $this->teachers_model->get_list();
 		$modal_data["classes_list"] = $this->classes_model->get_list();
+		$modal_data["login_user_data"] = $this->session->userdata("jbtech_sessions");
 		$modal_data["modals_sets"] = "jbtech";
 		$this->data["modaljs_scripts"] = $this->load->view("layouts/modals",$modal_data,true);
 		

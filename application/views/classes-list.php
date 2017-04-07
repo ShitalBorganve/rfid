@@ -15,8 +15,6 @@
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			<div class="table-responsive">
       <?php echo form_open("tables/classes/list",'id="class-list-form"');?>
-      <label>Search</label>
-      <input type="text" name="last_name" placeholder="Enter Last Name" id="search_last_name">
       </form>
 				<table class="table table-hover" id="class-list-table">
 					<thead>
@@ -165,6 +163,7 @@ function show_class_data(id) {
 
 $(document).on("submit","#class_edit_form",function(e) {
 	e.preventDefault();
+	$('button[form="class_edit_form"]').prop('disabled',true);
 		$.ajax({
 		type: "POST",
 		url: $("#class_edit_form").attr("action"),
@@ -172,7 +171,7 @@ $(document).on("submit","#class_edit_form",function(e) {
 		cache: false,
 		dataType: "json",
 		success: function(data) {
-			// alert(data);
+			$('button[form="class_edit_form"]').prop('disabled',false);
 			if(data.is_valid){
 				$(".help-block").html("");
 				$("#alert-modal-title").html("Edit Class");
@@ -199,8 +198,6 @@ $("#search_last_name").autocomplete({
 	select: function(event, ui){
 		show_class_data(ui.item.data);
 		$("#search_last_name").val("");
-		// alert(data);
-		// window.location='item?s='+ui.item.data;
 	}
 });
 

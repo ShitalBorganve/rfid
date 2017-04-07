@@ -78,5 +78,29 @@ class MY_Form_validation extends CI_Form_validation{
             ? ($this->CI->db->get($table)->num_rows()===0)
             : FALSE;
     }
+
+    public function is_valid_current_password($str,$field)
+    {
+        sscanf($field, '%[^.].%[^.]', $table, $id);
+        $this->CI->db->where("deleted",0);
+        $this->CI->db->where("password",md5($str));
+        $this->CI->db->where("id",$this->_field_data[$id]['postdata']);
+
+        return isset($this->CI->db)
+            ? ($this->CI->db->get($this->_field_data[$table]['postdata'])->num_rows()===1)
+            : FALSE;
+    }
+
+
+    public function email_subscription($str,$email_address)
+    {
+        if(isset($this->_field_data[$str], $this->_field_data[$str]['postdata'])){
+            return TRUE;
+        }else{
+            return is_array($this->_field_data[$email_address]['postdata'])
+                ? (empty($this->_field_data[$email_address]['postdata']) === FALSE)
+                : (trim($this->_field_data[$email_address]['postdata']) !== '');
+        }
+    }
 }
 ?>

@@ -59,6 +59,38 @@ $(document).on("click","#register_guardian, #add_guardian",function(e) {
 	$("#register_guardian_modal").modal("show");
 });
 
+$(document).on("click",".change_password",function(e) {
+	var type = e.target.id;
+	$("#change_password_type").val(type);
+	$("#change_password-modal").modal("show");
+});
+
+$(document).on("submit","#change_password-form",function(e) {
+	e.preventDefault();
+	$('button[form="change_password-form"]').prop('disabled', true);
+	$.ajax({
+		type: "POST",
+		url: $("#change_password-form").attr("action"),
+		data: $("#change_password-form").serialize(),
+		dataType: "json",
+		cache: false,
+		success: function(data) {
+			$('button[form="change_password-form"]').prop('disabled', false);
+			if(data.is_valid){
+				$(".help-block").html("");
+				$("#alert-modal").modal("show");
+				$("#change_password-modal").modal("hide");
+				$("#alert-modal-title").html("change password");
+				$("#alert-modal-body p").html("You have successfully changed your password.");
+			}else{
+				$("#current_password_help-block").html(data.current_password_error);
+				$("#new_password_help-block").html(data.new_password_error);
+				$("#confirm_password_help-block").html(data.confirm_password_error);
+			}
+		}
+	});
+});
+
 $(document).on("submit","#register_guardian_form",function(e) {
 	e.preventDefault();
 	$("button[form='register_guardian_form']").prop('disabled', true);
@@ -71,9 +103,10 @@ $(document).on("submit","#register_guardian_form",function(e) {
 		success: function(data) {
 			console.log(data);
 			$("button[form='register_guardian_form']").prop('disabled', false);
-			$("#guardian_name_help-block").html(data.guardian_name_error);
-			$("#email_address_help-block").html(data.email_address_error);
-			$("#contact_number_help-block").html(data.contact_number_error);
+			$("#add_guardian_name_help-block").html(data.guardian_name_error);
+			$("#add_email_address_help-block").html(data.email_address_error);
+			$("#add_contact_number_help-block").html(data.contact_number_error);
+			$("#add_subscription_help-block").html(data.subscription_error);
 			if(data.is_valid){
 				$("#register_guardian_form")[0].reset();
 				$('.ui.dropdown').dropdown('clear');
@@ -287,6 +320,7 @@ $(document).on("submit","#guard_add_form", function(e) {
 
 $(document).on("submit","#app-login",function(e) {
 	e.preventDefault();
+	$('button[form="app-login"]').prop('disabled',true);
 	$.ajax({
 		type: "POST",
 		url: $("#app-login").attr("action"),
@@ -294,6 +328,7 @@ $(document).on("submit","#app-login",function(e) {
 		cache: false,
 		dataType: "json",
 		success: function(data) {
+			$('button[form="app-login"]').prop('disabled',false);
 			if(data.is_valid){
 				window.location = data.redirect;
 			}else{
@@ -383,6 +418,38 @@ $(document).on("change",'select[name="type_recipient"]',function(e) {
 		$("#send-to-container").css("display","block");
 	}
 });
+
+
+$(document).on("click",".email_settings",function(e) {
+	$("#email_settings-modal").modal("show");
+});
+
+$(document).on("submit","#guardian_email_settings_form",function(e) {
+	e.preventDefault();
+	$('button[form="guardian_email_settings_form"]').prop('disabled',true);
+
+	$.ajax({
+		type: "POST",
+		url: $("#guardian_email_settings_form").attr("action"),
+		data: $("#guardian_email_settings_form").serialize(),
+		cache: false,
+		dataType: "json",
+		success: function(data) {
+			$('button[form="guardian_email_settings_form"]').prop('disabled',false);
+			if(data.is_valid){
+				$(".help-block").html("");
+				$("#email_settings-modal").modal("hide");
+				$("#alert-modal-title").html("email settings");
+				$("#alert-modal-body p").html("You have successfully changed your email settings.");
+				$("#alert-modal").modal("show");
+			}else{
+				$("#email_settings_email_address_help-block").html(data.email_address_error);
+			}
+			// body...
+		}
+	});
+});
+
 
 
 var needToConfirm = false;

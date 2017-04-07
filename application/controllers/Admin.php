@@ -32,6 +32,7 @@ class Admin extends CI_Controller {
 
 		
 		$modal_data["guardians_list"] = $this->guardian_model->get_list();
+		$modal_data["login_user_data"] = $this->session->userdata("admin_sessions");
 		$modal_data["teachers_list"] = $this->teachers_model->get_list();
 		$modal_data["classes_list"] = $this->classes_model->get_list();
 		$modal_data["modals_sets"] = "admin";
@@ -43,6 +44,14 @@ class Admin extends CI_Controller {
 		// $navbar_data["sms_module_sms_left"] = $sms_module_status["Result "]["MessagesLeft"];
 		($this->session->userdata("admin_sessions")?$navbar_data["navbar_is_logged_in"] = TRUE:$navbar_data["navbar_is_logged_in"] = FALSE);
 		$this->data["navbar_scripts"] = $this->load->view("layouts/navbar",$navbar_data,true);
+
+		if(current_url()==base_url("admin")){
+			
+		}else{
+			if($this->session->userdata("admin_sessions")==NULL){
+				redirect(base_url("admin"));
+			}
+		}
 	}
 
 	public function index($student_id='')

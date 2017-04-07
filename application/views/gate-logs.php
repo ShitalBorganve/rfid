@@ -21,6 +21,7 @@
 				<select name="ref_table" id="ref_table">
 					<option value="students">Students</option>
 					<option value="teachers">Teachers</option>
+					<option value="staffs">Staffs</option>
 				</select>
 				<label>Last Name:</label>
 				<input type="text" name="search_last_name" id="search_last_name">

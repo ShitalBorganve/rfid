@@ -185,7 +185,7 @@ if($modals_sets=="admin"){
           </form></p>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary" form="student_add_form">Add Student</button>
+          <button type="submit" class="btn btn-primary" form="student_add_form">Submit</button>
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
@@ -320,7 +320,7 @@ if($modals_sets=="admin"){
           </form></p>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary" form="teacher_add_form">Add Teacher</button>
+          <button type="submit" class="btn btn-primary" form="teacher_add_form">Submit</button>
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
@@ -444,7 +444,7 @@ if($modals_sets=="admin"){
           </form></p>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary" form="staff_add_form">Add Guard</button>
+          <button type="submit" class="btn btn-primary" form="staff_add_form">Submit</button>
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
@@ -610,7 +610,7 @@ if($modals_sets=="admin"){
               <div class="checkbox">
                 <label><input type="checkbox" name="sms_subscription" value="1"> SMS Subscription</label>
               </div>
-              <p class="help-block"></p>
+              <p class="help-block" id="add_subscription_help-block"></p>
             </div>
           </div>
           ';
@@ -1012,9 +1012,117 @@ echo '
   </div>
 
   ';
+}elseif ($modals_sets=="home") {
+  echo '
+  <!-- Email Settings -->
+  <div id="email_settings-modal" class="modal fade" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Email Settings</h4>
+        </div>
+        <div class="modal-body">
+        '.form_open("guardian_ajax/email_settings",'id="guardian_email_settings_form" class="form-horizontal"').'
+        <input type="hidden" name="id" value="'.$login_user_data->id.'">
+
+          <div class="form-group">
+            <label class="col-sm-4" for="email_address">Email Address:</label>
+            <div class="col-sm-8"> 
+              <input type="text" class="form-control" name="email_address" value="'.$login_user_data->email_address.'" placeholder="Enter Email Address">
+              <p class="help-block" id="email_settings_email_address_help-block"></p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-4" for="email_subscription">Subscription:</label>
+            <div class="col-sm-8"> 
+              <div class="checkbox">
+                <label><input type="checkbox" name="email_subscription" value="1" ';
+                if($login_user_data->email_subscription=="1"){
+                  echo "checked";
+                }
+                echo '> Email Subscription</label>
+              </div>
+              <p class="help-block"></p>
+            </div>
+          </div>
+
+        </form>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" form="guardian_email_settings_form">Submit</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  ';
 }
 
 // var_dump();
+
+echo '
+<!-- Change Password Modal -->
+<div id="change_password-modal" class="modal fade" role="dialog" tabindex="-1">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" id="change_password-modal-title">Change Password</h4>
+      </div>
+      <div class="modal-body">
+        <p>
+        '.form_open("accounts/change_password",'id="change_password-form" class="form-horizontal"').'
+        <input type="hidden" name="type" id="change_password_type">
+        <input type="hidden" name="id" value="'.$login_user_data->id.'">
+
+        <div class="form-group">
+          <label class="col-sm-4" for="current_password">Current Password:</label>
+          <div class="col-sm-8"> 
+            <input type="password" class="form-control" name="current_password" placeholder="Enter Current Password">
+            <p class="help-block" id="current_password_help-block"></p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-4" for="new_password">New Password:</label>
+          <div class="col-sm-8"> 
+            <input type="password" class="form-control" name="new_password" placeholder="Enter New Password">
+            <p class="help-block" id="new_password_help-block"></p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-4" for="confirm_password">Confirm New Password:</label>
+          <div class="col-sm-8"> 
+            <input type="password" class="form-control" name="confirm_password" placeholder="Enter Confirm New Password">
+            <p class="help-block" id="confirm_password_help-block"></p>
+          </div>
+        </div>
+
+
+        </form>
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" form="change_password-form">Submit</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+';
+
+
 
 echo '
 <!-- Alert Modal -->

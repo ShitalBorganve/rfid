@@ -36,28 +36,28 @@
 				<table class="table table-hover">
 					<thead>
 						<tr>
-							<th colspan="2" class="table-header"><span id="rfid_owner"></span> Information</th>
+							<th colspan="2" class="table-header" style="text-transform: uppercase;"><span id="rfid_owner"></span> Information</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
 							<th>Last Name:</th>
-							<td><span id="gate_rfid_last_name">Value</span></td>
+							<td><span id="gate_rfid_last_name"></span></td>
 						</tr>
 						<tr>
 							<th>First Name:</th>
-							<td><span id="gate_rfid_first_name">Value</span></td>
+							<td><span id="gate_rfid_first_name"></span></td>
 						</tr>
 						<tr>
 							<th>Middle Name:</th>
-							<td><span id="gate_rfid_middle_name">Value</span></td>
+							<td><span id="gate_rfid_middle_name"></span></td>
 						</tr>
 						<tr>
 							<th>Suffix:</th>
-							<td><span id="gate_rfid_suffix">Value</span></td>
+							<td><span id="gate_rfid_suffix"></span></td>
 						</tr>
 						<tr>
-							<th colspan="2" id="gate_status" class="table-header">Value</th>
+							<th colspan="2" id="gate_status" class="table-header"></th>
 						</tr>
 					</tbody>
 				</table>

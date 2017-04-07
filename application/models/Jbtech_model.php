@@ -33,7 +33,7 @@ class Jbtech_model extends CI_Model {
 
     function login($data='')
     {
-        $login_query = $this->db->get_where("admins",$data);
+        $login_query = $this->db->get_where("jbtech",$data);
         $data = $login_query->row(0);
         $this->session->set_userdata("jbtech_sessions",$data);
         return ($login_query->num_rows()===1);
