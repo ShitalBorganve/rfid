@@ -58,6 +58,7 @@ class Teacher_ajax extends CI_Controller {
 			// $data["guardian_id"] = $this->input->post("guardian_id");
 			// $data["class_id"] = $this->input->post("class_id");
 
+			$this->form_validation->set_rules('address', 'Address', 'required|min_length[2]|max_length[100]trim|htmlspecialchars');
 			$this->form_validation->set_rules('first_name', 'First Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
 			$this->form_validation->set_rules('last_name', 'Last Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
 			$this->form_validation->set_rules('middle_name', 'Middle Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
@@ -138,6 +139,7 @@ class Teacher_ajax extends CI_Controller {
 				$data["is_valid"] = FALSE;
 				$data["first_name_error"] = form_error('first_name');
 				$data["last_name_error"] = form_error('last_name');
+				$data["address_error"] = form_error('address');
 				$data["middle_name_error"] = form_error('middle_name');
 				$data["suffix_error"] = form_error('suffix');
 				$data["contact_number_error"] = form_error('contact_number');
@@ -149,6 +151,7 @@ class Teacher_ajax extends CI_Controller {
 				$data["is_valid"] = TRUE;
 				$data["first_name_error"] = "";
 				$data["last_name_error"] = "";
+				$data["address_error"] = "";
 				$data["middle_name_error"] = "";
 				$data["suffix_error"] = "";
 				$data["contact_numbererror"] = "";
@@ -156,6 +159,7 @@ class Teacher_ajax extends CI_Controller {
 				$data["bday_error"] = "";
 
 				$teacher_data["first_name"] = $this->input->post("first_name");
+				$teacher_data["address"] = $this->input->post("address");
 				$teacher_data["last_name"] = $this->input->post("last_name");
 				$teacher_data["middle_name"] = $this->input->post("middle_name");
 				$teacher_data["suffix"] = $this->input->post("suffix");
@@ -219,6 +223,7 @@ You can login to ".base_url("teacher");
 
 			$this->form_validation->set_rules('teacher_id', 'First Name', 'required|trim|htmlspecialchars|is_in_db[teachers.id]');
 			$this->form_validation->set_rules('first_name', 'First Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
+			$this->form_validation->set_rules('address', 'Address', 'required|min_length[2]|max_length[100]trim|htmlspecialchars');
 			$this->form_validation->set_rules('last_name', 'Last Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
 			$this->form_validation->set_rules('middle_name', 'Middle Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
 			$this->form_validation->set_rules('suffix', 'Suffix', 'custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
@@ -312,6 +317,7 @@ You can login to ".base_url("teacher");
 				$data["is_valid"] = FALSE;
 				$data["first_name_error"] = form_error('first_name');
 				$data["last_name_error"] = form_error('last_name');
+				$data["address_error"] = form_error('address');
 				$data["middle_name_error"] = form_error('middle_name');
 				$data["suffix_error"] = form_error('suffix');
 				$data["contact_number_error"] = form_error('contact_number');
@@ -325,6 +331,7 @@ You can login to ".base_url("teacher");
 			{
 				$data["is_valid"] = TRUE;
 				$data["first_name_error"] = "";
+				$data["address_error"] = "";
 				$data["last_name_error"] = "";
 				$data["middle_name_error"] = "";
 				$data["suffix_error"] = "";
@@ -334,6 +341,7 @@ You can login to ".base_url("teacher");
 				$data["class_id_error"] = "";
 
 				$teacher_data["first_name"] = $this->input->post("first_name");
+				$teacher_data["address"] = $this->input->post("address");
 				$teacher_data["last_name"] = $this->input->post("last_name");
 				$teacher_data["middle_name"] = $this->input->post("middle_name");
 				$teacher_data["suffix"] = $this->input->post("suffix");

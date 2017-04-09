@@ -105,6 +105,15 @@ echo '
           </div>
 
           <div class="form-group">
+            <label class="col-sm-2" for="address">Address:</label>
+            <div class="col-sm-10"> 
+              <input type="text" class="form-control edit_field" name="address" placeholder="Enter Address">
+              <p class="help-block" id="address_help-block"></p>
+            </div>
+          </div>
+
+
+          <div class="form-group">
             <label class="col-sm-2" for="last_name">Birth Date:</label>
             <div class="col-sm-10">
               <select class="edit_field" name="bday_m" required>
@@ -268,6 +277,7 @@ function show_teacher_data(id) {
       $('input[name="teacher_id"]').val(id);
       $('input[name="first_name"].edit_field').val(data.first_name);
       $('input[name="last_name"].edit_field').val(data.last_name);
+      $('input[name="address"].edit_field').val(data.address);
       $('input[name="middle_name"].edit_field').val(data.middle_name);
       $('input[name="suffix"].edit_field').val(data.suffix);
       $('input[name="contact_number"].edit_field').val(data.contact_number);
@@ -298,7 +308,8 @@ $(document).on("submit","#teacher_edit_form",function(e) {
     success: function(data) {
       $('button[form="teacher_edit_form"]').prop('disabled', false);
 			$("#first_name_help-block").html(data.first_name_error);
-			$("#last_name_help-block").html(data.last_name_error);
+      $("#last_name_help-block").html(data.last_name_error);
+			$("#address_help-block").html(data.address_error);
 			$("#middle_name_help-block").html(data.middle_name_error);
       $("#suffix_help-block").html(data.suffix_error);
 			$("#contact_number_help-block").html(data.contact_number_error);

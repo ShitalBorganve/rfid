@@ -181,6 +181,7 @@ $(document).on("submit","#student_add_form", function(e) {
 			}else{
 				// alert(data.contact_number_error);
 				$("#student_first_name_help-block").html(data.first_name_error);
+				$("#student_address_help-block").html(data.address_error);
 				$("#student_last_name_help-block").html(data.last_name_error);
 				$("#student_middle_name_help-block").html(data.middle_name_error);
 				$("#student_suffix_help-block").html(data.suffix_error);
@@ -222,6 +223,7 @@ $(document).on("submit","#teacher_add_form", function(e) {
 					update_select_options("class_adviser",base_url);
 				}
 			}else{
+				$("#teacher_address_help-block").html(data.address_error);
 				$("#teacher_first_name_help-block").html(data.first_name_error);
 				$("#teacher_last_name_help-block").html(data.last_name_error);
 				$("#teacher_middle_name_help-block").html(data.middle_name_error);
@@ -377,6 +379,7 @@ $(document).on("submit","#class_add_form",function(e) {
 		dataType: "json",
 		success: function(data) {
 			// alert(data);
+			// console.log(data);
 			if(data.is_valid){
 				$("#class_add_form")[0].reset();
 				$('.ui.dropdown').dropdown('clear');
@@ -388,6 +391,7 @@ $(document).on("submit","#class_add_form",function(e) {
 			}else{
 				$("#class_adviser_help-block").html(data.class_adviser_error);
 				$("#class_name_help-block").html(data.class_name_error);
+				$("#grade_help-block").html(data.grade_error);
 				$("#class_room_help-block").html(data.class_room_error);
 				$("#class_schedule_help-block").html(data.class_schedule_error);
 			}

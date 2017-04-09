@@ -138,6 +138,15 @@ if($modals_sets=="admin"){
             </div>
 
             <div class="form-group">
+              <label class="col-sm-2" for="address">Address:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="address" placeholder="Enter Address">
+                <p class="help-block" id="student_address_help-block"></p>
+              </div>
+              
+            </div>
+
+            <div class="form-group">
               <label class="col-sm-2" for="guardian">Guardians Contact Number:</label>
               <div class="col-sm-8"> 
                 <select class="ui search dropdown form-control" name="guardian_id">
@@ -256,6 +265,16 @@ if($modals_sets=="admin"){
                 <p class="help-block" id="teacher_contact_number_help-block"></p>
               </div>
             </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="address">Address:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="address" placeholder="Enter Address">
+                <p class="help-block" id="teacher_address_help-block"></p>
+              </div>
+              
+            </div>
+            
 
             <div class="form-group">
               <label class="col-sm-2" for="last_name">Birth Date:</label>
@@ -815,12 +834,22 @@ if($modals_sets=="admin"){
             </div>
 
             <div class="form-group">
+              <label class="col-sm-4" for="grade">Grade or Year:</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" name="grade" placeholder="Enter Grade or Year">
+                <p class="help-block" id="grade_help-block"></p>
+              </div>
+            </div>
+
+
+            <div class="form-group">
               <label class="col-sm-4" for="class_room">Classroom:</label>
               <div class="col-sm-8">
                 <input type="text" class="form-control" name="class_room" placeholder="Enter Classroom">
                 <p class="help-block" id="class_room_help-block"></p>
               </div>
             </div>
+
 
             <div class="form-group">
               <label class="col-sm-4" for="class_schedule">Class Schedule:</label>

@@ -309,6 +309,7 @@ class Tables extends CI_Controller {
 					echo '
 					<tr>
 						<td>'.$class_data->class_name.'</td>
+						<td>'.$class_data->grade.'</td>
 						<td>'.$class_data->room.'</td>
 						<td>'.$class_data->schedule.'</td>
 						<td>'.$class_data->teacher_data->full_name.'</td>

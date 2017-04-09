@@ -20,6 +20,7 @@
 					<thead>
 						<tr>
 							<th>Class Name</th>
+              <th>Grade or Year</th>
 							<th>Classroom</th>
               <th>Schedule</th>
               <th>Class Adviser</th>
@@ -76,9 +77,19 @@ echo '
             <label class="col-sm-4" for="class_name">Class Name:</label>
             <div class="col-sm-8">
               <input type="text" class="form-control edit_field" name="class_name" placeholder="Enter Class Name">
-              <p class="help-block" id="class_name_help-block"></p>
+              <p class="help-block" id="class_class_name_help-block"></p>
             </div>
           </div>
+
+
+          <div class="form-group">
+            <label class="col-sm-4" for="grade">Grade or Year:</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control edit_field" name="grade" placeholder="Enter Grade or Year">
+              <p class="help-block" id="class_grade_help-block"></p>
+            </div>
+          </div>
+
 
           <div class="form-group">
             <label class="col-sm-4" for="class_room">Classroom:</label>
@@ -153,6 +164,7 @@ function show_class_data(id) {
 	      $('#edit-class_adviser').dropdown('clear');
       }
       $('input[name="class_name"].edit_field').val(data.class_name);
+      $('input[name="grade"].edit_field').val(data.grade);
       $('input[name="class_room"].edit_field').val(data.room);
       $('input[name="class_schedule"].edit_field').val(data.schedule);
       $('input[name="class_id"]').val(id);
@@ -181,7 +193,8 @@ $(document).on("submit","#class_edit_form",function(e) {
 				show_class_list();
 			}else{
 				$("#class_adviser_help-block").html(data.class_adviser_error);
-				$("#class_name_help-block").html(data.class_name_error);
+				$("#class_class_name_help-block").html(data.class_name_error);
+				$("#class_grade_help-block").html(data.grade_error);
 				$("#class_room_help-block").html(data.class_room_error);
 				$("#class_schedule_help-block").html(data.class_schedule_error);
 				$("#class_schedule_help-block").html(data.class_schedule_error);

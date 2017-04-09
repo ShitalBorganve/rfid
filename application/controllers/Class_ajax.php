@@ -48,22 +48,26 @@ class Class_ajax extends CI_Controller {
 	{
 		$this->form_validation->set_rules('class_adviser', 'Class Adviser', 'trim|htmlspecialchars');
 		$this->form_validation->set_rules('class_name', 'Class Name', 'required|max_length[50]|trim|htmlspecialchars');
+		$this->form_validation->set_rules('grade', 'Grade or Year', 'required|max_length[50]|trim|htmlspecialchars');
 		$this->form_validation->set_rules('class_room', 'Classroom', 'max_length[50]|trim|htmlspecialchars');
 		$this->form_validation->set_rules('class_schedule', 'Class Schedule', 'max_length[50]|trim|htmlspecialchars');
 		$this->form_validation->set_message('is_in_db', 'This Teacher is invalid');
 
 		$data["class_adviser_error"] = "";
 		$data["class_name_error"] = "";
+		$data["grade_error"] = "";
 		$data["class_room_error"] = "";
 		$data["class_schedule_error"] = "";
 		if ($this->form_validation->run() == FALSE){
 			$data["is_valid"] = FALSE;
 			$data["class_adviser_error"] = form_error("class_adviser");
 			$data["class_name_error"] = form_error("class_name");
+			$data["grade_error"] = form_error("grade");
 			$data["class_room_error"] = form_error("class_room");
 			$data["class_schedule_error"] = form_error("class_schedule");
 		}else{
 			$insert_data["class_name"] = $this->input->post("class_name");
+			$insert_data["grade"] = $this->input->post("grade");
 			$insert_data["teacher_id"] = $this->input->post("class_adviser");
 			$insert_data["schedule"] = $this->input->post("class_schedule");
 			$insert_data["room"] = $this->input->post("class_room");
@@ -80,6 +84,7 @@ class Class_ajax extends CI_Controller {
 	public function edit($arg='')
 	{
 		$this->form_validation->set_rules('class_adviser', 'Class Adviser', 'is_valid[teachers.id]|trim|htmlspecialchars');
+		$this->form_validation->set_rules('grade', 'Grade or Year', 'required|max_length[50]|trim|htmlspecialchars');
 		$this->form_validation->set_rules('class_name', 'Class Name', 'required|max_length[50]|trim|htmlspecialchars');
 		$this->form_validation->set_rules('class_room', 'Classroom', 'max_length[50]|trim|htmlspecialchars');
 		$this->form_validation->set_rules('class_schedule', 'Class Schedule', 'max_length[50]|trim|htmlspecialchars');
@@ -88,6 +93,7 @@ class Class_ajax extends CI_Controller {
 
 		$data["class_adviser_error"] = "";
 		$data["class_name_error"] = "";
+		$data["grade_error"] = "";
 		$data["class_room_error"] = "";
 		$data["class_schedule_error"] = "";
 		$data["class_id_error"] = "";
@@ -95,11 +101,13 @@ class Class_ajax extends CI_Controller {
 			$data["is_valid"] = FALSE;
 			$data["class_adviser_error"] = form_error("class_adviser");
 			$data["class_name_error"] = form_error("class_name");
+			$data["grade_error"] = form_error("grade");
 			$data["class_room_error"] = form_error("class_room");
 			$data["class_schedule_error"] = form_error("class_schedule");
 			$data["class_id_error"] = form_error("class_id");
 		}else{
 			$update_data["class_name"] = $this->input->post("class_name");
+			$update_data["grade"] = $this->input->post("grade");
 			// $update_data["teacher_id"] = $this->input->post("class_adviser");
 			$update_data["schedule"] = $this->input->post("class_schedule");
 			$update_data["room"] = $this->input->post("class_room");
