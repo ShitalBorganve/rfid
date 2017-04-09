@@ -144,13 +144,11 @@ class Rfid_ajax extends CI_Controller {
 							if($guardian_data["email_subscription"]=="1"){
 								$this->load->library('email');
 
-								$this->email->from('no-reply@rfid-ph.net', 'Your Name');
-								$this->email->to('someone@example.com');
-								$this->email->cc('another@another-example.com');
-								$this->email->bcc('them@their-example.com');
+								$this->email->from('no-reply@rfid-ph.net', 'Gate Notifications Demo');
+								$this->email->to($guardian_data["email_address"]);
 
-								$this->email->subject('Email Test');
-								$this->email->message('Testing the email class.');
+								$this->email->subject('Gate Notification');
+								$this->email->message($rfid_owner_data["message"]);
 
 								$this->email->send();
 							}

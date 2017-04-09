@@ -103,6 +103,7 @@ $(document).on("submit","#register_guardian_form",function(e) {
 		success: function(data) {
 			console.log(data);
 			$("button[form='register_guardian_form']").prop('disabled', false);
+			$("#add_guardian_address_help-block").html(data.guardian_address_error);
 			$("#add_guardian_name_help-block").html(data.guardian_name_error);
 			$("#add_email_address_help-block").html(data.email_address_error);
 			$("#add_contact_number_help-block").html(data.contact_number_error);
@@ -450,6 +451,37 @@ $(document).on("submit","#guardian_email_settings_form",function(e) {
 	});
 });
 
+
+$(document).on("click","#gate_change_password",function(e) {
+	$("#gate_change_password-modal").modal("show");
+});
+
+$(document).on("submit","#gate_change_password-form",function(e) {
+	$('button[form="gate_change_password-form"]').prop('disabled',true);
+	e.preventDefault();
+	$.ajax({
+		type: "POST",
+		url: $("#gate_change_password-form").attr("action"),
+		data: $("#gate_change_password-form").serialize(),
+		cache: false,
+		dataType: "json",
+		success: function(data) {
+			$('button[form="gate_change_password-form"]').prop('disabled',false);
+			if(data.is_valid){
+				$("#gate_change_password-form")[0].reset();
+				$(".help-block").html("");
+				$("#alert-modal").modal("show");
+				$("#change_password-modal").modal("hide");
+				$("#alert-modal-title").html("change password");
+				$("#alert-modal-body p").html("You have successfully changed your password.");
+			}else{
+				$("#gate_current_password_help-block").html(data.current_password_error);
+				$("#gate_new_password_help-block").html(data.new_password_error);
+				$("#gate_confirm_password_help-block").html(data.confirm_password_error);
+			}
+		}
+	});
+});
 
 
 var needToConfirm = false;

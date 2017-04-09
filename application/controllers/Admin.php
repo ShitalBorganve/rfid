@@ -10,7 +10,6 @@ class Admin extends CI_Controller {
 		$this->load->helper('form');
 		$this->load->helper('url');
 		$this->load->helper('app_helper');
-		$this->load->library('session');
 
 		$this->load->model("students_model");
 		$this->load->model("rfid_model");
@@ -20,6 +19,9 @@ class Admin extends CI_Controller {
 		$this->load->model("staffs_model");
 		$this->load->model("classes_model");
 		$this->load->model("sms_model");
+
+		$this->load->library('form_validation');
+		$this->load->library('session');
 		
 		$this->data["title"] = "Main Title";
 		$this->data["css_scripts"] = $this->load->view("scripts/css","",true);

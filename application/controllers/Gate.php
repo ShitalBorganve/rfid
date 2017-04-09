@@ -28,7 +28,12 @@ class Gate extends CI_Controller {
 
 		$this->load->model("students_model");
 		$this->load->model("guardian_model");
+		$this->load->model("app_config");
 		$this->load->model("gate_logs_model");
+
+
+		$this->load->library('form_validation');
+		$this->load->library('session');
 
 		$this->data["title"] = "Main Title";
 		$this->data["css_scripts"] = $this->load->view("scripts/css","",true);
@@ -48,13 +53,49 @@ class Gate extends CI_Controller {
 	{
 		$this->data["modaljs_scripts"] = "";
 		$this->data["navbar_scripts"] = "";
-		$this->load->view('gate',$this->data);
+
+		if($this->session->userdata("gate_sessions")){
+			$this->data["title"] = "Gate";
+			$this->load->view('gate',$this->data);
+		}else{
+			$this->data["title"] = "Gate Login";
+			$this->load->view('gate-login',$this->data);
+		}
+
 		
 	}
+	public function test($value='')
+	{
+	}
+
 	public function login($value='')
 	{
+			$this->form_validation->set_rules('account_password', 'Password', 'required|min_length[5]|max_length[12]|trim|htmlspecialchars');
 
-	}
+			if ($this->form_validation->run() == FALSE)
+			{
+				$data["is_valid"] = FALSE;
+				$data["account_password_error"] = form_error('account_password');
+			}
+			else
+			{
+				$data["password"] = md5($account_password = $this->input->post("account_password"));
+				$data["id"] = 1;
+				$data["is_valid"] = $this->app_config->login($data);
+				
+				if($data["is_valid"]){
+					$data["account_password_error"] = "";
+					$data["redirect"] = base_url("gate");
+
+
+				}else{
+					$data["account_password_error"] = "Incorrect Passord. Try Again.";
+					$data["redirect"] = "";
+				}
+			}
+
+			echo json_encode($data);
+		}
 	
 	public function logout($value='')
 	{

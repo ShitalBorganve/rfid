@@ -23,3 +23,10 @@
 	text-transform: uppercase;
 }
 
+#login-logo{
+	height: 10rem;
+	margin-left: auto;
+	margin-right: auto;
+	padding-bottom: 1rem;
+}
+

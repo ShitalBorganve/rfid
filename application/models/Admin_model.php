@@ -39,6 +39,9 @@ class Admin_model extends CI_Model {
         $this->session->set_userdata("admin_sessions",$data);
         return ($login_query->num_rows()===1);
     }
+
+    
+
 }
 
 

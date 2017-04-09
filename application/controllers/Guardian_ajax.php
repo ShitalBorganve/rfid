@@ -51,6 +51,7 @@ class Guardian_ajax extends CI_Controller {
 	public function register($value='')
 	{
 		if($_POST){
+			$this->form_validation->set_rules('guardian_address', 'Guardian Address', 'required|trim|htmlspecialchars|min_length[2]|max_length[50]');
 			$this->form_validation->set_rules('email_address', 'Email Address', 'valid_email|trim|htmlspecialchars|min_length[2]|max_length[50]');
 			$this->form_validation->set_rules('email_subscription', 'Email Address', 'email_subscription[email_address]');
 			$this->form_validation->set_rules('guardian_name', 'Guardian Name', 'required|custom_alpha_dash|trim|htmlspecialchars|min_length[2]|max_length[50]');
@@ -61,11 +62,13 @@ class Guardian_ajax extends CI_Controller {
 			{
 				$data["is_valid"] = FALSE;
 				$data["guardian_name_error"] = form_error("guardian_name");
+				$data["guardian_address_error"] = form_error("guardian_address");
 				$data["email_address_error"] = form_error("email_address");
 				$data["contact_number_error"] = form_error("contact_number");
 				$data["subscription_error"] = form_error("email_subscription");
 			}else{
 				$data["is_valid"] = TRUE;
+				$data["guardian_address_error"] = "";
 				$data["guardian_name_error"] = "";
 				$data["email_address_error"] = "";
 				$data["contact_number_error"] = "";
@@ -76,6 +79,9 @@ class Guardian_ajax extends CI_Controller {
 
 				$guardian_data["name"] = $this->input->post("guardian_name");
 				$guardian_data["email_address"] = $this->input->post("email_address");
+				$guardian_data["guardian_address"] = $this->input->post("guardian_address");
+				$guardian_data["mothers_name"] = $this->input->post("mothers_name");
+				$guardian_data["fathers_name"] = $this->input->post("fathers_name");
 				$guardian_data["contact_number"] = $this->input->post("contact_number");
 				$guardian_data["sms_subscription"] = $sms_subscription;
 				$guardian_data["email_subscription"] = $email_subscription;
@@ -100,6 +106,7 @@ You can login to ".base_url();
 	public function edit($value='')
 	{
 		if($_POST){
+			$this->form_validation->set_rules('guardian_address', 'Guardian Address', 'required|trim|htmlspecialchars|min_length[2]|max_length[50]');
 			$this->form_validation->set_rules('guardian_name', 'Guardian Name', 'required|custom_alpha_dash|trim|htmlspecialchars|min_length[2]|max_length[50]');
 			$this->form_validation->set_rules('email_subscription', 'Email Address', 'email_subscription[email_address]');
 			$this->form_validation->set_rules('guardian_id', 'Guardian', 'trim|htmlspecialchars|is_in_db[guardians.id]');
@@ -111,12 +118,14 @@ You can login to ".base_url();
 			{
 				$data["is_valid"] = FALSE;
 				$data["guardian_name_error"] = form_error("guardian_name");
+				$data["guardian_address_error"] = form_error("guardian_address");
 				$data["email_address_error"] = form_error("email_address");
 				$data["contact_number_error"] = form_error("contact_number");
 				$data["subscription_error"] = form_error("email_subscription");
 			}else{
 				$data["is_valid"] = TRUE;
 				$data["guardian_name_error"] = "";
+				$data["guardian_address_error"] = "";
 				$data["email_address_error"] = "";
 				$data["contact_number_error"] = "";
 				$data["subscription_error"] = "";
@@ -127,6 +136,9 @@ You can login to ".base_url();
 				$guardian_id = $this->input->post("guardian_id");
 				$guardian_data["name"] = $this->input->post("guardian_name");
 				$guardian_data["email_address"] = $this->input->post("email_address");
+				$guardian_data["guardian_address"] = $this->input->post("guardian_address");
+				$guardian_data["mothers_name"] = $this->input->post("mothers_name");
+				$guardian_data["fathers_name"] = $this->input->post("fathers_name");
 				$guardian_data["contact_number"] = $this->input->post("contact_number");
 				$guardian_data["sms_subscription"] = $sms_subscription;
 				$guardian_data["email_subscription"] = $email_subscription;

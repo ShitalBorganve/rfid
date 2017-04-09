@@ -583,6 +583,36 @@ if($modals_sets=="admin"){
             </div>
           </div>
 
+
+          <div class="form-group">
+            <label class="col-sm-4" for="guardian_name">Guardian&apos;s Address:</label>
+            <div class="col-sm-8"> 
+              <input type="text" class="form-control" name="guardian_address" placeholder="Enter Guardian&apos;s Address">
+              <p class="help-block" id="add_guardian_address_help-block"></p>
+            </div>
+          </div>
+
+
+          <div class="form-group">
+            <label class="col-sm-4" for="guardian_name">Father&apos;s Name:</label>
+            <div class="col-sm-8"> 
+              <input type="text" class="form-control" name="mothers_name" placeholder="Enter Father&apos;s Name">
+              <p class="help-block"></p>
+            </div>
+          </div>
+
+
+
+          <div class="form-group">
+            <label class="col-sm-4" for="guardian_name">Mother&apos;s Name:</label>
+            <div class="col-sm-8"> 
+              <input type="text" class="form-control" name="fathers_name" placeholder="Enter Mother&apos;s Name">
+              <p class="help-block"></p>
+            </div>
+          </div>
+
+
+
           <div class="form-group">
             <label class="col-sm-4" for="email_address">Email Address:</label>
             <div class="col-sm-8"> 
@@ -744,7 +774,7 @@ if($modals_sets=="admin"){
 
 
   echo '
-  <!-- Add Clas Modal -->
+  <!-- Add Class Modal -->
   <div id="class_add_modal" class="modal fade" role="dialog" tabindex="-1">
     <div class="modal-dialog">
 
@@ -921,6 +951,65 @@ echo '
 </div>
 
 ';
+
+
+
+echo '
+<!-- Change Password Modal -->
+<div id="gate_change_password-modal" class="modal fade" role="dialog" tabindex="-1">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" id="change_password-modal-title">Change Gate Password</h4>
+      </div>
+      <div class="modal-body">
+        <p>
+        '.form_open("admin_ajax/gate_change_password",'id="gate_change_password-form" class="form-horizontal"').'
+        <input type="hidden" name="id" value="1">
+        <input type="hidden" name="type" value="app_config">
+        <div class="form-group">
+          <label class="col-sm-4" for="current_password">Current Password:</label>
+          <div class="col-sm-8"> 
+            <input type="password" class="form-control" name="current_password" placeholder="Enter Current Password">
+            <p class="help-block" id="gate_current_password_help-block"></p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-4" for="new_password">New Password:</label>
+          <div class="col-sm-8"> 
+            <input type="password" class="form-control" name="new_password" placeholder="Enter New Password">
+            <p class="help-block" id="gate_new_password_help-block"></p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-4" for="confirm_password">Confirm New Password:</label>
+          <div class="col-sm-8"> 
+            <input type="password" class="form-control" name="confirm_password" placeholder="Enter Confirm New Password">
+            <p class="help-block" id="gate_confirm_password_help-block"></p>
+          </div>
+        </div>
+
+
+        </form>
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" form="gate_change_password-form">Submit</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+';
+
+
 
 }elseif ($modals_sets=="teacher") {
     echo '

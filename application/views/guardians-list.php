@@ -67,6 +67,34 @@
             </div>
           </div>
 
+
+          <div class="form-group">
+            <label class="col-sm-4" for="guardian_name">Guardian&apos;s Address:</label>
+            <div class="col-sm-8"> 
+              <input type="text" class="form-control edit_field" name="guardian_address" placeholder="Enter Guardian&apos;s Address">
+              <p class="help-block" id="guardian_address_help-block"></p>
+            </div>
+          </div>
+
+
+          <div class="form-group">
+            <label class="col-sm-4" for="guardian_name">Father&apos;s Name:</label>
+            <div class="col-sm-8"> 
+              <input type="text" class="form-control edit_field" name="mothers_name" placeholder="Enter Father&apos;s Name">
+              <p class="help-block"></p>
+            </div>
+          </div>
+
+
+
+          <div class="form-group">
+            <label class="col-sm-4" for="guardian_name">Mother&apos;s Name:</label>
+            <div class="col-sm-8"> 
+              <input type="text" class="form-control edit_field" name="fathers_name" placeholder="Enter Mother&apos;s Name">
+              <p class="help-block"></p>
+            </div>
+          </div>
+
           <div class="form-group">
             <label class="col-sm-4" for="email_address">Email Address:</label>
             <div class="col-sm-8"> 
@@ -176,6 +204,9 @@ function show_guardian_data(id) {
       $('input[name="guardian_name"].edit_field').val(data.name);
       $('input[name="email_address"].edit_field').val(data.email_address);
       $('input[name="contact_number"].edit_field').val(data.contact_number);
+      $('input[name="guardian_address"].edit_field').val(data.guardian_address);
+      $('input[name="mothers_name"].edit_field').val(data.mothers_name);
+      $('input[name="fathers_name"].edit_field').val(data.fathers_name);
       if(data.email_subscription=="1"){
         $('input[name="email_subscription"].edit_field').attr('checked', true);
       }
@@ -202,6 +233,7 @@ $(document).on("submit","#guardian_edit_form",function(e) {
       $('button[form="guardian_edit_form"]').prop('disabled', false);
       $("#guardian_id_help-block").html(data.guardian_id_error);
       $("#guardian_name_help-block").html(data.guardian_name_error);
+      $("#guardian_address_help-block").html(data.guardian_address_error);
       $("#email_address_help-block").html(data.email_address_error);
       $("#contact_number_help-block").html(data.contact_number_error);
 			$("#subscription_help-block").html(data.subscription_error);
