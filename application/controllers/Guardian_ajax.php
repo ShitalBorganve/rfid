@@ -80,8 +80,6 @@ class Guardian_ajax extends CI_Controller {
 				$guardian_data["name"] = $this->input->post("guardian_name");
 				$guardian_data["email_address"] = $this->input->post("email_address");
 				$guardian_data["guardian_address"] = $this->input->post("guardian_address");
-				$guardian_data["mothers_name"] = $this->input->post("mothers_name");
-				$guardian_data["fathers_name"] = $this->input->post("fathers_name");
 				$guardian_data["contact_number"] = $this->input->post("contact_number");
 				$guardian_data["sms_subscription"] = $sms_subscription;
 				$guardian_data["email_subscription"] = $email_subscription;
@@ -137,8 +135,6 @@ You can login to ".base_url();
 				$guardian_data["name"] = $this->input->post("guardian_name");
 				$guardian_data["email_address"] = $this->input->post("email_address");
 				$guardian_data["guardian_address"] = $this->input->post("guardian_address");
-				$guardian_data["mothers_name"] = $this->input->post("mothers_name");
-				$guardian_data["fathers_name"] = $this->input->post("fathers_name");
 				$guardian_data["contact_number"] = $this->input->post("contact_number");
 				$guardian_data["sms_subscription"] = $sms_subscription;
 				$guardian_data["email_subscription"] = $email_subscription;

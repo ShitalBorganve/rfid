@@ -92,7 +92,7 @@ $(document).on("click",".resend_sms",function(e) {
 		dataType: "json",
 		success: function(data) {
 			needToConfirm = false;
-			console.log(data);
+			
 			if(data.is_success){
 				$("#alert-modal").modal("show");
 				$("#alert-modal-title").html("RESEND MESSAGES");

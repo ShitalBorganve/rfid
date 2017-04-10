@@ -15,10 +15,17 @@
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			<div class="table-responsive">
       <?php echo form_open("tables/teachers/list",'id="teacher-list-form"');?>
-      <label>Search</label>
-      <input type="text" name="search_last_name" placeholder="Enter Last Name" id="search_last_name">
-      <input type="hidden" name="owner_id">
+      <label>Search Last Name</label>
+      <select class="ui search dropdown" name="owner_id">
+        <option value="">Select Teacher's Last Name</option>
+        <?php
+          foreach ($teachers_list["result"] as $teacher_data) {
+            echo '<option value="'.$teacher_data->id.'">'.$teacher_data->full_name.'</option>';
+          }
+        ?>
+      </select>
       <button class="btn btn-primary" type="submit">Search</button>
+      <button class="btn btn-danger" type="button" id="reset">Reset</button>
       </form>
 				<table class="table table-hover" id="teacher-list-table">
 					<thead>
@@ -27,6 +34,9 @@
               <th>First Name</th>
               <th>Middle Name</th>
               <th>Last Name</th>
+              <th>Suffix</th>
+              <th>Gender</th>
+              <th>Age</th>
               <th>Birthday</th>
               <th>Contact Number</th>
               <th>Class</th>
@@ -93,6 +103,17 @@ echo '
             <div class="col-sm-10"> 
               <input type="text" class="form-control edit_field" name="suffix" placeholder="Enter Suffix (Jr. III etc.)">
               <p class="help-block" id="suffix_help-block"></p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2" for="guardian_name">Gender:</label>
+            <div class="col-sm-10"> 
+              <select name="gender" class="form-control edit_field" required>
+                <option value="MALE">MALE</option>
+                <option value="FEMALE">FEMALE</option>
+              </select>
+              <p class="help-block" id="gender_help-block"></p>
             </div>
           </div>
 
@@ -211,7 +232,7 @@ $(document).on("submit","#rfid_scan_add_form",function(e) {
     dataType: "json",
     success: function(data) {
       $("#rfid_scan_add_form")[0].reset();
-      console.log(data);
+      
       
       if(data.is_valid){
         $("#rfid_scan_add_modal").modal("hide");
@@ -282,6 +303,7 @@ function show_teacher_data(id) {
       $('input[name="suffix"].edit_field').val(data.suffix);
       $('input[name="contact_number"].edit_field').val(data.contact_number);
       $('select[name="bday_m"].edit_field').val(data.bday_m);
+      $('select[name="gender"].edit_field').val(data.gender);
       $('select[name="bday_d"].edit_field').val(data.bday_d);
       $('select[name="bday_y"].edit_field').val(data.bday_y);
       $('select[name="guardian_id"].edit_field').val(data.guardian_id);
@@ -294,6 +316,11 @@ function show_teacher_data(id) {
     }
   });
 }
+$(document).on("click","#reset",function(e) {
+  $(".ui").dropdown("clear");
+  show_teacher_list();
+});
+
 
 $(document).on("submit","#teacher_edit_form",function(e) {
 	e.preventDefault();
@@ -309,6 +336,7 @@ $(document).on("submit","#teacher_edit_form",function(e) {
       $('button[form="teacher_edit_form"]').prop('disabled', false);
 			$("#first_name_help-block").html(data.first_name_error);
       $("#last_name_help-block").html(data.last_name_error);
+      $("#gender_help-block").html(data.gender_error);
 			$("#address_help-block").html(data.address_error);
 			$("#middle_name_help-block").html(data.middle_name_error);
       $("#suffix_help-block").html(data.suffix_error);
@@ -350,7 +378,7 @@ $(document).on("click",".reset_password_teacher",function(e) {
       dataType: "json",
       cache: false,
       success: function(data) {
-        console.log(data);
+        
         if(data.is_successful){
           $("#alert-modal-title").html("Reset Password");
           $("#alert-modal-body p").html("You have sent the new password to "+ data.contact_number);

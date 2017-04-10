@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html>
 <head>
 <?php echo '<title>'.$title.'</title>'.$meta_scripts.$css_scripts; ?>
@@ -15,8 +14,17 @@
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			<div class="table-responsive">
       <?php echo form_open("tables/guardians/list",'id="guardian-list-form"');?>
-      <label>Search</label>
-      <input type="text" name="search_last_name" placeholder="Enter Last Name" id="search_last_name">
+      <label>Search Name</label>
+      <select class="ui search dropdown" name="id">
+        <option value="">Select Guardian's Name</option>
+        <?php
+          foreach ($guardians_list["result"] as $guardian_data) {
+            echo '<option value="'.$guardian_data->id.'">'.$guardian_data->name.'</option>';
+          }
+        ?>
+      </select>
+      <button class="btn btn-primary" type="submit">Search</button>
+      <button class="btn btn-danger" type="button" id="reset">Reset</button>
       </form>
 				<table class="table table-hover" id="guardian-list-table">
 					<thead>
@@ -78,24 +86,6 @@
 
 
           <div class="form-group">
-            <label class="col-sm-4" for="guardian_name">Father&apos;s Name:</label>
-            <div class="col-sm-8"> 
-              <input type="text" class="form-control edit_field" name="mothers_name" placeholder="Enter Father&apos;s Name">
-              <p class="help-block"></p>
-            </div>
-          </div>
-
-
-
-          <div class="form-group">
-            <label class="col-sm-4" for="guardian_name">Mother&apos;s Name:</label>
-            <div class="col-sm-8"> 
-              <input type="text" class="form-control edit_field" name="fathers_name" placeholder="Enter Mother&apos;s Name">
-              <p class="help-block"></p>
-            </div>
-          </div>
-
-          <div class="form-group">
             <label class="col-sm-4" for="email_address">Email Address:</label>
             <div class="col-sm-8"> 
               <input type="text" class="form-control edit_field" name="email_address" placeholder="Enter Email Address">
@@ -155,7 +145,6 @@ $(document).on("click",".reset_password_guardian",function(e) {
       dataType: "json",
       cache: false,
       success: function(data) {
-        console.log(data);
         if(data.is_successful){
           $("#alert-modal-title").html("Reset Password");
           $("#alert-modal-body p").html("You have sent the new password to "+ data.contact_number);
@@ -187,10 +176,18 @@ $(document).on("click",".delete_guardian",function(e) {
   }
 });
 
+$(document).on("click","#reset",function(e) {
+  $(".ui").dropdown("clear");
+  show_guardian_list();
+});
+
 $(document).on("click",".edit_guardian",function(e) {
     var id = e.target.id;
     show_guardian_data(id);
 });
+
+
+
 function show_guardian_data(id) {
   $.ajax({
     type: "GET",
@@ -205,8 +202,6 @@ function show_guardian_data(id) {
       $('input[name="email_address"].edit_field').val(data.email_address);
       $('input[name="contact_number"].edit_field').val(data.contact_number);
       $('input[name="guardian_address"].edit_field').val(data.guardian_address);
-      $('input[name="mothers_name"].edit_field').val(data.mothers_name);
-      $('input[name="fathers_name"].edit_field').val(data.fathers_name);
       if(data.email_subscription=="1"){
         $('input[name="email_subscription"].edit_field').attr('checked', true);
       }
@@ -260,12 +255,17 @@ $("#search_last_name").autocomplete({
     // window.location='item?s='+ui.item.data;
   }
 });
+$(document).on("submit","#guardian-list-form",function(e) {
+  e.preventDefault();
+  show_guardian_list();  
+});
+
 
 show_guardian_list();
 function show_guardian_list(page='1') {
   var datastr = $("#guardian-list-form").serialize();
 	$.ajax({
-		type: "POST",
+		type: "GET",
     url: $("#guardian-list-form").attr("action"),
 		data: datastr+"&page="+page,
 		cache: false,

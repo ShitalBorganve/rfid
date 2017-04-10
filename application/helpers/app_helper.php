@@ -161,4 +161,14 @@ if ( ! function_exists('admin_paging'))
 		curl_close($curl);
 		return $result;
 	}
+
+	function age($birthdate)
+	{
+		$birthdate = date("m/d/Y",$birthdate);
+		$birthdate = explode("/", $birthdate);
+		$age = (date("md", date("U", mktime(0, 0, 0, $birthdate[0], $birthdate[1], $birthdate[2]))) > date("md")
+			? ((date("Y") - $birthdate[2]) - 1)
+			: (date("Y") - $birthdate[2]));
+		return $age;
+	}
 }

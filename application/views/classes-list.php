@@ -15,6 +15,17 @@
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 			<div class="table-responsive">
       <?php echo form_open("tables/classes/list",'id="class-list-form"');?>
+      <label>Search Class Name</label>
+      <select class="ui search dropdown" name="id">
+        <option value="">Select Class Name</option>
+        <?php
+          foreach ($classes_list["result"] as $classe_data) {
+            echo '<option value="'.$classe_data->id.'">'.$classe_data->class_name.'</option>';
+          }
+        ?>
+      </select>
+      <button class="btn btn-primary" type="submit">Search</button>
+      <button class="btn btn-danger" type="button" id="reset">Reset</button>
       </form>
 				<table class="table table-hover" id="class-list-table">
 					<thead>
@@ -206,6 +217,18 @@ $(document).on("click",".paging",function(e) {
 	show_class_list(e.target.id);
 });
 
+$(document).on("submit","#class-list-form",function(e) {
+  e.preventDefault();
+  show_class_list();  
+});
+
+$(document).on("click","#reset",function(e) {
+  $(".ui").dropdown("clear");
+  show_class_list();
+});
+
+
+
 $("#search_last_name").autocomplete({
 	source: "<?php echo base_url("search/classes/list"); ?>",
 	select: function(event, ui){
@@ -218,7 +241,7 @@ show_class_list();
 function show_class_list(page='1') {
   var datastr = $("#class-list-form").serialize();
 	$.ajax({
-		type: "POST",
+		type: "GET",
     url: $("#class-list-form").attr("action"),
 		data: datastr+"&page="+page,
 		cache: false,

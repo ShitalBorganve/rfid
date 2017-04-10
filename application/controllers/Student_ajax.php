@@ -54,6 +54,9 @@ class Student_ajax extends CI_Controller {
 		if($_POST){
 
 			$this->form_validation->set_rules('address', 'Address', 'required|min_length[2]|max_length[100]trim|htmlspecialchars');
+			$this->form_validation->set_rules('gender', 'Gender', 'required|max_length[50]trim|htmlspecialchars');
+			$this->form_validation->set_rules('mothers_name', 'Mother&apos;s Name', 'max_length[50]trim|htmlspecialchars');
+			$this->form_validation->set_rules('fathers_name', 'Father&apos;s Name', 'max_length[50]trim|htmlspecialchars');
 			$this->form_validation->set_rules('first_name', 'First Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
 			$this->form_validation->set_rules('last_name', 'Last Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
 			$this->form_validation->set_rules('middle_name', 'Middle Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
@@ -131,6 +134,9 @@ class Student_ajax extends CI_Controller {
 			{
 				$data["is_valid"] = FALSE;
 				$data["address_error"] = form_error('address');
+				$data["gender_error"] = form_error('gender');
+				$data["mothers_name_error"] = form_error('mothers_name');
+				$data["fathers_name_error"] = form_error('fathers_name');
 				$data["first_name_error"] = form_error('first_name');
 				$data["last_name_error"] = form_error('last_name');
 				$data["middle_name_error"] = form_error('middle_name');
@@ -144,6 +150,9 @@ class Student_ajax extends CI_Controller {
 			{
 				$data["is_valid"] = TRUE;
 				$data["address_error"] = "";
+				$data["gender_error"] = "";
+				$data["mothers_name_error"] = "";
+				$data["fathers_name_error"] = "";
 				$data["first_name_error"] = "";
 				$data["last_name_error"] = "";
 				$data["middle_name_error"] = "";
@@ -154,8 +163,11 @@ class Student_ajax extends CI_Controller {
 				$data["contact_number_error"] = "";
 
 				$student_data["first_name"] = $this->input->post("first_name");
+				$student_data["mothers_name"] = $this->input->post("mothers_name");
+				$student_data["fathers_name"] = $this->input->post("fathers_name");
 				$student_data["last_name"] = $this->input->post("last_name");
 				$student_data["address"] = $this->input->post("address");
+				$student_data["gender"] = $this->input->post("gender");
 				$student_data["middle_name"] = $this->input->post("middle_name");
 				$student_data["suffix"] = $this->input->post("suffix");
 				$student_data["contact_number"] = $this->input->post("contact_number");
@@ -206,7 +218,10 @@ class Student_ajax extends CI_Controller {
 
 			$this->form_validation->set_rules('student_id', 'First Name', 'required|trim|htmlspecialchars|is_in_db[students.id]');
 			$this->form_validation->set_rules('first_name', 'First Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
+			$this->form_validation->set_rules('gender', 'Gender', 'required|max_length[50]trim|htmlspecialchars');
 			$this->form_validation->set_rules('address', 'Address', 'required|min_length[2]|max_length[100]trim|htmlspecialchars');
+			$this->form_validation->set_rules('mothers_name', 'Mother&apos;s Name', 'max_length[50]trim|htmlspecialchars');
+			$this->form_validation->set_rules('fathers_name', 'Father&apos;s Name', 'max_length[50]trim|htmlspecialchars');
 			$this->form_validation->set_rules('last_name', 'Last Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
 			$this->form_validation->set_rules('middle_name', 'Middle Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
 			$this->form_validation->set_rules('suffix', 'Suffix', 'custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
@@ -297,6 +312,9 @@ class Student_ajax extends CI_Controller {
 			{
 				$data["is_valid"] = FALSE;
 				$data["address_error"] = form_error('address');
+				$data["gender_error"] = form_error('gender');
+				$data["mothers_name_error"] = form_error('mothers_name');
+				$data["fathers_name_error"] = form_error('fathers_name');
 				$data["first_name_error"] = form_error('first_name');
 				$data["last_name_error"] = form_error('last_name');
 				$data["middle_name_error"] = form_error('middle_name');
@@ -313,6 +331,9 @@ class Student_ajax extends CI_Controller {
 				$data["is_valid"] = TRUE;
 				$data["first_name_error"] = "";
 				$data["address_error"] = "";
+				$data["gender_error"] = "";
+				$data["mothers_name_error"] = "";
+				$data["fathers_name_error"] = "";
 				$data["last_name_error"] = "";
 				$data["middle_name_error"] = "";
 				$data["suffix_error"] = "";
@@ -323,6 +344,9 @@ class Student_ajax extends CI_Controller {
 
 				$student_data["first_name"] = $this->input->post("first_name");
 				$student_data["address"] = $this->input->post("address");
+				$student_data["gender"] = $this->input->post("gender");
+				$student_data["mothers_name"] = $this->input->post("mothers_name");
+				$student_data["fathers_name"] = $this->input->post("fathers_name");
 				$student_data["last_name"] = $this->input->post("last_name");
 				$student_data["middle_name"] = $this->input->post("middle_name");
 				$student_data["suffix"] = $this->input->post("suffix");
@@ -394,6 +418,20 @@ class Student_ajax extends CI_Controller {
 				$student_data->full_name = $student_data->last_name.", ".$student_data->first_name." ".$student_data->middle_name[0].". ".$student_data->suffix;
 			}
 			echo json_encode($data["result"]);
+		}elseif ($arg=="admin") {
+
+			if($this->input->get("class_id")){
+				$where["class_id"] = $this->input->get("class_id");
+			}
+			$where["deleted"] = 0;
+			$data = $this->students_model->get_list($where,1,$this->db->get_where("students",$where)->num_rows());
+
+			foreach ($data["result"] as $student_data) {
+				$student_data->full_name = $student_data->last_name.", ".$student_data->first_name." ".$student_data->middle_name[0].". ".$student_data->suffix;
+			}
+			echo json_encode($data["result"]);
+			
 		}
 	}
+
 }

@@ -78,7 +78,6 @@ $(document).on("submit","#gate_rfid_scan", function(e) {
 		cache: false,
 		dataType: "json",
 		success: function(data) {
-			console.log(data);
 			$("#gate_rfid_scan")[0].reset();
 
 			$("#gate_rfid_last_name").html(data.last_name);

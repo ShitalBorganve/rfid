@@ -101,7 +101,6 @@ $(document).on("submit","#register_guardian_form",function(e) {
 		cache: false,
 		dataType: "json",
 		success: function(data) {
-			console.log(data);
 			$("button[form='register_guardian_form']").prop('disabled', false);
 			$("#add_guardian_address_help-block").html(data.guardian_address_error);
 			$("#add_guardian_name_help-block").html(data.guardian_name_error);
@@ -127,14 +126,7 @@ $(document).on("submit","#register_guardian_form",function(e) {
 });
 
 
-// $(document).on("click",".rfid_scan_add",function(e) {
-// 	$("#rfid_scan_add_modal").modal("show");
-// 	$('input[name="rfid_scan_add"]').attr("autofocus","true");
-// 	$("#rfid_add_modal_title").html("Add "+e.target.id);
-// 	$('input[name="type"]').val(e.target.id);
-// });
 
-/* new process*/
 $(".rfid_scan_add#students").click(function(e) {
 	$("#students_add_modal").modal("show");
 });
@@ -161,26 +153,24 @@ $(document).on("submit","#student_add_form", function(e) {
 		method:"POST",
 		dataType: "json",
 		success: function(data){
-			// console.log(data);
 			$("button[form='student_add_form']").prop('disabled', false);
-			// alert(data);
 			if(data.is_valid){
 				$("#student_add_form")[0].reset();
 				$('.ui.dropdown').dropdown('clear');
 				$(".help-block").html("");
-				// $("#students_add_modal").modal("hide");
 
 				if(data.is_successful){
 					$("#students_add_modal").modal("hide");
 					$("#alert-modal").modal("show");
-					// $("#rfid_scan_add_modal").modal("show");
 					
 					$("#alert-modal-title").html("Add Student");
 					$("#alert-modal-body p").html("You have successfully added a student in the list.");
 				}
 			}else{
-				// alert(data.contact_number_error);
 				$("#student_first_name_help-block").html(data.first_name_error);
+				$("#student_gender_help-block").html(data.gender_error);
+				$("#student_mothers_name_help-block").html(data.mothers_name_error);
+				$("#student_fathers_name_help-block").html(data.fathers_name_error);
 				$("#student_address_help-block").html(data.address_error);
 				$("#student_last_name_help-block").html(data.last_name_error);
 				$("#student_middle_name_help-block").html(data.middle_name_error);
@@ -209,7 +199,6 @@ $(document).on("submit","#teacher_add_form", function(e) {
 		dataType: "json",
 		success: function(data){
 			$("button[form='teacher_add_form']").prop('disabled', false);
-			// alert(data);
 			if(data.is_valid){
 				$("#teacher_add_form")[0].reset();
 				$('.ui.dropdown').dropdown('clear');
@@ -224,6 +213,7 @@ $(document).on("submit","#teacher_add_form", function(e) {
 				}
 			}else{
 				$("#teacher_address_help-block").html(data.address_error);
+				$("#teacher_gender_help-block").html(data.gender_error);
 				$("#teacher_first_name_help-block").html(data.first_name_error);
 				$("#teacher_last_name_help-block").html(data.last_name_error);
 				$("#teacher_middle_name_help-block").html(data.middle_name_error);
@@ -252,7 +242,6 @@ $(document).on("submit","#staff_add_form", function(e) {
 		dataType: "json",
 		success: function(data){
 			$("button[form='staff_add_form']").prop('disabled', false);
-			// alert(data);
 			if(data.is_valid){
 				$("#staff_add_form")[0].reset();
 				$('.ui.dropdown').dropdown('clear');
@@ -266,6 +255,8 @@ $(document).on("submit","#staff_add_form", function(e) {
 					update_select_options("class_adviser",base_url);
 				}
 			}else{
+				$("#staff_gender_help-block").html(data.gender_error);
+				$("#staff_position_help-block").html(data.position_error);
 				$("#staff_first_name_help-block").html(data.first_name_error);
 				$("#staff_last_name_help-block").html(data.last_name_error);
 				$("#staff_middle_name_help-block").html(data.middle_name_error);
@@ -293,7 +284,6 @@ $(document).on("submit","#guard_add_form", function(e) {
 		dataType: "json",
 		success: function(data){
 			$("button[form='guard_add_form']").prop('disabled', false);
-			// alert(data);
 			if(data.is_valid){
 				$("#guard_add_form")[0].reset();
 				$('.ui.dropdown').dropdown('clear');
@@ -378,8 +368,6 @@ $(document).on("submit","#class_add_form",function(e) {
 		cache: false,
 		dataType: "json",
 		success: function(data) {
-			// alert(data);
-			// console.log(data);
 			if(data.is_valid){
 				$("#class_add_form")[0].reset();
 				$('.ui.dropdown').dropdown('clear');
@@ -450,7 +438,6 @@ $(document).on("submit","#guardian_email_settings_form",function(e) {
 			}else{
 				$("#email_settings_email_address_help-block").html(data.email_address_error);
 			}
-			// body...
 		}
 	});
 });
@@ -558,7 +545,6 @@ function update_select_options(type,base_url) {
 			dataType: "json",
 			success: function(data) {
 				$.each(data, function(i, item) {
-					console.log(data[i]);
 				    $('select[name="'+type+'"]').append('<option value="'+data[i].id+'">'+data[i].contact_number+'</option>');
 				})
 			}

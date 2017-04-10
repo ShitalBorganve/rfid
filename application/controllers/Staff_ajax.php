@@ -55,10 +55,9 @@ class Staff_ajax extends CI_Controller {
 		
 		if($_POST){
 
-			// $data["guardian_id"] = $this->input->post("guardian_id");
 			// $data["class_id"] = $this->input->post("class_id");
 
-			$this->form_validation->set_rules('position', 'Position', 'required|min_length[2]|max_length[50]trim|htmlspecialchars');
+			$this->form_validation->set_rules('position', 'Position', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
 			$this->form_validation->set_rules('first_name', 'First Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
 			$this->form_validation->set_rules('last_name', 'Last Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
 			$this->form_validation->set_rules('middle_name', 'Middle Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
@@ -67,7 +66,7 @@ class Staff_ajax extends CI_Controller {
 			$this->form_validation->set_rules('bday_d', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('bday_y', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('contact_number', 'Contact Number', 'numeric|min_length[11]|max_length[11]trim|htmlspecialchars');
-
+			$this->form_validation->set_rules('gender', 'Gender', 'required|max_length[50]trim|htmlspecialchars');
 
 
 
@@ -135,6 +134,7 @@ class Staff_ajax extends CI_Controller {
 			if ($this->form_validation->run() == FALSE|| $data["is_valid_photo"] == FALSE)
 			{
 				$data["is_valid"] = FALSE;
+				$data["gender_error"] = form_error('gender');
 				$data["position_error"] = form_error('position');
 				$data["first_name_error"] = form_error('first_name');
 				$data["last_name_error"] = form_error('last_name');
@@ -146,6 +146,7 @@ class Staff_ajax extends CI_Controller {
 			else
 			{
 				$data["is_valid"] = TRUE;
+				$data["gender_error"] = form_error('gender');
 				$data["position_error"] = form_error('position');
 				$data["first_name_error"] = form_error('first_name');
 				$data["last_name_error"] = form_error('last_name');
@@ -155,6 +156,7 @@ class Staff_ajax extends CI_Controller {
 				$data["bday_error"] = form_error('bday_m');
 
 				$staff_data["first_name"] = $this->input->post("first_name");
+				$staff_data["gender"] = $this->input->post("gender");
 				$staff_data["last_name"] = $this->input->post("last_name");
 				$staff_data["middle_name"] = $this->input->post("middle_name");
 				$staff_data["suffix"] = $this->input->post("suffix");
@@ -196,11 +198,10 @@ class Staff_ajax extends CI_Controller {
 		if($_POST){
 
 
-			// $data["guardian_id"] = $this->input->post("guardian_id");
 			// $data["class_id"] = $this->input->post("class_id");
 
 			$this->form_validation->set_rules('staff_id', 'First Name', 'required|trim|htmlspecialchars|is_in_db[staffs.id]');
-			$this->form_validation->set_rules('position', 'Position', 'required|min_length[2]|max_length[50]trim|htmlspecialchars');
+			$this->form_validation->set_rules('position', 'Position', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
 			$this->form_validation->set_rules('first_name', 'First Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
 			$this->form_validation->set_rules('last_name', 'Last Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
 			$this->form_validation->set_rules('middle_name', 'Middle Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
@@ -209,6 +210,7 @@ class Staff_ajax extends CI_Controller {
 			$this->form_validation->set_rules('bday_d', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('bday_y', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('contact_number', 'Contact Number', 'numeric|min_length[11]|max_length[11]trim|htmlspecialchars');
+			$this->form_validation->set_rules('gender', 'Gender', 'required|max_length[50]trim|htmlspecialchars');
 
 			$this->form_validation->set_message('is_in_db', 'An Error has occured please refresh the page and try again.');
 
@@ -291,6 +293,7 @@ class Staff_ajax extends CI_Controller {
 			if ($this->form_validation->run() == FALSE|| $data["is_valid_photo"] == FALSE)
 			{
 				$data["is_valid"] = FALSE;
+				$data["gender_error"] = form_error('gender');
 				$data["position_error"] = form_error('position');
 				$data["first_name_error"] = form_error('first_name');
 				$data["last_name_error"] = form_error('last_name');
@@ -304,6 +307,7 @@ class Staff_ajax extends CI_Controller {
 			else
 			{
 				$data["is_valid"] = TRUE;
+				$data["gender_error"] = form_error('gender');
 				$data["position_error"] = form_error('position');
 				$data["first_name_error"] = form_error('first_name');
 				$data["last_name_error"] = form_error('last_name');
@@ -314,12 +318,13 @@ class Staff_ajax extends CI_Controller {
 				$data["class_id_error"] = "";
 
 				$staff_data["first_name"] = $this->input->post("first_name");
+				$staff_data["position"] = $this->input->post("position");
+				$staff_data["gender"] = $this->input->post("gender");
 				$staff_data["last_name"] = $this->input->post("last_name");
 				$staff_data["middle_name"] = $this->input->post("middle_name");
 				$staff_data["suffix"] = $this->input->post("suffix");
 				$staff_data["contact_number"] = $this->input->post("contact_number");
 				// $staff_data["class_id"] = $this->input->post("class_id");
-				$staff_data["guardian_id"] = $this->input->post("guardian_id");
 				$staff_data["display_photo"] = $filename;
 				// $staff_data["display_photo_type"] = $new_image_data['file_type'];
 				$bday_m = sprintf("%02d",$this->input->post("bday_m"));
@@ -370,7 +375,11 @@ class Staff_ajax extends CI_Controller {
 
 	public function get_list($arg='')
 	{
-		$data = $this->staffs_model->get_list();
+		$where = "";
+		if($this->input->get("position")){
+			$where["position"] = $this->input->get("position");
+		}
+		$data = $this->staffs_model->get_list($where);
 		echo json_encode($data["result"]);
 	}
 

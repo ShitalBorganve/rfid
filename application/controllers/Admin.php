@@ -36,6 +36,8 @@ class Admin extends CI_Controller {
 		$modal_data["guardians_list"] = $this->guardian_model->get_list();
 		$modal_data["login_user_data"] = $this->session->userdata("admin_sessions");
 		$modal_data["teachers_list"] = $this->teachers_model->get_list();
+		$modal_data["students_list"] = $this->students_model->get_list();
+		$modal_data["staffs_list"] = $this->staffs_model->get_list();
 		$modal_data["classes_list"] = $this->classes_model->get_list();
 		$modal_data["modals_sets"] = "admin";
 		// $modal_data["sms_module_sms_left"] = $sms_module_status["Result "]["MessagesLeft"];
@@ -63,8 +65,8 @@ class Admin extends CI_Controller {
 		if($this->session->userdata("admin_sessions")){
 			$where["type"] = "entry";
 			$gate_log_data = $this->gate_logs_model->get_list();
-			$this->data["title"] = "Gate Logs";
-			$this->load->view('gate-logs',$this->data);
+			$this->data["title"] = "Students Gate Logs";
+			$this->load->view('gate-logs-students',$this->data);
 		}else{
 			$this->data["title"] = "Admin Login";
 			$this->load->view('app-login',$this->data);
@@ -113,6 +115,22 @@ class Admin extends CI_Controller {
 	{
 		$this->data["title"] = "SMS Thread List";
 		$this->load->view("sms",$this->data);
+	}
+
+	public function gatelogs($arg='')
+	{
+		if($arg=="students"){
+			$this->data["title"] = "Students Gate Logs";
+			$this->load->view('gate-logs-students',$this->data);
+		}elseif ($arg=="teachers") {
+			# code...
+			$this->data["title"] = "Teachers Gate Logs";
+			$this->load->view('gate-logs-teachers',$this->data);
+		}elseif ($arg=="staffs") {
+			$this->data["positions_list"] = $this->staffs_model->get_positions_list();
+			$this->data["title"] = "Non-teaching Staffs Gate Logs";
+			$this->load->view('gate-logs-staffs',$this->data);
+		}
 	}
 
 }

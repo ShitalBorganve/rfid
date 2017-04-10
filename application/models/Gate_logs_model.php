@@ -54,7 +54,7 @@ class Gate_logs_model extends CI_Model {
 
         //start repeat
         $select[] = 'gate_logs.*';
-        if($table=="students"||$table=="teachers"){
+        if($table=="students"){
             $select[] = 'classes.class_name';
             $select[] = $table.'.class_id';
         }
@@ -70,7 +70,7 @@ class Gate_logs_model extends CI_Model {
         $this->db->select($select);
         $this->db->from('gate_logs');
         $this->db->join($table, $table.'.id = gate_logs.ref_id');
-        if($table=="students"||$table=="teachers"){
+        if($table=="students"){
             $this->db->join("classes", $table.'.class_id = classes.id');
         }
         $gate_logs_query = $this->db->get();

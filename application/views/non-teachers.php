@@ -235,7 +235,6 @@ $(document).on("submit","#rfid_scan_add_form",function(e) {
     dataType: "json",
     success: function(data) {
       $("#rfid_scan_add_form")[0].reset();
-      console.log(data);
       
       if(data.is_valid){
         $("#rfid_scan_add_modal").modal("hide");

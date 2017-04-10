@@ -121,8 +121,6 @@ function show_gatelogs(page=1) {
 		data: $("#view_gate_logs-form").serialize()+"&page="+page,
 		cache: false,
 		success: function(data) {
-			// alert(data);
-			// console.log(data);
 			$("#gatelogs-table tbody").html(data);
 		}
 	});

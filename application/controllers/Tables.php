@@ -69,9 +69,10 @@ class Tables extends CI_Controller {
 					$where["rfid_status"] = 0;
 				}
 
-				if($arg_2=="teachers"){
+				if($this->input->get("class_id")){
 					$where["class_id"] = $this->input->get("class_id");
 				}
+
 				$students_list_data = $this->students_model->get_list($where,$page,$this->config->item("max_item_perpage"),$search);
 
 				// var_dump($this->input->get("owner_id"));
@@ -116,6 +117,8 @@ class Tables extends CI_Controller {
 							<td>'.$student_data->first_name.'</td>
 							<td>'.$student_data->middle_name.'</td>
 							<td>'.$student_data->suffix.'</td>
+							<td>'.$student_data->gender.'</td>
+							<td>'.age($student_data->birthdate).'</td>
 							<td>'.date("m/d/Y",$student_data->birthdate).'</td>
 							<td>'.$student_data->contact_number.'</td>
 						</tr>
@@ -134,6 +137,8 @@ class Tables extends CI_Controller {
 							<td>'.$student_data->first_name.'</td>
 							<td>'.$student_data->middle_name.'</td>
 							<td>'.$student_data->suffix.'</td>
+							<td>'.$student_data->gender.'</td>
+							<td>'.age($student_data->birthdate).'</td>
 							<td>'.date("m/d/Y",$student_data->birthdate).'</td>
 							<td>'.$student_data->guardian_data->name.'</td>
 							<td>'.$student_data->contact_number.'</td>
@@ -187,6 +192,9 @@ class Tables extends CI_Controller {
 						<td>'.$teacher_data->first_name.'</td>
 						<td>'.$teacher_data->middle_name.'</td>
 						<td>'.$teacher_data->last_name.'</td>
+						<td>'.$teacher_data->suffix.'</td>
+						<td>'.$teacher_data->gender.'</td>
+						<td>'.age($teacher_data->birthdate).'</td>
 						<td>'.date("m/d/Y",$teacher_data->birthdate).'</td>
 						<td>'.$teacher_data->contact_number.'</td>
 						<td>'.$teacher_data->class_data->class_name.'</td>
@@ -206,6 +214,9 @@ class Tables extends CI_Controller {
 						<td>'.$teacher_data->first_name.'</td>
 						<td>'.$teacher_data->middle_name.'</td>
 						<td>'.$teacher_data->last_name.'</td>
+						<td>'.$teacher_data->suffix.'</td>
+						<td>'.$teacher_data->gender.'</td>
+						<td>'.age($teacher_data->birthdate).'</td>
 						<td>'.date("m/d/Y",$teacher_data->birthdate).'</td>
 						<td>'.$teacher_data->contact_number.'</td>
 						<td>'.$teacher_data->class_data->class_name.'</td>
@@ -260,6 +271,9 @@ class Tables extends CI_Controller {
 						<td>'.$staff_data->first_name.'</td>
 						<td>'.$staff_data->middle_name.'</td>
 						<td>'.$staff_data->last_name.'</td>
+						<td>'.$staff_data->suffix.'</td>
+						<td>'.$staff_data->gender.'</td>
+						<td>'.age($staff_data->birthdate).'</td>
 						<td>'.date("m/d/Y",$staff_data->birthdate).'</td>
 						<td>'.$staff_data->contact_number.'</td>
 						<td>'.$staff_data->position.'</td>
@@ -279,6 +293,9 @@ class Tables extends CI_Controller {
 						<td>'.$staff_data->first_name.'</td>
 						<td>'.$staff_data->middle_name.'</td>
 						<td>'.$staff_data->last_name.'</td>
+						<td>'.$staff_data->suffix.'</td>
+						<td>'.$staff_data->gender.'</td>
+						<td>'.age($staff_data->birthdate).'</td>
 						<td>'.date("m/d/Y",$staff_data->birthdate).'</td>
 						<td>'.$staff_data->contact_number.'</td>
 						<td>'.$staff_data->position.'</td>
@@ -299,9 +316,12 @@ class Tables extends CI_Controller {
 	{
 		
 		if($arg=="list"){
-
-				$page = $this->input->post("page");
-				$classes_list_data = $this->classes_model->get_list("",$page,$this->config->item("max_item_perpage"));
+				$page = $this->input->get("page");
+				$where = "";
+				if($this->input->get("id")){
+					$where["id"] = $this->input->get("id");
+				}
+				$classes_list_data = $this->classes_model->get_list($where,$page,$this->config->item("max_item_perpage"));
 
 				// var_dump($classes_list_data["result"]);
 				// exit;
@@ -328,10 +348,14 @@ class Tables extends CI_Controller {
 	{
 		if($arg=="list"){
 
-				$page = $this->input->post("page");
-				$guardians_list_data = $this->guardian_model->get_list("",$page,$this->config->item("max_item_perpage"));
+				$page = $this->input->get("page");
+				$where = "";
+				if($this->input->get("id")){
+					$where["id"] = $this->input->get("id");
+				}
+				$guardians_list_data = $this->guardian_model->get_list($where,$page,$this->config->item("max_item_perpage"));
 
-				// var_dump($guardians_list_data["result"]);
+				// var_dump($guardians_list_data["query"]);
 				// exit;
 				foreach ($guardians_list_data["result"] as $guardian_data) {
 					echo '
@@ -365,6 +389,7 @@ class Tables extends CI_Controller {
 		$page = $this->input->get("page");
 		($this->input->get("ref_id")?$where["ref_id"]=$this->input->get("ref_id"):FALSE);
 		($this->input->get("class_id")?$where["class_id"]=$this->input->get("class_id"):FALSE);
+		($this->input->get("position")?$where["position"]=$this->input->get("position"):FALSE);
 		if(!$this->input->get("ref_id")&&$this->input->get("search_last_name")){
 			$this->db->where("last_name",$this->input->get("search_last_name"));
 		}
@@ -410,15 +435,11 @@ class Tables extends CI_Controller {
 					</tr>
 				';
 			}else{
-
-
-
-	
 				echo '
 					<tr class="'.$status.'">
 						
+						<td>'.$gate_log_data->owner_data->id.'</td>
 						<td><a href="#" id="'.$gate_log_data->owner_data->id.'" class="gate_logs">'.$gate_log_data->owner_data->last_name.", ".$gate_log_data->owner_data->first_name." ".$gate_log_data->owner_data->middle_name[0].". ".$gate_log_data->owner_data->suffix.'</td>
-						<td>'.$gate_log_data->rfid_data->rfid.'</td>
 						<td>'.date("m/d/Y",$gate_log_data->date).'</td>
 						<td>'.date("h:i:s A",$gate_log_data->date_time).'</td>
 						<td>'.strtoupper($gate_log_data->type).'</td>
@@ -439,7 +460,7 @@ class Tables extends CI_Controller {
 	{
 		$canteen_user_data = $this->session->userdata("canteen_sessions");
 		if($arg=="item_list"){
-			$page = $this->input->post("page");
+			$page = $this->input->get("page");
 			$get_list_where["deleted"] = 0;
 			$get_list_where["canteen_id"] = $canteen_user_data->canteen_id;
 			$item_list_data = $this->canteen_items_model->get_list($get_list_where,$page,$this->config->item("max_item_perpage"));

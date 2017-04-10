@@ -89,7 +89,7 @@ $(document).on("click",".resend_sms",function(e) {
 		dataType: "json",
 		success: function(data) {
 			needToConfirm = false;
-			console.log(data);
+			
 			if(data.is_success){
 				$("#alert-modal").modal("show");
 				$("#alert-modal-title").html("RESEND MESSAGES");
@@ -99,8 +99,7 @@ $(document).on("click",".resend_sms",function(e) {
 				$("#alert-modal-title").html("ERRROR RESENDING MESSAGES");
 				$("#alert-modal-body p").html("Please Check the message status.");
 			}
-				show_sms_threads();
-			// body...
+			show_sms_threads();
 		}
 	});
 });
@@ -123,7 +122,6 @@ function show_sms_threads(page=1) {
 		data: $("#sms_list_form").serialize()+"&page="+page,
 		cache: false,
 		success: function(data) {
-			// alert(data);
 			$("#sms_threads_table tbody").html(data);
 		}
 	});

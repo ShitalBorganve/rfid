@@ -15,10 +15,32 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <div class="table-responsive">
       <?php echo form_open("tables/students/list",'id="student-list-form"');?>
-      <label>Search</label>
-      <input type="text" name="search_last_name" placeholder="Enter Last Name" id="search_last_name">
-      <input type="hidden" name="owner_id">
+      <label>Class:</label>
+      <?php
+      echo '
+      <select class="ui search dropdown" id="select_class" name="class_id">
+        <option value="">All Class</option>
+        ';
+        foreach ($classes_list["result"] as $class_data) {
+          echo '<option value="'.$class_data->id.'">'.$class_data->class_name.'</option>';
+        }
+
+        echo '
+      </select>
+      ';
+      ?>
+      <label>Search Last Name</label>
+      <select class="ui search dropdown" name="owner_id" id="select_student">
+        <option value="">Select Student's Last Name</option>
+        <?php
+          foreach ($students_list["result"] as $student_data) {
+            echo '<option value="'.$student_data->id.'">'.$student_data->full_name.'</option>';
+          }
+        ?>
+      </select>
+
       <button class="btn btn-primary" type="submit">Search</button>
+      <button class="btn btn-danger" type="button" id="reset">Reset</button>
       </form>
         <table class="table table-hover" id="student-list-table">
           <thead>
@@ -28,6 +50,8 @@
               <th>First Name</th>
               <th>Middle Name</th>
               <th>Suffix</th>
+              <th>Gender</th>
+              <th>Age</th>
               <th>Birthday</th>
               <th>Guardian</th>
               <th>Contact Number</th>
@@ -94,6 +118,19 @@ echo '
               <p class="help-block" id="suffix_help-block"></p>
             </div>
           </div>
+
+          <div class="form-group">
+            <label class="col-sm-2" for="guardian_name">Gender:</label>
+            <div class="col-sm-10"> 
+              <select name="gender" class="form-control edit_field" required>
+                <option value="MALE">MALE</option>
+                <option value="FEMALE">FEMALE</option>
+              </select>
+              <p class="help-block" id="gender_help-block"></p>
+            </div>
+          </div>
+
+
 
           <div class="form-group">
             <label class="col-sm-2" for="last_name">Birth Date:</label>
@@ -163,6 +200,27 @@ echo '
 
 
           <div class="form-group">
+            <label class="col-sm-2" for="guardian_name">Father&apos;s Name:</label>
+            <div class="col-sm-10"> 
+              <input type="text" class="form-control edit_field" name="mothers_name" placeholder="Enter Father&apos;s Name">
+              <p class="help-block" id="mothers_name_help-block"></p>
+            </div>
+          </div>
+
+
+
+          <div class="form-group">
+            <label class="col-sm-2" for="guardian_name">Mother&apos;s Name:</label>
+            <div class="col-sm-10"> 
+              <input type="text" class="form-control edit_field" name="fathers_name" placeholder="Enter Mother&apos;s Name">
+              <p class="help-block" id="fathers_name_help-block"></p>
+            </div>
+          </div>
+
+
+
+
+          <div class="form-group">
             <label class="col-sm-2" for="class_id">Class:</label>
             <div class="col-sm-10"> 
               <select name="class_id" id="edit-class_id" class="ui search dropdown form-control edit_field">
@@ -207,6 +265,10 @@ echo '
 <?php echo $js_scripts; ?>
 <script>
 
+$(document).on("click","#reset",function(e) {
+  $(".ui").dropdown("clear");
+  show_student_list();
+});
 
 
 
@@ -244,7 +306,7 @@ $(document).on("submit","#rfid_scan_add_form",function(e) {
     dataType: "json",
     success: function(data) {
       $("#rfid_scan_add_form")[0].reset();
-      console.log(data);
+      
       
       if(data.is_valid){
         $("#rfid_scan_add_modal").modal("hide");
@@ -296,6 +358,9 @@ function show_student_data(id) {
       $('input[name="first_name"].edit_field').val(data.first_name);
       $('input[name="last_name"].edit_field').val(data.last_name);
       $('input[name="address"].edit_field').val(data.address);
+      $('select[name="gender"].edit_field').val(data.gender);
+      $('input[name="mothers_name"].edit_field').val(data.mothers_name);
+      $('input[name="fathers_name"].edit_field').val(data.fathers_name);
       $('input[name="middle_name"].edit_field').val(data.middle_name);
       $('input[name="suffix"].edit_field').val(data.suffix);
       $('input[name="contact_number"].edit_field').val(data.contact_number);
@@ -332,7 +397,10 @@ $(document).on("submit","#student_edit_form",function(e) {
       $('button[form="student_edit_form"]').prop('disabled', false);
 			$("#first_name_help-block").html(data.first_name_error);
       $("#last_name_help-block").html(data.last_name_error);
-			$("#address_help-block").html(data.address_error);
+      $("#address_help-block").html(data.address_error);
+      $("#gender_help-block").html(data.gender_error);
+      $("#mothers_name_help-block").html(data.mothers_name_error);
+			$("#fathers_name_help-block").html(data.fathers_name_error);
 			$("#middle_name_help-block").html(data.middle_name_error);
       $("#suffix_help-block").html(data.suffix_error);
 			$("#contact_number_help-block").html(data.contact_number_error);
@@ -349,6 +417,28 @@ $(document).on("submit","#student_edit_form",function(e) {
 		}
 	});
 });
+
+$(document).on("change",'#select_class',function(e) {
+  // show_gatelogs();
+  $('#select_student').dropdown("clear");
+  $('#select_student').html("");
+  $('#select_student').append('<option value="">Select a Class</option>');
+  var datastr = "class_id="+e.target.value;
+  $.ajax({
+    type: "GET",
+    url: "<?php echo base_url("student_ajax/get_list/admin"); ?>",
+    data: datastr,
+    cache: false,
+    dataType: "json",
+    success: function(data) {
+      $.each(data, function(i, item) {
+          $('#select_student').append('<option value="'+data[i].id+'">'+data[i].full_name+'</option>');
+      });
+    }
+  });
+});
+
+
 $(document).on("click",".paging",function(e) {
 	show_student_list(e.target.id);
 });

@@ -97,6 +97,18 @@ if($modals_sets=="admin"){
             </div>
 
             <div class="form-group">
+              <label class="col-sm-2" for="guardian_name">Gender:</label>
+              <div class="col-sm-10"> 
+                <select name="gender" class="form-control" required>
+                  <option value="MALE">MALE</option>
+                  <option value="FEMALE">FEMALE</option>
+                </select>
+                <p class="help-block" id="student_gender_help-block"></p>
+              </div>
+            </div>
+
+
+            <div class="form-group">
               <label class="col-sm-2" for="last_name">Birth Date:</label>
               <div class="col-sm-10">
                 <select class="" name="bday_m" required>
@@ -165,6 +177,27 @@ if($modals_sets=="admin"){
                 <button type="button" class="btn btn-default btn-block" id="add_guardian">Add</button>
               </div>
             </div>
+
+
+            <div class="form-group">
+              <label class="col-sm-2" for="guardian_name">Father&apos;s Name:</label>
+              <div class="col-sm-10"> 
+                <input type="text" class="form-control" name="mothers_name" placeholder="Enter Father&apos;s Name">
+                <p class="help-block" id="student_mothers_name_help-block"></p>
+              </div>
+            </div>
+
+
+
+            <div class="form-group">
+              <label class="col-sm-2" for="guardian_name">Mother&apos;s Name:</label>
+              <div class="col-sm-10"> 
+                <input type="text" class="form-control" name="fathers_name" placeholder="Enter Mother&apos;s Name">
+                <p class="help-block" id="student_fathers_name_help-block"></p>
+              </div>
+            </div>
+
+
 
             <div class="form-group">
               <label class="col-sm-2" for="class_id">Class:</label>
@@ -255,6 +288,17 @@ if($modals_sets=="admin"){
               <div class="col-sm-10"> 
                 <input type="text" class="form-control" name="suffix" placeholder="Enter Suffix (Jr. III etc.)">
                 <p class="help-block" id="teacher_suffix_help-block"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="guardian_name">Gender:</label>
+              <div class="col-sm-10"> 
+                <select name="gender" class="form-control" required>
+                  <option value="MALE">MALE</option>
+                  <option value="FEMALE">FEMALE</option>
+                </select>
+                <p class="help-block" id="teacher_gender_help-block"></p>
               </div>
             </div>
 
@@ -407,6 +451,17 @@ if($modals_sets=="admin"){
               <div class="col-sm-10"> 
                 <input type="text" class="form-control" name="suffix" placeholder="Enter Suffix (Jr. III etc.)">
                 <p class="help-block" id="staff_suffix_help-block"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="gender">Gender:</label>
+              <div class="col-sm-10"> 
+                <select name="gender" class="form-control" required>
+                  <option value="MALE">MALE</option>
+                  <option value="FEMALE">FEMALE</option>
+                </select>
+                <p class="help-block" id="staff_gender_help-block"></p>
               </div>
             </div>
 
@@ -611,24 +666,6 @@ if($modals_sets=="admin"){
             </div>
           </div>
 
-
-          <div class="form-group">
-            <label class="col-sm-4" for="guardian_name">Father&apos;s Name:</label>
-            <div class="col-sm-8"> 
-              <input type="text" class="form-control" name="mothers_name" placeholder="Enter Father&apos;s Name">
-              <p class="help-block"></p>
-            </div>
-          </div>
-
-
-
-          <div class="form-group">
-            <label class="col-sm-4" for="guardian_name">Mother&apos;s Name:</label>
-            <div class="col-sm-8"> 
-              <input type="text" class="form-control" name="fathers_name" placeholder="Enter Mother&apos;s Name">
-              <p class="help-block"></p>
-            </div>
-          </div>
 
 
 

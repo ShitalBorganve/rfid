@@ -70,6 +70,15 @@ class Staffs_model extends CI_Model {
             return $data;
     }
 
+    function get_positions_list($data='')
+    {
+        $this->db->where("deleted","0");
+        $this->db->select("position");
+        $this->db->distinct();
+        return $this->db->get("staffs")->result();
+        # code...
+    }
+
     function get_data($where=''){
         $query = $this->db->get_where("staffs",$where);
         return $query->row_array();

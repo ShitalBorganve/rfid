@@ -54,17 +54,20 @@ if($navbar_type=="admin"){
           </li>
           ';
 
-
           echo '
           <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Guardians
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Non-Teaching
             <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="'.base_url("admin/guardians").'">List of Guardians</a></li>
-              <li><a href="#" id="register_guardian">Add Guardians</a></li>
+              <li><a href="'.base_url("admin/staffs").'">List of Staffs</a></li>
+              <li><a href="#" class="rfid_scan_add" id="staffs">Add Staff</a></li>
+              
             </ul>
           </li>
           ';
+
+
+
           
 /*          echo '
           <li class="dropdown">
@@ -85,18 +88,34 @@ if($navbar_type=="admin"){
         echo '
         </ul>
         <ul class="nav navbar-nav navbar-right"> ';
-        
+
+
+
         echo '
         <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Non-Teaching
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Guardians
           <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="'.base_url("admin/staffs").'">List of Staffs</a></li>
-            <li><a href="#" class="rfid_scan_add" id="staffs">Add Staff</a></li>
+            <li><a href="'.base_url("admin/guardians").'">List of Guardians</a></li>
+            <li><a href="#" id="register_guardian">Add Guardians</a></li>
+          </ul>
+        </li>
+        ';
+
+        echo '
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Gate Logs
+          <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="'.base_url("admin/gatelogs/students").'">Students</a></li>
+            <li><a href="'.base_url("admin/gatelogs/teachers").'">Teachers</a></li>
+            <li><a href="'.base_url("admin/gatelogs/staffs").'">Non-Teaching Staffs</a></li>
             
           </ul>
         </li>
         ';
+
+        
 
         echo '
 

@@ -15,10 +15,17 @@
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       <div class="table-responsive">
       <?php echo form_open("tables/staffs/list",'id="staff-list-form"');?>
-      <label>Search</label>
-      <input type="text" name="search_last_name" placeholder="Enter Last Name" id="search_last_name">
-      <input type="hidden" name="owner_id">
+      <label>Search Last Name</label>
+      <select class="ui search dropdown" name="owner_id">
+        <option value="">Select Staff's Last Name</option>
+        <?php
+          foreach ($staffs_list["result"] as $staff_data) {
+            echo '<option value="'.$staff_data->id.'">'.$staff_data->full_name.'</option>';
+          }
+        ?>
+      </select>
       <button class="btn btn-primary" type="submit">Search</button>
+      <button class="btn btn-danger" type="button" id="reset">Reset</button>
       </form>
         <table class="table table-hover" id="staff-list-table">
           <thead>
@@ -27,6 +34,9 @@
               <th>First Name</th>
               <th>Middle Name</th>
               <th>Last Name</th>
+              <th>Suffix</th>
+              <th>Gender</th>
+              <th>Age</th>
               <th>Birthday</th>
               <th>Contact Number</th>
               <th>Position</th>
@@ -64,7 +74,7 @@ echo '
           <label class="col-sm-2" for="position">Position:</label>
           <div class="col-sm-10">
             <input type="text" class="form-control edit_field" name="position" placeholder="Enter Position">
-            <p class="help-block" id="staff_position_help-block"></p>
+            <p class="help-block" id="position_help-block"></p>
           </div>
         </div>
         
@@ -103,6 +113,18 @@ echo '
               <p class="help-block" id="suffix_help-block"></p>
             </div>
           </div>
+
+          <div class="form-group">
+            <label class="col-sm-2" for="gender">Gender:</label>
+            <div class="col-sm-10"> 
+              <select name="gender" class="form-control edit_field" required>
+                <option value="MALE">MALE</option>
+                <option value="FEMALE">FEMALE</option>
+              </select>
+              <p class="help-block" id="gender_help-block"></p>
+            </div>
+          </div>
+
 
           <div class="form-group">
             <label class="col-sm-2" for="contact_number">Contact Number:</label>
@@ -193,7 +215,6 @@ $(document).on("submit","#rfid_scan_add_form",function(e) {
     dataType: "json",
     success: function(data) {
       $("#rfid_scan_add_form")[0].reset();
-      console.log(data);
       
       if(data.is_valid){
         $("#rfid_scan_add_modal").modal("hide");
@@ -264,9 +285,9 @@ function show_staff_data(id) {
       $('input[name="suffix"].edit_field').val(data.suffix);
       $('input[name="contact_number"].edit_field').val(data.contact_number);
       $('select[name="bday_m"].edit_field').val(data.bday_m);
+      $('select[name="gender"].edit_field').val(data.gender);
       $('select[name="bday_d"].edit_field').val(data.bday_d);
       $('select[name="bday_y"].edit_field').val(data.bday_y);
-      $('select[name="guardian_id"].edit_field').val(data.guardian_id);
       if(data.class_id!=""){
         $('#edit-class_id').dropdown('set value',data.class_id);
       }else{
@@ -290,12 +311,13 @@ $(document).on("submit","#staff_edit_form",function(e) {
     success: function(data) {
       $('button[form="staff_edit_form"]').prop('disabled', false);
       $("#first_name_help-block").html(data.first_name_error);
+      $("#gender_help-block").html(data.gender_error);
+      $("#position_help-block").html(data.position_error);
       $("#last_name_help-block").html(data.last_name_error);
       $("#middle_name_help-block").html(data.middle_name_error);
       $("#suffix_help-block").html(data.suffix_error);
       $("#contact_number_help-block").html(data.contact_number_error);
       $("#bday_help-block").html(data.bday_error);
-      $("#guardian_id_help-block").html(data.guardian_id_error);
       $("#staff_class_id_help-block").html(data.class_id_error);
       $("#staff_photo_help-block").html(data.staff_photo_error);
       $("#staff_id_help-block").html(data.staff_id_error);
@@ -321,6 +343,11 @@ $("#search_last_name").autocomplete({
   }
 });
 
+$(document).on("click","#reset",function(e) {
+  $(".ui").dropdown("clear");
+  show_staff_list();
+});
+
 $(document).on("click",".reset_password_staff",function(e) {
   var datastr = "id="+e.target.id;
   if(confirm("Are you sure you want to reset the password of this staff? This action is irreversible.")){
@@ -331,7 +358,7 @@ $(document).on("click",".reset_password_staff",function(e) {
       dataType: "json",
       cache: false,
       success: function(data) {
-        console.log(data);
+        
         if(data.is_successful){
           $("#alert-modal-title").html("Reset Password");
           $("#alert-modal-body p").html("You have sent the new password to "+ data.contact_number);

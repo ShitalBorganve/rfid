@@ -28,6 +28,8 @@
 							<th>First Name</th>
 							<th>Middle Name</th>
 							<th>Suffix</th>
+							<th>Gender</th>
+							<th>Age</th>
 							<th>Birthday</th>
 							<th>Contact Number</th>
 						</tr>
@@ -52,7 +54,6 @@ $(document).on("click","#clear",function(e) {
 });
 
 $(document).on("change","#students-select",function(e) {
-	// body...
 	show_student_list();
 });
 
@@ -94,7 +95,6 @@ function populate_selection() {
 			$.each(data, function(i, item) {
 			    $("#students-select").append('<option value="'+data[i].id+'">'+data[i].full_name+'</option>');
 			})
-			// body...
 		}
 	});
 }

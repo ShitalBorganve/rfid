@@ -63,28 +63,6 @@ $(document).on("click",".gate_logs",function(e) {
 	show_gatelogs();
 });
 
-
-$("#search_last_name").autocomplete({
-	source: function(request, response) {
-	    $.ajax({
-	        url: "<?php echo base_url("search/students/gate_logs"); ?>",
-	        dataType: "json",
-	        data: {
-	            term : request.term,
-	            ref_table : $("#ref_table").val()
-	        },
-	        success: function(data) {
-	            response(data);
-	        }
-	    });
-	},
-	select: function(event, ui){
-			$('input[name="ref_id"]').val(ui.item.data);
-			
-			show_gatelogs(1,true);
-	}
-});
-
 $(document).on("change","#ref_table",function(e) {
 	$('input[name="ref_id"]').val("");
 	show_gatelogs();
@@ -105,12 +83,6 @@ $(document).on("click","#gate_logs-reset_search",function(e) {
 $(document).on("click",".paging",function(e) {
 	show_gatelogs(e.target.id);
 });
-
-$(document).on("change","#students-select",function(e) {
-	// body...
-});
-
-
 
 show_gatelogs();
 populate_selection()
@@ -143,7 +115,6 @@ function populate_selection() {
 			$.each(data, function(i, item) {
 			    $("#students-select").append('<option value="'+data[i].id+'">'+data[i].full_name+'</option>');
 			})
-			// body...
 		}
 	});
 }
