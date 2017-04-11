@@ -256,6 +256,7 @@ $(document).on("submit","#staff_add_form", function(e) {
 				}
 			}else{
 				$("#staff_gender_help-block").html(data.gender_error);
+				$("#staff_address_help-block").html(data.address_error);
 				$("#staff_position_help-block").html(data.position_error);
 				$("#staff_first_name_help-block").html(data.first_name_error);
 				$("#staff_last_name_help-block").html(data.last_name_error);
@@ -472,6 +473,11 @@ $(document).on("submit","#gate_change_password-form",function(e) {
 			}
 		}
 	});
+});
+
+
+$(document).on("click",".admin_change_password",function(e) {
+	
 });
 
 

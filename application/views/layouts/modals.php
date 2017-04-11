@@ -182,8 +182,8 @@ if($modals_sets=="admin"){
             <div class="form-group">
               <label class="col-sm-2" for="guardian_name">Father&apos;s Name:</label>
               <div class="col-sm-10"> 
-                <input type="text" class="form-control" name="mothers_name" placeholder="Enter Father&apos;s Name">
-                <p class="help-block" id="student_mothers_name_help-block"></p>
+                <input type="text" class="form-control" name="fathers_name" placeholder="Enter Father&apos;s Name">
+                <p class="help-block" id="student_fathers_name_help-block"></p>
               </div>
             </div>
 
@@ -192,8 +192,8 @@ if($modals_sets=="admin"){
             <div class="form-group">
               <label class="col-sm-2" for="guardian_name">Mother&apos;s Name:</label>
               <div class="col-sm-10"> 
-                <input type="text" class="form-control" name="fathers_name" placeholder="Enter Mother&apos;s Name">
-                <p class="help-block" id="student_fathers_name_help-block"></p>
+                <input type="text" class="form-control" name="mothers_name" placeholder="Enter Mother&apos;s Name">
+                <p class="help-block" id="student_mothers_name_help-block"></p>
               </div>
             </div>
 
@@ -470,6 +470,14 @@ if($modals_sets=="admin"){
               <div class="col-sm-10"> 
                 <input type="text" class="form-control" name="contact_number" placeholder="Enter Contact Number">
                 <p class="help-block" id="staff_contact_number_help-block"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="address">Address:</label>
+              <div class="col-sm-10"> 
+                <input type="text" class="form-control" name="address" placeholder="Enter Address">
+                <p class="help-block" id="staff_address_help-block"></p>
               </div>
             </div>
 

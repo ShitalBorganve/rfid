@@ -194,11 +194,10 @@ class Tables extends CI_Controller {
 						<td>'.$teacher_data->last_name.'</td>
 						<td>'.$teacher_data->suffix.'</td>
 						<td>'.$teacher_data->gender.'</td>
-						<td>'.age($teacher_data->birthdate).'</td>
 						<td>'.date("m/d/Y",$teacher_data->birthdate).'</td>
 						<td>'.$teacher_data->contact_number.'</td>
 						<td>'.$teacher_data->class_data->class_name.'</td>
-						<td><a href="#" class="view_student" id="'.$teacher_data->id.'">View</a></td>
+						<td><a href="#" class="view_teacher" id="'.$teacher_data->id.'">View</a></td>
 					</tr>
 					';
 				}else{
@@ -271,13 +270,10 @@ class Tables extends CI_Controller {
 						<td>'.$staff_data->first_name.'</td>
 						<td>'.$staff_data->middle_name.'</td>
 						<td>'.$staff_data->last_name.'</td>
-						<td>'.$staff_data->suffix.'</td>
-						<td>'.$staff_data->gender.'</td>
-						<td>'.age($staff_data->birthdate).'</td>
 						<td>'.date("m/d/Y",$staff_data->birthdate).'</td>
 						<td>'.$staff_data->contact_number.'</td>
 						<td>'.$staff_data->position.'</td>
-						<td><a href="#" class="view_student" id="'.$staff_data->id.'">View</a></td>
+						<td><a href="#" class="view_staff" id="'.$staff_data->id.'">View</a></td>
 					</tr>
 					';
 				}else{

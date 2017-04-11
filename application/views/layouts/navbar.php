@@ -232,7 +232,12 @@ if($navbar_type=="admin"){
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav navbar-nav">
-            <li><a href="'.base_url("admin").'">Home</a></li>';
+            <li><a href="'.base_url("jbtech").'">Home</a></li>
+            <li><a href="'.base_url("jbtech/students").'">Students</a></li>
+            <li><a href="'.base_url("jbtech/teachers").'">Teachers</a></li>
+            <li><a href="'.base_url("jbtech/staffs").'">Non-Teaching Staffs</a></li>
+
+            ';
             
 
           echo '
@@ -247,11 +252,8 @@ if($navbar_type=="admin"){
               <ul class="dropdown-menu">
                 <li>';
                 if($navbar_is_logged_in){
-                  echo '
-                  <a href="#" class="email_notif"><span class="glyphicon glyphicon-cog"></span> Email Notification</a>
-                  <a href="#" class="change_password"><span class="glyphicon glyphicon-cog"></span> Change Password</a>
-                  ';
-                  echo '<a href="'.base_url("admin/sms").'">SMS Threads</a>';
+                  echo '<a href="#" class="change_password"><span class="glyphicon glyphicon-cog"></span> Change Password</a>';
+                  echo '<a href="#" class="admin_change_password"><span class="glyphicon glyphicon-cog"></span> Change Admin Password</a>';
                   echo '<a href="'.base_url("$navbar_type/logout").'"><span class="glyphicon glyphicon-log-out"></span> Logout</a>';
                 }else{
                   echo '<a href="'.base_url("$navbar_type/login").'"><span class="glyphicon glyphicon-log-in"></span> Login</a>';

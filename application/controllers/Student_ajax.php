@@ -32,6 +32,8 @@ class Student_ajax extends CI_Controller {
 		$this->load->helper('string');
 		$this->load->model('guardian_model');
 		$this->load->model("admin_model");
+		$this->load->model("classes_model");
+		$this->load->model("teachers_model");
 		$this->load->model("students_model");
 		$this->load->model("gate_logs_model");
 		$this->load->model("rfid_model");
@@ -380,17 +382,91 @@ class Student_ajax extends CI_Controller {
 
 	}
 
-	public function get_data($value='')
+	public function get_data($arg='')
 	{
-		
-		$student_data["id"] = $this->input->get("student_id");
-		$student_data = $this->students_model->get_data($student_data);
-		$student_data["bday_m"] = date("n",$student_data["birthdate"]);
-		$student_data["bday_d"] = date("j",$student_data["birthdate"]);
-		$student_data["bday_y"] = date("Y",$student_data["birthdate"]);
-		($student_data["guardian_id"]==0?$student_data["guardian_id"]="":FALSE);
-		($student_data["class_id"]==0?$student_data["class_id"]="":FALSE);
-		echo json_encode($student_data);
+
+
+		if($arg=="jbtech"){
+			
+			$student_data["id"] = $this->input->get("student_id");
+			$student_data = $this->students_model->get_data($student_data);
+			$student_data["birthday"] = date("m/d/Y",$student_data["birthdate"]);
+			$student_data["full_name"] = $student_data["first_name"]." ".$student_data["middle_name"][0].". ".$student_data["last_name"]." ".$student_data["suffix"];;
+			$student_data["age"] = age($student_data["birthdate"]);
+
+			if($student_data["guardian_id"] != 0){
+				$get_data = array();
+				$get_data["id"] = $student_data["guardian_id"];
+				$student_data["guardian_data"] = $this->guardian_model->get_data($get_data);
+				$student_data["guardian_name"] = $student_data["guardian_data"]["name"];
+				$student_data["guardian_address"] = $student_data["guardian_data"]["guardian_address"];
+				$student_data["guardian_contact_number"] = $student_data["guardian_data"]["contact_number"];
+			}else{
+				$student_data["guardian_name"] = "";
+				$student_data["guardian_address"] = "";
+				$student_data["guardian_contact_number"] = "";
+			}
+
+			if($student_data["class_id"] != 0){
+				$get_data = array();
+				$get_data["id"] = $student_data["class_id"];
+				$student_data["class_data"] = $this->classes_model->get_data($get_data);
+				$student_data["class_name"] = $student_data["class_data"]["class_name"];
+				$student_data["grade"] = $student_data["class_data"]["grade"];
+
+				if($student_data["class_data"]["teacher_id"] != 0){
+					$get_data = array();
+					$get_data["id"] = $student_data["class_data"]["teacher_id"];
+					$student_data["class_data"]["teacher_data"] = $this->teachers_model->get_data($get_data);
+					$student_data["class_adviser"] = $student_data["class_data"]["teacher_data"]["first_name"]." ".$student_data["class_data"]["teacher_data"]["middle_name"][0].". ".$student_data["class_data"]["teacher_data"]["last_name"]." ".$student_data["class_data"]["teacher_data"]["suffix"];
+				}else{
+					$student_data["class_adviser"] = "";
+				}
+
+			}else{
+				$student_data["class_name"] = "";
+				$student_data["grade"] = "";
+				$student_data["class_adviser"] = "";
+			}
+
+
+
+
+			echo json_encode($student_data);
+
+
+
+
+
+			// last_name
+			// first_name
+			// middle_name
+			// suffix
+			// gender
+			// birthday
+			// contact_number
+			// address
+			// guardian_name
+			// guardian_address
+			// guardian_contact_number
+			// fathers_name
+			// mothers_name
+			// class_name
+			// grade
+			// class_adviser
+
+
+		}else{
+
+			$student_data["id"] = $this->input->get("student_id");
+			$student_data = $this->students_model->get_data($student_data);
+			$student_data["bday_m"] = date("n",$student_data["birthdate"]);
+			$student_data["bday_d"] = date("j",$student_data["birthdate"]);
+			$student_data["bday_y"] = date("Y",$student_data["birthdate"]);
+			($student_data["guardian_id"]==0?$student_data["guardian_id"]="":FALSE);
+			($student_data["class_id"]==0?$student_data["class_id"]="":FALSE);
+			echo json_encode($student_data);
+		}
 	}
 
 	public function delete()

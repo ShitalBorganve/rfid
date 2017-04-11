@@ -412,15 +412,37 @@ You can login to ".base_url("teacher");
 
 	}
 
-	public function get_data($value='')
+	public function get_data($arg='')
 	{
-		$teacher_data["id"] = $this->input->get("teacher_id");
-		$teacher_data = $this->teachers_model->get_data($teacher_data);
-		$teacher_data["bday_m"] = date("n",$teacher_data["birthdate"]);
-		$teacher_data["bday_d"] = date("j",$teacher_data["birthdate"]);
-		$teacher_data["bday_y"] = date("Y",$teacher_data["birthdate"]);
-		($teacher_data["class_id"]==0?$teacher_data["class_id"]="":FALSE);
-		echo json_encode($teacher_data);
+		if($arg=="jbtech"){
+			$teacher_data["id"] = $this->input->get("teacher_id");
+			$teacher_data = $this->teachers_model->get_data($teacher_data);
+			$teacher_data["birthday"] = date("m/d/Y",$teacher_data["birthdate"]);
+			$teacher_data["age"] = age($teacher_data["birthdate"]);
+			$teacher_data["full_name"] = $teacher_data["first_name"]." ".$teacher_data["middle_name"][0].". ".$teacher_data["last_name"]." ".$teacher_data["suffix"];
+
+			if($teacher_data["class_id"] != 0){
+				$get_data = array();
+				$get_data["id"] = $teacher_data["class_id"];
+				$teacher_data["class_data"] = $this->classes_model->get_data($get_data);
+				$teacher_data["class_name"] = $teacher_data["class_data"]["class_name"];
+				// $teacher_data["grade"] = $teacher_data["class_data"]["grade"];
+			}else{
+				$teacher_data["class_name"] = "";
+				// $teacher_data["grade"] = "";
+			}
+
+
+			echo json_encode($teacher_data);
+		}else{
+			$teacher_data["id"] = $this->input->get("teacher_id");
+			$teacher_data = $this->teachers_model->get_data($teacher_data);
+			$teacher_data["bday_m"] = date("n",$teacher_data["birthdate"]);
+			$teacher_data["bday_d"] = date("j",$teacher_data["birthdate"]);
+			$teacher_data["bday_y"] = date("Y",$teacher_data["birthdate"]);
+			($teacher_data["class_id"]==0?$teacher_data["class_id"]="":FALSE);
+			echo json_encode($teacher_data);
+		}
 	}
 
 	public function get_list($arg='')

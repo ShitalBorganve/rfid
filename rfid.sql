@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 10, 2017 at 11:54 AM
+-- Generation Time: Apr 11, 2017 at 02:44 PM
 -- Server version: 10.1.9-MariaDB
 -- PHP Version: 5.5.30
 
@@ -264,7 +264,7 @@ CREATE TABLE `guardians` (
 
 INSERT INTO `guardians` (`id`, `name`, `guardian_address`, `contact_number`, `sms_subscription`, `email_subscription`, `email_address`, `password`, `deleted`) VALUES
 (1, 'asdasd', 'address', '09301167850', 1, 1, 'jpgulayan@gmail.com', 'a9dea56ac27eeb0fc7466755d1d74d85', 0),
-(2, 'jjj', '', '09324019546', 1, 1, 'jpgulayan@gmail.coms', '2b400702d514c79b0f9bcde29f25c180', 0);
+(2, 'jjj', '', '09301167850', 1, 1, 'jpgulayan@gmail.coms', '2b400702d514c79b0f9bcde29f25c180', 0);
 
 -- --------------------------------------------------------
 
@@ -327,12 +327,12 @@ CREATE TABLE `rfid` (
 --
 
 INSERT INTO `rfid` (`id`, `rfid`, `load_credits`, `ref_id`, `ref_table`, `pin`, `valid`, `deleted`) VALUES
-(1, '201', 0, 1, 'staffs', 0, 1, 0),
-(2, '123', 0, 1, 'students', 0, 1, 0),
-(3, '101', 0, 1, 'teachers', 0, 1, 0),
-(4, '321', 0, 2, 'students', 0, 1, 0),
-(5, '202', 0, 2, 'staffs', 0, 1, 0),
-(6, '102', 0, 2, 'teachers', 0, 1, 0),
+(1, '', 0, 1, 'staffs', 0, 1, 0),
+(2, '321', 0, 1, 'students', 0, 1, 0),
+(3, '', 0, 1, 'teachers', 0, 1, 0),
+(4, '', 0, 2, 'students', 0, 1, 0),
+(5, '', 0, 2, 'staffs', 0, 1, 0),
+(6, '', 0, 2, 'teachers', 0, 1, 0),
 (7, '', 0, 3, 'teachers', 0, 1, 0);
 
 -- --------------------------------------------------------
@@ -354,7 +354,8 @@ CREATE TABLE `sms` (
 --
 
 INSERT INTO `sms` (`id`, `date`, `date_time`, `sent_by_id`, `sent_by_table`) VALUES
-(1, 1491753600, 1491818059, 1, 'admins');
+(1, 1491753600, 1491818059, 1, 'admins'),
+(2, 1491753600, 1491818876, 1, 'admins');
 
 -- --------------------------------------------------------
 
@@ -377,7 +378,13 @@ CREATE TABLE `sms_list` (
 --
 
 INSERT INTO `sms_list` (`id`, `sms_id`, `message`, `mobile_number`, `recipient`, `status_code`, `status`) VALUES
-(1, 1, 'This is a test', '09301167850', 'last, first m. suffix', 0, 'Success! Message is now on queue and will be sent soon.');
+(1, 1, 'This is a test', '09301167850', 'last, first m. suffix', 0, 'Success! Message is now on queue and will be sent soon.'),
+(2, 2, 'Test Message', '09301167850', 'last, first m. suffix', 0, 'Success! Message is now on queue and will be sent soon.'),
+(3, 2, 'Test Message', '09301167850', 'Teach, Teach T. test', 0, 'Success! Message is now on queue and will be sent soon.'),
+(4, 2, 'Test Message', '09301167850', 'aaaa, asdsdfsdfs a. aaaa', 0, 'Success! Message is now on queue and will be sent soon.'),
+(5, 2, 'Test Message', '09301167850', 'aaaa, asdsdfsdfs a. aaaa', 0, 'Success! Message is now on queue and will be sent soon.'),
+(6, 2, 'Test Message', '09301167850', 'asdasd', 0, 'Success! Message is now on queue and will be sent soon.'),
+(7, 2, 'Test Message', '09301167850', 'asdasd', 0, 'Success! Message is now on queue and will be sent soon.');
 
 -- --------------------------------------------------------
 
@@ -393,6 +400,7 @@ CREATE TABLE `staffs` (
   `suffix` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `gender` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `contact_number` varchar(11) COLLATE utf8_unicode_ci NOT NULL,
+  `address` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `birthdate` int(11) NOT NULL,
   `position` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `display_photo` text COLLATE utf8_unicode_ci NOT NULL,
@@ -405,9 +413,9 @@ CREATE TABLE `staffs` (
 -- Dumping data for table `staffs`
 --
 
-INSERT INTO `staffs` (`id`, `last_name`, `first_name`, `middle_name`, `suffix`, `gender`, `contact_number`, `birthdate`, `position`, `display_photo`, `display_photo_type`, `rfid_status`, `deleted`) VALUES
-(1, 'Last Name', 'First Name', 'Middle Name', 'suffix', 'MALE', '', 315504000, 'Positions', '1_Last-Name_First-Name_Middle-Name_suffix.png', '', 1, 0),
-(2, 'aaaa', 'asdsdfsdfs', 'aaa', 'aaaa', 'MALE', '', 315504000, 'TE', 'empty.jpg', '', 1, 0);
+INSERT INTO `staffs` (`id`, `last_name`, `first_name`, `middle_name`, `suffix`, `gender`, `contact_number`, `address`, `birthdate`, `position`, `display_photo`, `display_photo_type`, `rfid_status`, `deleted`) VALUES
+(1, 'Last Name', 'First Name', 'Middle Name', 'suffix', 'MALE', '09301167850', 'Address', 315504000, 'Positions', '1_Last-Name_First-Name_Middle-Name_suffix.png', '', 0, 0),
+(2, 'aaaa', 'asdsdfsdfs', 'aaa', 'aaaa', 'MALE', '', '', 315504000, 'TE', 'empty.jpg', '', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -440,8 +448,8 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`id`, `last_name`, `first_name`, `middle_name`, `suffix`, `contact_number`, `address`, `birthdate`, `gender`, `mothers_name`, `fathers_name`, `display_photo`, `display_photo_type`, `guardian_id`, `class_id`, `rfid_status`, `deleted`) VALUES
-(1, 'last', 'first', 'middle', 'suffix', '09301167850', 'Address', 320601600, 'MALE', 'father', 'mother', 'empty.jpg', '', 1, 2, 1, 0),
-(2, 'test', 'Teach', 'Teach', 'test', '', 'ADDress', 349891200, 'FEMALE', '', '', 'empty.jpg', '', 1, 2, 1, 0);
+(1, 'last', 'first', 'middle', 'suffix', '', 'Address', 320601600, 'MALE', 'mother', 'father', 'empty.jpg', '', 1, 1, 1, 0),
+(2, 'test', 'Teach', 'Teach', 'test', '', 'ADDress', 349891200, 'FEMALE', '', '', 'empty.jpg', '', 0, 2, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -473,9 +481,9 @@ CREATE TABLE `teachers` (
 --
 
 INSERT INTO `teachers` (`id`, `last_name`, `first_name`, `middle_name`, `suffix`, `gender`, `contact_number`, `address`, `password`, `birthdate`, `display_photo`, `display_photo_type`, `guardian_id`, `class_id`, `rfid_status`, `deleted`) VALUES
-(1, 'Teach', 'Teach', 'Teach', 'test', 'MALE', '09301167850', 'Address', '9903b681b732f67d52fad85b1fd601ba', 347212800, 'empty.jpg', '', 0, 0, 1, 0),
-(2, 'aaaa', 'asdsdfsdfs', 'aaa', 'aaaa', 'MALE', '09301167851', 'address', '3d82576b589c04b0caeae416b691edac', 349804800, 'empty.jpg', '', 0, 2, 1, 0),
-(3, 'aaaa', 'asdsdfsdfs', 'aaa', 'aaaa', 'FEMALE', '09301167852', 'address', '8bfeae4af515f79ff48aaad533da85fe', 383846400, 'empty.jpg', '', 0, 0, 0, 0);
+(1, 'Last Name', 'First Name', 'Middle Name', 'Suffix', 'MALE', '09301167850', 'Address', '9903b681b732f67d52fad85b1fd601ba', 347212800, 'empty.jpg', '', 0, 0, 0, 0),
+(2, 'aaaa', 'asdsdfsdfs', 'aaa', 'aaaa', 'MALE', '09301167850', 'address', '3d82576b589c04b0caeae416b691edac', 349804800, 'empty.jpg', '', 0, 2, 0, 0),
+(3, 'aaaa', 'asdsdfsdfs', 'aaa', 'aaaa', 'FEMALE', '09301167850', 'address', '8bfeae4af515f79ff48aaad533da85fe', 383846400, 'empty.jpg', '', 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -704,12 +712,12 @@ ALTER TABLE `rfid`
 -- AUTO_INCREMENT for table `sms`
 --
 ALTER TABLE `sms`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `sms_list`
 --
 ALTER TABLE `sms_list`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `staffs`
 --

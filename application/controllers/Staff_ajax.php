@@ -58,6 +58,7 @@ class Staff_ajax extends CI_Controller {
 			// $data["class_id"] = $this->input->post("class_id");
 
 			$this->form_validation->set_rules('position', 'Position', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
+			$this->form_validation->set_rules('address', 'Address', 'required|min_length[2]|max_length[100]trim|htmlspecialchars');
 			$this->form_validation->set_rules('first_name', 'First Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
 			$this->form_validation->set_rules('last_name', 'Last Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
 			$this->form_validation->set_rules('middle_name', 'Middle Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
@@ -134,6 +135,7 @@ class Staff_ajax extends CI_Controller {
 			if ($this->form_validation->run() == FALSE|| $data["is_valid_photo"] == FALSE)
 			{
 				$data["is_valid"] = FALSE;
+				$data["address_error"] = form_error('address');
 				$data["gender_error"] = form_error('gender');
 				$data["position_error"] = form_error('position');
 				$data["first_name_error"] = form_error('first_name');
@@ -146,6 +148,7 @@ class Staff_ajax extends CI_Controller {
 			else
 			{
 				$data["is_valid"] = TRUE;
+				$data["address_error"] = form_error('address');
 				$data["gender_error"] = form_error('gender');
 				$data["position_error"] = form_error('position');
 				$data["first_name_error"] = form_error('first_name');
@@ -157,6 +160,7 @@ class Staff_ajax extends CI_Controller {
 
 				$staff_data["first_name"] = $this->input->post("first_name");
 				$staff_data["gender"] = $this->input->post("gender");
+				$staff_data["address"] = $this->input->post("address");
 				$staff_data["last_name"] = $this->input->post("last_name");
 				$staff_data["middle_name"] = $this->input->post("middle_name");
 				$staff_data["suffix"] = $this->input->post("suffix");
@@ -201,6 +205,7 @@ class Staff_ajax extends CI_Controller {
 			// $data["class_id"] = $this->input->post("class_id");
 
 			$this->form_validation->set_rules('staff_id', 'First Name', 'required|trim|htmlspecialchars|is_in_db[staffs.id]');
+			$this->form_validation->set_rules('address', 'Address', 'required|min_length[2]|max_length[100]trim|htmlspecialchars');
 			$this->form_validation->set_rules('position', 'Position', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
 			$this->form_validation->set_rules('first_name', 'First Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
 			$this->form_validation->set_rules('last_name', 'Last Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
@@ -294,6 +299,7 @@ class Staff_ajax extends CI_Controller {
 			{
 				$data["is_valid"] = FALSE;
 				$data["gender_error"] = form_error('gender');
+				$data["address_error"] = form_error('address');
 				$data["position_error"] = form_error('position');
 				$data["first_name_error"] = form_error('first_name');
 				$data["last_name_error"] = form_error('last_name');
@@ -308,6 +314,7 @@ class Staff_ajax extends CI_Controller {
 			{
 				$data["is_valid"] = TRUE;
 				$data["gender_error"] = form_error('gender');
+				$data["address_error"] = form_error('address');
 				$data["position_error"] = form_error('position');
 				$data["first_name_error"] = form_error('first_name');
 				$data["last_name_error"] = form_error('last_name');
@@ -318,6 +325,7 @@ class Staff_ajax extends CI_Controller {
 				$data["class_id_error"] = "";
 
 				$staff_data["first_name"] = $this->input->post("first_name");
+				$staff_data["address"] = $this->input->post("address");
 				$staff_data["position"] = $this->input->post("position");
 				$staff_data["gender"] = $this->input->post("gender");
 				$staff_data["last_name"] = $this->input->post("last_name");
@@ -363,14 +371,23 @@ class Staff_ajax extends CI_Controller {
 
 	}
 
-	public function get_data($value='')
+	public function get_data($arg='')
 	{
-		$staff_data["id"] = $this->input->get("staff_id");
-		$staff_data = $this->staffs_model->get_data($staff_data);
-		$staff_data["bday_m"] = date("n",$staff_data["birthdate"]);
-		$staff_data["bday_d"] = date("j",$staff_data["birthdate"]);
-		$staff_data["bday_y"] = date("Y",$staff_data["birthdate"]);
-		echo json_encode($staff_data);
+		if($arg=="jbtech"){
+			$staff_data["id"] = $this->input->get("staff_id");
+			$staff_data = $this->staffs_model->get_data($staff_data);
+			$staff_data["birthday"] = date("m/d/Y",$staff_data["birthdate"]);
+			$staff_data["age"] = age($staff_data["birthdate"]);
+			$staff_data["full_name"] = $staff_data["first_name"]." ".$staff_data["middle_name"][0].". ".$staff_data["last_name"]." ".$staff_data["suffix"];
+			echo json_encode($staff_data);
+		}else{
+			$staff_data["id"] = $this->input->get("staff_id");
+			$staff_data = $this->staffs_model->get_data($staff_data);
+			$staff_data["bday_m"] = date("n",$staff_data["birthdate"]);
+			$staff_data["bday_d"] = date("j",$staff_data["birthdate"]);
+			$staff_data["bday_y"] = date("Y",$staff_data["birthdate"]);
+			echo json_encode($staff_data);
+		}
 	}
 
 	public function get_list($arg='')

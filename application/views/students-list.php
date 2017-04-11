@@ -202,8 +202,8 @@ echo '
           <div class="form-group">
             <label class="col-sm-2" for="guardian_name">Father&apos;s Name:</label>
             <div class="col-sm-10"> 
-              <input type="text" class="form-control edit_field" name="mothers_name" placeholder="Enter Father&apos;s Name">
-              <p class="help-block" id="mothers_name_help-block"></p>
+              <input type="text" class="form-control edit_field" name="fathers_name" placeholder="Enter Father&apos;s Name">
+              <p class="help-block" id="fathers_name_help-block"></p>
             </div>
           </div>
 
@@ -212,8 +212,8 @@ echo '
           <div class="form-group">
             <label class="col-sm-2" for="guardian_name">Mother&apos;s Name:</label>
             <div class="col-sm-10"> 
-              <input type="text" class="form-control edit_field" name="fathers_name" placeholder="Enter Mother&apos;s Name">
-              <p class="help-block" id="fathers_name_help-block"></p>
+              <input type="text" class="form-control edit_field" name="mothers_name" placeholder="Enter Mother&apos;s Name">
+              <p class="help-block" id="mothers_name_help-block"></p>
             </div>
           </div>
 

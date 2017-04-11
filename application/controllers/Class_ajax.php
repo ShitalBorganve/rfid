@@ -47,11 +47,12 @@ class Class_ajax extends CI_Controller {
 	public function add($arg='')
 	{
 		$this->form_validation->set_rules('class_adviser', 'Class Adviser', 'trim|htmlspecialchars');
-		$this->form_validation->set_rules('class_name', 'Class Name', 'required|max_length[50]|trim|htmlspecialchars');
+		$this->form_validation->set_rules('class_name', 'Class Name', 'required|is_available[classes.class_name]|max_length[50]|trim|htmlspecialchars');
 		$this->form_validation->set_rules('grade', 'Grade or Year', 'required|max_length[50]|trim|htmlspecialchars');
 		$this->form_validation->set_rules('class_room', 'Classroom', 'max_length[50]|trim|htmlspecialchars');
 		$this->form_validation->set_rules('class_schedule', 'Class Schedule', 'max_length[50]|trim|htmlspecialchars');
 		$this->form_validation->set_message('is_in_db', 'This Teacher is invalid');
+		$this->form_validation->set_message('is_available', 'This %s is already existed.');
 
 		$data["class_adviser_error"] = "";
 		$data["class_name_error"] = "";
@@ -85,11 +86,12 @@ class Class_ajax extends CI_Controller {
 	{
 		$this->form_validation->set_rules('class_adviser', 'Class Adviser', 'is_valid[teachers.id]|trim|htmlspecialchars');
 		$this->form_validation->set_rules('grade', 'Grade or Year', 'required|max_length[50]|trim|htmlspecialchars');
-		$this->form_validation->set_rules('class_name', 'Class Name', 'required|max_length[50]|trim|htmlspecialchars');
 		$this->form_validation->set_rules('class_room', 'Classroom', 'max_length[50]|trim|htmlspecialchars');
 		$this->form_validation->set_rules('class_schedule', 'Class Schedule', 'max_length[50]|trim|htmlspecialchars');
 		$this->form_validation->set_rules('class_id', 'Class', 'required|is_in_db[classes.id]|trim|htmlspecialchars');
+		$this->form_validation->set_rules('class_name', 'Class Name', 'required|is_unique_edit[classes.class_name.class_id]|max_length[50]|trim|htmlspecialchars');
 		$this->form_validation->set_message('is_in_db', 'This %s is invalid');
+		$this->form_validation->set_message('is_unique_edit', 'This %s is already existed.');
 
 		$data["class_adviser_error"] = "";
 		$data["class_name_error"] = "";
