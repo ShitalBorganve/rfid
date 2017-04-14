@@ -25,10 +25,131 @@ if($modals_sets=="admin"){
 
               <label for="rfid"></label>
               <div class="col-sm-12">
-                <input type="text" class="form-control" name="rfid" placeholder="Scan RFID using RFID Scanner..." autocomplete="off">
+                <input type="text" class="form-control" name="rfid" placeholder="Scan RFID using RFID Reader..." autocomplete="off">
                 <p class="help-block" id="rfid_scan_help-block"></p>
               </div>
 
+            </div>
+
+            <div class="form-group">
+
+            <label class="col-sm-12" for="last_name">Valid Until:</label>
+
+            </div>
+
+             <div class="form-group">
+              
+              <div class="col-sm-12">
+                <select class="" name="valid_m" required>
+                  <option value="">MM</option>
+                  ';
+                  for ($i=1; $i <= 12; $i++) { 
+                    echo '<option value="'.$i.'">'.sprintf("%02d",$i).'</option>';
+                  }
+                  echo '
+                </select>
+                /
+                <select class="" name="valid_d" required>
+                  <option value="">DD</option>
+                  ';
+                  for ($i=1; $i <= 31; $i++) { 
+                    echo '<option value="'.$i.'">'.sprintf("%02d",$i).'</option>';
+                  }
+                  echo '
+                </select>
+                /
+                <select class="" name="valid_y" required>
+                  <option value="">YYYY</option>
+                  ';
+                  for ($i=date("Y"); $i <= (date("Y")+20); $i++) { 
+                    echo '<option value="'.$i.'">'.sprintf("%04d",$i).'</option>';
+                  }
+                  echo '
+                </select>
+                <p class="help-block" id="rfid_valid_date_help-block"></p>
+              </div>
+            </div>
+
+
+          </form>
+          </p>
+        </div>
+        <div class="modal-footer">
+         
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  ';
+
+
+  echo '
+  <!--RFID Scan to Add Student Modal -->
+  <div id="rfid_settings_modal" class="modal fade" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" id="rfid_add_modal_title">Add studentsss</h4>
+      </div>
+        <div class="modal-body">
+          <p>
+          '.form_open("rfid_ajax/scan_add",'id="rfid_scan_add_form"').'
+          <input type="hidden" name="type">
+          <input type="hidden" name="id">
+
+            <div class="form-group">
+
+              <label for="rfid"></label>
+              <div class="col-sm-12">
+                <input type="text" class="form-control" name="rfid" placeholder="Scan RFID using RFID Reader..." autocomplete="off">
+                <p class="help-block" id="rfid_scan_help-block"></p>
+              </div>
+
+            </div>
+
+            <div class="form-group">
+
+            <label class="col-sm-12" for="last_name">Valid Until:</label>
+
+            </div>
+
+             <div class="form-group">
+              
+              <div class="col-sm-12">
+                <select class="" name="valid_m" required>
+                  <option value="">MM</option>
+                  ';
+                  for ($i=1; $i <= 12; $i++) { 
+                    echo '<option value="'.$i.'">'.sprintf("%02d",$i).'</option>';
+                  }
+                  echo '
+                </select>
+                /
+                <select class="" name="valid_d" required>
+                  <option value="">DD</option>
+                  ';
+                  for ($i=1; $i <= 31; $i++) { 
+                    echo '<option value="'.$i.'">'.sprintf("%02d",$i).'</option>';
+                  }
+                  echo '
+                </select>
+                /
+                <select class="" name="valid_y" required>
+                  <option value="">YYYY</option>
+                  ';
+                  for ($i=date("Y"); $i <= (date("Y")+20); $i++) { 
+                    echo '<option value="'.$i.'">'.sprintf("%04d",$i).'</option>';
+                  }
+                  echo '
+                </select>
+                <p class="help-block" id="rfid_valid_date_help-block"></p>
+              </div>
             </div>
 
 
@@ -344,7 +465,7 @@ if($modals_sets=="admin"){
                 <select class="" name="bday_y" required>
                   <option value="">YYYY</option>
                   ';
-                  for ($i=1980; $i <= date("Y"); $i++) { 
+                  for ($i=1940; $i <= date("Y"); $i++) { 
                     echo '<option value="'.$i.'">'.sprintf("%04d",$i).'</option>';
                   }
                   echo '
@@ -506,7 +627,7 @@ if($modals_sets=="admin"){
                 <select class="" name="bday_y" required>
                   <option value="">YYYY</option>
                   ';
-                  for ($i=1980; $i <= date("Y"); $i++) { 
+                  for ($i=1940; $i <= date("Y"); $i++) { 
                     echo '<option value="'.$i.'">'.sprintf("%04d",$i).'</option>';
                   }
                   echo '
@@ -558,7 +679,7 @@ if($modals_sets=="admin"){
 
               <label for="rfid_scan_add_load_credits"></label>
               <div class="col-sm-12">
-                <input type="text" class="form-control" name="rfid" placeholder="Scan RFID using RFID Scanner..." autocomplete="off">
+                <input type="text" class="form-control" name="rfid" placeholder="Scan RFID using RFID Reader..." autocomplete="off">
                 <p class="help-block" id="rfid_scan_add_load_credits_help-block"></p>
               </div>
 
@@ -578,6 +699,9 @@ if($modals_sets=="admin"){
   </div>
 
   ';
+
+
+
 
   echo '
   <!-- Load up Student Modal -->

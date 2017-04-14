@@ -53,6 +53,7 @@ class MY_Form_validation extends CI_Form_validation{
         $this->CI->db->where(array("rfid" => $rfid));
         $this->CI->db->where(array("valid" => 1));
         $this->CI->db->where(array("deleted" => 0));
+        $this->CI->db->where("valid_date >=",strtotime(date("m/d/Y")));
         return isset($this->CI->db)
             ? ($this->CI->db->get("rfid")->num_rows()===1)
             : FALSE;

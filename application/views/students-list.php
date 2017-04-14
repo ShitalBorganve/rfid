@@ -305,7 +305,7 @@ $(document).on("submit","#rfid_scan_add_form",function(e) {
     cache: false,
     dataType: "json",
     success: function(data) {
-      $("#rfid_scan_add_form")[0].reset();
+      $('input[name="rfid"]').val("");
       
       
       if(data.is_valid){
@@ -315,10 +315,10 @@ $(document).on("submit","#rfid_scan_add_form",function(e) {
         $("#alert-modal").modal("show");
         $("#alert-modal-title").html("scan student&apos;s rfid");
         $("#alert-modal-body p").html("You have successfully added the rfid of the student.");
-        $("#rfid_scan_help-block").html(data.error);
         show_student_list();
       }else{
         $("#rfid_scan_help-block").html(data.error);
+        $("#rfid_valid_date_help-block").html(data.date_error);
       }
     }
   });

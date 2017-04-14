@@ -58,19 +58,34 @@ class Rfid_ajax extends CI_Controller {
 			(($type=="teachers" || $type=="students" || $type=="staffs")?false:$type="students");
 
 			$this->form_validation->set_rules('rfid', 'RFID', 'required|numeric|is_available[rfid.rfid]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('valid_m', 'Valid Until', 'required|is_valid_date[valid_m.valid_d.valid_y]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('valid_d', 'Valid Until', 'required|is_valid_date[valid_m.valid_d.valid_y]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('valid_y', 'Valid Until', 'required|is_valid_date[valid_m.valid_d.valid_y]|trim|htmlspecialchars');
 
 			if ($this->form_validation->run() == FALSE)
 			{
 				$data["is_valid"] = FALSE;
 				$data["error"] = form_error("rfid");
+				$data["date_error"] = form_error("valid_m");
 			}else{
 				$data["is_valid"] = TRUE;
 				$data["error"] = "";
+				$data["date_error"] = "";
 				$get_data = array();
 				$get_data["ref_table"] = $type;
 				$get_data["ref_id"] = $id;
 				$update_data = array();
 				$update_data["rfid"] = $rfid;
+
+
+				$valid_m = sprintf("%02d",$this->input->post("valid_m"));
+				$valid_d = sprintf("%02d",$this->input->post("valid_d"));
+				$valid_y = sprintf("%04d",$this->input->post("valid_y"));
+				$valid_date_str = $valid_m."/".$valid_d."/".$valid_y;
+
+				$update_data["valid_date"] = strtotime($valid_date_str);
+
+
 				$this->rfid_model->edit_info($update_data,$get_data);
 
 				$update_data = array();

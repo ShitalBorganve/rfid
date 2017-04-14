@@ -166,7 +166,7 @@ echo '
               <select class="edit_field" name="bday_y" required>
                 <option value="">YYYY</option>
                 ';
-                for ($i=1980; $i <= date("Y"); $i++) { 
+                for ($i=1940; $i <= date("Y"); $i++) { 
                   echo '<option value="'.$i.'">'.sprintf("%04d",$i).'</option>';
                 }
                 echo '
@@ -222,7 +222,7 @@ $(document).on("submit","#rfid_scan_add_form",function(e) {
     cache: false,
     dataType: "json",
     success: function(data) {
-      $("#rfid_scan_add_form")[0].reset();
+      $('input[name="rfid"]').val("");
       
       if(data.is_valid){
         $("#rfid_scan_add_modal").modal("hide");
@@ -232,9 +232,9 @@ $(document).on("submit","#rfid_scan_add_form",function(e) {
         $("#alert-modal-title").html("scan staff&apos;s rfid");
         $("#alert-modal-body p").html("You have successfully added the rfid of the staff.");
         show_staff_list();
-        $("#rfid_scan_help-block").html(data.error);
       }else{
         $("#rfid_scan_help-block").html(data.error);
+        $("#rfid_valid_date_help-block").html(data.date_error);
       }
     }
   });
