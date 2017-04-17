@@ -476,8 +476,31 @@ $(document).on("submit","#gate_change_password-form",function(e) {
 });
 
 
-$(document).on("click",".admin_change_password",function(e) {
-	
+$(document).on("click","#reset_admin_password",function(e) {
+	$("#reset_admin_password-modal").modal("show");
+});
+
+$(document).on("submit","#reset_admin_password-form",function(e) {
+	e.preventDefault();
+	$.ajax({
+		type: "POST",
+		url: $("#reset_admin_password-form").attr("action"),
+		data: $("#reset_admin_password-form").serialize(),
+		cache: false,
+		dataType: "json",
+		success: function(data) {
+			if(data.is_valid){
+				$("#reset_admin_password_help-block").html(data.email_address_error);
+				$(".help-block").html("");
+				$("#reset_admin_password-modal").modal("hide");
+				$("#alert-modal").modal("show");
+				$("#alert-modal-title").html("admin password reset");
+				$("#alert-modal-body p").html("The new admin password has been sent to");
+			}else{
+				$("#reset_admin_password_help-block").html(data.email_address_error);
+			}
+		}
+	});
 });
 
 
@@ -560,7 +583,7 @@ function update_select_options(type,base_url) {
 		$('select[name="'+type+'"]').append('<option value="">Select a Class Adviser</option>');
 		$.ajax({
 			type: "GET",
-			url: base_url+"teacher_ajax/get_list",
+			url: base_url+"teacher_ajax/get_list/admin",
 			cache: false,
 			dataType: "json",
 			success: function(data) {

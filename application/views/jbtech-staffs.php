@@ -15,13 +15,8 @@
     <div class="col-sm-12">
       <?php echo form_open("tables/staffs/list/jbtech",'id="staff-list-form"');?>
       <label>Search Last Name</label>
-      <select class="ui search dropdown" name="owner_id">
+      <select class="ui search dropdown" name="owner_id" id="select_staff">
         <option value="">Select Staff's Last Name</option>
-        <?php
-          foreach ($staffs_list["result"] as $staff_data) {
-            echo '<option value="'.$staff_data->id.'">'.$staff_data->full_name.'</option>';
-          }
-        ?>
       </select>
       <button class="btn btn-primary" type="submit">Search</button>
       <button class="btn btn-danger" type="button" id="reset">Reset</button>
@@ -35,7 +30,7 @@
             <th>Birthday</th>
             <th>Contact Number</th>
             <th>Position</th>
-            <th>RFID</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -67,7 +62,7 @@ echo '
               <label class="col-sm-4">ID</label>
               <div class="input-group col-sm-7">
                 <input id="id" type="text" class="form-control" name="id" readonly>
-                <span class="input-group-addon btn btn-default" data-clipboard-target="#id"><i class="fa fa-files-o" aria-hidden="true"></i></span>
+                <span class="input-group-addon btn btn-default" data-clipboard-target="#id" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
               </div>
           </div>
 
@@ -77,7 +72,7 @@ echo '
               <label class="col-sm-4">full_name</label>
               <div class="input-group col-sm-7">
                 <input id="full_name" type="text" class="form-control" name="full_name" readonly>
-                <span class="input-group-addon btn btn-default" data-clipboard-target="#full_name"><i class="fa fa-files-o" aria-hidden="true"></i></span>
+                <span class="input-group-addon btn btn-default" data-clipboard-target="#full_name" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
               </div>
           </div>
 
@@ -85,7 +80,7 @@ echo '
               <label class="col-sm-4">last_name</label>
               <div class="input-group col-sm-7">
                 <input id="last_name" type="text" class="form-control" name="last_name" readonly>
-                <span class="input-group-addon btn btn-default" data-clipboard-target="#last_name"><i class="fa fa-files-o" aria-hidden="true"></i></span>
+                <span class="input-group-addon btn btn-default" data-clipboard-target="#last_name" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
               </div>
           </div>
 
@@ -93,7 +88,7 @@ echo '
               <label class="col-sm-4">first_name</label>
               <div class="input-group col-sm-7">
                 <input id="first_name" type="text" class="form-control" name="first_name" readonly>
-                <span class="input-group-addon btn btn-default" data-clipboard-target="#first_name"><i class="fa fa-files-o" aria-hidden="true"></i></span>
+                <span class="input-group-addon btn btn-default" data-clipboard-target="#first_name" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
               </div>
           </div>
 
@@ -101,7 +96,7 @@ echo '
               <label class="col-sm-4">middle_name</label>
               <div class="input-group col-sm-7">
                 <input id="middle_name" type="text" class="form-control" name="middle_name" readonly>
-                <span class="input-group-addon btn btn-default" data-clipboard-target="#middle_name"><i class="fa fa-files-o" aria-hidden="true"></i></span>
+                <span class="input-group-addon btn btn-default" data-clipboard-target="#middle_name" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
               </div>
           </div>
 
@@ -109,7 +104,7 @@ echo '
               <label class="col-sm-4">suffix</label>
               <div class="input-group col-sm-7">
                 <input id="suffix" type="text" class="form-control" name="suffix" readonly>
-                <span class="input-group-addon btn btn-default" data-clipboard-target="#suffix"><i class="fa fa-files-o" aria-hidden="true"></i></span>
+                <span class="input-group-addon btn btn-default" data-clipboard-target="#suffix" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
               </div>
           </div>
 
@@ -117,7 +112,7 @@ echo '
               <label class="col-sm-4">position</label>
               <div class="input-group col-sm-7">
                 <input id="position" type="text" class="form-control" name="position" readonly>
-                <span class="input-group-addon btn btn-default" data-clipboard-target="#position"><i class="fa fa-files-o" aria-hidden="true"></i></span>
+                <span class="input-group-addon btn btn-default" data-clipboard-target="#position" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
               </div>
           </div>
 
@@ -125,7 +120,7 @@ echo '
               <label class="col-sm-4">gender</label>
               <div class="input-group col-sm-7">
                 <input id="gender" type="text" class="form-control" name="gender" readonly>
-                <span class="input-group-addon btn btn-default" data-clipboard-target="#gender"><i class="fa fa-files-o" aria-hidden="true"></i></span>
+                <span class="input-group-addon btn btn-default" data-clipboard-target="#gender" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
               </div>
           </div>
 
@@ -133,7 +128,7 @@ echo '
               <label class="col-sm-4">birthday</label>
               <div class="input-group col-sm-7">
                 <input id="birthday" type="text" class="form-control" name="birthday" readonly>
-                <span class="input-group-addon btn btn-default" data-clipboard-target="#birthday"><i class="fa fa-files-o" aria-hidden="true"></i></span>
+                <span class="input-group-addon btn btn-default" data-clipboard-target="#birthday" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
               </div>
           </div>
 
@@ -141,7 +136,7 @@ echo '
               <label class="col-sm-4">age</label>
               <div class="input-group col-sm-7">
                 <input id="age" type="text" class="form-control" name="age" readonly>
-                <span class="input-group-addon btn btn-default" data-clipboard-target="#age"><i class="fa fa-files-o" aria-hidden="true"></i></span>
+                <span class="input-group-addon btn btn-default" data-clipboard-target="#age" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
               </div>
           </div>
 
@@ -149,14 +144,14 @@ echo '
               <label class="col-sm-4">contact_number</label>
               <div class="input-group col-sm-7">
                 <input id="contact_number" type="text" class="form-control" name="contact_number" readonly>
-                <span class="input-group-addon btn btn-default" data-clipboard-target="#contact_number"><i class="fa fa-files-o" aria-hidden="true"></i></span>
+                <span class="input-group-addon btn btn-default" data-clipboard-target="#contact_number" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
               </div>
           </div>
           <div class="form-group">
               <label class="col-sm-4">address</label>
               <div class="input-group col-sm-7">
                 <input id="address" type="text" class="form-control" name="address" readonly>
-                <span class="input-group-addon btn btn-default" data-clipboard-target="#address"><i class="fa fa-files-o" aria-hidden="true"></i></span>
+                <span class="input-group-addon btn btn-default" data-clipboard-target="#address" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
               </div>
           </div>
 
@@ -165,14 +160,14 @@ echo '
               <label class="col-sm-4">fathers_name</label>
               <div class="input-group col-sm-7">
                 <input id="fathers_name" type="text" class="form-control" name="fathers_name" readonly>
-                <span class="input-group-addon btn btn-default" data-clipboard-target="#fathers_name"><i class="fa fa-files-o" aria-hidden="true"></i></span>
+                <span class="input-group-addon btn btn-default" data-clipboard-target="#fathers_name" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
               </div>
           </div>
           <div class="form-group">
               <label class="col-sm-4">mothers_name</label>
               <div class="input-group col-sm-7">
                 <input id="mothers_name" type="text" class="form-control" name="mothers_name" readonly>
-                <span class="input-group-addon btn btn-default" data-clipboard-target="#mothers_name"><i class="fa fa-files-o" aria-hidden="true"></i></span>
+                <span class="input-group-addon btn btn-default" data-clipboard-target="#mothers_name" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
               </div>
           </div>
 
@@ -180,21 +175,21 @@ echo '
               <label class="col-sm-4">guardian_name</label>
               <div class="input-group col-sm-7">
                 <input id="guardian_name" type="text" class="form-control" name="guardian_name" readonly>
-                <span class="input-group-addon btn btn-default" data-clipboard-target="#guardian_name"><i class="fa fa-files-o" aria-hidden="true"></i></span>
+                <span class="input-group-addon btn btn-default" data-clipboard-target="#guardian_name" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
               </div>
           </div>
           <div class="form-group">
               <label class="col-sm-4">guardian_address</label>
               <div class="input-group col-sm-7">
                 <input id="guardian_address" type="text" class="form-control" name="guardian_address" readonly>
-                <span class="input-group-addon btn btn-default" data-clipboard-target="#guardian_address"><i class="fa fa-files-o" aria-hidden="true"></i></span>
+                <span class="input-group-addon btn btn-default" data-clipboard-target="#guardian_address" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
               </div>
           </div>
           <div class="form-group">
               <label class="col-sm-4">guardian_contact_number</label>
               <div class="input-group col-sm-7">
                 <input id="guardian_contact_number" type="text" class="form-control" name="guardian_contact_number" readonly>
-                <span class="input-group-addon btn btn-default" data-clipboard-target="#guardian_contact_number"><i class="fa fa-files-o" aria-hidden="true"></i></span>
+                <span class="input-group-addon btn btn-default" data-clipboard-target="#guardian_contact_number" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
               </div>
           </div>
           
@@ -202,7 +197,7 @@ echo '
               <label class="col-sm-4">class_adviser</label>
               <div class="input-group col-sm-7">
                 <input id="class_adviser" type="text" class="form-control" name="class_adviser" readonly>
-                <span class="input-group-addon btn btn-default" data-clipboard-target="#class_adviser"><i class="fa fa-files-o" aria-hidden="true"></i></span>
+                <span class="input-group-addon btn btn-default" data-clipboard-target="#class_adviser" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
               </div>
           </div>
           -->
@@ -275,24 +270,20 @@ $(document).on("click",".view_staff",function(e) {
 });
 
 
-$(document).on("change",'#select_class',function(e) {
-  // show_gatelogs();
-  $('#select_staff').dropdown("clear");
-  $('#select_staff').html("");
-  $('#select_staff').append('<option value="">Select a Class</option>');
-  var datastr = "class_id="+e.target.value;
-  $.ajax({
-    type: "GET",
-    url: "<?php echo base_url("staff_ajax/get_list/admin"); ?>",
-    data: datastr,
-    cache: false,
-    dataType: "json",
-    success: function(data) {
-      $.each(data, function(i, item) {
-          $('#select_staff').append('<option value="'+data[i].id+'">'+data[i].full_name+'</option>');
-      });
-    }
-  });
+$('#select_staff').dropdown("clear");
+$('#select_staff').html("");
+$('#select_staff').append('<option value="">Select a Class</option>');
+$.ajax({
+  type: "GET",
+  url: "<?php echo base_url("staff_ajax/get_list/jbtech"); ?>",
+  data: "get=1",
+  cache: false,
+  dataType: "json",
+  success: function(data) {
+    $.each(data, function(i, item) {
+        $('#select_staff').append('<option value="'+data[i].id+'">'+data[i].full_name+'</option>');
+    });
+  }
 });
 
 

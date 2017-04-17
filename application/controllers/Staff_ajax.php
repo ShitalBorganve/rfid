@@ -392,12 +392,23 @@ class Staff_ajax extends CI_Controller {
 
 	public function get_list($arg='')
 	{
-		$where = "";
-		if($this->input->get("position")){
-			$where["position"] = $this->input->get("position");
+		if($arg=="admin"){
+			$where = "";
+			if($this->input->get("position")){
+				$where["position"] = $this->input->get("position");
+				$where["deleted"] = 0;
+			}
+			$data = $this->staffs_model->get_list($where);
+			echo json_encode($data["result"]);
+		}elseif ($arg=="jbtech") {
+			$where["rfid_status"] = 0;
+			$where["deleted"] = 0;
+			if($this->input->get("position")){
+				$where["position"] = $this->input->get("position");
+			}
+			$data = $this->staffs_model->get_list($where);
+			echo json_encode($data["result"]);
 		}
-		$data = $this->staffs_model->get_list($where);
-		echo json_encode($data["result"]);
 	}
 
 	public function delete()

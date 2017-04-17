@@ -111,4 +111,37 @@ class Admin_ajax extends CI_Controller {
 		}
 		echo json_encode($data);
 	}
+
+	public function reset_password($arg='')
+	{
+		$this->form_validation->set_rules('email_address', 'Email Address', 'required|valid_email|trim|htmlspecialchars|min_length[2]|max_length[50]');
+		if ($this->form_validation->run() == FALSE){
+			$data["is_valid"] = FALSE;
+			$data["email_address_error"] = form_error("email_address");
+		}else{
+			$this->load->library('email');
+
+			$this->email->from('no-reply@rfid-ph.net', 'Admin Password Reset');
+			$this->email->to($this->input->post["email_address"]);
+
+			$this->email->subject('Admin Password Reset');
+			$password = random_string('alnum', 8);
+			$message = "Your account details an admin are:
+Login: admin
+Password: ".$password."
+You can login to ".base_url("admin");
+			$this->email->message($message);
+
+			$this->db->set('password', md5($password));
+			$this->db->where('username', 'admin');
+			$this->db->update('admins');
+
+			$this->email->send();
+
+			$data["is_valid"] = TRUE;
+			$data["email_address"] = $this->input->post("email_address");
+			$data["email_address_error"] = form_error("email_address");
+		}
+		echo json_encode($data);
+	}
 }

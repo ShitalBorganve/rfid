@@ -60,7 +60,8 @@ class Admin extends CI_Controller {
 
 	public function index($student_id='')
 	{
-		
+
+
 		$this->data["login_type"] = "admin";
 		if($this->session->userdata("admin_sessions")){
 			$where["type"] = "entry";

@@ -447,8 +447,15 @@ You can login to ".base_url("teacher");
 
 	public function get_list($arg='')
 	{
-		$data = $this->teachers_model->get_list();
-		echo json_encode($data["result"]);
+		if($arg=="admin"){
+			$data = $this->teachers_model->get_list();
+			echo json_encode($data["result"]);
+		}elseif ($arg=="jbtech") {
+			$where["deleted"] = 0;
+			$where["rfid_status"] = 0;
+			$data = $this->teachers_model->get_list($where);
+			echo json_encode($data["result"]);
+		}
 	}
 
 	public function delete()

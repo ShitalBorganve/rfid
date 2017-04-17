@@ -118,7 +118,7 @@ $(document).on("click","#gate_logs-reset_search",function(e) {
 	var datastr = "get=1";
 	$.ajax({
 		type: "GET",
-		url: "<?php echo base_url("teacher_ajax/get_list"); ?>",
+		url: "<?php echo base_url("teacher_ajax/get_list/admin"); ?>",
 		data: datastr,
 		cache: false,
 		dataType: "json",

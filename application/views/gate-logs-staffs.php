@@ -107,7 +107,7 @@ $(document).on("change","#select_position",function(e) {
 
 	$.ajax({
 		type: "GET",
-		url: "<?php echo base_url("staff_ajax/get_list"); ?>",
+		url: "<?php echo base_url("staff_ajax/get_list/admin"); ?>",
 		data: datastr,
 		cache: false,
 		dataType: "json",
@@ -130,7 +130,7 @@ $(document).on("click","#gate_logs-reset_search",function(e) {
 	var datastr = "get=1";
 	$.ajax({
 		type: "GET",
-		url: "<?php echo base_url("staff_ajax/get_list"); ?>",
+		url: "<?php echo base_url("staff_ajax/get_list/admin"); ?>",
 		data: datastr,
 		cache: false,
 		dataType: "json",
