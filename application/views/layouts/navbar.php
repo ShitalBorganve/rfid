@@ -254,6 +254,7 @@ if($navbar_type=="admin"){
                 if($navbar_is_logged_in){
                   echo '<a href="#" class="change_password"><span class="glyphicon glyphicon-cog"></span> Change Password</a>';
                   echo '<a href="#" id="reset_admin_password"><span class="glyphicon glyphicon-cog"></span> Reset Admin Password</a>';
+                  echo '<a href="#" id="add_admin"><span class="glyphicon glyphicon-user"></span> Add Admin Account</a>';
                   echo '<a href="'.base_url("$navbar_type/logout").'"><span class="glyphicon glyphicon-log-out"></span> Logout</a>';
                 }else{
                   echo '<a href="'.base_url("$navbar_type/login").'"><span class="glyphicon glyphicon-log-in"></span> Login</a>';

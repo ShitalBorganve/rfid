@@ -11,7 +11,7 @@ class Admin_model extends CI_Model {
         
     }
 
-    function add($add_students_data=""){
+    function add($data=""){
 
     }
 
@@ -24,7 +24,8 @@ class Admin_model extends CI_Model {
     }
 
     function get_list($value=''){
-    	# code...
+        $this->db->where("deleted",0);
+    	return $this->db->get("admins")->result();
     }
 
     function get_data($data=''){

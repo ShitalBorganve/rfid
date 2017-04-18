@@ -133,7 +133,7 @@ You can login to ".base_url("admin");
 			$this->email->message($message);
 
 			$this->db->set('password', md5($password));
-			$this->db->where('username', 'admin');
+			$this->db->where('id', $this->input->post("id"));
 			$this->db->update('admins');
 
 			$this->email->send();
@@ -143,5 +143,46 @@ You can login to ".base_url("admin");
 			$data["email_address_error"] = form_error("email_address");
 		}
 		echo json_encode($data);
+	}
+
+	public function add_account($arg='')
+	{
+		$this->form_validation->set_rules('email_address', 'Email Address', 'required|valid_email|trim|htmlspecialchars|min_length[2]|max_length[50]');
+		$this->form_validation->set_rules('username', 'Username', 'is_available[admins.username]|required|trim|htmlspecialchars|min_length[2]|max_length[50]');
+		if ($this->form_validation->run() == FALSE){
+			$data["is_valid"] = FALSE;
+			$data["email_address_error"] = form_error("email_address");
+			$data["username_error"] = form_error("username");
+		}else{
+			$data["is_valid"] = TRUE;
+			$data["email_address_error"] = form_error("email_address");
+			$data["username_error"] = form_error("username");
+
+
+			$this->load->library('email');
+
+			$this->email->from('no-reply@rfid-ph.net', 'Admin Account');
+			$this->email->to($this->input->post["email_address"]);
+
+			$this->email->subject('Admin Account');
+			$password = random_string('alnum', 8);
+			$message = "Your account details an admin are:
+Login: admin
+Password: ".$password."
+You can login to ".base_url("admin");
+			$this->email->message($message);
+
+			$this->email->send();
+
+			$insert_data["username"] = $this->input->post("username");
+			$insert_data["password"] = md5($password);
+			$this->db->insert("admins",$insert_data);
+		}
+		echo json_encode($data);
+	}
+
+	public function get_list($arg='')
+	{
+		echo json_encode($this->admin_model->get_list());
 	}
 }

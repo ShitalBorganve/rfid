@@ -30,3 +30,13 @@
 	padding-bottom: 1rem;
 }
 
+body#has-logo{
+    /*background: url("logo.jpg");*/
+    background-color: white;
+    /*background-size: 100% 100%;*/
+    background-repeat:no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+
+}
+

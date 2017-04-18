@@ -12,7 +12,7 @@
 </head>
 
 <?php echo $navbar_scripts; ?>
-<body>
+<body id="has-logo">
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-xs-12">
@@ -32,7 +32,7 @@
 	</div>
 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-6 col-md-push-3">
-			<div class="table-responsive">
+			<div class="table-responsive" style="background-color: white;">
 				<table class="table table-hover">
 					<thead>
 						<tr>

@@ -11,13 +11,13 @@
 </style>
 </head>
 
-<body>
+<body id="has-logo">
 
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-sm-8 col-md-4 col-lg-4 col-sm-push-2 col-md-push-4 col-lg-push-4">
-			<div id="login-container">
-					<img class="img-responsive" src="<?php echo base_url("assets/images/logo.png");?>" alt="Chania" id="login-logo">
+			<div id="login-container" style="background-color: white;">
+					<!-- <img class="img-responsive" src="<?php echo base_url("assets/images/logo.png");?>" alt="Chania" id="login-logo"> -->
 				<?php echo form_open("gate/login",'class="form-horizontal" id="app-login"');?>
 					<div class="form-group">
 					  <div class="col-sm-12"> 
