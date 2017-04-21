@@ -40,3 +40,7 @@ body#has-logo{
 
 }
 
+.recipient{
+	text-transform: capitalize;
+}
+

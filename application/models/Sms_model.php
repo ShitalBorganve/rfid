@@ -10,11 +10,11 @@ class Sms_model extends CI_Model {
         $this->load->library('session');
     }
 
-    function send($data='',$sms_data='')
+    function send($data='',$sms_id='')
     {
-        $data["sms_id"] = $sms_data->id;
+        $data["sms_id"] = $sms_id;
     	$this->db->insert("sms_list",$data);
-        return $sms_data;
+        // return $sms_data;
     }
 
     function add($data='')
@@ -38,7 +38,7 @@ class Sms_model extends CI_Model {
         }else{
             return $this->db->get("sms_list")->result_array();
         }
-        # code...
+
     }
 
     function get_sms_data($data='',$to_object=FALSE)

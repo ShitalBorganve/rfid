@@ -357,7 +357,7 @@ $('.ui.dropdown').dropdown({
 });
 $(document).on("change", 'select[name="type_recipient"]', function(e) {
   if (e.target.value == "all_teachers" || e.target.value == "all_teachers_students" || e.target.value ==
-    "all_students" || e.target.value == "all_members" || e.target.value == "all_guardians") {
+    "all_students" || e.target.value == "all_members" || e.target.value == "all_guardians" || e.target.value == "staffs") {
     $("#send-to-container").css("display", "none");
   } else {
     $("#send-to-container").css("display", "block");
@@ -488,10 +488,24 @@ $(document).on("submit", "#reset_admin_password-form", function(e) {
 $(document).on("click", "#add_admin", function(e) {
   $("#add_admin-modal").modal("show");
 });
+
+$(document).on("click",".send-sms",function(data) {
+  $.ajax({
+    type: "GET",
+    url: base_url+"sms_ajax/get_api_data",
+    data: "get=1",
+    cache: false,
+    dataType: "json",
+    success: function(data) {
+      $("#smsapi-message-left").html(data.MessagesLeft);
+    }
+  });
+});
+
 var needToConfirm = false;
 $(document).on("submit", "#sms-form", function(e) {
   e.preventDefault();
-  needToConfirm = true;
+  // needToConfirm = true;
   $('button[form="sms-form"]').prop('disabled', true);
   $('button[form="sms-form"]').html("Sending...");
   $('.loading').css("display", "initial");
@@ -502,30 +516,64 @@ $(document).on("submit", "#sms-form", function(e) {
     cache: false,
     dataType: "json",
     success: function(data) {
-      needToConfirm = false;
-      $('.loading').css("display", "none");
-      $('button[form="sms-form"]').html("Submit");
-      $('button[form="sms-form"]').prop('disabled', false);
+      // console.log(data);
       if (data.is_valid) {
-        $("#sms-form")[0].reset();
-        $('.ui.dropdown').dropdown('clear');
-        $(".help-block").html("");
-        $("#sms-modal").modal("hide");
-        $("#sms-modal-teacher").modal("hide");
-        $("#sms-list-modal").modal("show");
-        $("#message_id_txt").html(data.sms_data.id);
-        $('.sms_list_table tbody').html("");
-        $.each(data.sms_list, function(i, item) {
-          $('.sms_list_table tbody').append('\
-          	<tr>\
-          	<td>' + data.sms_list[i].message + '</td>\
-          	<td>' + data.sms_list[i].mobile_number + '</td>\
-          	<td>' + data.sms_list[i].recipient + '</td>\
-          	<td>' + data.sms_list[i].status + '</td>\
-          	</tr>\
-          	');
+        var count = 0;
+        $.each(data.recipients_number, function(i, item) {
+          // console.log(data.recipients_number[i]);
+          // console.log(data.recipients_id[i]);
+          // console.log(data.recipients_table[i]);
+          $.ajax({
+            type: "POST",
+            url: base_url+"sms_ajax/send_api",
+            dataType: "json",
+            data: $("#sms-form").serialize()+"&sms_id="+data.sms_id+"&recipients_number="+data.recipients_number[i]+"&recipients_id="+data.recipients_id[i]+"&recipients_table="+data.recipients_table[i],
+            cache: false,
+            success: function(new_response) {
+              // console.log(new_response);
+              count++;
+              $('button[form="sms-form"]').html("Sending..."+count+"/"+data.recipients_number.length);
+              if(data.recipients_number.length==count){
+                $("#sms-form")[0].reset();
+                $('.ui.dropdown').dropdown('clear');
+                $(".help-block").html("");
+
+                console.log("complete");
+                $("#sms-modal").modal("hide");
+                $("#sms-modal-teacher").modal("hide");
+                $("#sms-list-modal").modal("show");
+                $("#message_id_txt").html(new_response.sms_id);
+                $('.sms_list_table tbody').html("");
+                $.ajax({
+                  type: "GET",
+                  url: base_url+"sms_ajax/get_data",
+                  data: "sms_id="+new_response.sms_id,
+                  cache: false,
+                  dataType: "json",
+                  success: function(sms_table) {
+                    $.each(sms_table, function(z, item) {
+                      $('.sms_list_table tbody').append('\
+                        <tr>\
+                        <td>' + sms_table[z].message + '</td>\
+                        <td>' + sms_table[z].mobile_number + '</td>\
+                        <td class="recipient">' + sms_table[z].ref_table + '</td>\
+                        <td>' + sms_table[z].recipient + '</td>\
+                        <td>' + sms_table[z].status + '</td>\
+                        </tr>\
+                        ');
+                    });
+                  }
+                });
+
+                needToConfirm = false;
+                $('.loading').css("display", "none");
+                $('button[form="sms-form"]').html("Submit");
+                $('button[form="sms-form"]').prop('disabled', false);
+              }
+            }
+          })
         });
-      } else {
+      }else {
         $("#type_recipient_help-block").html(data.type_recipient_error);
         $("#message_help-block").html(data.message_error);
         $("#class_id_help-block").html(data.class_id_error);

@@ -63,6 +63,7 @@ $(document).on("click",".message",function(e) {
 			    	<tr>\
 			    	<td>'+data[i].message+'</td>\
 			    	<td>'+data[i].mobile_number+'</td>\
+			    	<td class="recipient">'+data[i].ref_table+'</td>\
 			    	<td>'+data[i].recipient+'</td>\
 			    	<td>'+data[i].status+'</td>\
 			    	</tr>\

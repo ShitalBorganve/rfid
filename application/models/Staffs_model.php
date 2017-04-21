@@ -79,9 +79,13 @@ class Staffs_model extends CI_Model {
         # code...
     }
 
-    function get_data($where=''){
+    function get_data($where='',$to_object=FALSE){
         $query = $this->db->get_where("staffs",$where);
-        return $query->row_array();
+        if($to_object){
+            return $query->row();
+        }else{
+            return $query->row_array();
+        }
     }
 
     function scangate($data='')

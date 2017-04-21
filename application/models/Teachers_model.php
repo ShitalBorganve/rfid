@@ -86,9 +86,13 @@ class Teachers_model extends CI_Model {
             return $data;
     }
 
-    function get_data($where=''){
+    function get_data($where='',$to_object=FALSE){
         $query = $this->db->get_where("teachers",$where);
-        return $query->row_array();
+        if($to_object){
+            return $query->row();
+        }else{
+            return $query->row_array();
+        }
     }
 
     function scangate($data='')

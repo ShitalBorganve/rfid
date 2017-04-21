@@ -31,6 +31,7 @@ class Sms_ajax extends CI_Controller {
 		//models
 		$this->load->helper('string');
 		$this->load->model('guardian_model');
+		$this->load->model('staffs_model');
 		$this->load->model("admin_model");
 		$this->load->model("students_model");
 		$this->load->model("teachers_model");
@@ -48,16 +49,14 @@ class Sms_ajax extends CI_Controller {
 	public function send()
 	{
 		if($_POST){
-
-
 			$type_recipient = $this->input->post("type_recipient");
 			$message = $this->input->post("message");
 			$sender = $this->input->post("sender");
 			$classes = ($this->input->post("class_id")?$this->input->post("class_id"):NULL);
 
 			$this->form_validation->set_rules('type_recipient', 'Recipient', 'required');
-			$this->form_validation->set_rules('message', 'Message', 'required|max_length[300]trim|htmlspecialchars');
-			if($type_recipient=="all_teachers"||$type_recipient=="all_teachers_students"||$type_recipient=="all_students"||$type_recipient=="all_members"||$type_recipient=="all_guardians"){
+			$this->form_validation->set_rules('message', 'Message', 'required|max_length[320]trim|htmlspecialchars');
+			if($type_recipient=="all_teachers"||$type_recipient=="all_teachers_students"||$type_recipient=="all_students"||$type_recipient=="all_members"||$type_recipient=="all_guardians"||$type_recipient=="staffs"){
 				
 				$is_valid_class = TRUE;
 			}else{
@@ -83,11 +82,10 @@ class Sms_ajax extends CI_Controller {
 				$data["class_id_error"] = ($is_valid_class?"":"The Class field is required.");
 
 
-
-
-
 				$valid_recipient = FALSE;
-
+				$data["recipients_number"] = array();
+				$data["recipients_id"] = array();
+				$data["recipients_table"] = array();
 				switch ($type_recipient) {
 					case 'teachers_students':
 						foreach ($classes as $class) {
@@ -99,6 +97,9 @@ class Sms_ajax extends CI_Controller {
 								foreach ($students_list["result"] as $students_data) {
 									if($students_data->contact_number!=""){
 										$valid_recipient = TRUE;
+										$data["recipients_number"][] = $students_data->contact_number;
+										$data["recipients_id"][] = $students_data->id;
+										$data["recipients_table"][] = "students";
 									}
 								}
 							}
@@ -112,6 +113,9 @@ class Sms_ajax extends CI_Controller {
 								foreach ($teachers_list["result"] as $teachers_data) {
 									if($teachers_data->contact_number!=""){
 										$valid_recipient = TRUE;
+										$data["recipients_number"][] = $teachers_data->contact_number;
+										$data["recipients_id"][] = $teachers_data->id;
+										$data["recipients_table"][] = "teachers";
 									}
 								}
 							}
@@ -127,6 +131,9 @@ class Sms_ajax extends CI_Controller {
 								foreach ($teachers_list["result"] as $teachers_data) {
 									if($teachers_data->contact_number!=""){
 										$valid_recipient = TRUE;
+										$data["recipients_number"][] = $teachers_data->contact_number;
+										$data["recipients_id"][] = $teachers_data->id;
+										$data["recipients_table"][] = "teachers";
 									}
 								}
 							}
@@ -142,6 +149,9 @@ class Sms_ajax extends CI_Controller {
 								foreach ($students_list["result"] as $students_data) {
 									if($students_data->contact_number!=""){
 										$valid_recipient = TRUE;
+										$data["recipients_number"][] = $students_data->contact_number;
+										$data["recipients_id"][] = $students_data->id;
+										$data["recipients_table"][] = "students";
 									}
 								}
 							}
@@ -156,13 +166,17 @@ class Sms_ajax extends CI_Controller {
 							if($students_list["result"] != array()){
 								foreach ($students_list["result"] as $students_data) {
 									$get_data["id"] = $students_data->guardian_id;
-									$guardian_data = $this->guardian_model->get_data($get_data,TRUE);
-									if($guardian_data->contact_number!=""){
-										$valid_recipient = TRUE;
+									if($students_data->guardian_id != 0){
+										$guardian_data = $this->guardian_model->get_data($get_data,TRUE);
+										if($guardian_data->contact_number!=""){
+											$valid_recipient = TRUE;
+											$data["recipients_number"][] = $guardian_data->contact_number;
+											$data["recipients_id"][] = $guardian_data->id;
+											$data["recipients_table"][] = "guardians";
+										}
 									}
 								}
 							}
-
 						}
 						# code...
 						break;
@@ -176,6 +190,9 @@ class Sms_ajax extends CI_Controller {
 								foreach ($students_list["result"] as $students_data) {
 									if($students_data->contact_number!=""){
 										$valid_recipient = TRUE;
+										$data["recipients_number"][] = $students_data->contact_number;
+										$data["recipients_id"][] = $students_data->id;
+										$data["recipients_table"][] = "students";
 									}
 								}
 							}
@@ -187,6 +204,9 @@ class Sms_ajax extends CI_Controller {
 								foreach ($teachers_list["result"] as $teachers_data) {
 									if($teachers_data->contact_number!=""){
 										$valid_recipient = TRUE;
+										$data["recipients_number"][] = $teachers_data->contact_number;
+										$data["recipients_id"][] = $teachers_data->id;
+										$data["recipients_table"][] = "teachers";
 									}
 								}
 							}
@@ -197,38 +217,55 @@ class Sms_ajax extends CI_Controller {
 							if($students_list["result"] != array()){
 								foreach ($students_list["result"] as $students_data) {
 									$get_data["id"] = $students_data->guardian_id;
-									$guardian_data = $this->guardian_model->get_data($get_data,TRUE);
-									if($guardian_data->contact_number!=""){
-										$valid_recipient = TRUE;
+									if($students_data->guardian_id != 0){
+										$guardian_data = $this->guardian_model->get_data($get_data,TRUE);
+										if($guardian_data->contact_number!=""){
+											$valid_recipient = TRUE;
+											$data["recipients_number"][] = $guardian_data->contact_number;
+											$data["recipients_id"][] = $guardian_data->id;
+											$data["recipients_table"][] = "guardians";
+										}
 									}
 								}
 							}
 						}
-						# code...
+						break;
+					case 'staffs':
+						$staffs_list = $this->staffs_model->get_list("",1,$this->db->get("staffs")->num_rows());
+						if($staffs_list["result"] != array()){
+							foreach ($staffs_list["result"] as $staffs_data) {
+								if($staffs_data->contact_number!=""){
+									$valid_recipient = TRUE;
+									$data["recipients_number"][] = $staffs_data->contact_number;
+									$data["recipients_id"][] = $staffs_data->id;
+									$data["recipients_table"][] = "staffs";
+								}
+							}
+						}
 						break;
 					case 'all_teachers_students':
 						$students_list = $this->students_model->get_list("",1,$this->db->get("students")->num_rows());
-
 						if($students_list["result"] != array()){
 							foreach ($students_list["result"] as $students_data) {
 								if($students_data->contact_number!=""){
 									$valid_recipient = TRUE;
+									$data["recipients_number"][] = $students_data->contact_number;
+									$data["recipients_id"][] = $students_data->id;
+									$data["recipients_table"][] = "students";
 								}
 							}
 						}
-
-
 						$teachers_list = $this->teachers_model->get_list("",1,$this->db->get("teachers")->num_rows());
 						if($teachers_list["result"] != array()){
 							foreach ($teachers_list["result"] as $teachers_data) {
 								if($teachers_data->contact_number!=""){
 									$valid_recipient = TRUE;
+									$data["recipients_number"][] = $teachers_data->contact_number;
+									$data["recipients_id"][] = $teachers_data->id;
+									$data["recipients_table"][] = "teachers";
 								}
 							}
 						}
-
-
-						# code...
 						break;
 					case 'all_teachers':
 						$teachers_list = $this->teachers_model->get_list("",1,$this->db->get("teachers")->num_rows());
@@ -236,10 +273,12 @@ class Sms_ajax extends CI_Controller {
 							foreach ($teachers_list["result"] as $teachers_data) {
 								if($teachers_data->contact_number!=""){
 									$valid_recipient = TRUE;
+									$data["recipients_number"][] = $teachers_data->contact_number;
+									$data["recipients_id"][] = $teachers_data->id;
+									$data["recipients_table"][] = "teachers";
 								}
 							}
 						}
-						# code...
 						break;
 					case 'all_students':
 						$students_list = $this->students_model->get_list("",1,$this->db->get("students")->num_rows());
@@ -247,24 +286,29 @@ class Sms_ajax extends CI_Controller {
 							foreach ($students_list["result"] as $students_data) {
 								if($students_data->contact_number!=""){
 									$valid_recipient = TRUE;
+									$data["recipients_number"][] = $students_data->contact_number;
+									$data["recipients_id"][] = $students_data->id;
+									$data["recipients_table"][] = "students";
 								}
 							}
 						}
-						# code...
 						break;
 					case 'all_guardians':
 						$students_list = $this->students_model->get_list("",1,$this->db->get("students")->num_rows());
 						if($students_list["result"] != array()){
 							foreach ($students_list["result"] as $students_data) {
 								$get_data["id"] = $students_data->guardian_id;
-								$guardian_data = $this->guardian_model->get_data($get_data,TRUE);
-								if($guardian_data->contact_number!=""){
-									$valid_recipient = TRUE;
+								if($students_data->guardian_id != 0){
+									$guardian_data = $this->guardian_model->get_data($get_data,TRUE);
+									if($guardian_data->contact_number!=""){
+										$valid_recipient = TRUE;
+										$data["recipients_number"][] = $guardian_data->contact_number;
+										$data["recipients_id"][] = $guardian_data->id;
+										$data["recipients_table"][] = "guardians";
+									}
 								}
 							}
 						}
-
-						# code...
 						break;
 					case 'all_members':
 						$students_list = $this->students_model->get_list("",1,$this->db->get("students")->num_rows());
@@ -272,46 +316,60 @@ class Sms_ajax extends CI_Controller {
 							foreach ($students_list["result"] as $students_data) {
 								if($students_data->contact_number!=""){
 									$valid_recipient = TRUE;
+									$data["recipients_number"][] = $students_data->contact_number;
+									$data["recipients_id"][] = $students_data->id;
+									$data["recipients_table"][] = "students";
 								}
 							}
 						}
-
 
 						$teachers_list = $this->teachers_model->get_list("",1,$this->db->get("teachers")->num_rows());
 						if($teachers_list["result"] != array()){
 							foreach ($teachers_list["result"] as $teachers_data) {
 								if($teachers_data->contact_number!=""){
 									$valid_recipient = TRUE;
+									$data["recipients_number"][] = $teachers_data->contact_number;
+									$data["recipients_id"][] = $teachers_data->id;
+									$data["recipients_table"][] = "teachers";
 								}
 							}
 						}
-
 
 						$students_list = $this->students_model->get_list("",1,$this->db->get("students")->num_rows());
 						if($students_list["result"] != array()){
 							foreach ($students_list["result"] as $students_data) {
 								$get_data["id"] = $students_data->guardian_id;
-								$guardian_data = $this->guardian_model->get_data($get_data,TRUE);
-								if($guardian_data->contact_number!=""){
-									$valid_recipient = TRUE;
+								if($students_data->guardian_id != 0){
+									$guardian_data = $this->guardian_model->get_data($get_data,TRUE);
+									if($guardian_data->contact_number!=""){
+										$valid_recipient = TRUE;
+										$data["recipients_number"][] = $guardian_data->contact_number;
+										$data["recipients_id"][] = $guardian_data->id;
+										$data["recipients_table"][] = "guardians";
+									}
 								}
+								
 							}
 						}
 
-						# code...
+						$staffs_list = $this->staffs_model->get_list("",1,$this->db->get("staffs")->num_rows());
+						if($staffs_list["result"] != array()){
+							foreach ($staffs_list["result"] as $staffs_data) {
+								if($staffs_data->contact_number!=""){
+									$valid_recipient = TRUE;
+									$data["recipients_number"][] = $staffs_data->contact_number;
+									$data["recipients_id"][] = $staffs_data->id;
+									$data["recipients_table"][] = "staffs";
+								}
+							}
+						}
 						break;
 					default:
 						$data["is_valid"] = FALSE;
-						# code...
 						break;
 				}
 
-
-
-
-
 				if($valid_recipient){
-
 					if($sender=="admin"){
 						$sms_sender = $this->session->userdata("admin_sessions");
 						$sms_sender->sender = "admins";
@@ -321,278 +379,64 @@ class Sms_ajax extends CI_Controller {
 						$sms_sender->sender = "teachers";
 						$sms_db_data = $this->sms_model->add($sms_sender);
 					}
-					
-					switch ($type_recipient) {
-						case 'teachers_students':
-							foreach ($classes as $class) {
-								$get_list["class_id"] = $class;
-								$get_list["deleted"] = 0;
-								$students_list = $this->students_model->get_list($get_list,1,$this->db->get("students")->num_rows());
-								foreach ($students_list["result"] as $students_data) {
-									if($students_data->contact_number!=""){
-										$sms_data["recipient"] = $students_data->last_name.", ".$students_data->first_name." ".$students_data->middle_name[0].". ".$students_data->suffix;
-										$sms_data["mobile_number"] = $students_data->contact_number;
-										$sms_data["message"] = $message;
-										$sms_data["status_code"] = send_sms($students_data->contact_number,$message);
-										$sms_data["status"] = sms_status($sms_data["status_code"]);
-										$this->sms_model->send($sms_data,$sms_db_data);
-									}
-								}
-
-								$get_list["class_id"] = $class;
-								$get_list["deleted"] = 0;
-								$teachers_list = $this->teachers_model->get_list($get_list,1,$this->db->get("teachers")->num_rows());
-								foreach ($teachers_list["result"] as $teachers_data) {
-									if($teachers_data->contact_number!=""){
-										$sms_data["recipient"] = $teachers_data->last_name.", ".$teachers_data->first_name." ".$teachers_data->middle_name[0].". ".$teachers_data->suffix;
-										$sms_data["mobile_number"] = $teachers_data->contact_number;
-										$sms_data["message"] = $message;
-										$sms_data["status_code"] = send_sms($teachers_data->contact_number,$message);
-										$sms_data["status"] = sms_status($sms_data["status_code"]);
-										$this->sms_model->send($sms_data,$sms_db_data);
-									}
-								}
-							}
-							break;
-						case 'teachers':
-							foreach ($classes as $class) {
-								$get_list["class_id"] = $class;
-								$get_list["deleted"] = 0;
-								$teachers_list = $this->teachers_model->get_list($get_list,1,$this->db->get("teachers")->num_rows());
-								foreach ($teachers_list["result"] as $teachers_data) {
-									if($teachers_data->contact_number!=""){
-										$sms_data["recipient"] = $teachers_data->last_name.", ".$teachers_data->first_name." ".$teachers_data->middle_name[0].". ".$teachers_data->suffix;
-										$sms_data["mobile_number"] = $teachers_data->contact_number;
-										$sms_data["message"] = $message;
-										$sms_data["status_code"] = send_sms($teachers_data->contact_number,$message);
-										$sms_data["status"] = sms_status($sms_data["status_code"]);
-										$this->sms_model->send($sms_data,$sms_db_data);
-									}
-								}
-							}
-							# code...
-							break;
-						case 'students':
-							foreach ($classes as $class) {
-								$get_list["class_id"] = $class;
-								$get_list["deleted"] = 0;
-								$students_list = $this->students_model->get_list($get_list,1,$this->db->get("students")->num_rows());
-								foreach ($students_list["result"] as $students_data) {
-									if($students_data->contact_number!=""){
-										$sms_data["recipient"] = $students_data->last_name.", ".$students_data->first_name." ".$students_data->middle_name[0].". ".$students_data->suffix;
-										$sms_data["mobile_number"] = $students_data->contact_number;
-										$sms_data["message"] = $message;
-										$sms_data["status_code"] = send_sms($students_data->contact_number,$message);
-										$sms_data["status"] = sms_status($sms_data["status_code"]);
-										$this->sms_model->send($sms_data,$sms_db_data);
-									}
-								}
-							}
-							# code...
-							break;
-						case 'guardian':
-							foreach ($classes as $class) {
-								$get_list["class_id"] = $class;
-								$get_list["deleted"] = 0;
-								$students_list = $this->students_model->get_list($get_list,1,$this->db->get("students")->num_rows());
-								foreach ($students_list["result"] as $students_data) {
-									$get_data["id"] = $students_data->guardian_id;
-									$guardian_data = $this->guardian_model->get_data($get_data,TRUE);
-									if($guardian_data->contact_number!=""){
-										$sms_data["recipient"] = $guardian_data->name;
-										$sms_data["mobile_number"] = $guardian_data->contact_number;
-										$sms_data["message"] = $message;
-										$sms_data["status_code"] = send_sms($guardian_data->contact_number,$message);
-										$sms_data["status"] = sms_status($sms_data["status_code"]);
-										$this->sms_model->send($sms_data,$sms_db_data);
-									}
-								}
-							}
-							# code...
-							break;
-						case 'members':
-							foreach ($classes as $class) {
-								$get_list["class_id"] = $class;
-								$get_list["deleted"] = 0;
-								$students_list = $this->students_model->get_list($get_list,1,$this->db->get("students")->num_rows());
-								foreach ($students_list["result"] as $students_data) {
-									if($students_data->contact_number!=""){
-										$sms_data["recipient"] = $students_data->last_name.", ".$students_data->first_name." ".$students_data->middle_name[0].". ".$students_data->suffix;
-										$sms_data["mobile_number"] = $students_data->contact_number;
-										$sms_data["message"] = $message;
-										$sms_data["status_code"] = send_sms($students_data->contact_number,$message);
-										$sms_data["status"] = sms_status($sms_data["status_code"]);
-										$this->sms_model->send($sms_data,$sms_db_data);
-									}
-								}
-
-								$get_list["class_id"] = $class;
-								$get_list["deleted"] = 0;
-								$teachers_list = $this->teachers_model->get_list($get_list,1,$this->db->get("teachers")->num_rows());
-								foreach ($teachers_list["result"] as $teachers_data) {
-									if($teachers_data->contact_number!=""){
-										$sms_data["recipient"] = $teachers_data->last_name.", ".$teachers_data->first_name." ".$teachers_data->middle_name[0].". ".$teachers_data->suffix;
-										$sms_data["mobile_number"] = $teachers_data->contact_number;
-										$sms_data["message"] = $message;
-										$sms_data["status_code"] = send_sms($teachers_data->contact_number,$message);
-										$sms_data["status"] = sms_status($sms_data["status_code"]);
-										$this->sms_model->send($sms_data,$sms_db_data);
-									}
-								}
-
-								$get_list["class_id"] = $class;
-								$get_list["deleted"] = 0;
-								$students_list = $this->students_model->get_list($get_list,1,$this->db->get("students")->num_rows());
-								foreach ($students_list["result"] as $students_data) {
-									$get_data["id"] = $students_data->guardian_id;
-									$guardian_data = $this->guardian_model->get_data($get_data,TRUE);
-									if($guardian_data->contact_number!=""){
-										$sms_data["recipient"] = $guardian_data->name;
-										$sms_data["mobile_number"] = $guardian_data->contact_number;
-										$sms_data["message"] = $message;
-										$sms_data["status_code"] = send_sms($guardian_data->contact_number,$message);
-										$sms_data["status"] = sms_status($sms_data["status_code"]);
-										$this->sms_model->send($sms_data,$sms_db_data);
-									}
-								}
-							}
-							# code...
-							break;
-						case 'all_teachers_students':
-							$students_list = $this->students_model->get_list("",1,$this->db->get("students")->num_rows());
-							foreach ($students_list["result"] as $students_data) {
-								if($students_data->contact_number!=""){
-									$sms_data["recipient"] = $students_data->last_name.", ".$students_data->first_name." ".$students_data->middle_name[0].". ".$students_data->suffix;
-									$sms_data["mobile_number"] = $students_data->contact_number;
-									$sms_data["message"] = $message;
-									$sms_data["status_code"] = send_sms($students_data->contact_number,$message);
-									$sms_data["status"] = sms_status($sms_data["status_code"]);
-									$this->sms_model->send($sms_data,$sms_db_data);
-								}
-							}
-
-							$teachers_list = $this->teachers_model->get_list("",1,$this->db->get("teachers")->num_rows());
-							foreach ($teachers_list["result"] as $teachers_data) {
-								if($teachers_data->contact_number!=""){
-									$sms_data["recipient"] = $teachers_data->last_name.", ".$teachers_data->first_name." ".$teachers_data->middle_name[0].". ".$teachers_data->suffix;
-									$sms_data["mobile_number"] = $teachers_data->contact_number;
-									$sms_data["message"] = $message;
-									$sms_data["status_code"] = send_sms($teachers_data->contact_number,$message);
-									$sms_data["status"] = sms_status($sms_data["status_code"]);
-									$this->sms_model->send($sms_data,$sms_db_data);
-								}
-							}
-
-							# code...
-							break;
-						case 'all_teachers':
-							$teachers_list = $this->teachers_model->get_list("",1,$this->db->get("teachers")->num_rows());
-							foreach ($teachers_list["result"] as $teachers_data) {
-								if($teachers_data->contact_number!=""){
-									$sms_data["recipient"] = $teachers_data->last_name.", ".$teachers_data->first_name." ".$teachers_data->middle_name[0].". ".$teachers_data->suffix;
-									$sms_data["mobile_number"] = $teachers_data->contact_number;
-									$sms_data["message"] = $message;
-									$sms_data["status_code"] = send_sms($teachers_data->contact_number,$message);
-									$sms_data["status"] = sms_status($sms_data["status_code"]);
-									$this->sms_model->send($sms_data,$sms_db_data);
-								}
-							}
-							# code...
-							break;
-						case 'all_students':
-							$students_list = $this->students_model->get_list("",1,$this->db->get("students")->num_rows());
-							foreach ($students_list["result"] as $students_data) {
-								if($students_data->contact_number!=""){
-									$sms_data["recipient"] = $students_data->last_name.", ".$students_data->first_name." ".$students_data->middle_name[0].". ".$students_data->suffix;
-									$sms_data["mobile_number"] = $students_data->contact_number;
-									$sms_data["message"] = $message;
-									$sms_data["status_code"] = send_sms($students_data->contact_number,$message);
-									$sms_data["status"] = sms_status($sms_data["status_code"]);
-									$this->sms_model->send($sms_data,$sms_db_data);
-								}
-							}
-							# code...
-							break;
-						case 'all_guardians':
-							$students_list = $this->students_model->get_list("",1,$this->db->get("students")->num_rows());
-							foreach ($students_list["result"] as $students_data) {
-								$get_data["id"] = $students_data->guardian_id;
-								$guardian_data = $this->guardian_model->get_data($get_data,TRUE);
-								if($guardian_data->contact_number!=""){
-									$sms_data["recipient"] = $guardian_data->name;
-									$sms_data["mobile_number"] = $guardian_data->contact_number;
-									$sms_data["message"] = $message;
-									$sms_data["status_code"] = send_sms($guardian_data->contact_number,$message);
-									$sms_data["status"] = sms_status($sms_data["status_code"]);
-									$this->sms_model->send($sms_data,$sms_db_data);
-								}
-							}
-							# code...
-							break;
-						case 'all_members':
-							$students_list = $this->students_model->get_list("",1,$this->db->get("students")->num_rows());
-							foreach ($students_list["result"] as $students_data) {
-								if($students_data->contact_number!=""){
-									$sms_data["recipient"] = $students_data->last_name.", ".$students_data->first_name." ".$students_data->middle_name[0].". ".$students_data->suffix;
-									$sms_data["mobile_number"] = $students_data->contact_number;
-									$sms_data["message"] = $message;
-									$sms_data["status_code"] = send_sms($students_data->contact_number,$message);
-									$sms_data["status"] = sms_status($sms_data["status_code"]);
-									$this->sms_model->send($sms_data,$sms_db_data);
-								}
-							}
-
-							$teachers_list = $this->teachers_model->get_list("",1,$this->db->get("teachers")->num_rows());
-							foreach ($teachers_list["result"] as $teachers_data) {
-								if($teachers_data->contact_number!=""){
-									$sms_data["recipient"] = $teachers_data->last_name.", ".$teachers_data->first_name." ".$teachers_data->middle_name[0].". ".$teachers_data->suffix;
-									$sms_data["mobile_number"] = $teachers_data->contact_number;
-									$sms_data["message"] = $message;
-									$sms_data["status_code"] = send_sms($teachers_data->contact_number,$message);
-									$sms_data["status"] = sms_status($sms_data["status_code"]);
-									$this->sms_model->send($sms_data,$sms_db_data);
-								}
-							}
-
-							$students_list = $this->students_model->get_list("",1,$this->db->get("students")->num_rows());
-							foreach ($students_list["result"] as $students_data) {
-								$get_data["id"] = $students_data->guardian_id;
-								$guardian_data = $this->guardian_model->get_data($get_data,TRUE);
-								if($guardian_data->contact_number!=""){
-									$sms_data["recipient"] = $guardian_data->name;
-									$sms_data["mobile_number"] = $guardian_data->contact_number;
-									$sms_data["message"] = $message;
-									$sms_data["status_code"] = send_sms($guardian_data->contact_number,$message);
-									$sms_data["status"] = sms_status($sms_data["status_code"]);
-									$this->sms_model->send($sms_data,$sms_db_data);
-								}
-							}
-							# code...
-							break;
-						default:
-							$data["is_valid"] = FALSE;
-							# code...
-							break;
-					}
-
-					$get_data = array();
-					$get_data["id"] = $sms_db_data->id;
-					$data["sms_data"] = $this->sms_model->get_data($get_data);
-					$get_data = array();
-					$get_data["sms_id"] = $sms_db_data->id;
-					$data["sms_list"] = $this->sms_model->get_sms_list($get_data);
+					$data["sms_id"] = $sms_db_data->id;
 				}else{
 					$data["is_valid"] = FALSE;
 					$data["message_error"] = "No valid Recipient.";
 				}
-
-
 			}
-
-			echo json_encode($data);
-			
+			echo json_encode($data);			
 		}
-		# code...
+	}
+
+	public function send_api($value='')
+	{
+		// sleep(2);
+		// var_dump($this->input->get("sms_id"));
+		$sms_id = $this->input->post("sms_id");
+		$data["message"] = $this->input->post("message");
+		$data["mobile_number"] = $this->input->post("recipients_number");
+		$data["ref_id"] = $this->input->post("recipients_id");
+		$data["ref_table"] = $this->input->post("recipients_table");
+		$data["status_code"] = send_sms($data["mobile_number"],$data["message"]);
+		$data["status"] = sms_status($data["status_code"]);
+
+		$get_data["id"] = $this->input->post("recipients_id");
+		if($this->input->post("recipients_table")=="students"){
+			$students_data = $this->students_model->get_data($get_data,TRUE);
+			$data["recipient"] = $students_data->last_name.", ".$students_data->first_name." ".$students_data->middle_name[0].". ".$students_data->suffix;
+		}elseif ($this->input->post("recipients_table")=="teachers") {
+			if($this->input->post("recipients_table")=="teachers"){
+				$teachers_data = $this->teachers_model->get_data($get_data,TRUE);
+				$data["recipient"] = $teachers_data->last_name.", ".$teachers_data->first_name." ".$teachers_data->middle_name[0].". ".$teachers_data->suffix;
+			}
+		}elseif ($this->input->post("recipients_table")=="staffs") {
+			if($this->input->post("recipients_table")=="staffs"){
+				$staffs_data = $this->staffs_model->get_data($get_data,TRUE);
+				$data["recipient"] = $staffs_data->last_name.", ".$staffs_data->first_name." ".$staffs_data->middle_name[0].". ".$staffs_data->suffix;
+			}
+		}elseif ($this->input->post("recipients_table")=="guardians") {
+			if($this->input->post("recipients_table")=="guardians"){
+				$guardians_data = $this->guardian_model->get_data($get_data,TRUE);
+				$data["recipient"] = $guardians_data->name;
+			}
+		}else{
+			$data["recipient"] = "";
+		}
+
+		$this->sms_model->send($data,$sms_id);
+		$data = array();
+		$get_data["sms_id"] = $sms_id;
+		$data["sms_list"] = $this->sms_model->get_sms_list($get_data);
+		// $messages_list = ;
+		//substr_replace("Hello world", "", -1);
+		$data["sms_id"] = $sms_id;
+		echo json_encode($data);
+
+
+		
+		
+		// echo $this->input->post("recipients_number")." ".$this->input->post("recipients_id")." ".$this->input->post("recipients_table")." ".$this->input->post("sms_id");
 	}
 
 	public function get_data($arg='')
@@ -618,7 +462,31 @@ class Sms_ajax extends CI_Controller {
 			}
 		}
 		echo json_encode($data);
+	}
 
+	public function get_api_data($value='')
+	{
+		$curl = curl_init();
 
+		curl_setopt_array($curl, array(
+		  CURLOPT_URL => "https://www.itexmo.com/php_api/apicode_info.php?apicode=ST-ROMEO290433_3CTWI",
+		  CURLOPT_RETURNTRANSFER => true,
+		  CURLOPT_TIMEOUT => 30,
+		  CURLOPT_SSL_VERIFYPEER => FALSE,
+		  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+		  CURLOPT_CUSTOMREQUEST => "GET",
+		  CURLOPT_HTTPHEADER => array(
+		    "cache-control: no-cache"
+		  ),
+		));
+
+		$response = curl_exec($curl);
+		$err = curl_error($curl);
+		$response = json_decode($response,true);
+		$data["MessagesLeft"] = $response["Result "]["MessagesLeft"];
+		$data["ExpiresOn"] = $response["Result "]["ExpiresOn"];
+		echo json_encode($data);
+		// var_dump($response);
+		curl_close($curl);
 	}
 }

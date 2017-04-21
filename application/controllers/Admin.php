@@ -133,5 +133,10 @@ class Admin extends CI_Controller {
 			$this->load->view('gate-logs-staffs',$this->data);
 		}
 	}
+	public function json($value='')
+	{
+		exit;
+		echo '{"sms_list":[{"id":"33","sms_id":"44","message":"asdasd","mobile_number":"09301167850","recipient":"","ref_id":"1","ref_table":"teachers","status_code":"0","status":""},{"id":"34","sms_id":"44","message":"asdasd","mobile_number":"09301167851","recipient":"","ref_id":"1","ref_table":"students","status_code":"0","status":""},{"id":"35","sms_id":"44","message":"asdasd","mobile_number":"09301167852","recipient":"","ref_id":"2","ref_table":"students","status_code":"0","status":""}],"sms_id":"44"}';
+	}
 
 }

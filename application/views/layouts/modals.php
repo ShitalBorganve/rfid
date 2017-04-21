@@ -1067,6 +1067,7 @@ if($modals_sets=="admin"){
             <option value="students">Students of the class</option>
             <option value="guardian">Students Guardian&apos;s of the class</option>
             <option value="members">All members of the class including Student&apos;s Guardian</option>
+            <option value="staffs">All non-teaching staffs</option>
             <option value="all_teachers_students">All Students and Teachers</option>
             <option value="all_teachers">All Teachers</option>
             <option value="all_students">All Students</option>
@@ -1096,10 +1097,9 @@ if($modals_sets=="admin"){
       </div>
 
       ';
-
+      echo '<span data-balloon="SMS has 500 Max Messages per Day and will reset in 12MN." data-balloon-pos="right" data-balloon-length="fit">SMS Remaining: <b id="smsapi-message-left"></b></span>';
       echo '</form>';
 
-      // echo '<span data-balloon="SMS has 500 Max Messages per Day and will reset in 12MN." data-balloon-pos="right" data-balloon-length="fit">SMS Remaining: <b>'.$sms_module_sms_left.'</b></span>';
       echo '</div>
       <div class="modal-footer">
         <img src="'.base_url("assets/images/loading.gif").'" style="width:3rem;height:3rem;display:none" class="loading"></img>
@@ -1118,7 +1118,7 @@ if($modals_sets=="admin"){
 echo '
 <!-- SMS list Modal -->
 <div id="sms-list-modal" class="modal fade" role="dialog" tabindex="-1">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-g">
 
     <!-- Modal content-->
     <div class="modal-content">
@@ -1127,18 +1127,21 @@ echo '
         <h4 class="modal-title">SMS Status of Message ID: <span id="message_id_txt"></span></h4>
       </div>
       <div class="modal-body">
-        <table class="table table-hover sms_list_table">
-          <thead>
-            <tr>
-              <th>Message</th>
-              <th>Mobile Number</th>
-              <th>Recipient</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody>
-        </table>
+        <div class="table-responsive">
+          <table class="table table-hover sms_list_table">
+            <thead>
+              <tr>
+                <th>Message</th>
+                <th>Mobile Number</th>
+                <th>Recipient</th>
+                <th>Recipient&apos;s Name</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -1250,7 +1253,7 @@ echo '
 
         echo '</form>';
 
-        // echo '<span data-balloon="SMS has 500 Max Messages per Day and will reset in 12MN." data-balloon-pos="right" data-balloon-length="fit">SMS Remaining: <b>'.$sms_module_sms_left.'</b></span>';
+        echo '<span data-balloon="SMS has 500 Max Messages per Day and will reset in 12MN." data-balloon-pos="right" data-balloon-length="fit">SMS Remaining: <b id="smsapi-message-left"></b></span>';
         echo '</div>
         <div class="modal-footer">
           <img src="'.base_url("assets/images/loading.gif").'" style="width:3rem;height:3rem;display:none" class="loading"></img>

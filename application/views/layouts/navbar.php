@@ -121,12 +121,12 @@ if($navbar_type=="admin"){
 
           <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-            <span class="caret"></span></a>
+            &nbsp;<span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li>';
               if($navbar_is_logged_in){
                 echo '<a href="#" class="change_password" id="admins"><span class="glyphicon glyphicon-cog"></span> Change Password</a>';
-                echo '<a href="#" id="send-sms-admin"><span class="glyphicon glyphicon glyphicon-send"></span> Send SMS <span class="badge"></span></a>';
+                echo '<a href="#" id="send-sms-admin" class="send-sms"><span class="glyphicon glyphicon glyphicon-send"></span> Send SMS <span class="badge"></span></a>';
                 // echo '<a href="#" id="send-sms-admin">Send SMS <span class="badge">'.$sms_module_sms_left.'</span></a>';
                 echo '<a href="'.base_url("admin/sms").'"><span class="glyphicon glyphicon glyphicon-envelope"></span> SMS Threads</a>';
                 echo '<a href="#" id="gate_change_password"><span class="glyphicon glyphicon-cog"></span> Change Gate Password</a>';
@@ -248,7 +248,7 @@ if($navbar_type=="admin"){
 
             <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-              <span class="caret"></span></a>
+              &nbsp;<span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li>';
                 if($navbar_is_logged_in){
@@ -313,11 +313,11 @@ if($navbar_type=="admin"){
 
             <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-              <span class="caret"></span></a>
+              &nbsp;<span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li>';
                 if($navbar_is_logged_in){
-                  echo '<a href="#" id="send-sms-teacher"><span class="glyphicon glyphicon glyphicon-send"></span> Send SMS</a>';
+                  echo '<a href="#" id="send-sms-teacher" class="send-sms"><span class="glyphicon glyphicon glyphicon-send"></span> Send SMS</a>';
                   echo '<a href="'.base_url("teacher/sms").'"><span class="glyphicon glyphicon glyphicon-envelope"></span> SMS Threads</a>';
                   echo '<a href="#" class="change_password" id="teachers"><span class="glyphicon glyphicon-cog"></span> Change Password</a>';
                   echo '<a href="'.base_url("$navbar_type/logout").'"><span class="glyphicon glyphicon-log-out"></span> Logout</a>';
