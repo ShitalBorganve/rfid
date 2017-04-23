@@ -376,6 +376,7 @@ class Staff_ajax extends CI_Controller {
 		if($arg=="jbtech"){
 			$staff_data["id"] = $this->input->get("staff_id");
 			$staff_data = $this->staffs_model->get_data($staff_data);
+			$staff_data["id"] = sprintf("%03d",$this->input->get("staff_id"));
 			$staff_data["birthday"] = date("m/d/Y",$staff_data["birthdate"]);
 			$staff_data["age"] = age($staff_data["birthdate"]);
 			$staff_data["full_name"] = $staff_data["first_name"]." ".$staff_data["middle_name"][0].". ".$staff_data["last_name"]." ".$staff_data["suffix"];

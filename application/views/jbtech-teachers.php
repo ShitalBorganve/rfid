@@ -68,7 +68,7 @@ echo '
           </div>
 
           <div class="form-group">
-              <label class="col-sm-4">full_name</label>
+              <label class="col-sm-4">Full Name</label>
               <div class="input-group col-sm-7">
                 <input id="full_name" type="text" class="form-control" name="full_name" readonly>
                 <span class="input-group-addon btn btn-default" data-clipboard-target="#full_name" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
@@ -76,7 +76,7 @@ echo '
           </div>
 
           <div class="form-group">
-              <label class="col-sm-4">last_name</label>
+              <label class="col-sm-4">Last Name</label>
               <div class="input-group col-sm-7">
                 <input id="last_name" type="text" class="form-control" name="last_name" readonly>
                 <span class="input-group-addon btn btn-default" data-clipboard-target="#last_name" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
@@ -84,7 +84,7 @@ echo '
           </div>
 
           <div class="form-group">
-              <label class="col-sm-4">first_name</label>
+              <label class="col-sm-4">First Name</label>
               <div class="input-group col-sm-7">
                 <input id="first_name" type="text" class="form-control" name="first_name" readonly>
                 <span class="input-group-addon btn btn-default" data-clipboard-target="#first_name" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
@@ -92,7 +92,7 @@ echo '
           </div>
 
           <div class="form-group">
-              <label class="col-sm-4">middle_name</label>
+              <label class="col-sm-4">Middle Name</label>
               <div class="input-group col-sm-7">
                 <input id="middle_name" type="text" class="form-control" name="middle_name" readonly>
                 <span class="input-group-addon btn btn-default" data-clipboard-target="#middle_name" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
@@ -100,7 +100,7 @@ echo '
           </div>
 
           <div class="form-group">
-              <label class="col-sm-4">suffix</label>
+              <label class="col-sm-4">Suffix</label>
               <div class="input-group col-sm-7">
                 <input id="suffix" type="text" class="form-control" name="suffix" readonly>
                 <span class="input-group-addon btn btn-default" data-clipboard-target="#suffix" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
@@ -108,7 +108,7 @@ echo '
           </div>
 
           <div class="form-group">
-              <label class="col-sm-4">gender</label>
+              <label class="col-sm-4">Gender</label>
               <div class="input-group col-sm-7">
                 <input id="gender" type="text" class="form-control" name="gender" readonly>
                 <span class="input-group-addon btn btn-default" data-clipboard-target="#gender" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
@@ -116,7 +116,7 @@ echo '
           </div>
 
           <div class="form-group">
-              <label class="col-sm-4">birthday</label>
+              <label class="col-sm-4">Birthdate</label>
               <div class="input-group col-sm-7">
                 <input id="birthday" type="text" class="form-control" name="birthday" readonly>
                 <span class="input-group-addon btn btn-default" data-clipboard-target="#birthday" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
@@ -124,7 +124,7 @@ echo '
           </div>
 
           <div class="form-group">
-              <label class="col-sm-4">age</label>
+              <label class="col-sm-4">Age</label>
               <div class="input-group col-sm-7">
                 <input id="age" type="text" class="form-control" name="age" readonly>
                 <span class="input-group-addon btn btn-default" data-clipboard-target="#age" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
@@ -132,14 +132,14 @@ echo '
           </div>
 
           <div class="form-group">
-              <label class="col-sm-4">contact_number</label>
+              <label class="col-sm-4">Contact Number</label>
               <div class="input-group col-sm-7">
                 <input id="contact_number" type="text" class="form-control" name="contact_number" readonly>
                 <span class="input-group-addon btn btn-default" data-clipboard-target="#contact_number" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
               </div>
           </div>
           <div class="form-group">
-              <label class="col-sm-4">address</label>
+              <label class="col-sm-4">Address</label>
               <div class="input-group col-sm-7">
                 <input id="address" type="text" class="form-control" name="address" readonly>
                 <span class="input-group-addon btn btn-default" data-clipboard-target="#address" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
@@ -186,7 +186,7 @@ echo '
            -->
 
           <div class="form-group">
-              <label class="col-sm-4">class_name</label>
+              <label class="col-sm-4">Class</label>
               <div class="input-group col-sm-7">
                 <input id="class_name" type="text" class="form-control" name="class_name" readonly>
                 <span class="input-group-addon btn btn-default" data-clipboard-target="#class_name" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
@@ -194,7 +194,7 @@ echo '
           </div>
 
           <div class="form-group">
-              <label class="col-sm-4">grade</label>
+              <label class="col-sm-4">Grade or Year of Class</label>
               <div class="input-group col-sm-7">
                 <input id="grade" type="text" class="form-control" name="grade" readonly>
                 <span class="input-group-addon btn btn-default" data-clipboard-target="#grade" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>

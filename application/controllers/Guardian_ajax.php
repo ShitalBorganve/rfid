@@ -192,7 +192,7 @@ You can login to ".base_url();
 				
 				if($data["is_valid"]){
 					$data["account_password_error"] = "";
-					$data["redirect"] = base_url("home");
+					$data["redirect"] = base_url("/");
 				}else{
 					$data["account_password_error"] = "Incorrect Passord. Try Again.";
 					$data["redirect"] = "";

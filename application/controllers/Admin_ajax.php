@@ -119,15 +119,18 @@ class Admin_ajax extends CI_Controller {
 			$data["is_valid"] = FALSE;
 			$data["email_address_error"] = form_error("email_address");
 		}else{
+
+			$this->db->where('id', $this->input->post("id"));
+			$admin_data = $this->db->get("admins")->row();
 			$this->load->library('email');
 
 			$this->email->from('no-reply@rfid-ph.net', 'Admin Password Reset');
-			$this->email->to($this->input->post["email_address"]);
+			$this->email->to($this->input->post("email_address"));
 
 			$this->email->subject('Admin Password Reset');
 			$password = random_string('alnum', 8);
 			$message = "Your account details an admin are:
-Login: admin
+Login: ".$admin_data->username."
 Password: ".$password."
 You can login to ".base_url("admin");
 			$this->email->message($message);
@@ -157,17 +160,18 @@ You can login to ".base_url("admin");
 			$data["is_valid"] = TRUE;
 			$data["email_address_error"] = form_error("email_address");
 			$data["username_error"] = form_error("username");
+			$data["email_address"] = $this->input->post("email_address");
 
 
 			$this->load->library('email');
 
 			$this->email->from('no-reply@rfid-ph.net', 'Admin Account');
-			$this->email->to($this->input->post["email_address"]);
+			$this->email->to($this->input->post("email_address"));
 
 			$this->email->subject('Admin Account');
 			$password = random_string('alnum', 8);
 			$message = "Your account details an admin are:
-Login: admin
+Login: ".$this->input->post("username")."
 Password: ".$password."
 You can login to ".base_url("admin");
 			$this->email->message($message);

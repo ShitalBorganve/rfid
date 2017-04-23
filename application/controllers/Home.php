@@ -84,7 +84,7 @@ class Home extends CI_Controller {
 	public function logout($value='')
 	{
 		$this->session->sess_destroy();
-		redirect("home");
+		redirect("/");
 	}
 
 }

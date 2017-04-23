@@ -417,6 +417,7 @@ You can login to ".base_url("teacher");
 		if($arg=="jbtech"){
 			$teacher_data["id"] = $this->input->get("teacher_id");
 			$teacher_data = $this->teachers_model->get_data($teacher_data);
+			$teacher_data["id"] = sprintf("%03d",$this->input->get("teacher_id"));
 			$teacher_data["birthday"] = date("m/d/Y",$teacher_data["birthdate"]);
 			$teacher_data["age"] = age($teacher_data["birthdate"]);
 			$teacher_data["full_name"] = $teacher_data["first_name"]." ".$teacher_data["middle_name"][0].". ".$teacher_data["last_name"]." ".$teacher_data["suffix"];

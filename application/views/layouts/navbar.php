@@ -332,7 +332,5 @@ if($navbar_type=="admin"){
       </div>
     </nav>
     ';
-
-
 }
 ?>

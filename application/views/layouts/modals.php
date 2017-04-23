@@ -1253,7 +1253,7 @@ echo '
 
         echo '</form>';
 
-        echo '<span data-balloon="SMS has 500 Max Messages per Day and will reset in 12MN." data-balloon-pos="right" data-balloon-length="fit">SMS Remaining: <b id="smsapi-message-left"></b></span>';
+        echo '<span data-balloon="SMS has 500 Max Messages per Day and will reset in 12MN." data-balloon-pos="right" data-balloon-length="large">SMS Remaining: <b id="smsapi-message-left"></b></span>';
         echo '</div>
         <div class="modal-footer">
           <img src="'.base_url("assets/images/loading.gif").'" style="width:3rem;height:3rem;display:none" class="loading"></img>

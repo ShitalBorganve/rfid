@@ -453,7 +453,7 @@ $(document).on("submit", "#add_admin-form", function(e) {
         $("#alert-modal").modal("show");
         $("#add_admin-modal").modal("hide");
         $("#alert-modal-title").html("add admin account");
-        $("#alert-modal-body p").html("You have successfully changed your password.");
+        $("#alert-modal-body p").html("You have created an admin account and the password has been sent to "+data.email_address);
       } else {
         $("#add_admin_username_help-block").html(data.username_error);
         $("#add_admin_email_address_help-block").html(data.email_address_error);
@@ -478,7 +478,7 @@ $(document).on("submit", "#reset_admin_password-form", function(e) {
         $("#reset_admin_password-modal").modal("hide");
         $("#alert-modal").modal("show");
         $("#alert-modal-title").html("admin password reset");
-        $("#alert-modal-body p").html("The new admin password has been sent to");
+        $("#alert-modal-body p").html("The new admin password has been sent to " + data.email_address);
       } else {
         $("#reset_admin_password_help-block").html(data.email_address_error);
       }
@@ -505,7 +505,7 @@ $(document).on("click",".send-sms",function(data) {
 var needToConfirm = false;
 $(document).on("submit", "#sms-form", function(e) {
   e.preventDefault();
-  // needToConfirm = true;
+  needToConfirm = true;
   $('button[form="sms-form"]').prop('disabled', true);
   $('button[form="sms-form"]').html("Sending...");
   $('.loading').css("display", "initial");
@@ -516,13 +516,9 @@ $(document).on("submit", "#sms-form", function(e) {
     cache: false,
     dataType: "json",
     success: function(data) {
-      // console.log(data);
       if (data.is_valid) {
         var count = 0;
         $.each(data.recipients_number, function(i, item) {
-          // console.log(data.recipients_number[i]);
-          // console.log(data.recipients_id[i]);
-          // console.log(data.recipients_table[i]);
           $.ajax({
             type: "POST",
             url: base_url+"sms_ajax/send_api",
@@ -530,15 +526,12 @@ $(document).on("submit", "#sms-form", function(e) {
             data: $("#sms-form").serialize()+"&sms_id="+data.sms_id+"&recipients_number="+data.recipients_number[i]+"&recipients_id="+data.recipients_id[i]+"&recipients_table="+data.recipients_table[i],
             cache: false,
             success: function(new_response) {
-              // console.log(new_response);
               count++;
               $('button[form="sms-form"]').html("Sending..."+count+"/"+data.recipients_number.length);
               if(data.recipients_number.length==count){
                 $("#sms-form")[0].reset();
                 $('.ui.dropdown').dropdown('clear');
                 $(".help-block").html("");
-
-                console.log("complete");
                 $("#sms-modal").modal("hide");
                 $("#sms-modal-teacher").modal("hide");
                 $("#sms-list-modal").modal("show");
@@ -574,6 +567,11 @@ $(document).on("submit", "#sms-form", function(e) {
           })
         });
       }else {
+        needToConfirm = false;
+        $('.loading').css("display", "none");
+        $('button[form="sms-form"]').html("Submit");
+        $('button[form="sms-form"]').prop('disabled', false);
+
         $("#type_recipient_help-block").html(data.type_recipient_error);
         $("#message_help-block").html(data.message_error);
         $("#class_id_help-block").html(data.class_id_error);
