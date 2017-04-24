@@ -15,6 +15,7 @@ class Admin extends CI_Controller {
 		$this->load->model("rfid_model");
 		$this->load->model("guardian_model");
 		$this->load->model("teachers_model");
+		$this->load->model("app_config");
 		$this->load->model("gate_logs_model");
 		$this->load->model("staffs_model");
 		$this->load->model("classes_model");
@@ -22,6 +23,10 @@ class Admin extends CI_Controller {
 
 		$this->load->library('form_validation');
 		$this->load->library('session');
+
+
+		//updates
+		// $this->app_config->updates(current_build());
 		
 		$this->data["title"] = "Main Title";
 		$this->data["css_scripts"] = $this->load->view("scripts/css","",true);
@@ -60,8 +65,6 @@ class Admin extends CI_Controller {
 
 	public function index($student_id='')
 	{
-
-
 		$this->data["login_type"] = "admin";
 		if($this->session->userdata("admin_sessions")){
 			$where["type"] = "entry";

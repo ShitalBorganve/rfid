@@ -1,4 +1,3 @@
-var base_url = "//localhost/rfid/";
 $(document).on("submit", "#rfid_scan_add_load_credit_form", function(e) {
   e.preventDefault();
   $.ajax({

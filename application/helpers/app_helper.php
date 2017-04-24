@@ -170,4 +170,9 @@ if ( ! function_exists('admin_paging'))
 			: (date("Y") - $birthdate[2]));
 		return $age;
 	}
+
+	function current_build()
+	{
+		return "1.0002";
+	}
 }
