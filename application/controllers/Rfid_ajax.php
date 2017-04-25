@@ -122,10 +122,13 @@ class Rfid_ajax extends CI_Controller {
 				$rfid_owner_data["is_valid"] = TRUE;
 				if($rfid_owner_data["rfid_data"]["ref_table"]=="students"){
 					$dir = "student_photo";
+					$rfid_owner_data["rfid_data"]["owner_type"] = "student";
 				}elseif ($rfid_owner_data["rfid_data"]["ref_table"]=="teachers") {
 					$dir = "teacher_photo";
+					$rfid_owner_data["rfid_data"]["ref_table"] = "teacher";
 				}elseif ($rfid_owner_data["rfid_data"]["ref_table"]=="staffs") {
 					$dir = "staff_photo";
+					$rfid_owner_data["rfid_data"]["owner_type"] = "staff";
 				}
 				$rfid_owner_data["display_photo"] = base_url("assets/images/".$dir."/".$rfid_owner_data["display_photo"]);
 				$rfid_owner_data["full_name"] = $rfid_owner_data["first_name"]." ".$rfid_owner_data["middle_name"][0].". ".$rfid_owner_data["last_name"];
@@ -141,10 +144,12 @@ class Rfid_ajax extends CI_Controller {
 				if($rfid_owner_data["gate_logs_data"]["is_valid"]){
 					if($rfid_owner_data["gate_logs_data"]["gate_logs_data"]->type=="entry"){
 						$type_status = "enters";
+						$rfid_owner_data["type_status"] = "enters";
 					}else{
+						$rfid_owner_data["type_status"] = "exits";
 						$type_status = "exits";
 					}
-					
+					$rfid_owner_data["sms_status"] = "";
 					if($rfid_owner_log_data["ref_table"]=="students"){
 						$rfid_owner_data["message"] = $rfid_owner_data["full_name"].' '.$type_status.' the school premises on '.date("m/d/Y h:i:s A").'.';
 						if($rfid_owner_data["guardian_id"]!="0"){
@@ -154,6 +159,11 @@ class Rfid_ajax extends CI_Controller {
 							$guardian_data = $this->guardian_model->get_data($get_data);
 							if($guardian_data["sms_subscription"]=="1"){
 								$rfid_owner_data["sms_status"] = send_sms($guardian_data["contact_number"],$rfid_owner_data["message"]);
+								if($rfid_owner_data["sms_status"]==0){
+									$rfid_owner_data["sms_status"] = $guardian_data["name"]." had been successfully notified through SMS.";
+								}else{
+									$rfid_owner_data["sms_status"] = sms_status($rfid_owner_data["sms_status"]);
+								}
 							}
 
 							if($guardian_data["email_subscription"]=="1"){

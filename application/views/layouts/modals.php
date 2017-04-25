@@ -282,11 +282,11 @@ if($modals_sets=="admin"){
             <div class="form-group">
               <label class="col-sm-2" for="guardian">Guardians Contact Number:</label>
               <div class="col-sm-8"> 
-                <select class="ui search dropdown form-control" name="guardian_id">
+                <select class="ui search dropdown form-control" name="guardian_id" id="add_student_guardian">
                   <option value="">Select a Guardians Contact Number</option>
                   ';
                   foreach ($guardians_list["result"] as $guardian_data) {
-                    echo '<option value="'.$guardian_data->id.'">'.$guardian_data->email_address.'</option>';
+                    echo '<option value="'.$guardian_data->id.'">'.$guardian_data->contact_number.'</option>';
                   }
 
                   echo '
@@ -780,7 +780,7 @@ if($modals_sets=="admin"){
 
 
           echo '
-
+          <input type="hidden" name="auto">
           <div class="form-group">
             <label class="col-sm-4" for="guardian_name">Guardian Name:</label>
             <div class="col-sm-8"> 

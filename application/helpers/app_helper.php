@@ -136,7 +136,7 @@ if ( ! function_exists('admin_paging'))
 				# code...
 				break;
 			default:
-				return FALSE;
+				return "iTexMo Error. Please try again later.";
 				# code...
 				break;
 		}

@@ -94,7 +94,7 @@ You can login to ".base_url();
 
 
 				$guardian_data["password"] = md5($password);
-				$this->guardian_model->add($guardian_data);
+				$data["guardian_data"] = $this->guardian_model->add($guardian_data);
 			}
 			echo json_encode($data);
 		}

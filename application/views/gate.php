@@ -16,6 +16,13 @@
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-xs-12">
+			<center>
+			<b style="background-color: white;font-size: 30px;padding: 10px;" id="gate-time"><?php echo date("m/d/Y h:i:s A"); ?></b>
+			</center>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12">
 			<?php echo form_open("rfid_ajax/scangate",'id="gate_rfid_scan"'); ?>
 				<center>
 				<input type="text" name="gate_rfid_scan" autocomplete="off" autofocus>
@@ -68,7 +75,9 @@
 <?php echo $modaljs_scripts; ?>
 <?php echo $js_scripts; ?>
 <script>
-// $("#gate_status").addClass("danger");
+setInterval(function(){
+	$("#gate-time").html(moment().format('MM/DD/YYYY hh:mm:ss A'));
+}, 500);
 $(document).on("submit","#gate_rfid_scan", function(e) {
 	e.preventDefault();
 	$.ajax({
@@ -79,26 +88,35 @@ $(document).on("submit","#gate_rfid_scan", function(e) {
 		dataType: "json",
 		success: function(data) {
 			$("#gate_rfid_scan")[0].reset();
-
 			$("#gate_rfid_last_name").html(data.last_name);
 			$("#gate_rfid_first_name").html(data.first_name);
 			$("#gate_rfid_middle_name").html(data.middle_name);
 			$("#gate_rfid_suffix").html(data.suffix);
 			$("#gate_status").removeClass( "danger success" );
 			$("#gate_status").html("");
+			console.log(data);
 			if(data.is_valid){
 				$("#rfid_scan").val("");
 				$("#display-photo").attr("src",data.display_photo);
-				$("#rfid_owner").html(data.rfid_data.ref_table + "'s");
+				$("#rfid_owner").html(data.rfid_data.owner_type + "'S");
 
 				if(data.gate_logs_data.is_valid){
-					$("#gate_status").html(data.sms_status);
-					$("#gate_status").html("Success!");
+					$("#gate_status").html('<b>'+data.full_name + "</b> " + data.type_status+ ' the school premises on <br><span style="font-size: 30px;">'+data.gate_logs_data.date_time_passed+"</span><br>"+data.sms_status);
 					$("#gate_status").removeClass( "danger success" ).addClass("success");
 				}else{
-					$("#gate_status").html("Error!");
+					$("#gate_status").html("<b>"+data.full_name+"</b> had recently passed the gate. Try again later.");
 					$("#gate_status").removeClass( "danger success" ).addClass("danger");
 				}
+				setTimeout(function(){
+					$("#rfid_owner").html("")
+					$("#gate_rfid_last_name").html("");
+					$("#gate_rfid_first_name").html("");
+					$("#gate_rfid_middle_name").html("");
+					$("#gate_rfid_suffix").html("");
+					$("#gate_status").html("");
+					$("#gate_status").removeClass( "danger success" );
+					$("#display-photo").attr("src","<?php echo base_url("assets/images/empty.jpg");?>");
+				}, 10000);
 				$(".help-block").html("");
 			}else{
 				$("#display-photo").attr("src",data.display_photo);

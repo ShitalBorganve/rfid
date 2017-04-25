@@ -12,7 +12,10 @@ class Guardian_model extends CI_Model {
     }
 
     function add($data=""){
-        return ($this->db->insert("guardians",$data));
+        $this->db->insert("guardians",$data);
+        $this->db->limit(1);
+        $this->db->order_by("id","DESC");
+        return $this->db->get("guardians")->row();
     }
 
 

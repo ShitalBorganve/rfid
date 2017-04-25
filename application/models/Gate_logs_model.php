@@ -24,6 +24,7 @@ class Gate_logs_model extends CI_Model {
             $this->db->order_by("id","DESC");
             $data["is_valid"] = TRUE;
             $data["gate_logs_data"] = $this->db->get("gate_logs")->row();
+            $data["date_time_passed"] = date("m/d/Y h:i:s A",$data["gate_logs_data"]->date_time);
             return $data;
             exit;
         }elseif ($get_log_data->type=="exit") {
@@ -31,6 +32,7 @@ class Gate_logs_model extends CI_Model {
         }else{
             $data["type"] = "exit";
         }
+        
         $limit_date = strtotime(date("m/d/Y h:i:s A", strtotime("+1 min",$get_log_data->date_time)));
         if($get_log_data->date_time<=$limit_date&&$limit_date<=$data["date_time"]){
             $this->db->insert("gate_logs",$data);
@@ -38,6 +40,7 @@ class Gate_logs_model extends CI_Model {
             $this->db->order_by("id","DESC");
             $data["is_valid"] = TRUE;
             $data["gate_logs_data"] = $this->db->get("gate_logs")->row();
+            $data["date_time_passed"] = date("m/d/Y h:i:s A",$data["gate_logs_data"]->date_time);
         }else{
             $data["is_valid"] = FALSE;
             $data["gate_logs_data"] = FALSE;

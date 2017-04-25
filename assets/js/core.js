@@ -43,9 +43,15 @@ $(document).on("submit", "#add_load_credits_form", function(e) {
     }
   });
 });
-$(document).on("click", "#register_guardian, #add_guardian", function(e) {
+$(document).on("click", "#register_guardian", function(e) {
+  $("#register_guardian_modal").modal("show");
+  $('input[name="auto"]').val("0");
+});
+$(document).on("click", "#add_guardian", function(e) {
+  $('input[name="auto"]').val("1");
   $("#register_guardian_modal").modal("show");
 });
+
 $(document).on("click", ".change_password", function(e) {
   var type = e.target.id;
   $("#change_password_type").val(type);
@@ -86,6 +92,7 @@ $(document).on("submit", "#register_guardian_form", function(e) {
     cache: false,
     dataType: "json",
     success: function(data) {
+      console.log(data);
       $("button[form='register_guardian_form']").prop('disabled', false);
       $("#add_guardian_address_help-block").html(data.guardian_address_error);
       $("#add_guardian_name_help-block").html(data.guardian_name_error);
@@ -93,6 +100,7 @@ $(document).on("submit", "#register_guardian_form", function(e) {
       $("#add_contact_number_help-block").html(data.contact_number_error);
       $("#add_subscription_help-block").html(data.subscription_error);
       if (data.is_valid) {
+        
         $("#register_guardian_form")[0].reset();
         $('.ui.dropdown').dropdown('clear');
         $(".help-block").html("");
