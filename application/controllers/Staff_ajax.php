@@ -39,6 +39,7 @@ class Staff_ajax extends CI_Controller {
 		$this->load->model("canteen_model");
 		$this->load->model("classes_model");
 		$this->load->model("canteen_items_model");
+		$this->load->model("rfid_photo_model");
 
 		$this->load->library('form_validation');
 		$this->load->library('session');
@@ -89,7 +90,7 @@ class Staff_ajax extends CI_Controller {
 
 				$filename_full_name = $filename_last_name."_".$filename_first_name."_".$filename_middle_name."_".$filename_suffix;
 
-				$filename = $filename_full_name;
+				$filename = $filename_full_name."_".$this->rfid_photo_model->add();;
 
 
 
@@ -222,6 +223,9 @@ class Staff_ajax extends CI_Controller {
 
 
 			$has_uploaded_pic = FALSE;
+			$get_data = array();
+			$get_data["id"] = $this->input->post("staff_id");
+			$staff_data_db = $this->staffs_model->get_data($get_data);
 			//uploads files
 			if($_FILES['staff_photo']["error"]==0){
 
@@ -245,7 +249,7 @@ class Staff_ajax extends CI_Controller {
 				$rfid_data = $this->rfid_model->get_data($get_data);
 				
 
-				$filename = $filename_full_name;
+				$filename = $filename_full_name."_".$this->rfid_photo_model->add();;
 
 
 
@@ -287,9 +291,7 @@ class Staff_ajax extends CI_Controller {
 				$data["is_valid_photo"] = TRUE;
 				$filename = "empty.jpg";
 
-				$get_data = array();
-				$get_data["id"] = $this->input->post("staff_id");
-				$staff_data_db = $this->staffs_model->get_data($get_data);
+
 				$filename = $staff_data_db["display_photo"];
 			}
 
@@ -353,6 +355,7 @@ class Staff_ajax extends CI_Controller {
 				
 
 				if($has_uploaded_pic){
+					unlink("assets/images/staff_photo/".$staff_data_db["display_photo"]);
 					$staff_id = $this->input->post("staff_id");
 					rename($full_path,$file_path.$staff_id."_".$file_name);
 					$edit_data = array();

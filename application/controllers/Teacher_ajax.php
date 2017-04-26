@@ -39,6 +39,7 @@ class Teacher_ajax extends CI_Controller {
 		$this->load->model("canteen_model");
 		$this->load->model("classes_model");
 		$this->load->model("canteen_items_model");
+		$this->load->model("rfid_photo_model");
 
 		$this->load->library('form_validation');
 		$this->load->library('session');
@@ -91,7 +92,7 @@ class Teacher_ajax extends CI_Controller {
 
 				$filename_full_name = $filename_last_name."_".$filename_first_name."_".$filename_middle_name."_".$filename_suffix;
 
-				$filename = $filename_full_name;
+				$filename = $filename_full_name."_".$this->rfid_photo_model->add();
 
 
 
@@ -242,6 +243,10 @@ You can login to ".base_url("teacher");
 
 
 			$has_uploaded_pic = FALSE;
+
+			$get_data = array();
+			$get_data["id"] = $this->input->post("teacher_id");
+			$teacher_data_db = $this->teachers_model->get_data($get_data);
 			//uploads files
 			if($_FILES['teacher_photo']["error"]==0){
 
@@ -265,7 +270,7 @@ You can login to ".base_url("teacher");
 				$rfid_data = $this->rfid_model->get_data($get_data);
 				
 
-				$filename = $filename_full_name;
+				$filename = $filename_full_name."_".$this->rfid_photo_model->add();
 
 
 
@@ -363,9 +368,7 @@ You can login to ".base_url("teacher");
 				$teacher_data["birthdate"] = strtotime($birthdate_str);
 
 
-				$get_data = array();
-				$get_data["id"] = $this->input->post("teacher_id");
-				$teacher_data_db = $this->teachers_model->get_data($get_data);
+
 
 				if($teacher_data_db["contact_number"]!=$this->input->post("contact_number")){
 					$password = random_string('alnum', 8);
@@ -390,6 +393,7 @@ You can login to ".base_url("teacher");
 				
 
 				if($has_uploaded_pic){
+					unlink("assets/images/teacher_photo/".$teacher_data_db["display_photo"]);
 					$teacher_id = $this->input->post("teacher_id");
 					rename($full_path,$file_path.$teacher_id."_".$file_name);
 					$edit_data = array();

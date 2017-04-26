@@ -3,7 +3,10 @@
 <head>
 <?php echo '<title>'.$title.'</title>'.$meta_scripts.$css_scripts; ?>
 <style>
-
+#display-photo-container{
+  height: 10em;
+  margin-bottom: 10px;
+}
 </style>
 </head>
 
@@ -84,7 +87,11 @@ echo '
       <div class="modal-body">
         <p>'.form_open_multipart("student_ajax/edit",'id="student_edit_form" class="form-horizontal"').'
         <input type="hidden" name="student_id">
-        
+          <div class="col-sm-12">
+            <div id="display-photo-container">
+              <img class="img-responsive" id="display-photo" src="'.base_url("assets/images/empty.jpg").'">
+            </div>
+          </div>
           <div class="form-group">
             <label class="col-sm-2" for="last_name">Last Name:</label>
             <div class="col-sm-10"> 
@@ -354,6 +361,7 @@ function show_student_data(id) {
     cache: false,
     dataType: "json",
     success: function(data) {
+      $("#display-photo").attr("src","<?php echo base_url("assets/images/student_photo/");?>"+data.display_photo);
       $('input[name="student_id"]').val(id);
       $('input[name="first_name"].edit_field').val(data.first_name);
       $('input[name="last_name"].edit_field').val(data.last_name);
@@ -409,6 +417,8 @@ $(document).on("submit","#student_edit_form",function(e) {
 			$("#student_photo_help-block").html(data.student_photo_error);
 			$("#student_id_help-block").html(data.student_id_error);
 			if(data.is_valid){
+        $("#student_edit_form")[0].reset();
+        $(".ui .dropdown").dropdown("clear");
 				$("#student_edit_modal").modal("hide");
 				$("#alert-modal").modal("show");
 				$("#alert-modal-title").html("Edit Student Information");

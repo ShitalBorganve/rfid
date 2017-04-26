@@ -3,11 +3,7 @@
 <head>
 <?php echo '<title>'.$title.'</title>'.$meta_scripts.$css_scripts; ?>
 <style>
-#display-photo{
-	display: block;
-	margin-left: auto;
-	margin-right: auto
-}
+
 </style>
 </head>
 

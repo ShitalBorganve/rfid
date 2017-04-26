@@ -3,7 +3,10 @@
 <head>
 <?php echo '<title>'.$title.'</title>'.$meta_scripts.$css_scripts; ?>
 <style>
-
+#display-photo-container{
+  height: 10em;
+  margin-bottom: 10px;
+}
 </style>
 </head>
 
@@ -69,7 +72,11 @@ echo '
       <div class="modal-body">
         <p>'.form_open_multipart("teacher_ajax/edit",'id="teacher_edit_form" class="form-horizontal"').'
         <input type="hidden" name="teacher_id">
-
+        <div class="col-sm-12">
+          <div id="display-photo-container">
+            <img class="img-responsive" id="display-photo" src="'.base_url("assets/images/empty.jpg").'">
+          </div>
+        </div>
         
         <div class="form-group">
           <label class="col-sm-2" for="last_name">Last Name:</label>
@@ -296,6 +303,7 @@ function show_teacher_data(id) {
     dataType: "json",
     success: function(data) {
       $('input[name="teacher_id"]').val(id);
+      $("#display-photo").attr("src","<?php echo base_url("assets/images/teacher_photo/");?>"+data.display_photo);
       $('input[name="first_name"].edit_field').val(data.first_name);
       $('input[name="last_name"].edit_field').val(data.last_name);
       $('input[name="address"].edit_field').val(data.address);
@@ -347,6 +355,8 @@ $(document).on("submit","#teacher_edit_form",function(e) {
 			$("#teacher_photo_help-block").html(data.teacher_photo_error);
 			$("#teacher_id_help-block").html(data.teacher_id_error);
 			if(data.is_valid){
+        $("#teacher_edit_form")[0].reset();
+        $(".ui .dropdown").dropdown("clear");
 				$("#teacher_edit_modal").modal("hide");
 				$("#alert-modal").modal("show");
 				$("#alert-modal-title").html("Edit teacher Information");

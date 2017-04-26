@@ -37,6 +37,7 @@ class Student_ajax extends CI_Controller {
 		$this->load->model("students_model");
 		$this->load->model("gate_logs_model");
 		$this->load->model("rfid_model");
+		$this->load->model("rfid_photo_model");
 		$this->load->model("canteen_model");
 		$this->load->model("canteen_items_model");
 
@@ -89,7 +90,7 @@ class Student_ajax extends CI_Controller {
 
 				$filename_full_name = $filename_last_name."_".$filename_first_name."_".$filename_middle_name."_".$filename_suffix;
 
-				$filename = $filename_full_name;
+				$filename = $filename_full_name."_".$this->rfid_photo_model->add();
 
 
 
@@ -237,6 +238,9 @@ class Student_ajax extends CI_Controller {
 			$this->form_validation->set_message('is_in_db', 'An Error has occured please refresh the page and try again.');
 
 
+			$get_data = array();
+			$get_data["id"] = $this->input->post("student_id");
+			$student_data_db = $this->students_model->get_data($get_data);
 
 			$has_uploaded_pic = FALSE;
 			//uploads files
@@ -262,7 +266,7 @@ class Student_ajax extends CI_Controller {
 				$rfid_data = $this->rfid_model->get_data($get_data);
 				
 
-				$filename = $filename_full_name;
+				$filename = $filename_full_name."_".$this->rfid_photo_model->add();
 
 
 
@@ -304,9 +308,7 @@ class Student_ajax extends CI_Controller {
 				$data["is_valid_photo"] = TRUE;
 				$filename = "empty.jpg";
 
-				$get_data = array();
-				$get_data["id"] = $this->input->post("student_id");
-				$student_data_db = $this->students_model->get_data($get_data);
+
 				$filename = $student_data_db["display_photo"];
 			}
 
@@ -366,6 +368,7 @@ class Student_ajax extends CI_Controller {
 				($this->students_model->edit_info($student_data,$this->input->post("student_id"))?$data["is_successful"] = TRUE:$data["is_successful"] = FALSE);
 
 				if($has_uploaded_pic){
+					unlink("assets/images/student_photo/".$student_data_db["display_photo"]);
 					$student_id = $this->input->post("student_id");
 					rename($full_path,$file_path.$student_id."_".$file_name);
 					$edit_data = array();

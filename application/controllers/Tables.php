@@ -128,7 +128,7 @@ class Tables extends CI_Controller {
 						if($rfid_data->rfid==""){
 							$rfid_status = '<a href="#" class="add_rfid_student" id="'.$student_data->id.'">Scan</a>';
 						}else{
-							$rfid_status = '<a href="#" class="delete_rfid_student" id="'.$student_data->id.'">'.$rfid_data->rfid.'</a>';
+							$rfid_status = '<a href="#" class="delete_rfid_student" id="'.$student_data->id.'" data-balloon="Valid until '.date("m/d/Y",$rfid_data->valid_date).'" data-balloon-pos="right">'.$rfid_data->rfid.'</a>';
 						}
 						echo '
 						<tr>
@@ -205,7 +205,7 @@ class Tables extends CI_Controller {
 					if($rfid_data->rfid==""){
 						$rfid_status = '<a href="#" class="add_rfid_teacher" id="'.$teacher_data->id.'">Scan</a>';
 					}else{
-						$rfid_status = '<a href="#" class="delete_rfid_teacher" id="'.$teacher_data->id.'">'.$rfid_data->rfid.'</a>';
+						$rfid_status = '<a href="#" class="delete_rfid_teacher" id="'.$teacher_data->id.'" data-balloon="Valid until '.date("m/d/Y",$rfid_data->valid_date).'" data-balloon-pos="right">'.$rfid_data->rfid.'</a>';
 					}
 					echo '
 					<tr>
@@ -281,7 +281,7 @@ class Tables extends CI_Controller {
 					if($rfid_data->rfid==""){
 						$rfid_status = '<a href="#" class="add_rfid_staff" id="'.$staff_data->id.'">Scan</a>';
 					}else{
-						$rfid_status = '<a href="#" class="delete_rfid_staff" id="'.$staff_data->id.'">'.$rfid_data->rfid.'</a>';
+						$rfid_status = '<a href="#" class="delete_rfid_staff" id="'.$staff_data->id.'" data-balloon="Valid until '.date("m/d/Y",$rfid_data->valid_date).'" data-balloon-pos="right">'.$rfid_data->rfid.'</a>';
 					}
 					echo '
 					<tr>

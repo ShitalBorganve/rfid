@@ -3,7 +3,10 @@
 <head>
 <?php echo '<title>'.$title.'</title>'.$meta_scripts.$css_scripts; ?>
 <style>
-
+#display-photo-container{
+  height: 10em;
+  margin-bottom: 10px;
+}
 </style>
 </head>
 
@@ -69,6 +72,11 @@ echo '
       <div class="modal-body">
         <p>'.form_open_multipart("staff_ajax/edit",'id="staff_edit_form" class="form-horizontal"').'
         <input type="hidden" name="staff_id">
+        <div class="col-sm-12">
+          <div id="display-photo-container">
+            <img class="img-responsive" id="display-photo" src="'.base_url("assets/images/empty.jpg").'">
+          </div>
+        </div>
 
         <div class="form-group">
           <label class="col-sm-2" for="position">Position:</label>
@@ -286,6 +294,7 @@ function show_staff_data(id) {
     dataType: "json",
     success: function(data) {
       $('input[name="staff_id"]').val(id);
+      $("#display-photo").attr("src","<?php echo base_url("assets/images/staff_photo/");?>"+data.display_photo);
       $('input[name="position"].edit_field').val(data.position);
       $('input[name="first_name"].edit_field').val(data.first_name);
       $('input[name="last_name"].edit_field').val(data.last_name);
@@ -332,6 +341,8 @@ $(document).on("submit","#staff_edit_form",function(e) {
       $("#staff_photo_help-block").html(data.staff_photo_error);
       $("#staff_id_help-block").html(data.staff_id_error);
       if(data.is_valid){
+        $("#staff_edit_form")[0].reset();
+        $(".ui .dropdown").dropdown("clear");
         $("#staff_edit_modal").modal("hide");
         $("#alert-modal").modal("show");
         $("#alert-modal-title").html("Edit staff Information");

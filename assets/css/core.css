@@ -44,4 +44,11 @@ body#has-logo{
 .recipient{
 	text-transform: capitalize;
 }
+#display-photo{
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	height: inherit;
+	width: inherit;
+}
 
