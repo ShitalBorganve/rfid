@@ -33,6 +33,7 @@
 				<table class="table table-hover" id="teacher-list-table">
 					<thead>
 						<tr>
+              <th>ID</th>
               <th>RFID</th>
               <th>First Name</th>
               <th>Middle Name</th>
@@ -175,6 +176,20 @@ echo '
           </div>
 
           <div class="form-group">
+            <label class="col-sm-2" for="in_case_contact_number">In Case of Emergency Contact Number:</label>
+            <div class="col-sm-10"> 
+            <div class="input-group">
+              <input type="text" class="form-control edit_field" name="in_case_contact_number" placeholder="Enter In Case of Emergency Contact Number">
+              <span class="input-group-addon">
+                <input type="checkbox" name="in_case_contact_number_sms" value="1" class="edit_field"> SMS Notification
+              </span>
+            </div>
+            <p class="help-block" id="in_case_contact_number_help-block"></p>
+            </div>
+          </div>
+
+
+          <div class="form-group">
             <label class="col-sm-2" for="class_id">Class:</label>
             <div class="col-sm-10"> 
               <select name="class_id" class="ui search dropdown form-control edit_field" id="edit-class_id">
@@ -310,6 +325,12 @@ function show_teacher_data(id) {
       $('input[name="middle_name"].edit_field').val(data.middle_name);
       $('input[name="suffix"].edit_field').val(data.suffix);
       $('input[name="contact_number"].edit_field').val(data.contact_number);
+      $('input[name="in_case_contact_number"].edit_field').val(data.in_case_contact_number);
+      if(data.in_case_contact_number_sms == 1){
+        $('input[name="in_case_contact_number_sms"].edit_field').prop("checked",true);
+      }else{
+        $('input[name="in_case_contact_number_sms"].edit_field').prop("checked",false);
+      }
       $('select[name="bday_m"].edit_field').val(data.bday_m);
       $('select[name="gender"].edit_field').val(data.gender);
       $('select[name="bday_d"].edit_field').val(data.bday_d);
@@ -344,6 +365,7 @@ $(document).on("submit","#teacher_edit_form",function(e) {
       $('button[form="teacher_edit_form"]').prop('disabled', false);
 			$("#first_name_help-block").html(data.first_name_error);
       $("#last_name_help-block").html(data.last_name_error);
+      $("#in_case_contact_number_help-block").html(data.in_case_contact_number_error);
       $("#gender_help-block").html(data.gender_error);
 			$("#address_help-block").html(data.address_error);
 			$("#middle_name_help-block").html(data.middle_name_error);

@@ -177,13 +177,24 @@ class Rfid_ajax extends CI_Controller {
 
 								$this->email->send();
 							}
+						}
+					}elseif ($rfid_owner_log_data["ref_table"]=="teachers") {
+						if($rfid_owner_data["in_case_contact_number_sms"]){
+							$rfid_owner_data["message"] = $rfid_owner_data["full_name"].' '.$type_status.' the school premises on '.date("m/d/Y h:i:s A").'.';
 
+							$rfid_owner_data["sms_status"] = send_sms($rfid_owner_data["in_case_contact_number"],$rfid_owner_data["message"]);
+							if($rfid_owner_data["sms_status"]==0){
+								$rfid_owner_data["sms_status"] = $rfid_owner_data["in_case_name"]." had been successfully notified through SMS.";
+							}else{
+								$rfid_owner_data["sms_status"] = sms_status($rfid_owner_data["sms_status"]);
+							}
 
 						}
 					}
 				
 				}else{
 					$rfid_owner_data["gate_logs_data"]["is_valid"] = FALSE;
+
 				}
 
 			}

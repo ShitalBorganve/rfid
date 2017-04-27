@@ -53,11 +53,7 @@ class Teacher_ajax extends CI_Controller {
 	}
 	public function add($arg='')
 	{
-		
 		if($_POST){
-
-			// $data["guardian_id"] = $this->input->post("guardian_id");
-			// $data["class_id"] = $this->input->post("class_id");
 			$this->form_validation->set_rules('gender', 'Gender', 'required|max_length[50]trim|htmlspecialchars');
 			$this->form_validation->set_rules('address', 'Address', 'required|min_length[2]|max_length[100]trim|htmlspecialchars');
 			$this->form_validation->set_rules('first_name', 'First Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
@@ -68,9 +64,16 @@ class Teacher_ajax extends CI_Controller {
 			$this->form_validation->set_rules('bday_d', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('bday_y', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('class_id', 'Class', 'trim|htmlspecialchars');
+			
 			$this->form_validation->set_rules('contact_number', 'Contact Number', 'required|is_available[teachers.contact_number]|numeric|min_length[11]|max_length[11]trim|htmlspecialchars');
-
 			$this->form_validation->set_message('is_in_db', 'This account is invalid');
+			if($this->input->post("in_case_contact_number_sms")){
+				$this->form_validation->set_rules('in_case_contact_number', 'In Case of Emergency Contact Number', 'required|numeric|min_length[11]|max_length[11]trim|htmlspecialchars');
+				$in_case_contact_number_sms = 1;
+			}else{
+				$this->form_validation->set_rules('in_case_contact_number', 'In Case of Emergency Contact Number', 'numeric|min_length[11]|max_length[11]trim|htmlspecialchars');
+				$in_case_contact_number_sms = 0;
+			}
 
 
 
@@ -139,6 +142,7 @@ class Teacher_ajax extends CI_Controller {
 			{
 				$data["is_valid"] = FALSE;
 				$data["gender_error"] = form_error('gender');
+				$data["in_case_contact_number_error"] = form_error('in_case_contact_number');
 				$data["first_name_error"] = form_error('first_name');
 				$data["last_name_error"] = form_error('last_name');
 				$data["address_error"] = form_error('address');
@@ -152,6 +156,7 @@ class Teacher_ajax extends CI_Controller {
 			{
 				$data["is_valid"] = TRUE;
 				$data["gender_error"] = "";
+				$data["in_case_contact_number"] = "";
 				$data["first_name_error"] = "";
 				$data["last_name_error"] = "";
 				$data["address_error"] = "";
@@ -168,6 +173,8 @@ class Teacher_ajax extends CI_Controller {
 				$teacher_data["middle_name"] = $this->input->post("middle_name");
 				$teacher_data["suffix"] = $this->input->post("suffix");
 				$teacher_data["contact_number"] = $this->input->post("contact_number");
+				$teacher_data["in_case_contact_number"] = $this->input->post("in_case_contact_number");
+				$teacher_data["in_case_contact_number_sms"] = $in_case_contact_number_sms;
 				// $teacher_data["class_id"] = $this->input->post("class_id");
 				$teacher_data["display_photo"] = $filename;
 				// $teacher_data["display_photo_type"] = $new_image_data['file_type'];
@@ -184,7 +191,7 @@ Password: ".$password."
 You can login to ".base_url("teacher");
 
 
-				send_sms($this->input->post("contact_number"),$message);
+				// send_sms($this->input->post("contact_number"),$message);
 				$teacher_data["password"] = md5($password);
 
 				// $teacher_data["rfid"] = $this->input->post("rfid");
@@ -220,10 +227,6 @@ You can login to ".base_url("teacher");
 	public function edit($arg='')
 	{
 		if($_POST){
-
-
-			// $data["guardian_id"] = $this->input->post("guardian_id");
-			// $data["class_id"] = $this->input->post("class_id");
 			$this->form_validation->set_rules('gender', 'Gender', 'required|max_length[50]trim|htmlspecialchars');
 			$this->form_validation->set_rules('teacher_id', 'First Name', 'required|trim|htmlspecialchars|is_in_db[teachers.id]');
 			$this->form_validation->set_rules('first_name', 'First Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
@@ -237,6 +240,14 @@ You can login to ".base_url("teacher");
 			$this->form_validation->set_rules('guardian_id', 'Guardian', 'is_in_db[guardians.id]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('class_id', 'Class', 'is_valid[classes.id]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('contact_number', 'Contact Number', 'required|is_unique_edit[teachers.contact_number.teacher_id]|numeric|min_length[11]|max_length[11]trim|htmlspecialchars');
+
+			if($this->input->post("in_case_contact_number_sms")){
+				$this->form_validation->set_rules('in_case_contact_number', 'In Case of Emergency Contact Number', 'required|numeric|min_length[11]|max_length[11]trim|htmlspecialchars');
+				$in_case_contact_number_sms = 1;
+			}else{
+				$this->form_validation->set_rules('in_case_contact_number', 'In Case of Emergency Contact Number', 'numeric|min_length[11]|max_length[11]trim|htmlspecialchars');
+				$in_case_contact_number_sms = 0;
+			}
 
 			$this->form_validation->set_message('is_in_db', 'An Error has occured please refresh the page and try again.');
 
@@ -323,6 +334,7 @@ You can login to ".base_url("teacher");
 			if ($this->form_validation->run() == FALSE|| $data["is_valid_photo"] == FALSE)
 			{
 				$data["is_valid"] = FALSE;
+				$data["in_case_contact_number_error"] = form_error('in_case_contact_number');
 				$data["first_name_error"] = form_error('first_name');
 				$data["gender_error"] = form_error('gender');
 				$data["last_name_error"] = form_error('last_name');
@@ -340,6 +352,7 @@ You can login to ".base_url("teacher");
 			{
 				$data["is_valid"] = TRUE;
 				$data["gender_error"] = "";
+				$data["in_case_contact_number"] = "";
 				$data["first_name_error"] = "";
 				$data["address_error"] = "";
 				$data["last_name_error"] = "";
@@ -351,6 +364,8 @@ You can login to ".base_url("teacher");
 				$data["class_id_error"] = "";
 
 				$teacher_data["gender"] = $this->input->post("gender");
+				$teacher_data["in_case_contact_number"] = $this->input->post("in_case_contact_number");
+				$teacher_data["in_case_contact_number_sms"] = $in_case_contact_number_sms;
 				$teacher_data["first_name"] = $this->input->post("first_name");
 				$teacher_data["address"] = $this->input->post("address");
 				$teacher_data["last_name"] = $this->input->post("last_name");

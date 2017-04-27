@@ -3,7 +3,10 @@
 <head>
 <?php echo '<title>'.$title.'</title>'.$meta_scripts.$css_scripts; ?>
 <style>
-
+#display-photo-container{
+  height: 10em;
+  margin-bottom: 10px;
+}
 </style>
 </head>
 
@@ -24,6 +27,7 @@
       <table class="table table-hover" id="teacher-list-table">
         <thead>
           <tr>
+            <th>ID</th>
             <th>First Name</th>
             <th>Middle Name</th>
             <th>Last Name</th>
@@ -58,7 +62,9 @@ echo '
       <div class="modal-body">
         <p>
         <form class="form-horizontal">
-
+          <div id="display-photo-container">
+            <img class="img-responsive" id="display-photo" src="'.base_url("assets/images/empty.jpg").'">
+          </div>
           <div class="form-group">
               <label class="col-sm-4">ID</label>
               <div class="input-group col-sm-7">
@@ -327,7 +333,8 @@ function show_teacher_data(id) {
     cache: false,
     dataType: "json",
     success: function(data) {
-      console.log(data);
+      // console.log(data);
+      $("#display-photo").attr("src","<?php echo base_url("assets/images/teacher_photo/");?>"+data.display_photo);
       $('#id').val(data.id);
       $('#last_name').val(data.last_name);
       $('#age').val(data.age);

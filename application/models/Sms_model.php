@@ -108,4 +108,33 @@ class Sms_model extends CI_Model {
         return $this->db->last_query();
     }
 
+    function find_owner($contact_number)
+    {
+        $get_data["contact_number"] = $contact_number;
+        $get_data["deleted"] = 0;
+        if($this->db->get_where("teachers",$get_data)->num_rows()==1){
+            $owner_data = $this->db->get_where("teachers",$get_data)->row();
+            $owner_data->table = "teachers";
+            return $owner_data;
+            exit;
+        }elseif($this->db->get_where("staffs",$get_data)->num_rows()==1){
+            $owner_data = $this->db->get_where("staffs",$get_data)->row();
+            $owner_data->table = "staffs";
+            return $owner_data;
+            exit;
+        }elseif($this->db->get_where("guardians",$get_data)->num_rows()==1){
+            $owner_data = $this->db->get_where("guardians",$get_data)->row();
+            $owner_data->table = "guardians";
+            return $owner_data;
+            exit;
+        }elseif($this->db->get_where("students",$get_data)->num_rows()==1){
+            $owner_data = $this->db->get_where("students",$get_data)->row();
+            $owner_data->table = "students";
+            return $owner_data;
+            exit;
+        }else{
+            return FALSE;
+        }
+    }
+
 }

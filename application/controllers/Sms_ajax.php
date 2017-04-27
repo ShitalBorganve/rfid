@@ -98,7 +98,6 @@ class Sms_ajax extends CI_Controller {
 									if($students_data->contact_number!=""){
 										$valid_recipient = TRUE;
 										$data["recipients_number"][] = $students_data->contact_number;
-										$data["recipients_id"][] = $students_data->id;
 										$data["recipients_table"][] = "students";
 									}
 								}
@@ -114,13 +113,16 @@ class Sms_ajax extends CI_Controller {
 									if($teachers_data->contact_number!=""){
 										$valid_recipient = TRUE;
 										$data["recipients_number"][] = $teachers_data->contact_number;
-										$data["recipients_id"][] = $teachers_data->id;
 										$data["recipients_table"][] = "teachers";
 									}
 								}
 							}
 
 						}
+						$data["recipients_number"] = array_unique($data["recipients_number"]);
+						sort($data["recipients_number"]);
+						$data["recipients_table"] = array_unique($data["recipients_table"]);
+						sort($data["recipients_table"]);
 						break;
 					case 'teachers':
 						foreach ($classes as $class) {
@@ -132,13 +134,15 @@ class Sms_ajax extends CI_Controller {
 									if($teachers_data->contact_number!=""){
 										$valid_recipient = TRUE;
 										$data["recipients_number"][] = $teachers_data->contact_number;
-										$data["recipients_id"][] = $teachers_data->id;
 										$data["recipients_table"][] = "teachers";
 									}
 								}
 							}
 						}
-						# code...
+						$data["recipients_number"] = array_unique($data["recipients_number"]);
+						sort($data["recipients_number"]);
+						$data["recipients_table"] = array_unique($data["recipients_table"]);
+						sort($data["recipients_table"]);
 						break;
 					case 'students':
 						foreach ($classes as $class) {
@@ -150,13 +154,15 @@ class Sms_ajax extends CI_Controller {
 									if($students_data->contact_number!=""){
 										$valid_recipient = TRUE;
 										$data["recipients_number"][] = $students_data->contact_number;
-										$data["recipients_id"][] = $students_data->id;
 										$data["recipients_table"][] = "students";
 									}
 								}
 							}
 						}
-						# code...
+						$data["recipients_number"] = array_unique($data["recipients_number"]);
+						sort($data["recipients_number"]);
+						$data["recipients_table"] = array_unique($data["recipients_table"]);
+						sort($data["recipients_table"]);
 						break;
 					case 'guardian':
 						foreach ($classes as $class) {
@@ -171,14 +177,16 @@ class Sms_ajax extends CI_Controller {
 										if($guardian_data->contact_number!=""){
 											$valid_recipient = TRUE;
 											$data["recipients_number"][] = $guardian_data->contact_number;
-											$data["recipients_id"][] = $guardian_data->id;
 											$data["recipients_table"][] = "guardians";
 										}
 									}
 								}
 							}
 						}
-						# code...
+						$data["recipients_number"] = array_unique($data["recipients_number"]);
+						sort($data["recipients_number"]);
+						$data["recipients_table"] = array_unique($data["recipients_table"]);
+						sort($data["recipients_table"]);
 						break;
 					case 'members':
 						foreach ($classes as $class) {
@@ -191,7 +199,6 @@ class Sms_ajax extends CI_Controller {
 									if($students_data->contact_number!=""){
 										$valid_recipient = TRUE;
 										$data["recipients_number"][] = $students_data->contact_number;
-										$data["recipients_id"][] = $students_data->id;
 										$data["recipients_table"][] = "students";
 									}
 								}
@@ -205,7 +212,6 @@ class Sms_ajax extends CI_Controller {
 									if($teachers_data->contact_number!=""){
 										$valid_recipient = TRUE;
 										$data["recipients_number"][] = $teachers_data->contact_number;
-										$data["recipients_id"][] = $teachers_data->id;
 										$data["recipients_table"][] = "teachers";
 									}
 								}
@@ -222,13 +228,16 @@ class Sms_ajax extends CI_Controller {
 										if($guardian_data->contact_number!=""){
 											$valid_recipient = TRUE;
 											$data["recipients_number"][] = $guardian_data->contact_number;
-											$data["recipients_id"][] = $guardian_data->id;
 											$data["recipients_table"][] = "guardians";
 										}
 									}
 								}
 							}
 						}
+						$data["recipients_number"] = array_unique($data["recipients_number"]);
+						sort($data["recipients_number"]);
+						$data["recipients_table"] = array_unique($data["recipients_table"]);
+						sort($data["recipients_table"]);
 						break;
 					case 'staffs':
 						$staffs_list = $this->staffs_model->get_list("",1,$this->db->get("staffs")->num_rows());
@@ -237,11 +246,14 @@ class Sms_ajax extends CI_Controller {
 								if($staffs_data->contact_number!=""){
 									$valid_recipient = TRUE;
 									$data["recipients_number"][] = $staffs_data->contact_number;
-									$data["recipients_id"][] = $staffs_data->id;
 									$data["recipients_table"][] = "staffs";
 								}
 							}
 						}
+						$data["recipients_number"] = array_unique($data["recipients_number"]);
+						sort($data["recipients_number"]);
+						$data["recipients_table"] = array_unique($data["recipients_table"]);
+						sort($data["recipients_table"]);
 						break;
 					case 'all_teachers_students':
 						$students_list = $this->students_model->get_list("",1,$this->db->get("students")->num_rows());
@@ -250,7 +262,6 @@ class Sms_ajax extends CI_Controller {
 								if($students_data->contact_number!=""){
 									$valid_recipient = TRUE;
 									$data["recipients_number"][] = $students_data->contact_number;
-									$data["recipients_id"][] = $students_data->id;
 									$data["recipients_table"][] = "students";
 								}
 							}
@@ -261,11 +272,14 @@ class Sms_ajax extends CI_Controller {
 								if($teachers_data->contact_number!=""){
 									$valid_recipient = TRUE;
 									$data["recipients_number"][] = $teachers_data->contact_number;
-									$data["recipients_id"][] = $teachers_data->id;
 									$data["recipients_table"][] = "teachers";
 								}
 							}
 						}
+						$data["recipients_number"] = array_unique($data["recipients_number"]);
+						sort($data["recipients_number"]);
+						$data["recipients_table"] = array_unique($data["recipients_table"]);
+						sort($data["recipients_table"]);
 						break;
 					case 'all_teachers':
 						$teachers_list = $this->teachers_model->get_list("",1,$this->db->get("teachers")->num_rows());
@@ -274,11 +288,14 @@ class Sms_ajax extends CI_Controller {
 								if($teachers_data->contact_number!=""){
 									$valid_recipient = TRUE;
 									$data["recipients_number"][] = $teachers_data->contact_number;
-									$data["recipients_id"][] = $teachers_data->id;
 									$data["recipients_table"][] = "teachers";
 								}
 							}
 						}
+						$data["recipients_number"] = array_unique($data["recipients_number"]);
+						sort($data["recipients_number"]);
+						$data["recipients_table"] = array_unique($data["recipients_table"]);
+						sort($data["recipients_table"]);
 						break;
 					case 'all_students':
 						$students_list = $this->students_model->get_list("",1,$this->db->get("students")->num_rows());
@@ -287,11 +304,14 @@ class Sms_ajax extends CI_Controller {
 								if($students_data->contact_number!=""){
 									$valid_recipient = TRUE;
 									$data["recipients_number"][] = $students_data->contact_number;
-									$data["recipients_id"][] = $students_data->id;
 									$data["recipients_table"][] = "students";
 								}
 							}
 						}
+						$data["recipients_number"] = array_unique($data["recipients_number"]);
+						sort($data["recipients_number"]);
+						$data["recipients_table"] = array_unique($data["recipients_table"]);
+						sort($data["recipients_table"]);
 						break;
 					case 'all_guardians':
 						$students_list = $this->students_model->get_list("",1,$this->db->get("students")->num_rows());
@@ -303,12 +323,15 @@ class Sms_ajax extends CI_Controller {
 									if($guardian_data->contact_number!=""){
 										$valid_recipient = TRUE;
 										$data["recipients_number"][] = $guardian_data->contact_number;
-										$data["recipients_id"][] = $guardian_data->id;
 										$data["recipients_table"][] = "guardians";
 									}
 								}
 							}
 						}
+						$data["recipients_number"] = array_unique($data["recipients_number"]);
+						sort($data["recipients_number"]);
+						$data["recipients_table"] = array_unique($data["recipients_table"]);
+						sort($data["recipients_table"]);
 						break;
 					case 'all_members':
 						$students_list = $this->students_model->get_list("",1,$this->db->get("students")->num_rows());
@@ -317,7 +340,6 @@ class Sms_ajax extends CI_Controller {
 								if($students_data->contact_number!=""){
 									$valid_recipient = TRUE;
 									$data["recipients_number"][] = $students_data->contact_number;
-									$data["recipients_id"][] = $students_data->id;
 									$data["recipients_table"][] = "students";
 								}
 							}
@@ -329,7 +351,6 @@ class Sms_ajax extends CI_Controller {
 								if($teachers_data->contact_number!=""){
 									$valid_recipient = TRUE;
 									$data["recipients_number"][] = $teachers_data->contact_number;
-									$data["recipients_id"][] = $teachers_data->id;
 									$data["recipients_table"][] = "teachers";
 								}
 							}
@@ -344,7 +365,6 @@ class Sms_ajax extends CI_Controller {
 									if($guardian_data->contact_number!=""){
 										$valid_recipient = TRUE;
 										$data["recipients_number"][] = $guardian_data->contact_number;
-										$data["recipients_id"][] = $guardian_data->id;
 										$data["recipients_table"][] = "guardians";
 									}
 								}
@@ -358,11 +378,14 @@ class Sms_ajax extends CI_Controller {
 								if($staffs_data->contact_number!=""){
 									$valid_recipient = TRUE;
 									$data["recipients_number"][] = $staffs_data->contact_number;
-									$data["recipients_id"][] = $staffs_data->id;
 									$data["recipients_table"][] = "staffs";
 								}
 							}
 						}
+						$data["recipients_number"] = array_unique($data["recipients_number"]);
+						sort($data["recipients_number"]);
+						$data["recipients_table"] = array_unique($data["recipients_table"]);
+						sort($data["recipients_table"]);
 						break;
 					default:
 						$data["is_valid"] = FALSE;
@@ -392,31 +415,34 @@ class Sms_ajax extends CI_Controller {
 	public function send_api($value='')
 	{
 		// sleep(2);
+		// exit;
 		// var_dump($this->input->get("sms_id"));
 		$sms_id = $this->input->post("sms_id");
 		$data["message"] = $this->input->post("message");
 		$data["mobile_number"] = $this->input->post("recipients_number");
-		$data["ref_id"] = $this->input->post("recipients_id");
-		$data["ref_table"] = $this->input->post("recipients_table");
+		
+		// $data["status_code"] = 0;
 		$data["status_code"] = send_sms($data["mobile_number"],$data["message"]);
 		$data["status"] = sms_status($data["status_code"]);
-
-		$get_data["id"] = $this->input->post("recipients_id");
-		if($this->input->post("recipients_table")=="students"){
+		$owner_data = $this->sms_model->find_owner($data["mobile_number"]);
+		$data["ref_table"] = $owner_data->table;
+		$data["ref_id"] = $owner_data->id;
+		$get_data["id"] = $owner_data->id;
+		if($owner_data->table=="students"){
 			$students_data = $this->students_model->get_data($get_data,TRUE);
 			$data["recipient"] = $students_data->last_name.", ".$students_data->first_name." ".$students_data->middle_name[0].". ".$students_data->suffix;
-		}elseif ($this->input->post("recipients_table")=="teachers") {
-			if($this->input->post("recipients_table")=="teachers"){
+		}elseif ($owner_data->table=="teachers") {
+			if($owner_data->table=="teachers"){
 				$teachers_data = $this->teachers_model->get_data($get_data,TRUE);
 				$data["recipient"] = $teachers_data->last_name.", ".$teachers_data->first_name." ".$teachers_data->middle_name[0].". ".$teachers_data->suffix;
 			}
-		}elseif ($this->input->post("recipients_table")=="staffs") {
-			if($this->input->post("recipients_table")=="staffs"){
+		}elseif ($owner_data->table=="staffs") {
+			if($owner_data->table=="staffs"){
 				$staffs_data = $this->staffs_model->get_data($get_data,TRUE);
 				$data["recipient"] = $staffs_data->last_name.", ".$staffs_data->first_name." ".$staffs_data->middle_name[0].". ".$staffs_data->suffix;
 			}
-		}elseif ($this->input->post("recipients_table")=="guardians") {
-			if($this->input->post("recipients_table")=="guardians"){
+		}elseif ($owner_data->table=="guardians") {
+			if($owner_data->table=="guardians"){
 				$guardians_data = $this->guardian_model->get_data($get_data,TRUE);
 				$data["recipient"] = $guardians_data->name;
 			}
@@ -426,17 +452,19 @@ class Sms_ajax extends CI_Controller {
 
 		$this->sms_model->send($data,$sms_id);
 		$data = array();
+		$get_data = array();
 		$get_data["sms_id"] = $sms_id;
 		$data["sms_list"] = $this->sms_model->get_sms_list($get_data);
 		// $messages_list = ;
 		//substr_replace("Hello world", "", -1);
 		$data["sms_id"] = $sms_id;
+		// $data["tables"] = );
 		echo json_encode($data);
 
 
 		
 		
-		// echo $this->input->post("recipients_number")." ".$this->input->post("recipients_id")." ".$this->input->post("recipients_table")." ".$this->input->post("sms_id");
+		// echo $this->input->post("recipients_number")." ".$this->input->post("recipients_id")." ".$owner_data->table." ".$this->input->post("sms_id");
 	}
 
 	public function get_data($arg='')

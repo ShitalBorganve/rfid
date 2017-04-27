@@ -11,9 +11,9 @@
 <body id="has-logo">
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-xs-12">
+		<div class="col-xs-12" style="font-size: 5.9vw;display: block;padding: 1.7vw">
 			<center>
-			<b style="background-color: white;font-size: 30px;padding: 10px;" id="gate-time"><?php echo date("m/d/Y h:i:s A"); ?></b>
+			<b style="background-color: white;" id="gate-time"><?php echo date("h:i:s A"); ?></b>
 			</center>
 		</div>
 	</div>
@@ -72,7 +72,7 @@
 <?php echo $js_scripts; ?>
 <script>
 setInterval(function(){
-	$("#gate-time").html(moment().format('MM/DD/YYYY hh:mm:ss A'));
+	$("#gate-time").html(moment().format('hh:mm:ss A'));
 }, 500);
 $(document).on("submit","#gate_rfid_scan", function(e) {
 	e.preventDefault();

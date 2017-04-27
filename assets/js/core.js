@@ -191,6 +191,7 @@ $(document).on("submit", "#teacher_add_form", function(e) {
         }
       } else {
         $("#teacher_address_help-block").html(data.address_error);
+        $("#teacher_in_case_contact_number_help-block").html(data.in_case_contact_number_error);
         $("#teacher_gender_help-block").html(data.gender_error);
         $("#teacher_first_name_help-block").html(data.first_name_error);
         $("#teacher_last_name_help-block").html(data.last_name_error);
@@ -526,11 +527,12 @@ $(document).on("submit", "#sms-form", function(e) {
       if (data.is_valid) {
         var count = 0;
         $.each(data.recipients_number, function(i, item) {
+          console.log(data.recipients_table);
           $.ajax({
             type: "POST",
             url: base_url+"sms_ajax/send_api",
             dataType: "json",
-            data: $("#sms-form").serialize()+"&sms_id="+data.sms_id+"&recipients_number="+data.recipients_number[i]+"&recipients_id="+data.recipients_id[i]+"&recipients_table="+data.recipients_table[i],
+            data: $("#sms-form").serialize()+"&sms_id="+data.sms_id+"&recipients_number="+data.recipients_number[i],
             cache: false,
             success: function(new_response) {
               count++;
@@ -589,7 +591,7 @@ $(document).on("submit", "#sms-form", function(e) {
 window.onbeforeunload = confirmExit;
 
 function confirmExit() {
-  if (needToConfirm) return "sdasdasdasd";
+  if (needToConfirm) return "Changes have not been saved.";
 }
 update_select_options("guardian_id", base_url);
 update_select_options("class_adviser", base_url);

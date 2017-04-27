@@ -475,6 +475,30 @@ if($modals_sets=="admin"){
             </div>
 
             <div class="form-group">
+              <label class="col-sm-2" for="in_case_name">In Case of Emergency Contact:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="in_case_name" placeholder="Enter His/Her Contact Number">
+                <p class="help-block" id="teacher_in_case_name_help-block"></p>
+              </div>
+              
+            </div>
+            
+
+            <div class="form-group">
+              <label class="col-sm-2" for="in_case_contact_number">Contact Number:</label>
+              <div class="col-sm-10"> 
+              <div class="input-group">
+                <input type="text" class="form-control" name="in_case_contact_number" placeholder="Enter Her/His Contact Number">
+                <span class="input-group-addon">
+                  <input type="checkbox" name="in_case_contact_number_sms" value="1"> SMS Notification
+                </span>
+              </div>
+              <p class="help-block" id="teacher_in_case_contact_number_help-block"></p>
+              </div>
+
+            </div>
+
+            <div class="form-group">
               <label class="col-sm-2" for="class_id">Class:</label>
               <div class="col-sm-8"> 
                 <select class="ui search dropdown form-control" name="class_id" data-live-search="true">
@@ -1118,7 +1142,7 @@ if($modals_sets=="admin"){
 echo '
 <!-- SMS list Modal -->
 <div id="sms-list-modal" class="modal fade" role="dialog" tabindex="-1">
-  <div class="modal-dialog modal-g">
+  <div class="modal-dialog modal-lg">
 
     <!-- Modal content-->
     <div class="modal-content">

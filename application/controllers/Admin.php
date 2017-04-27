@@ -65,7 +65,7 @@ class Admin extends CI_Controller {
 
 	public function index($student_id='')
 	{
-		
+		// var_dump($this->sms_model->find_owner("09301167856"));
 		$this->data["login_type"] = "admin";
 		if($this->session->userdata("admin_sessions")){
 			$where["type"] = "entry";

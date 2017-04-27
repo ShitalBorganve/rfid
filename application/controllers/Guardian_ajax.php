@@ -51,7 +51,7 @@ class Guardian_ajax extends CI_Controller {
 	public function register($value='')
 	{
 		if($_POST){
-			$this->form_validation->set_rules('guardian_address', 'Guardian Address', 'required|trim|htmlspecialchars|min_length[2]|max_length[50]');
+			$this->form_validation->set_rules('guardian_address', 'Guardian Address', '|required|trim|htmlspecialchars|min_length[2]|max_length[50]');
 			$this->form_validation->set_rules('email_address', 'Email Address', 'valid_email|trim|htmlspecialchars|min_length[2]|max_length[50]');
 			$this->form_validation->set_rules('email_subscription', 'Email Address', 'email_subscription[email_address]');
 			$this->form_validation->set_rules('guardian_name', 'Guardian Name', 'required|custom_alpha_dash|trim|htmlspecialchars|min_length[2]|max_length[50]');

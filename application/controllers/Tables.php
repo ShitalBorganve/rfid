@@ -67,6 +67,7 @@ class Tables extends CI_Controller {
 				}
 				if($arg_2=="jbtech"){
 					$where["rfid_status"] = 0;
+					$where["deleted"] = 0;
 				}
 
 				if($this->input->get("class_id")){
@@ -99,6 +100,7 @@ class Tables extends CI_Controller {
 					if($arg_2=="jbtech"){
 						echo '
 						<tr>
+							<td>'.$student_data->id.'</td>
 							<td>'.$student_data->first_name.'</td>
 							<td>'.$student_data->middle_name.'</td>
 							<td>'.$student_data->last_name.'</td>
@@ -113,6 +115,7 @@ class Tables extends CI_Controller {
 					}elseif ($arg_2=="teachers") {
 						echo '
 						<tr>
+							<td>'.$student_data->id.'</td>
 							<td>'.$student_data->last_name.'</td>
 							<td>'.$student_data->first_name.'</td>
 							<td>'.$student_data->middle_name.'</td>
@@ -132,6 +135,7 @@ class Tables extends CI_Controller {
 						}
 						echo '
 						<tr>
+							<td>'.$student_data->id.'</td>
 							<td>'.$rfid_status.'</td>
 							<td>'.$student_data->last_name.'</td>
 							<td>'.$student_data->first_name.'</td>
@@ -175,6 +179,7 @@ class Tables extends CI_Controller {
 			}
 			if($arg_2=="jbtech"){
 				$where["rfid_status"] = 0;
+				$where["deleted"] = 0;
 			}
 
 			$teachers_list_data = $this->teachers_model->get_list($where,$page,$this->config->item("max_item_perpage"),$search);
@@ -189,6 +194,7 @@ class Tables extends CI_Controller {
 				if($arg_2=="jbtech"){
 					echo '
 					<tr>
+						<td>'.$teacher_data->id.'</td>
 						<td>'.$teacher_data->first_name.'</td>
 						<td>'.$teacher_data->middle_name.'</td>
 						<td>'.$teacher_data->last_name.'</td>
@@ -209,6 +215,7 @@ class Tables extends CI_Controller {
 					}
 					echo '
 					<tr>
+						<td>'.$teacher_data->id.'</td>
 						<td>'.$rfid_status.'</td>
 						<td>'.$teacher_data->first_name.'</td>
 						<td>'.$teacher_data->middle_name.'</td>
@@ -253,6 +260,7 @@ class Tables extends CI_Controller {
 			}
 			if($arg_2=="jbtech"){
 				$where["rfid_status"] = 0;
+				$where["deleted"] = 0;
 			}
 
 			$staffs_list_data = $this->staffs_model->get_list($where,$page,$this->config->item("max_item_perpage"),$search);
@@ -267,6 +275,7 @@ class Tables extends CI_Controller {
 				if($arg_2=="jbtech"){
 					echo '
 					<tr>
+						<td>'.$staff_data->id.'</td>
 						<td>'.$staff_data->first_name.'</td>
 						<td>'.$staff_data->middle_name.'</td>
 						<td>'.$staff_data->last_name.'</td>
@@ -285,6 +294,7 @@ class Tables extends CI_Controller {
 					}
 					echo '
 					<tr>
+						<td>'.$staff_data->id.'</td>
 						<td>'.$rfid_status.'</td>
 						<td>'.$staff_data->first_name.'</td>
 						<td>'.$staff_data->middle_name.'</td>
@@ -434,7 +444,7 @@ class Tables extends CI_Controller {
 				echo '
 					<tr class="'.$status.'">
 						
-						<td>'.$gate_log_data->owner_data->id.'</td>
+						<td>'.sprintf("%03d",$gate_log_data->owner_data->id).'</td>
 						<td><a href="#" id="'.$gate_log_data->owner_data->id.'" class="gate_logs">'.$gate_log_data->owner_data->last_name.", ".$gate_log_data->owner_data->first_name." ".$gate_log_data->owner_data->middle_name[0].". ".$gate_log_data->owner_data->suffix.'</td>
 						<td>'.date("m/d/Y",$gate_log_data->date).'</td>
 						<td>'.date("h:i:s A",$gate_log_data->date_time).'</td>

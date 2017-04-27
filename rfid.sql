@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 26, 2017 at 01:33 PM
+-- Generation Time: Apr 27, 2017 at 03:18 PM
 -- Server version: 10.1.9-MariaDB
 -- PHP Version: 5.5.30
 
@@ -259,7 +259,8 @@ INSERT INTO `gate_logs` (`id`, `rfid_id`, `date_time`, `date`, `type`, `ref_id`,
 (21, 4, 1493113252, 1493049600, 'exit', 2, 'students'),
 (22, 4, 1493177837, 1493136000, 'entry', 2, 'students'),
 (23, 4, 1493178032, 1493136000, 'exit', 2, 'students'),
-(24, 2, 1493178070, 1493136000, 'entry', 1, 'students');
+(24, 2, 1493178070, 1493136000, 'entry', 1, 'students'),
+(25, 2, 1493280015, 1493222400, 'entry', 1, 'students');
 
 -- --------------------------------------------------------
 
@@ -284,14 +285,24 @@ CREATE TABLE `guardians` (
 --
 
 INSERT INTO `guardians` (`id`, `name`, `guardian_address`, `contact_number`, `sms_subscription`, `email_subscription`, `email_address`, `password`, `deleted`) VALUES
-(1, 'asdasd', 'address', '09301167850', 1, 1, 'jpgulayan@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 1),
+(1, 'asdasd', 'address', '09301167840', 1, 1, 'jpgulayan@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 1),
 (2, 'jjj', '', '09301167851', 1, 1, 'jpgulayan@gmail.coms', '2b400702d514c79b0f9bcde29f25c180', 0),
 (3, 'asd', 'address', '09301167820', 1, 1, 'jpgulayan@gmail.com', '7d142498320a6c13393ad8544d4f730e', 0),
 (4, 'asdasd', 'address', '09301167821', 0, 0, 'jpgulayan@gmail.com', 'b7736cb9372eccf3329e28d61cd5b1c6', 0),
 (5, 'John Paul Gulayan', 'R. Castillo', '09301167822', 1, 1, 'jpgulayan@gmail.com', '5e8676c207ce53957fe1d81f7152a925', 0),
 (6, 'John Paul Gulayan', 'R. Castillo', '93011678500', 0, 0, 'jpgulayan@gmail.com', 'd90d4c54bf1b41261f19c4ce9ef8919b', 0),
 (7, 'John Paul Gulayan', 'R. Castillo', '93011678501', 1, 1, 'jpgulayan@gmail.com', '5dd7e756acadc7cdad5180926b05d727', 0),
-(8, 'John Paul Gulayan', 'R. Castillo', '09301167850', 1, 1, 'jpgulayan@gmail.com', 'a2e9a4ab48d1d02abb15cdd4fcb5c351', 0);
+(8, 'John Paul Gulayan', 'R. Castillo', '09301167840', 1, 1, 'jpgulayan@gmail.com', 'a2e9a4ab48d1d02abb15cdd4fcb5c351', 0),
+(9, 'aaaaaa', 'address', '09301167899', 0, 0, 'jpgulayan@gmail.com', '567f5f8d5200dc6cb6fef292e7bd69a5', 0),
+(10, 'asdasdasd', 'address', '09301167100', 0, 0, 'asda@ss.com', '1952869f85c21ab4b9f7ad39de37f394', 0),
+(11, 'asdasd', 'address', '93011678502', 0, 0, 'asda@ss.com', 'd86880935449ac4cfbc7b114a9a996f1', 0),
+(12, 'asdasdasd', 'aa', '93011678503', 0, 0, 'asda@ss.com', 'a42170296219e7fbbe01f7f381aac9a3', 0),
+(13, 'asdasd', 'address', '93011678504', 0, 0, 'asda@ss.com', '79fce7a6b05a6e146e84b8bf70dc5ca5', 0),
+(14, 'John Paul Gulayan', 'R. Castillo', '93011678505', 0, 0, 'jpgulayan@gmail.com', 'af40c0fc768503ec5d447a0c57643228', 0),
+(15, 'asdasd', 'address', '93011678562', 0, 0, 'asda@ss.com', 'bb8ab6f9e31fa6f4f75f601d74a90d74', 0),
+(16, 'aaaaaa', 'aa', '93011678522', 0, 0, 'anonympox@gmail.com', '4c7f34da19260c205d03719bf65238ef', 0),
+(17, 'aaaaaa', 'address', '93011678521', 0, 0, 'asda@ss.com', '55cb6b3e6788053914c609b899b58ffd', 0),
+(18, 'asdasd', 'address', '93011672212', 0, 0, 'asda@ss.com', '652e7f4c9b9bd42e52d5e8a0558795d9', 0);
 
 -- --------------------------------------------------------
 
@@ -355,13 +366,14 @@ CREATE TABLE `rfid` (
 --
 
 INSERT INTO `rfid` (`id`, `rfid`, `load_credits`, `ref_id`, `ref_table`, `pin`, `valid`, `valid_date`, `deleted`) VALUES
-(1, '221', 0, 1, 'staffs', 0, 1, 1646323200, 0),
+(1, '', 0, 1, 'staffs', 0, 1, 1646323200, 0),
 (2, '1231', 0, 1, 'students', 0, 1, 1643904000, 0),
 (3, '', 0, 1, 'teachers', 0, 1, 1585929600, 0),
 (4, '', 0, 2, 'students', 0, 1, 1549123200, 0),
 (5, '112', 0, 2, 'staffs', 0, 1, 1546358400, 0),
 (6, '12311', 0, 2, 'teachers', 0, 1, 1551456000, 0),
-(7, '1231126', 0, 3, 'teachers', 0, 1, 1551456000, 0);
+(7, '1231126', 0, 3, 'teachers', 0, 1, 1551456000, 0),
+(8, '', 0, 4, 'teachers', 0, 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -413,75 +425,40 @@ CREATE TABLE `sms` (
 --
 
 INSERT INTO `sms` (`id`, `date`, `date_time`, `sent_by_id`, `sent_by_table`) VALUES
-(1, 1491753600, 1491818059, 1, 'admins'),
-(2, 1491753600, 1491818876, 1, 'admins'),
-(3, 1492617600, 1492678529, 1, 'admins'),
-(4, 1492617600, 1492678634, 1, 'admins'),
-(5, 1492617600, 1492678674, 1, 'admins'),
-(6, 1492617600, 1492678695, 1, 'admins'),
-(7, 1492617600, 1492678721, 1, 'admins'),
-(8, 1492617600, 1492678841, 1, 'admins'),
-(9, 1492617600, 1492678867, 1, 'admins'),
-(10, 1492617600, 1492678899, 1, 'admins'),
-(11, 1492617600, 1492678971, 1, 'admins'),
-(12, 1492617600, 1492679373, 1, 'admins'),
-(13, 1492617600, 1492679430, 1, 'admins'),
-(14, 1492617600, 1492679666, 1, 'admins'),
-(15, 1492617600, 1492679690, 1, 'admins'),
-(16, 1492617600, 1492679744, 1, 'admins'),
-(17, 1492617600, 1492679791, 1, 'admins'),
-(18, 1492617600, 1492679858, 1, 'admins'),
-(19, 1492617600, 1492680296, 1, 'admins'),
-(20, 1492617600, 1492680313, 1, 'admins'),
-(21, 1492617600, 1492680369, 1, 'admins'),
-(22, 1492617600, 1492680448, 1, 'admins'),
-(23, 1492617600, 1492680695, 1, 'admins'),
-(24, 1492617600, 1492680982, 1, 'admins'),
-(25, 1492704000, 1492740514, 1, 'admins'),
-(26, 1492704000, 1492740562, 1, 'admins'),
-(27, 1492704000, 1492740846, 1, 'admins'),
-(28, 1492704000, 1492740995, 1, 'admins'),
-(29, 1492704000, 1492741053, 1, 'admins'),
-(30, 1492704000, 1492741388, 1, 'admins'),
-(31, 1492704000, 1492741422, 1, 'admins'),
-(32, 1492704000, 1492741458, 1, 'admins'),
-(33, 1492704000, 1492741606, 1, 'admins'),
-(34, 1492704000, 1492741636, 1, 'admins'),
-(35, 1492704000, 1492741940, 1, 'admins'),
-(36, 1492704000, 1492746759, 1, 'admins'),
-(37, 1492704000, 1492746770, 1, 'admins'),
-(38, 1492704000, 1492747397, 1, 'admins'),
-(39, 1492704000, 1492749649, 1, 'admins'),
-(40, 1492704000, 1492749755, 1, 'admins'),
-(41, 1492704000, 1492749810, 1, 'admins'),
-(42, 1492704000, 1492749953, 1, 'admins'),
-(43, 1492704000, 1492749998, 1, 'admins'),
-(44, 1492704000, 1492750037, 1, 'admins'),
-(45, 1492704000, 1492750125, 1, 'admins'),
-(46, 1492704000, 1492750194, 1, 'admins'),
-(47, 1492704000, 1492750399, 1, 'admins'),
-(48, 1492704000, 1492750426, 1, 'admins'),
-(49, 1492704000, 1492752502, 1, 'admins'),
-(50, 1492704000, 1492754555, 1, 'admins'),
-(51, 1492704000, 1492754591, 1, 'admins'),
-(52, 1492704000, 1492754592, 1, 'admins'),
-(53, 1492704000, 1492754984, 1, 'admins'),
-(54, 1492704000, 1492755128, 1, 'admins'),
-(55, 1492704000, 1492755146, 1, 'admins'),
-(56, 1492704000, 1492756595, 1, 'admins'),
-(57, 1492704000, 1492756616, 1, 'admins'),
-(58, 1492704000, 1492756677, 1, 'admins'),
-(59, 1492704000, 1492757108, 1, 'admins'),
-(60, 1492704000, 1492758036, 1, 'admins'),
-(61, 1492704000, 1492758050, 1, 'admins'),
-(62, 1492704000, 1492759688, 1, 'admins'),
-(63, 1492704000, 1492759776, 1, 'admins'),
-(64, 1492704000, 1492761558, 1, 'admins'),
-(65, 1492704000, 1492762059, 1, 'admins'),
-(66, 1492704000, 1492762397, 2, 'admins'),
-(67, 1492704000, 1492763150, 2, 'admins'),
-(68, 1492704000, 1492763929, 2, 'admins'),
-(69, 1492704000, 1492764266, 2, 'admins');
+(1, 1493222400, 1493264032, 1, 'admins'),
+(2, 1493222400, 1493264115, 1, 'admins'),
+(3, 1493222400, 1493264198, 1, 'admins'),
+(4, 1493222400, 1493267495, 1, 'admins'),
+(5, 1493222400, 1493267536, 1, 'admins'),
+(6, 1493222400, 1493267857, 1, 'admins'),
+(7, 1493222400, 1493268125, 1, 'admins'),
+(8, 1493222400, 1493268223, 1, 'admins'),
+(9, 1493222400, 1493268515, 1, 'admins'),
+(10, 1493222400, 1493268641, 1, 'admins'),
+(11, 1493222400, 1493268708, 1, 'admins'),
+(12, 1493222400, 1493269270, 1, 'admins'),
+(13, 1493222400, 1493270122, 1, 'admins'),
+(14, 1493222400, 1493270148, 1, 'admins'),
+(15, 1493222400, 1493270189, 1, 'admins'),
+(16, 1493222400, 1493270284, 1, 'admins'),
+(17, 1493222400, 1493270404, 1, 'admins'),
+(18, 1493222400, 1493270485, 1, 'admins'),
+(19, 1493222400, 1493270512, 1, 'admins'),
+(20, 1493222400, 1493270538, 1, 'admins'),
+(21, 1493222400, 1493270550, 1, 'admins'),
+(22, 1493222400, 1493270615, 1, 'admins'),
+(23, 1493222400, 1493270644, 1, 'admins'),
+(24, 1493222400, 1493270898, 1, 'admins'),
+(25, 1493222400, 1493270921, 1, 'admins'),
+(26, 1493222400, 1493271110, 1, 'admins'),
+(27, 1493222400, 1493271131, 1, 'admins'),
+(28, 1493222400, 1493271146, 1, 'admins'),
+(29, 1493222400, 1493271165, 1, 'admins'),
+(30, 1493222400, 1493271207, 1, 'admins'),
+(31, 1493222400, 1493271225, 1, 'admins'),
+(32, 1493222400, 1493271242, 1, 'admins'),
+(33, 1493222400, 1493271257, 1, 'admins'),
+(34, 1493222400, 1493271300, 1, 'admins');
 
 -- --------------------------------------------------------
 
@@ -506,114 +483,106 @@ CREATE TABLE `sms_list` (
 --
 
 INSERT INTO `sms_list` (`id`, `sms_id`, `message`, `mobile_number`, `recipient`, `ref_id`, `ref_table`, `status_code`, `status`) VALUES
-(1, 1, 'This is a test', '09301167850', 'last, first m. suffix', 0, '', 0, 'Success! Message is now on queue and will be sent soon.'),
-(2, 2, 'Test Message', '09301167850', 'last, first m. suffix', 0, '', 0, 'Success! Message is now on queue and will be sent soon.'),
-(3, 2, 'Test Message', '09301167850', 'Teach, Teach T. test', 0, '', 0, 'Success! Message is now on queue and will be sent soon.'),
-(4, 2, 'Test Message', '09301167850', 'aaaa, asdsdfsdfs a. aaaa', 0, '', 0, 'Success! Message is now on queue and will be sent soon.'),
-(5, 2, 'Test Message', '09301167850', 'aaaa, asdsdfsdfs a. aaaa', 0, '', 0, 'Success! Message is now on queue and will be sent soon.'),
-(6, 2, 'Test Message', '09301167850', 'asdasd', 0, '', 0, 'Success! Message is now on queue and will be sent soon.'),
-(7, 2, 'Test Message', '09301167850', 'asdasd', 0, '', 0, 'Success! Message is now on queue and will be sent soon.'),
-(8, 34, 'sdaf', '09301167851', '', 1, 'students', 0, ''),
-(9, 35, 'asdasdasd', '09301167851', '', 1, 'students', 0, ''),
-(10, 35, 'asdasdasd', '09301167852', '', 2, 'students', 0, ''),
-(11, 35, 'asdasdasd', '09301167850', '', 1, 'teachers', 0, ''),
-(12, 37, 'asdasd', '09301167851', '', 1, 'students', 0, ''),
-(13, 37, 'asdasd', '09301167852', '', 2, 'students', 0, ''),
-(14, 37, 'asdasd', '09301167850', '', 1, 'teachers', 0, ''),
-(15, 38, 'asdasdasd', '09301167851', '', 1, 'students', 0, ''),
-(16, 38, 'asdasdasd', '09301167852', '', 2, 'students', 0, ''),
-(17, 38, 'asdasdasd', '09301167850', '', 1, 'teachers', 0, ''),
-(18, 39, 'asdasd', '09301167851', '', 1, 'students', 0, ''),
-(19, 39, 'asdasd', '09301167850', '', 1, 'teachers', 0, ''),
-(20, 39, 'asdasd', '09301167852', '', 2, 'students', 0, ''),
-(21, 40, 'asdasd', '09301167850', '', 1, 'teachers', 0, ''),
-(22, 40, 'asdasd', '09301167851', '', 1, 'students', 0, ''),
-(23, 40, 'asdasd', '09301167852', '', 2, 'students', 0, ''),
-(24, 41, 'sadasd', '09301167851', '', 1, 'students', 0, ''),
-(25, 41, 'sadasd', '09301167850', '', 1, 'teachers', 0, ''),
-(26, 41, 'sadasd', '09301167852', '', 2, 'students', 0, ''),
-(27, 42, 'asdasd', '09301167851', '', 1, 'students', 0, ''),
-(28, 42, 'asdasd', '09301167850', '', 1, 'teachers', 0, ''),
-(29, 42, 'asdasd', '09301167852', '', 2, 'students', 0, ''),
-(30, 43, 'asdasdasd', '09301167850', '', 1, 'teachers', 0, ''),
-(31, 43, 'asdasdasd', '09301167851', '', 1, 'students', 0, ''),
-(32, 43, 'asdasdasd', '09301167852', '', 2, 'students', 0, ''),
-(33, 44, 'asdasd', '09301167850', '', 1, 'teachers', 0, ''),
-(34, 44, 'asdasd', '09301167851', '', 1, 'students', 0, ''),
-(35, 44, 'asdasd', '09301167852', '', 2, 'students', 0, ''),
-(36, 45, 'asdasd', '09301167851', '', 1, 'students', 0, ''),
-(37, 45, 'asdasd', '09301167850', '', 1, 'teachers', 0, ''),
-(38, 45, 'asdasd', '09301167852', '', 2, 'students', 0, ''),
-(39, 46, 'asdasdasd', '09301167852', '', 2, 'students', 0, ''),
-(40, 46, 'asdasdasd', '09301167851', '', 1, 'students', 0, ''),
-(41, 46, 'asdasdasd', '09301167850', '', 1, 'teachers', 0, ''),
-(42, 47, 'asdaasdklmaklsmdklmklamskldkamklsmdklamskldasd', '09301167852', '', 2, 'students', 0, ''),
-(43, 47, 'asdaasdklmaklsmdklmklamskldkamklsmdklamskldasd', '09301167851', '', 1, 'students', 0, ''),
-(44, 47, 'asdaasdklmaklsmdklmklamskldkamklsmdklamskldasd', '09301167850', '', 1, 'teachers', 0, ''),
-(45, 48, 'asdasdasd', '09301167851', '', 1, 'students', 0, ''),
-(46, 48, 'asdasdasd', '09301167852', '', 2, 'students', 0, ''),
-(47, 48, 'asdasdasd', '09301167850', '', 1, 'teachers', 0, ''),
-(48, 49, 'asdasasd', '09301167851', '', 1, 'students', 0, ''),
-(49, 49, 'asdasasd', '09301167852', '', 2, 'students', 0, ''),
-(50, 49, 'asdasasd', '09301167850', '', 1, 'teachers', 0, ''),
-(51, 53, 'asdasdasd', '09301167851', '', 1, 'students', 0, ''),
-(52, 53, 'asdasdasd', '09301167851', '', 2, 'teachers', 0, ''),
-(53, 53, 'asdasdasd', '09301167852', '', 2, 'students', 0, ''),
-(54, 53, 'asdasdasd', '09301167850', '', 1, 'teachers', 0, ''),
-(55, 53, 'asdasdasd', '09301167850', '', 1, 'guardians', 0, ''),
-(56, 53, 'asdasdasd', '09301167852', '', 3, 'teachers', 0, ''),
-(57, 54, 'asdasdasd', '09301167850', '', 1, 'teachers', 0, ''),
-(58, 55, 'asdasdasd', '09301167851', '', 1, 'students', 0, ''),
-(59, 55, 'asdasdasd', '09301167852', '', 2, 'students', 0, ''),
-(60, 55, 'asdasdasd', '09301167850', '', 1, 'guardians', 0, ''),
-(61, 55, 'asdasdasd', '09301167850', '', 1, 'teachers', 0, ''),
-(62, 57, 'asdasd', '09301167850', '', 1, 'staffs', 0, ''),
-(63, 58, 'asdasd', '09088651245', '', 1, 'staffs', 0, ''),
-(64, 58, 'asdasd', '09322322322', '', 2, 'staffs', 0, ''),
-(65, 59, 'ASDASD', '09088651245', '', 1, 'staffs', 0, ''),
-(66, 59, 'ASDASD', '09322322322', '', 2, 'staffs', 0, ''),
-(67, 60, 'asdasdasd', '09088651245', '', 1, 'staffs', 0, ''),
-(68, 60, 'asdasdasd', '09322322322', '', 2, 'staffs', 0, ''),
-(69, 61, 'asdasdasdasd', '09301167851', '', 1, 'students', 0, ''),
-(70, 61, 'asdasdasdasd', '09301167850', '', 1, 'teachers', 0, ''),
-(71, 61, 'asdasdasdasd', '09301167851', '', 2, 'teachers', 0, ''),
-(72, 61, 'asdasdasdasd', '09301167852', '', 2, 'students', 0, ''),
-(73, 61, 'asdasdasdasd', '09301167852', '', 3, 'teachers', 0, ''),
-(74, 61, 'asdasdasdasd', '09301167850', '', 1, 'guardians', 0, ''),
-(75, 61, 'asdasdasdasd', '09088651245', '', 1, 'staffs', 0, ''),
-(76, 61, 'asdasdasdasd', '09322322322', '', 2, 'staffs', 0, ''),
-(77, 62, 'asasdasd', '09301167851', '', 1, 'students', 0, ''),
-(78, 62, 'asasdasd', '09301167850', '', 1, 'teachers', 0, ''),
-(79, 62, 'asasdasd', '09301167852', '', 2, 'students', 0, ''),
-(80, 63, 'asdasd', '09301167851', '', 1, 'students', 0, ''),
-(81, 63, 'asdasd', '09301167852', '', 2, 'students', 0, ''),
-(82, 63, 'asdasd', '09301167850', '', 1, 'teachers', 0, ''),
-(83, 64, 'asdasdasdasda', '09301167852', ',  . ', 3, 'teachers', 0, ''),
-(84, 64, 'asdasdasdasda', '09301167851', 'last, first m. suffix', 1, 'students', 0, ''),
-(85, 64, 'asdasdasdasda', '09301167852', 'test, Teach T. test', 2, 'students', 0, ''),
-(86, 64, 'asdasdasdasda', '09301167850', ',  . ', 1, 'teachers', 0, ''),
-(87, 64, 'asdasdasdasda', '09301167851', ',  . ', 2, 'teachers', 0, ''),
-(88, 64, 'asdasdasdasda', '09301167850', 'asdasd', 1, 'guardians', 0, ''),
-(89, 64, 'asdasdasdasda', '09088651245', ',  . ', 1, 'staffs', 0, ''),
-(90, 64, 'asdasdasdasda', '09322322322', ',  . ', 2, 'staffs', 0, ''),
-(91, 65, 'dfgklbvvvbbv', '09301167852', 'aaaa, asdsdfsdfs a. aaaa', 3, 'teachers', 0, ''),
-(92, 65, 'dfgklbvvvbbv', '09301167851', 'aaaa, asdsdfsdfs a. aaaa', 2, 'teachers', 0, ''),
-(93, 65, 'dfgklbvvvbbv', '09301167850', 'Last Name, First Name M. Suffix', 1, 'teachers', 0, ''),
-(94, 65, 'dfgklbvvvbbv', '09301167850', 'asdasd', 1, 'guardians', 0, ''),
-(95, 65, 'dfgklbvvvbbv', '09301167851', 'last, first m. suffix', 1, 'students', 0, ''),
-(96, 65, 'dfgklbvvvbbv', '09301167852', 'test, Teach T. test', 2, 'students', 0, ''),
-(97, 65, 'dfgklbvvvbbv', '09088651245', 'Last Name, First Name M. suffix', 1, 'staffs', 0, ''),
-(98, 65, 'dfgklbvvvbbv', '09322322322', 'aaaa, asdsdfsdfs a. aaaa', 2, 'staffs', 0, ''),
-(99, 66, 'asdasd', '09301167851', 'last, first m. suffix', 1, 'students', 0, ''),
-(100, 66, 'asdasd', '09301167850', 'Last Name, First Name M. Suffix', 1, 'teachers', 0, ''),
-(101, 66, 'asdasd', '09301167852', 'test, Teach T. test', 2, 'students', 0, ''),
-(102, 67, 'asdasdasd', '09301167851', 'last, first m. suffix', 1, 'students', 0, ''),
-(103, 67, 'asdasdasd', '09301167852', 'test, Teach T. test', 2, 'students', 0, ''),
-(104, 67, 'asdasdasd', '09301167850', 'Last Name, First Name M. Suffix', 1, 'teachers', 0, ''),
-(105, 68, 'Needless to say that I''m going for the kill.', '09301167851', 'last, first m. suffix', 1, 'students', 0, ''),
-(106, 68, 'Needless to say that I''m going for the kill.', '09301167850', 'Last Name, First Name M. Suffix', 1, 'teachers', 0, ''),
-(107, 68, 'Needless to say that I''m going for the kill.', '09301167852', 'test, Teach T. test', 2, 'students', 0, ''),
-(108, 69, 'Sa lungkot at ligaya kami ang kasama mo', '09301167850', 'Last Name, First Name M. Suffix', 1, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.');
+(1, 1, 'aSSS', '09301167850', 'Last Name, First Name M. Suffix', 1, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(2, 1, 'aSSS', '09301167851', 'jjj', 2, 'guardians', 0, 'Success! Message is now on queue and will be sent soon.'),
+(3, 1, 'aSSS', '09301167852', 'last, first m. suffix', 1, 'students', 0, 'Success! Message is now on queue and will be sent soon.'),
+(4, 2, 'Asdssaa', '09301167851', 'jjj', 2, 'guardians', 0, 'Success! Message is now on queue and will be sent soon.'),
+(5, 2, 'Asdssaa', '09301167850', 'Last Name, First Name M. Suffix', 1, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(6, 2, 'Asdssaa', '09301167852', 'last, first m. suffix', 1, 'students', 0, 'Success! Message is now on queue and will be sent soon.'),
+(7, 3, 'Asdasda', '09301167852', 'last, first m. suffix', 1, 'students', 0, 'Success! Message is now on queue and will be sent soon.'),
+(8, 3, 'Asdasda', '09301167851', 'jjj', 2, 'guardians', 0, 'Success! Message is now on queue and will be sent soon.'),
+(9, 3, 'Asdasda', '09301167850', 'Last Name, First Name M. Suffix', 1, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(10, 4, 'asdasdasd', '09301167850', 'Last Name, First Name M. Suffix', 1, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(11, 4, 'asdasdasd', '09301167851', 'jjj', 2, 'guardians', 0, 'Success! Message is now on queue and will be sent soon.'),
+(12, 4, 'asdasdasd', '09301167852', 'last, first m. suffix', 1, 'students', 0, 'Success! Message is now on queue and will be sent soon.'),
+(13, 5, 'asasdad', '09301167850', 'Last Name, First Name M. Suffix', 1, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(14, 5, 'asasdad', '09301167851', 'jjj', 2, 'guardians', 0, 'Success! Message is now on queue and will be sent soon.'),
+(15, 5, 'asasdad', '09301167852', 'last, first m. suffix', 1, 'students', 0, 'Success! Message is now on queue and will be sent soon.'),
+(16, 6, 'asdasd', '09301167850', 'Last Name, First Name M. Suffix', 1, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(17, 6, 'asdasd', '09301167851', 'asdaasd, Teach T. test', 2, 'students', 0, 'Success! Message is now on queue and will be sent soon.'),
+(18, 6, 'asdasd', '09301167852', 'last, first m. suffix', 1, 'students', 0, 'Success! Message is now on queue and will be sent soon.'),
+(19, 7, 'AJSdkjakjskjdasd', '09088651245', 'Last Name, First Name M. suffix', 1, 'staffs', 0, 'Success! Message is now on queue and will be sent soon.'),
+(20, 7, 'AJSdkjakjskjdasd', '09301167852', 'last, first m. suffix', 1, 'students', 0, 'Success! Message is now on queue and will be sent soon.'),
+(21, 7, 'AJSdkjakjskjdasd', '09301167851', 'jjj', 2, 'guardians', 0, 'Success! Message is now on queue and will be sent soon.'),
+(22, 7, 'AJSdkjakjskjdasd', '09301167850', 'Last Name, First Name M. Suffix', 1, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(23, 7, 'AJSdkjakjskjdasd', '09301167853', 'aaaa, asdsdfsdfs a. aaaa', 2, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(24, 7, 'AJSdkjakjskjdasd', '09301167854', 'aaaa, asdsdfsdfs a. aaaa', 3, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(25, 7, 'AJSdkjakjskjdasd', '09301167855', 'aaaa, asdsdfsdfs a. aaaa', 2, 'staffs', 0, 'Success! Message is now on queue and will be sent soon.'),
+(26, 8, 'dasdasd', '09301167853', 'aaaa, asdsdfsdfs a. aaaa', 2, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(27, 8, 'dasdasd', '09301167855', 'aaaa, asdsdfsdfs a. aaaa', 2, 'staffs', 0, 'Success! Message is now on queue and will be sent soon.'),
+(28, 8, 'dasdasd', '09301167852', 'last, first m. suffix', 1, 'students', 0, 'Success! Message is now on queue and will be sent soon.'),
+(29, 8, 'dasdasd', '09301167850', 'Last Name, First Name M. Suffix', 1, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(30, 8, 'dasdasd', '09088651245', 'Last Name, First Name M. suffix', 1, 'staffs', 0, 'Success! Message is now on queue and will be sent soon.'),
+(31, 8, 'dasdasd', '09301167854', 'aaaa, asdsdfsdfs a. aaaa', 3, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(32, 9, 'bjhgfcx', '09088651245', 'Last Name, First Name M. suffix', 1, 'staffs', 0, 'Success! Message is now on queue and will be sent soon.'),
+(33, 9, 'bjhgfcx', '09301167852', 'last, first m. suffix', 1, 'students', 0, 'Success! Message is now on queue and will be sent soon.'),
+(34, 9, 'bjhgfcx', '09301167855', 'aaaa, asdsdfsdfs a. aaaa', 2, 'staffs', 0, 'Success! Message is now on queue and will be sent soon.'),
+(35, 9, 'bjhgfcx', '09301167850', 'Last Name, First Name M. Suffix', 1, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(36, 9, 'bjhgfcx', '09301167854', 'aaaa, asdsdfsdfs a. aaaa', 3, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(37, 9, 'bjhgfcx', '09301167853', 'aaaa, asdsdfsdfs a. aaaa', 2, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(38, 9, 'bjhgfcx', '09301167859', 'asdaasd, Teach T. test', 2, 'students', 0, 'Success! Message is now on queue and will be sent soon.'),
+(39, 10, ',mjnhbgfdfghjkl;', '09088651245', 'Last Name, First Name M. suffix', 1, 'staffs', 0, 'Success! Message is now on queue and will be sent soon.'),
+(40, 10, ',mjnhbgfdfghjkl;', '09301167852', 'last, first m. suffix', 1, 'students', 0, 'Success! Message is now on queue and will be sent soon.'),
+(41, 10, ',mjnhbgfdfghjkl;', '09301167853', 'aaaa, asdsdfsdfs a. aaaa', 2, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(42, 10, ',mjnhbgfdfghjkl;', '09301167850', 'Last Name, First Name M. Suffix', 1, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(43, 10, ',mjnhbgfdfghjkl;', '09301167854', 'aaaa, asdsdfsdfs a. aaaa', 3, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(44, 10, ',mjnhbgfdfghjkl;', '09301167855', 'aaaa, asdsdfsdfs a. aaaa', 2, 'staffs', 0, 'Success! Message is now on queue and will be sent soon.'),
+(45, 10, ',mjnhbgfdfghjkl;', '09301167859', 'asdaasd, Teach T. test', 2, 'students', 0, 'Success! Message is now on queue and will be sent soon.'),
+(46, 11, 'asdasdad', '09088651245', 'Last Name, First Name M. suffix', 1, 'staffs', 0, 'Success! Message is now on queue and will be sent soon.'),
+(47, 11, 'asdasdad', '09301167852', 'last, first m. suffix', 1, 'students', 0, 'Success! Message is now on queue and will be sent soon.'),
+(48, 11, 'asdasdad', '09301167840', 'John Paul Gulayan', 8, 'guardians', 0, 'Success! Message is now on queue and will be sent soon.'),
+(49, 11, 'asdasdad', '09301167850', 'Last Name, First Name M. Suffix', 1, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(50, 11, 'asdasdad', '09301167853', 'aaaa, asdsdfsdfs a. aaaa', 2, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(51, 11, 'asdasdad', '09301167854', 'aaaa, asdsdfsdfs a. aaaa', 3, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(52, 11, 'asdasdad', '09301167855', 'aaaa, asdsdfsdfs a. aaaa', 2, 'staffs', 0, 'Success! Message is now on queue and will be sent soon.'),
+(53, 11, 'asdasdad', '09301167859', 'asdaasd, Teach T. test', 2, 'students', 0, 'Success! Message is now on queue and will be sent soon.'),
+(54, 12, 'ASADFGHJHGFDSA', '09088651245', 'Last Name, First Name M. suffix', 1, 'staffs', 0, 'Success! Message is now on queue and will be sent soon.'),
+(55, 12, 'ASADFGHJHGFDSA', '09301167850', 'Last Name, First Name M. Suffix', 1, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(56, 12, 'ASADFGHJHGFDSA', '09301167840', 'John Paul Gulayan', 8, 'guardians', 0, 'Success! Message is now on queue and will be sent soon.'),
+(57, 12, 'ASADFGHJHGFDSA', '09301167854', 'aaaa, asdsdfsdfs a. aaaa', 3, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(58, 12, 'ASADFGHJHGFDSA', '09301167855', 'aaaa, asdsdfsdfs a. aaaa', 2, 'staffs', 0, 'Success! Message is now on queue and will be sent soon.'),
+(59, 12, 'ASADFGHJHGFDSA', '09301167853', 'aaaa, asdsdfsdfs a. aaaa', 2, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(60, 13, 'asdasd', '09301167850', 'Last Name, First Name M. Suffix', 1, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(61, 17, 'asdasdasd', '09301167850', 'Last Name, First Name M. Suffix', 1, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(62, 20, 'asdasdasd', '09301167850', 'Last Name, First Name M. Suffix', 1, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(63, 21, 'asdasdasd', '09301167850', 'Last Name, First Name M. Suffix', 1, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(64, 23, 'asdasdasd', '09301167840', 'John Paul Gulayan', 8, 'guardians', 0, 'Success! Message is now on queue and will be sent soon.'),
+(65, 23, 'asdasdasd', '09301167850', 'Last Name, First Name M. Suffix', 1, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(66, 24, 'asdasdasd', '09301167840', 'John Paul Gulayan', 8, 'guardians', 0, 'Success! Message is now on queue and will be sent soon.'),
+(67, 25, 'asdasdasd', '09301167850', 'Last Name, First Name M. Suffix', 1, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(68, 26, 'asdasdasd', '09301167840', 'John Paul Gulayan', 8, 'guardians', 0, 'Success! Message is now on queue and will be sent soon.'),
+(69, 26, 'asdasdasd', '09301167850', 'Last Name, First Name M. Suffix', 1, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(70, 27, 'asdasdasd', '09088651245', 'Last Name, First Name M. suffix', 1, 'staffs', 0, 'Success! Message is now on queue and will be sent soon.'),
+(71, 27, 'asdasdasd', '09301167855', 'aaaa, asdsdfsdfs a. aaaa', 2, 'staffs', 0, 'Success! Message is now on queue and will be sent soon.'),
+(72, 28, 'asdasdasd', '09301167850', 'Last Name, First Name M. Suffix', 1, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(73, 28, 'asdasdasd', '09301167854', 'aaaa, asdsdfsdfs a. aaaa', 3, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(74, 28, 'asdasdasd', '09301167853', 'aaaa, asdsdfsdfs a. aaaa', 2, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(75, 29, 'asdasd', '09301167853', 'aaaa, asdsdfsdfs a. aaaa', 2, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(76, 29, 'asdasd', '09301167854', 'aaaa, asdsdfsdfs a. aaaa', 3, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(77, 29, 'asdasd', '09301167850', 'Last Name, First Name M. Suffix', 1, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(78, 30, 'asdasdasd', '09301167850', 'Last Name, First Name M. Suffix', 1, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(79, 30, 'asdasdasd', '09301167854', 'aaaa, asdsdfsdfs a. aaaa', 3, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(80, 30, 'asdasdasd', '09301167853', 'aaaa, asdsdfsdfs a. aaaa', 2, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(81, 30, 'asdasdasd', '09301167222', 'last, first m. suffix', 1, 'students', 0, 'Success! Message is now on queue and will be sent soon.'),
+(82, 31, 'asdasasd', '09301167850', 'Last Name, First Name M. Suffix', 1, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(83, 31, 'asdasasd', '09301167853', 'aaaa, asdsdfsdfs a. aaaa', 2, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(84, 31, 'asdasasd', '09301167854', 'aaaa, asdsdfsdfs a. aaaa', 3, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(85, 32, 'ewretrrytuyyiyutrew', '09301167222', 'last, first m. suffix', 1, 'students', 0, 'Success! Message is now on queue and will be sent soon.'),
+(86, 32, 'ewretrrytuyyiyutrew', '09301167850', 'Last Name, First Name M. Suffix', 1, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(87, 33, '343567666534321', '09301167850', 'Last Name, First Name M. Suffix', 1, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(88, 33, '343567666534321', '09088651245', 'Last Name, First Name M. suffix', 1, 'staffs', 0, 'Success! Message is now on queue and will be sent soon.'),
+(89, 33, '343567666534321', '09301167222', 'last, first m. suffix', 1, 'students', 0, 'Success! Message is now on queue and will be sent soon.'),
+(90, 33, '343567666534321', '09301167840', 'John Paul Gulayan', 8, 'guardians', 0, 'Success! Message is now on queue and will be sent soon.'),
+(91, 33, '343567666534321', '09301167854', 'aaaa, asdsdfsdfs a. aaaa', 3, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(92, 33, '343567666534321', '09301167853', 'aaaa, asdsdfsdfs a. aaaa', 2, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(93, 33, '343567666534321', '09301167855', 'aaaa, asdsdfsdfs a. aaaa', 2, 'staffs', 0, 'Success! Message is now on queue and will be sent soon.'),
+(94, 34, 'asdasdasdasd', '09301167222', 'last, first m. suffix', 1, 'students', 0, 'Success! Message is now on queue and will be sent soon.'),
+(95, 34, 'asdasdasdasd', '09301167853', 'aaaa, asdsdfsdfs a. aaaa', 2, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(96, 34, 'asdasdasdasd', '09088651245', 'Last Name, First Name M. suffix', 1, 'staffs', 0, 'Success! Message is now on queue and will be sent soon.'),
+(97, 34, 'asdasdasdasd', '09301167840', 'John Paul Gulayan', 8, 'guardians', 0, 'Success! Message is now on queue and will be sent soon.'),
+(98, 34, 'asdasdasdasd', '09301167850', 'Last Name, First Name M. Suffix', 1, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(99, 34, 'asdasdasdasd', '09301167854', 'aaaa, asdsdfsdfs a. aaaa', 3, 'teachers', 0, 'Success! Message is now on queue and will be sent soon.'),
+(100, 34, 'asdasdasdasd', '09301167855', 'aaaa, asdsdfsdfs a. aaaa', 2, 'staffs', 0, 'Success! Message is now on queue and will be sent soon.');
 
 -- --------------------------------------------------------
 
@@ -643,8 +612,8 @@ CREATE TABLE `staffs` (
 --
 
 INSERT INTO `staffs` (`id`, `last_name`, `first_name`, `middle_name`, `suffix`, `gender`, `contact_number`, `address`, `birthdate`, `position`, `display_photo`, `display_photo_type`, `rfid_status`, `deleted`) VALUES
-(1, 'Last Name', 'First Name', 'Middle Names', 'suffix', 'MALE', '09088651245', 'Address', 315504000, 'Positions', '1_Last-Name_First-Name_Middle-Names_suffix-269d0e538e11a79ca4df29040ac6beba.png', '', 1, 0),
-(2, 'aaaa', 'asdsdfsdfs', 'aaa', 'aaaa', 'MALE', '09322322322', 'Address', 315504000, 'TE', '2_aaaa_asdsdfsdfs_aaa_aaaa.png', '', 1, 0);
+(1, 'Last Name', 'First Name', 'Middle Names', 'suffix', 'MALE', '09088651245', 'Address', 315504000, 'Positions', '1_Last-Name_First-Name_Middle-Names_suffix-269d0e538e11a79ca4df29040ac6beba.png', '', 0, 0),
+(2, 'aaaa', 'asdsdfsdfs', 'aaa', 'aaaa', 'MALE', '09301167855', 'Address', 315504000, 'TE', '2_aaaa_asdsdfsdfs_aaa_aaaa.png', '', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -677,8 +646,8 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`id`, `last_name`, `first_name`, `middle_name`, `suffix`, `contact_number`, `address`, `birthdate`, `gender`, `mothers_name`, `fathers_name`, `display_photo`, `display_photo_type`, `guardian_id`, `class_id`, `rfid_status`, `deleted`) VALUES
-(1, 'last', 'first', 'middle', 'suffix', '09301167851', 'Address', 320601600, 'MALE', 'mother', 'father', 'empty.jpg', '', 1, 1, 1, 0),
-(2, 'asdaasd', 'Teach', 'Teach', 'test', '09301167852', 'ADDress', 349891200, 'FEMALE', '', '', '2_asdaasd_Teach_Teach_test_bb4d37d345a20e619763e391ff1a46fd.png', '', 0, 1, 0, 0);
+(1, 'last', 'first', 'middle', 'suffix', '09301167851', 'Address', 320601600, 'MALE', 'mother', 'father', 'empty.jpg', '', 0, 1, 1, 0),
+(2, 'asdaasd', 'Teach', 'Teach', 'test', '09301167850', 'ADDress', 349891200, 'FEMALE', '', '', '2_asdaasd_Teach_Teach_test_bb4d37d345a20e619763e391ff1a46fd.png', '', 8, 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -694,6 +663,9 @@ CREATE TABLE `teachers` (
   `suffix` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `gender` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `contact_number` varchar(11) COLLATE utf8_unicode_ci NOT NULL,
+  `in_case_name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `in_case_contact_number` varchar(11) COLLATE utf8_unicode_ci NOT NULL,
+  `in_case_contact_number_sms` int(11) NOT NULL,
   `address` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `birthdate` int(11) NOT NULL,
@@ -709,10 +681,11 @@ CREATE TABLE `teachers` (
 -- Dumping data for table `teachers`
 --
 
-INSERT INTO `teachers` (`id`, `last_name`, `first_name`, `middle_name`, `suffix`, `gender`, `contact_number`, `address`, `password`, `birthdate`, `display_photo`, `display_photo_type`, `guardian_id`, `class_id`, `rfid_status`, `deleted`) VALUES
-(1, 'Last Name', 'First Name', 'Middle Name', 'Suffix', 'MALE', '09301167850', 'Address', '21232f297a57a5a743894a0e4a801fc3', 347212800, '1_Last-Name_First-Name_Middle-Name_Suffix_3d8a517db6aba6ad0e57692473bb9d1b.png', '', 0, 1, 0, 0),
-(2, 'aaaa', 'asdsdfsdfs', 'aaa', 'aaaa', 'MALE', '09301167851', 'address', '3d82576b589c04b0caeae416b691edac', 349804800, 'empty.jpg', '', 0, 0, 1, 0),
-(3, 'aaaa', 'asdsdfsdfs', 'aaa', 'aaaa', 'FEMALE', '09301167852', 'address', '4fc5f0dbde510194f47236948b0e7c1e', 383846400, 'empty.jpg', '', 0, 0, 1, 0);
+INSERT INTO `teachers` (`id`, `last_name`, `first_name`, `middle_name`, `suffix`, `gender`, `contact_number`, `in_case_name`, `in_case_contact_number`, `in_case_contact_number_sms`, `address`, `password`, `birthdate`, `display_photo`, `display_photo_type`, `guardian_id`, `class_id`, `rfid_status`, `deleted`) VALUES
+(1, 'Last Name', 'First Name', 'Middle Name', 'Suffix', 'MALE', '09301167850', '', '09301167850', 1, 'Address', '21232f297a57a5a743894a0e4a801fc3', 347212800, '1_Last-Name_First-Name_Middle-Name_Suffix_3d8a517db6aba6ad0e57692473bb9d1b.png', '', 0, 1, 0, 0),
+(2, 'aaaa', 'asdsdfsdfs', 'aaa', 'aaaa', 'MALE', '09301167853', '', '', 0, 'address', '3d82576b589c04b0caeae416b691edac', 349804800, 'empty.jpg', '', 0, 0, 1, 0),
+(3, 'aaaa', 'asdsdfsdfs', 'aaa', 'aaaa', 'FEMALE', '09301167854', '', '', 0, 'address', '4fc5f0dbde510194f47236948b0e7c1e', 383846400, 'empty.jpg', '', 0, 0, 1, 0),
+(4, 'asdaasd', 'asdasdasd', 'asdasd', 'aaaa', 'MALE', '09301167823', '', '09301167850', 1, 'Address', '5885d6a93572f3bee6635f7eec1f49fe', -408700800, 'empty.jpg', '', 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -922,12 +895,12 @@ ALTER TABLE `classes`
 -- AUTO_INCREMENT for table `gate_logs`
 --
 ALTER TABLE `gate_logs`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 --
 -- AUTO_INCREMENT for table `guardians`
 --
 ALTER TABLE `guardians`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT for table `guards`
 --
@@ -942,7 +915,7 @@ ALTER TABLE `jbtech`
 -- AUTO_INCREMENT for table `rfid`
 --
 ALTER TABLE `rfid`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `rfid_photo`
 --
@@ -952,12 +925,12 @@ ALTER TABLE `rfid_photo`
 -- AUTO_INCREMENT for table `sms`
 --
 ALTER TABLE `sms`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 --
 -- AUTO_INCREMENT for table `sms_list`
 --
 ALTER TABLE `sms_list`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
 --
 -- AUTO_INCREMENT for table `staffs`
 --
@@ -972,7 +945,7 @@ ALTER TABLE `students`
 -- AUTO_INCREMENT for table `teachers`
 --
 ALTER TABLE `teachers`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `time_logs`
 --

@@ -24,6 +24,7 @@
 				<table class="table table-hover" id="student-list-table">
 					<thead>
 						<tr>
+							<th>ID</th>
 							<th>Last Name</th>
 							<th>First Name</th>
 							<th>Middle Name</th>
