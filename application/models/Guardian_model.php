@@ -23,13 +23,14 @@ class Guardian_model extends CI_Model {
     	# code...
     }
 
-    function get_list($where='',$page=1,$maxitem=50){
+    function get_list($where='',$page=1,$maxitem=50,$order_by_col="id",$order_by_val="DESC"){
     	if($where==""){
             $this->db->where("deleted",0);
         }else{
             $this->db->where($where);
         }
         $limit = ($page*$maxitem)-$maxitem;
+        $this->db->order_by($order_by_col,$order_by_val);
         $this->db->limit($maxitem,$limit);
         $query = $this->db->get("guardians");
         $data["query"] = $this->db->last_query();

@@ -27,12 +27,16 @@
           }
         ?>
       </select>
-      <button class="btn btn-primary" type="submit">Search</button>
-      <button class="btn btn-danger" type="button" id="reset">Reset</button>
+      <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-search"></span> Search</button>
+      <button class="btn btn-danger" type="button" id="reset"><span class="glyphicon glyphicon-refresh"></span> Reset</button>
+      <button type="submit" form="staff_download_list" class="btn btn-info"><span class="glyphicon glyphicon-download"></span> Download</button>
+      </form>
+      <?php echo form_open("staff_ajax/download",'class="form-inline" id="staff_download_list"');?>
       </form>
         <table class="table table-hover" id="staff-list-table">
           <thead>
             <tr>
+              <th>ID</th>
               <th>RFID</th>
               <th>First Name</th>
               <th>Middle Name</th>
@@ -184,6 +188,28 @@ echo '
           </div>
 
           <div class="form-group">
+            <label class="col-sm-2" for="in_case_name">In Case of Emergency Contact:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control edit_field" name="in_case_name" placeholder="Enter Contact Name">
+              <p class="help-block" id="in_case_name_help-block"></p>
+            </div>
+            
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2" for="in_case_contact_number">Contact Number:</label>
+            <div class="col-sm-10"> 
+            <div class="input-group">
+              <input type="text" class="form-control edit_field" name="in_case_contact_number" placeholder="Enter Contact Number">
+              <span class="input-group-addon">
+                <input type="checkbox" name="in_case_contact_number_sms" value="1" class="edit_field"> SMS Notification
+              </span>
+            </div>
+            <p class="help-block" id="in_case_contact_number_help-block"></p>
+            </div>
+          </div>
+
+          <div class="form-group">
             <label class="col-sm-2" for="staff_photo">Photo:</label>
             <div class="col-sm-10">
             <input type="file" name="staff_photo" size="20" class="form-control">
@@ -282,6 +308,8 @@ $(document).on("click",".delete_staff",function(e) {
       success: function(data) {
         show_staff_list();
       }
+
+      
     });
   }
 });
@@ -297,6 +325,8 @@ function show_staff_data(id) {
       $("#display-photo").attr("src","<?php echo base_url("assets/images/staff_photo/");?>"+data.display_photo);
       $('input[name="position"].edit_field').val(data.position);
       $('input[name="first_name"].edit_field').val(data.first_name);
+      $('input[name="in_case_name"].edit_field').val(data.in_case_name);
+      $('input[name="in_case_contact_number"].edit_field').val(data.in_case_contact_number);
       $('input[name="last_name"].edit_field').val(data.last_name);
       $('input[name="address"].edit_field').val(data.address);
       $('input[name="middle_name"].edit_field').val(data.middle_name);
@@ -306,6 +336,11 @@ function show_staff_data(id) {
       $('select[name="gender"].edit_field').val(data.gender);
       $('select[name="bday_d"].edit_field').val(data.bday_d);
       $('select[name="bday_y"].edit_field').val(data.bday_y);
+      if(data.in_case_contact_number_sms == 1){
+        $('input[name="in_case_contact_number_sms"].edit_field').prop("checked",true);
+      }else{
+        $('input[name="in_case_contact_number_sms"].edit_field').prop("checked",false);
+      }
       if(data.class_id!=""){
         $('#edit-class_id').dropdown('set value',data.class_id);
       }else{
@@ -329,6 +364,8 @@ $(document).on("submit","#staff_edit_form",function(e) {
     success: function(data) {
       $('button[form="staff_edit_form"]').prop('disabled', false);
       $("#first_name_help-block").html(data.first_name_error);
+      $("#in_case_name_help-block").html(data.in_case_name_error);
+      $("#in_case_contact_number_help-block").html(data.in_case_contact_number_error);
       $("#gender_help-block").html(data.gender_error);
       $("#address_help-block").html(data.address_error);
       $("#position_help-block").html(data.position_error);
@@ -394,6 +431,19 @@ $(document).on("click",".reset_password_staff",function(e) {
     });
   }
 });
+
+$(document).on("submit","#staff_download_list",function(e) {
+  e.preventDefault();
+  $.ajax({
+    type: "GET",
+    url: $("#staff_download_list").attr("action"),
+    cache: false,
+    success: function(data) {
+      window.location = data;
+    }
+  });
+});
+
 
 
 $(document).on("submit","#staff-list-form",function(e) {

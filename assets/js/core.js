@@ -192,6 +192,7 @@ $(document).on("submit", "#teacher_add_form", function(e) {
       } else {
         $("#teacher_address_help-block").html(data.address_error);
         $("#teacher_in_case_contact_number_help-block").html(data.in_case_contact_number_error);
+        $("#teacher_in_case_name_help-block").html(data.in_case_name_error);
         $("#teacher_gender_help-block").html(data.gender_error);
         $("#teacher_first_name_help-block").html(data.first_name_error);
         $("#teacher_last_name_help-block").html(data.last_name_error);
@@ -233,6 +234,8 @@ $(document).on("submit", "#staff_add_form", function(e) {
         $("#staff_gender_help-block").html(data.gender_error);
         $("#staff_address_help-block").html(data.address_error);
         $("#staff_position_help-block").html(data.position_error);
+        $("#staff_in_case_contact_number_help-block").html(data.in_case_contact_number_error);
+        $("#staff_in_case_name_help-block").html(data.in_case_name_error);
         $("#staff_first_name_help-block").html(data.first_name_error);
         $("#staff_last_name_help-block").html(data.last_name_error);
         $("#staff_middle_name_help-block").html(data.middle_name_error);

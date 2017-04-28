@@ -13,12 +13,12 @@
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-sm-12">
-			<?php echo form_open("tables/sms/threads_list",'id="sms_list_form"'); ?>
+			<?php echo form_open("tables/sms/threads_list",'id="sms_list_form"  class="form-inline'); ?>
 			<label>Date From:</label>
-			<input type="text" name="date_from" id="datepicker_from" value="<?php echo date("m/d/Y");?>" readonly>
+			<input type="text" class="form-control" name="date_from" id="datepicker_from" value="<?php echo date("m/d/Y");?>" readonly>
 			<label>Date To:</label>
-			<input type="text" name="date_to" id="datepicker_to" value="<?php echo date("m/d/Y");?>" readonly>
-			<button type="submit" class="btn btn-primary" form="sms_list_form">Search</button>
+			<input type="text" class="form-control" name="date_to" id="datepicker_to" value="<?php echo date("m/d/Y");?>" readonly>
+			<button type="submit" class="btn btn-primary" form="sms_list_form"><span class="glyphicon glyphicon-search"></span> Search</button>
 			</form>
 			<div class="table-responsive">
 				<table class="table table-hover" id="sms_threads_table">

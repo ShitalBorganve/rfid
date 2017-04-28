@@ -275,7 +275,7 @@ class Tables extends CI_Controller {
 				if($arg_2=="jbtech"){
 					echo '
 					<tr>
-						<td>'.$staff_data->id.'</td>
+						<td>'.sprintf("%03d",$staff_data->id).'</td>
 						<td>'.$staff_data->first_name.'</td>
 						<td>'.$staff_data->middle_name.'</td>
 						<td>'.$staff_data->last_name.'</td>
@@ -294,7 +294,7 @@ class Tables extends CI_Controller {
 					}
 					echo '
 					<tr>
-						<td>'.$staff_data->id.'</td>
+						<td>'.sprintf("%03d",$staff_data->id).'</td>
 						<td>'.$rfid_status.'</td>
 						<td>'.$staff_data->first_name.'</td>
 						<td>'.$staff_data->middle_name.'</td>

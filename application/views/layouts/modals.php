@@ -284,12 +284,6 @@ if($modals_sets=="admin"){
               <div class="col-sm-8"> 
                 <select class="ui search dropdown form-control" name="guardian_id" id="add_student_guardian">
                   <option value="">Select a Guardians Contact Number</option>
-                  ';
-                  foreach ($guardians_list["result"] as $guardian_data) {
-                    echo '<option value="'.$guardian_data->id.'">'.$guardian_data->contact_number.'</option>';
-                  }
-
-                  echo '
                 </select>
 
                 <p class="guardian_id_help-block"></p>
@@ -477,7 +471,7 @@ if($modals_sets=="admin"){
             <div class="form-group">
               <label class="col-sm-2" for="in_case_name">In Case of Emergency Contact:</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" name="in_case_name" placeholder="Enter His/Her Contact Number">
+                <input type="text" class="form-control" name="in_case_name" placeholder="Enter Contact Name">
                 <p class="help-block" id="teacher_in_case_name_help-block"></p>
               </div>
               
@@ -488,7 +482,7 @@ if($modals_sets=="admin"){
               <label class="col-sm-2" for="in_case_contact_number">Contact Number:</label>
               <div class="col-sm-10"> 
               <div class="input-group">
-                <input type="text" class="form-control" name="in_case_contact_number" placeholder="Enter Her/His Contact Number">
+                <input type="text" class="form-control" name="in_case_contact_number" placeholder="Enter Contact Number">
                 <span class="input-group-addon">
                   <input type="checkbox" name="in_case_contact_number_sms" value="1"> SMS Notification
                 </span>
@@ -659,6 +653,32 @@ if($modals_sets=="admin"){
                 <p class="help-block" id="staff_bday_help-block"></p>
               </div>
             </div>
+
+
+            <div class="form-group">
+              <label class="col-sm-2" for="in_case_name">In Case of Emergency Contact:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="in_case_name" placeholder="Enter Contact Name">
+                <p class="help-block" id="staff_in_case_name_help-block"></p>
+              </div>
+              
+            </div>
+            
+
+            <div class="form-group">
+              <label class="col-sm-2" for="in_case_contact_number">Contact Number:</label>
+              <div class="col-sm-10"> 
+              <div class="input-group">
+                <input type="text" class="form-control" name="in_case_contact_number" placeholder="Enter Contact Number">
+                <span class="input-group-addon">
+                  <input type="checkbox" name="in_case_contact_number_sms" value="1"> SMS Notification
+                </span>
+              </div>
+              <p class="help-block" id="staff_in_case_contact_number_help-block"></p>
+              </div>
+
+            </div>
+
 
             <div class="form-group">
               <label class="col-sm-2" for="staff_photo">Photo:</label>

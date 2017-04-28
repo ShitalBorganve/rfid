@@ -530,20 +530,58 @@ class Student_ajax extends CI_Controller {
 
 	public function download($arg='')
 	{
-		$list = array (
-		    array('aaa', 'bbb', 'ccc', 'dddd'),
-		    array('123', '456', '789'),
-		    array('"aaa"', '"bbb"')
-		);
 
-		$fp = fopen('file.csv', 'w');
+		$fp = fopen('students.csv', 'w');
 
-		foreach ($list as $fields) {
-		    fputcsv($fp, $fields);
-		}
-
+		$headers = array (
+			'id',
+			'Last Name',
+			'Middle Name',
+			'First Name',
+			'Suffix',
+			'Gender',
+			'Contact Number',
+			'Birthdate',
+			'Age',
+			'Address',
+			'Mothers Name',
+			'Fathers Name',
+			'Guardians Name',
+			'Guardians Contact Number',
+			'Class',
+			'Grade or Year'
+			);
+	    fputcsv($fp, $headers);
+	    $student_list = $this->students_model->get_list("",1,$this->db->get("students")->num_rows());
+	    foreach ($student_list["result"] as $student_data) {
+	    	$get_data = array();
+	    	$get_data["id"] = $student_data->guardian_id;
+	    	$guardian_data = $this->guardian_model->get_data($get_data);
+	    	$get_data = array();
+	    	$get_data["id"] = $student_data->class_id;
+	    	$class_data = $this->classes_model->get_data($get_data);
+		    $records = array(
+		    	sprintf("%03d",$student_data->id),
+		    	$student_data->last_name,
+		    	$student_data->middle_name,
+		    	$student_data->first_name,
+		    	$student_data->suffix,
+		    	$student_data->gender,
+		    	$student_data->contact_number,
+		    	date("m/d/Y",$student_data->birthdate),
+		    	age($student_data->birthdate),
+		    	$student_data->address,
+		    	$student_data->mothers_name,
+		    	$student_data->fathers_name,
+		    	$guardian_data["name"],
+		    	$guardian_data["contact_number"],
+		    	$class_data["class_name"],
+		    	$class_data["grade"]
+		    	);
+		    fputcsv($fp, $records);
+	    }
 		fclose($fp);
-		
+		echo base_url("students.csv");
 	}
 
 }

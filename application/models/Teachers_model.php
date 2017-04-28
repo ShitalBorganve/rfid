@@ -46,6 +46,7 @@ class Teachers_model extends CI_Model {
             $this->db->like($search["search"],$search["value"]);
         }
             $limit = ($page*$maxitem)-$maxitem;
+            $this->db->order_by('last_name ASC, first_name ASC, middle_name ASC, suffix ASC');
             $this->db->limit($maxitem,$limit);
             $query = $this->db->get("teachers");
             $data["query"] = $this->db->last_query();

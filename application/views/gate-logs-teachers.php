@@ -43,9 +43,9 @@
 				<div class="form-group">
 				<label>Date To:</label>
 				<input type="text" class="form-control" name="date_to" id="datepicker_to" value="<?php echo date("m/d/Y");?>" readonly>
-				<button type="submit" class="btn btn-primary" form="gate_logs-form">Search</button>
+				<button type="submit" class="btn btn-primary" form="gate_logs-form"><span class="glyphicon glyphicon-search"></span> Search</button>
 				</div>
-				<span class="btn btn-danger" id="gate_logs-reset_search">Reset</span>
+				<span class="btn btn-danger" id="gate_logs-reset_search"><span class="glyphicon glyphicon-refresh"></span> Reset</span>
 				</form>
 				<table class="table table-hover" id="gatelogs-table">
 					<thead>

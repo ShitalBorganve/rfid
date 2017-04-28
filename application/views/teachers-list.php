@@ -27,8 +27,11 @@
           }
         ?>
       </select>
-      <button class="btn btn-primary" type="submit">Search</button>
-      <button class="btn btn-danger" type="button" id="reset">Reset</button>
+      <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-search"></span> Search</button>
+      <button class="btn btn-danger" type="button" id="reset"><span class="glyphicon glyphicon-refresh"></span> Reset</button>
+      <button type="submit" form="teacher_download_list" class="btn btn-info"><span class="glyphicon glyphicon-download"></span> Download</button>
+      </form>
+      <?php echo form_open("teacher_ajax/download",'class="form-inline" id="teacher_download_list"');?>
       </form>
 				<table class="table table-hover" id="teacher-list-table">
 					<thead>
@@ -176,10 +179,19 @@ echo '
           </div>
 
           <div class="form-group">
-            <label class="col-sm-2" for="in_case_contact_number">In Case of Emergency Contact Number:</label>
+            <label class="col-sm-2" for="in_case_name">In Case of Emergency Contact:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control edit_field" name="in_case_name" placeholder="Enter Contact Name">
+              <p class="help-block" id="in_case_name_help-block"></p>
+            </div>
+            
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2" for="in_case_contact_number">Contact Number:</label>
             <div class="col-sm-10"> 
             <div class="input-group">
-              <input type="text" class="form-control edit_field" name="in_case_contact_number" placeholder="Enter In Case of Emergency Contact Number">
+              <input type="text" class="form-control edit_field" name="in_case_contact_number" placeholder="Enter Contact Number">
               <span class="input-group-addon">
                 <input type="checkbox" name="in_case_contact_number_sms" value="1" class="edit_field"> SMS Notification
               </span>
@@ -319,6 +331,7 @@ function show_teacher_data(id) {
     success: function(data) {
       $('input[name="teacher_id"]').val(id);
       $("#display-photo").attr("src","<?php echo base_url("assets/images/teacher_photo/");?>"+data.display_photo);
+      $('input[name="in_case_name"].edit_field').val(data.in_case_name);
       $('input[name="first_name"].edit_field').val(data.first_name);
       $('input[name="last_name"].edit_field').val(data.last_name);
       $('input[name="address"].edit_field').val(data.address);
@@ -363,8 +376,9 @@ $(document).on("submit","#teacher_edit_form",function(e) {
     dataType: "json",
     success: function(data) {
       $('button[form="teacher_edit_form"]').prop('disabled', false);
-			$("#first_name_help-block").html(data.first_name_error);
+      $("#in_case_name_help-block").html(data.in_case_name_error);
       $("#last_name_help-block").html(data.last_name_error);
+			$("#first_name_help-block").html(data.first_name_error);
       $("#in_case_contact_number_help-block").html(data.in_case_contact_number_error);
       $("#gender_help-block").html(data.gender_error);
 			$("#address_help-block").html(data.address_error);
@@ -424,6 +438,18 @@ $(document).on("click",".reset_password_teacher",function(e) {
       }
     });
   }
+});
+
+$(document).on("submit","#teacher_download_list",function(e) {
+  e.preventDefault();
+  $.ajax({
+    type: "GET",
+    url: $("#teacher_download_list").attr("action"),
+    cache: false,
+    success: function(data) {
+      window.location = data;
+    }
+  });
 });
 
 

@@ -51,7 +51,7 @@ class Guardian_ajax extends CI_Controller {
 	public function register($value='')
 	{
 		if($_POST){
-			$this->form_validation->set_rules('guardian_address', 'Guardian Address', '|required|trim|htmlspecialchars|min_length[2]|max_length[50]');
+			$this->form_validation->set_rules('guardian_address', 'Guardian Address', 'required|trim|htmlspecialchars|min_length[2]|max_length[50]');
 			$this->form_validation->set_rules('email_address', 'Email Address', 'valid_email|trim|htmlspecialchars|min_length[2]|max_length[50]');
 			$this->form_validation->set_rules('email_subscription', 'Email Address', 'email_subscription[email_address]');
 			$this->form_validation->set_rules('guardian_name', 'Guardian Name', 'required|custom_alpha_dash|trim|htmlspecialchars|min_length[2]|max_length[50]');
@@ -213,7 +213,7 @@ You can login to ".base_url();
 
 	public function get_list($arg='')
 	{
-		$data = $this->guardian_model->get_list();
+		$data = $this->guardian_model->get_list("",1,$this->db->get("guardians")->num_rows(),"id","DESC");
 		echo json_encode($data["result"]);
 	}
 

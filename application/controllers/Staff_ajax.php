@@ -69,6 +69,15 @@ class Staff_ajax extends CI_Controller {
 			$this->form_validation->set_rules('bday_y', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('contact_number', 'Contact Number', 'numeric|min_length[11]|max_length[11]trim|htmlspecialchars');
 			$this->form_validation->set_rules('gender', 'Gender', 'required|max_length[50]trim|htmlspecialchars');
+			$this->form_validation->set_rules('in_case_name', 'Name', 'custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
+
+			if($this->input->post("in_case_contact_number_sms")){
+				$this->form_validation->set_rules('in_case_contact_number', 'In Case of Emergency Contact Number', 'required|numeric|min_length[11]|max_length[11]trim|htmlspecialchars');
+				$in_case_contact_number_sms = 1;
+			}else{
+				$this->form_validation->set_rules('in_case_contact_number', 'In Case of Emergency Contact Number', 'numeric|min_length[11]|max_length[11]trim|htmlspecialchars');
+				$in_case_contact_number_sms = 0;
+			}
 
 
 
@@ -137,6 +146,8 @@ class Staff_ajax extends CI_Controller {
 			{
 				$data["is_valid"] = FALSE;
 				$data["address_error"] = form_error('address');
+				$data["in_case_name_error"] = form_error('in_case_name');
+				$data["in_case_contact_number_error"] = form_error('in_case_contact_number');
 				$data["gender_error"] = form_error('gender');
 				$data["position_error"] = form_error('position');
 				$data["first_name_error"] = form_error('first_name');
@@ -150,6 +161,8 @@ class Staff_ajax extends CI_Controller {
 			{
 				$data["is_valid"] = TRUE;
 				$data["address_error"] = form_error('address');
+				$data["in_case_name_error"] = form_error('in_case_name');
+				$data["in_case_contact_number_error"] = form_error('in_case_contact_number');
 				$data["gender_error"] = form_error('gender');
 				$data["position_error"] = form_error('position');
 				$data["first_name_error"] = form_error('first_name');
@@ -160,6 +173,9 @@ class Staff_ajax extends CI_Controller {
 				$data["bday_error"] = form_error('bday_m');
 
 				$staff_data["first_name"] = $this->input->post("first_name");
+				$staff_data["in_case_name"] = $this->input->post("in_case_name");
+				$staff_data["in_case_contact_number"] = $this->input->post("in_case_contact_number");
+				$staff_data["in_case_contact_number_sms"] = $in_case_contact_number_sms;
 				$staff_data["gender"] = $this->input->post("gender");
 				$staff_data["address"] = $this->input->post("address");
 				$staff_data["last_name"] = $this->input->post("last_name");
@@ -216,7 +232,16 @@ class Staff_ajax extends CI_Controller {
 			$this->form_validation->set_rules('bday_d', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('bday_y', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('contact_number', 'Contact Number', 'numeric|min_length[11]|max_length[11]trim|htmlspecialchars');
+			$this->form_validation->set_rules('in_case_name', 'Name', 'custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
 			$this->form_validation->set_rules('gender', 'Gender', 'required|max_length[50]trim|htmlspecialchars');
+
+			if($this->input->post("in_case_contact_number_sms")){
+				$this->form_validation->set_rules('in_case_contact_number', 'In Case of Emergency Contact Number', 'required|numeric|min_length[11]|max_length[11]trim|htmlspecialchars');
+				$in_case_contact_number_sms = 1;
+			}else{
+				$this->form_validation->set_rules('in_case_contact_number', 'In Case of Emergency Contact Number', 'numeric|min_length[11]|max_length[11]trim|htmlspecialchars');
+				$in_case_contact_number_sms = 0;
+			}
 
 			$this->form_validation->set_message('is_in_db', 'An Error has occured please refresh the page and try again.');
 
@@ -301,6 +326,8 @@ class Staff_ajax extends CI_Controller {
 			{
 				$data["is_valid"] = FALSE;
 				$data["gender_error"] = form_error('gender');
+				$data["in_case_name_error"] = form_error('in_case_name');
+				$data["in_case_contact_number_error"] = form_error('in_case_contact_number');
 				$data["address_error"] = form_error('address');
 				$data["position_error"] = form_error('position');
 				$data["first_name_error"] = form_error('first_name');
@@ -316,6 +343,8 @@ class Staff_ajax extends CI_Controller {
 			{
 				$data["is_valid"] = TRUE;
 				$data["gender_error"] = form_error('gender');
+				$data["in_case_name_error"] = form_error('in_case_name');
+				$data["in_case_contact_number_error"] = form_error('in_case_contact_number');
 				$data["address_error"] = form_error('address');
 				$data["position_error"] = form_error('position');
 				$data["first_name_error"] = form_error('first_name');
@@ -334,6 +363,9 @@ class Staff_ajax extends CI_Controller {
 				$staff_data["middle_name"] = $this->input->post("middle_name");
 				$staff_data["suffix"] = $this->input->post("suffix");
 				$staff_data["contact_number"] = $this->input->post("contact_number");
+				$staff_data["in_case_name"] = $this->input->post("in_case_name");
+				$staff_data["in_case_contact_number"] = $this->input->post("in_case_contact_number");
+				$staff_data["in_case_contact_number_sms"] = $in_case_contact_number_sms;
 				// $staff_data["class_id"] = $this->input->post("class_id");
 				$staff_data["display_photo"] = $filename;
 				// $staff_data["display_photo_type"] = $new_image_data['file_type'];
@@ -466,5 +498,52 @@ class Staff_ajax extends CI_Controller {
 			echo json_encode($data);
 		}
 	}
+
+
+	public function download($arg='')
+	{
+
+		$fp = fopen('staffs.csv', 'w');
+
+		$headers = array (
+			'id',
+			'Position',
+			'Last Name',
+			'Middle Name',
+			'First Name',
+			'Suffix',
+			'Gender',
+			'Contact Number',
+			'Birthdate',
+			'Age',
+			'Address',
+			'In Case of Emergency Name',
+			'Contact Number'
+			);
+	    fputcsv($fp, $headers);
+	    $staff_list = $this->staffs_model->get_list("",1,$this->db->get("staffs")->num_rows());
+	    foreach ($staff_list["result"] as $staff_data) {
+		    $records = array(
+		    	sprintf("%03d",$staff_data->id),
+		    	$staff_data->position,
+		    	$staff_data->last_name,
+		    	$staff_data->middle_name,
+		    	$staff_data->first_name,
+		    	$staff_data->suffix,
+		    	$staff_data->gender,
+		    	$staff_data->contact_number,
+		    	date("m/d/Y",$staff_data->birthdate),
+		    	age($staff_data->birthdate),
+		    	$staff_data->address,
+		    	$staff_data->in_case_name,
+		    	$staff_data->in_case_contact_number
+		    	);
+		    fputcsv($fp, $records);
+	    }
+		fclose($fp);
+		echo base_url("staffs.csv");
+	}
+
+
 
 }

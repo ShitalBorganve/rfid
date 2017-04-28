@@ -125,7 +125,7 @@ class Rfid_ajax extends CI_Controller {
 					$rfid_owner_data["rfid_data"]["owner_type"] = "student";
 				}elseif ($rfid_owner_data["rfid_data"]["ref_table"]=="teachers") {
 					$dir = "teacher_photo";
-					$rfid_owner_data["rfid_data"]["ref_table"] = "teacher";
+					$rfid_owner_data["rfid_data"]["owner_type"] = "teacher";
 				}elseif ($rfid_owner_data["rfid_data"]["ref_table"]=="staffs") {
 					$dir = "staff_photo";
 					$rfid_owner_data["rfid_data"]["owner_type"] = "staff";
@@ -178,7 +178,7 @@ class Rfid_ajax extends CI_Controller {
 								$this->email->send();
 							}
 						}
-					}elseif ($rfid_owner_log_data["ref_table"]=="teachers") {
+					}elseif ($rfid_owner_log_data["ref_table"]=="teachers"||$rfid_owner_log_data["ref_table"]=="staffs") {
 						if($rfid_owner_data["in_case_contact_number_sms"]){
 							$rfid_owner_data["message"] = $rfid_owner_data["full_name"].' '.$type_status.' the school premises on '.date("m/d/Y h:i:s A").'.';
 

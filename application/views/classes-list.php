@@ -24,8 +24,10 @@
           }
         ?>
       </select>
-      <button class="btn btn-primary" type="submit">Search</button>
-      <button class="btn btn-danger" type="button" id="reset">Reset</button>
+
+
+      <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-search"></span> Search</button>
+      <button class="btn btn-danger" type="button" id="reset"><span class="glyphicon glyphicon-refresh"></span> Reset</button>
       </form>
 				<table class="table table-hover" id="class-list-table">
 					<thead>

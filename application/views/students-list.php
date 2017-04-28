@@ -42,8 +42,14 @@
         ?>
       </select>
 
-      <button class="btn btn-primary" type="submit">Search</button>
-      <button class="btn btn-danger" type="button" id="reset">Reset</button>
+
+
+      <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-search"></span> Search</button>
+      <button class="btn btn-danger" type="button" id="reset"><span class="glyphicon glyphicon-refresh"></span> Reset</button>
+      <button type="submit" form="student_download_list" class="btn btn-info"><span class="glyphicon glyphicon-download"></span> Download</button>
+      </form>
+      <?php echo form_open("student_ajax/download",'class="form-inline" id="student_download_list"');?>
+
       </form>
         <table class="table table-hover" id="student-list-table">
           <thead>
@@ -461,6 +467,18 @@ $("#search_last_name").autocomplete({
       
       show_student_list(1,true);
   }
+});
+
+$(document).on("submit","#student_download_list",function(e) {
+  e.preventDefault();
+  $.ajax({
+    type: "GET",
+    url: $("#student_download_list").attr("action"),
+    cache: false,
+    success: function(data) {
+      window.location = data;
+    }
+  });
 });
 
 $(document).on("submit","#student-list-form",function(e) {

@@ -64,6 +64,7 @@ class Teacher_ajax extends CI_Controller {
 			$this->form_validation->set_rules('bday_d', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('bday_y', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('class_id', 'Class', 'trim|htmlspecialchars');
+			$this->form_validation->set_rules('in_case_name', 'Name', 'custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
 			
 			$this->form_validation->set_rules('contact_number', 'Contact Number', 'required|is_available[teachers.contact_number]|numeric|min_length[11]|max_length[11]trim|htmlspecialchars');
 			$this->form_validation->set_message('is_in_db', 'This account is invalid');
@@ -143,6 +144,7 @@ class Teacher_ajax extends CI_Controller {
 				$data["is_valid"] = FALSE;
 				$data["gender_error"] = form_error('gender');
 				$data["in_case_contact_number_error"] = form_error('in_case_contact_number');
+				$data["in_case_name_error"] = form_error('in_case_name');
 				$data["first_name_error"] = form_error('first_name');
 				$data["last_name_error"] = form_error('last_name');
 				$data["address_error"] = form_error('address');
@@ -156,17 +158,19 @@ class Teacher_ajax extends CI_Controller {
 			{
 				$data["is_valid"] = TRUE;
 				$data["gender_error"] = "";
-				$data["in_case_contact_number"] = "";
+				$data["in_case_contact_number_error"] = "";
+				$data["in_case_name_error"] = "";
 				$data["first_name_error"] = "";
 				$data["last_name_error"] = "";
 				$data["address_error"] = "";
 				$data["middle_name_error"] = "";
 				$data["suffix_error"] = "";
-				$data["contact_numbererror"] = "";
+				$data["contact_number_error"] = "";
 				$data["class_id_error"] = "";
 				$data["bday_error"] = "";
 
 				$teacher_data["first_name"] = $this->input->post("first_name");
+				$teacher_data["in_case_name"] = $this->input->post("in_case_name");
 				$teacher_data["gender"] = $this->input->post("gender");
 				$teacher_data["address"] = $this->input->post("address");
 				$teacher_data["last_name"] = $this->input->post("last_name");
@@ -191,10 +195,9 @@ Password: ".$password."
 You can login to ".base_url("teacher");
 
 
-				// send_sms($this->input->post("contact_number"),$message);
+				send_sms($this->input->post("contact_number"),$message);
 				$teacher_data["password"] = md5($password);
 
-				// $teacher_data["rfid"] = $this->input->post("rfid");
 				$data["is_successful"] = TRUE;
 				$teacher_data = $this->teachers_model->add($teacher_data);
 
@@ -206,7 +209,6 @@ You can login to ".base_url("teacher");
 				}
 
 
-				// $rfid_data["rfid"] = $this->input->post("rfid");
 				$rfid_data["ref_id"] = $teacher_data->id;
 				$rfid_data["ref_table"] = "teachers";
 				$rfid_data["valid"] = 1;
@@ -239,6 +241,7 @@ You can login to ".base_url("teacher");
 			$this->form_validation->set_rules('bday_y', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('guardian_id', 'Guardian', 'is_in_db[guardians.id]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('class_id', 'Class', 'is_valid[classes.id]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('in_case_name', 'Name', 'custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
 			$this->form_validation->set_rules('contact_number', 'Contact Number', 'required|is_unique_edit[teachers.contact_number.teacher_id]|numeric|min_length[11]|max_length[11]trim|htmlspecialchars');
 
 			if($this->input->post("in_case_contact_number_sms")){
@@ -335,6 +338,7 @@ You can login to ".base_url("teacher");
 			{
 				$data["is_valid"] = FALSE;
 				$data["in_case_contact_number_error"] = form_error('in_case_contact_number');
+				$data["in_case_name_error"] = form_error('in_case_name');
 				$data["first_name_error"] = form_error('first_name');
 				$data["gender_error"] = form_error('gender');
 				$data["last_name_error"] = form_error('last_name');
@@ -352,7 +356,8 @@ You can login to ".base_url("teacher");
 			{
 				$data["is_valid"] = TRUE;
 				$data["gender_error"] = "";
-				$data["in_case_contact_number"] = "";
+				$data["in_case_name_error"] = "";
+				$data["in_case_contact_number_error"] = "";
 				$data["first_name_error"] = "";
 				$data["address_error"] = "";
 				$data["last_name_error"] = "";
@@ -364,6 +369,7 @@ You can login to ".base_url("teacher");
 				$data["class_id_error"] = "";
 
 				$teacher_data["gender"] = $this->input->post("gender");
+				$teacher_data["in_case_name"] = $this->input->post("in_case_name");
 				$teacher_data["in_case_contact_number"] = $this->input->post("in_case_contact_number");
 				$teacher_data["in_case_contact_number_sms"] = $in_case_contact_number_sms;
 				$teacher_data["first_name"] = $this->input->post("first_name");
@@ -468,12 +474,12 @@ You can login to ".base_url("teacher");
 	public function get_list($arg='')
 	{
 		if($arg=="admin"){
-			$data = $this->teachers_model->get_list();
+			$data = $this->teachers_model->get_list("",1,$this->db->get("teachers")->num_rows());
 			echo json_encode($data["result"]);
 		}elseif ($arg=="jbtech") {
 			$where["deleted"] = 0;
 			$where["rfid_status"] = 0;
-			$data = $this->teachers_model->get_list($where);
+			$data = $this->teachers_model->get_list($where,"",1,$this->db->get("teachers")->num_rows());
 			echo json_encode($data["result"]);
 		}
 	}
@@ -557,6 +563,54 @@ You can login to ".base_url("teacher");
 			echo json_encode($data);
 		}
 	}
+
+	public function download($arg='')
+	{
+
+		$fp = fopen('teachers.csv', 'w');
+
+		$headers = array (
+			'id',
+			'Last Name',
+			'Middle Name',
+			'First Name',
+			'Suffix',
+			'Gender',
+			'Contact Number',
+			'Birthdate',
+			'Age',
+			'Address',
+			'In Case of Emergency Name',
+			'Contact Number',
+			'Class'
+			);
+	    fputcsv($fp, $headers);
+	    $teacher_list = $this->teachers_model->get_list("",1,$this->db->get("teachers")->num_rows());
+	    foreach ($teacher_list["result"] as $teacher_data) {
+	    	$get_data = array();
+	    	$get_data["id"] = $teacher_data->class_id;
+	    	$class_data = $this->classes_model->get_data($get_data);
+		    $records = array(
+		    	sprintf("%03d",$teacher_data->id),
+		    	$teacher_data->last_name,
+		    	$teacher_data->middle_name,
+		    	$teacher_data->first_name,
+		    	$teacher_data->suffix,
+		    	$teacher_data->gender,
+		    	$teacher_data->contact_number,
+		    	date("m/d/Y",$teacher_data->birthdate),
+		    	age($teacher_data->birthdate),
+		    	$teacher_data->address,
+		    	$teacher_data->in_case_name,
+		    	$teacher_data->in_case_contact_number,
+		    	$class_data["class_name"]
+		    	);
+		    fputcsv($fp, $records);
+	    }
+		fclose($fp);
+		echo base_url("teachers.csv");
+	}
+
 
 
 }
