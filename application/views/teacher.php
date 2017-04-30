@@ -11,16 +11,23 @@
 <body>
 
 <div class="container-fluid">
+	<h1 style="text-align: center;">List of Your Students</h1>
 	<div class="row">
 		<div class="col-sm-12">
-	      <?php echo form_open("tables/students/list/teachers",'id="student-list-form"');?>
-	      <select class="ui search dropdown" id="students-select" name="owner_id">
+	      <?php echo form_open("tables/students/list/teachers",'id="student-list-form" class="form-inline"');?>
+	      <div class="form-group">
+	      <label>Search Last Name</label>
+	      <select class="ui search dropdown form-control" id="students-select" name="owner_id">
 	      <option value="">Select Student</option>
 	      </select>
+	      </div>
+	      <div class="form-group">
 	      <input type="hidden" name="class_id" value="<?php echo $teacher_data->class_id; ?>">
-	      <button class="btn btn-primary" type="submit" form="student-list-form">Search</button>
-	      <span class="btn btn-danger" id="clear">Clear</span>
+	      <button class="btn btn-primary" type="submit" form="student-list-form"><span class="glyphicon glyphicon-search"></span> Search</button>
+	      <span class="btn btn-danger" id="clear"><span class="glyphicon glyphicon-refresh"></span> Reset</span>
+	      </div>
 	      </form>
+	      	<div class="table-responsive">
 				<table class="table table-hover" id="student-list-table">
 					<thead>
 						<tr>

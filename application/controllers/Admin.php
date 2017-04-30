@@ -9,7 +9,6 @@ class Admin extends CI_Controller {
 		$this->load->database();
 		$this->load->helper('form');
 		$this->load->helper('url');
-		$this->load->helper('text');
 		$this->load->helper('app_helper');
 
 		$this->load->model("students_model");
@@ -67,8 +66,6 @@ class Admin extends CI_Controller {
 	public function index($student_id='')
 	{
 		// var_dump($this->sms_model->find_owner("09301167856"));
-		$string = "Here is a nice text string about nothing in particular.";
-		echo highlight_phrase($string, "nice text", '<span style="color:#990000;">', '</span>');
 		$this->data["login_type"] = "admin";
 		if($this->session->userdata("admin_sessions")){
 			$where["type"] = "entry";

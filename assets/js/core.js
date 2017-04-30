@@ -92,7 +92,7 @@ $(document).on("submit", "#register_guardian_form", function(e) {
     cache: false,
     dataType: "json",
     success: function(data) {
-      console.log(data);
+      // console.log(data);
       $("button[form='register_guardian_form']").prop('disabled', false);
       $("#add_guardian_address_help-block").html(data.guardian_address_error);
       $("#add_guardian_name_help-block").html(data.guardian_name_error);

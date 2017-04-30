@@ -10,22 +10,28 @@
 <body>
 
 <div class="container-fluid">
+<h1 style="text-align: center;">List of Guardians</h1>
 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-			<div class="table-responsive">
-      <?php echo form_open("tables/guardians/list",'id="guardian-list-form"');?>
+      <?php echo form_open("tables/guardians/list",'id="guardian-list-form" class="form-inline"');?>
+      <div class="form-group">
       <label>Search Name</label>
-      <select class="ui search dropdown" name="id">
-        <option value="">Select Guardian's Name</option>
-        <?php
-          foreach ($guardians_list["result"] as $guardian_data) {
-            echo '<option value="'.$guardian_data->id.'">'.$guardian_data->name.'</option>';
-          }
-        ?>
-      </select>
+        <select class="ui search dropdown form-control" name="id">
+          <option value="">Select Guardian's Name</option>
+          <?php
+            foreach ($guardians_list["result"] as $guardian_data) {
+              echo '<option value="'.$guardian_data->id.'">'.$guardian_data->name.'</option>';
+            }
+          ?>
+        </select>
+      </div>
+
+      <div class="form-group">
       <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-search"></span> Search</button>
       <button class="btn btn-danger" type="button" id="reset"><span class="glyphicon glyphicon-refresh"></span> Reset</button>
+      </div>
       </form>
+			<div class="table-responsive">
 				<table class="table table-hover" id="guardian-list-table">
 					<thead>
 						<tr>

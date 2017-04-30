@@ -11,24 +11,29 @@
 <body>
 
 <div class="container-fluid">
+<h1 style="text-align: center;">List of Classes</h1>
 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-			<div class="table-responsive">
-      <?php echo form_open("tables/classes/list",'id="class-list-form"');?>
+      <?php echo form_open("tables/classes/list",'id="class-list-form" class="form-inline"');?>
+      <div class="form-group">
       <label>Search Class Name</label>
-      <select class="ui search dropdown" name="id">
-        <option value="">Select Class Name</option>
-        <?php
-          foreach ($classes_list["result"] as $classe_data) {
-            echo '<option value="'.$classe_data->id.'">'.$classe_data->class_name.'</option>';
-          }
-        ?>
-      </select>
+        <select class="ui search dropdown form-control" name="id">
+          <option value="">Select Class Name</option>
+          <?php
+            foreach ($classes_list["result"] as $classe_data) {
+              echo '<option value="'.$classe_data->id.'">'.$classe_data->class_name.'</option>';
+            }
+          ?>
+        </select>
+      </div>
 
 
+      <div class="form-group">
       <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-search"></span> Search</button>
       <button class="btn btn-danger" type="button" id="reset"><span class="glyphicon glyphicon-refresh"></span> Reset</button>
+      </div>
       </form>
+			<div class="table-responsive">
 				<table class="table table-hover" id="class-list-table">
 					<thead>
 						<tr>

@@ -12,7 +12,6 @@
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-			<div class="table-responsive">
 				<h1 style="text-align: center;">
 					Students Gate Logs
 				</h1>
@@ -22,7 +21,7 @@
 				<label>Class:</label>
 				<?php
 				echo '
-				<select class="ui search dropdown" id="select_class" name="class_id">
+				<select class="ui search dropdown form-control" id="select_class" name="class_id">
 				  <option value="">All Class</option>
 				  ';
 				  foreach ($classes_list["result"] as $class_data) {
@@ -39,7 +38,7 @@
 				<label>Last Name:</label>
 				<?php
 				echo '
-				<select class="ui search dropdown" id="select_student" name="ref_id">
+				<select class="ui search dropdown form-control" id="select_student" name="ref_id">
 					<option value="">Search for Student&apos;s Last Name</option>
 					';
 					foreach ($students_list["result"] as $student_data) {
@@ -59,10 +58,13 @@
 				<div class="form-group">
 				<label>Date To:</label>
 				<input type="text" class="form-control" name="date_to" id="datepicker_to" value="<?php echo date("m/d/Y");?>" readonly>
-				<button type="submit" class="btn btn-primary" form="gate_logs-form"><span class="glyphicon glyphicon-search"></span> Search</button>
 				</div>
+				<div class="form-group">
+				<button type="submit" class="btn btn-primary" form="gate_logs-form"><span class="glyphicon glyphicon-search"></span> Search</button>
 				<span class="btn btn-danger" id="gate_logs-reset_search"><span class="glyphicon glyphicon-refresh"></span> Reset</span>
+				</div>
 				</form>
+			<div class="table-responsive">
 				<table class="table table-hover" id="gatelogs-table">
 					<thead>
 						<tr>

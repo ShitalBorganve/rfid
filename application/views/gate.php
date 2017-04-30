@@ -90,7 +90,7 @@ $(document).on("submit","#gate_rfid_scan", function(e) {
 			$("#gate_rfid_suffix").html(data.suffix);
 			$("#gate_status").removeClass( "danger success" );
 			$("#gate_status").html("");
-			console.log(data);
+			// console.log(data);
 			if(data.is_valid){
 				$("#rfid_scan").val("");
 				$("#display-photo").attr("src",data.display_photo);

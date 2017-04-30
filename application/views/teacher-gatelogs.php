@@ -11,6 +11,7 @@
 <body>
 
 <div class="container-fluid">
+	<h1 style="text-align: center;">Gate History of Your Students</h1>
 	<div class="row">
 		<div class="col-sm-12">
 		<?php echo form_open("tables/students/list/teachers",'id="student-list-form"');?>
@@ -18,32 +19,42 @@
 		</form>
 
 
-		<?php echo form_open("tables/gate_logs", 'id="gate_logs-form"'); ?>
+		<?php echo form_open("tables/gate_logs", 'id="gate_logs-form" class="form-inline"'); ?>
 		<input type="hidden" name="ref_table" id="ref_table" value="students">
-		<select class="ui search dropdown" id="students-select" name="ref_id">
-		<option value="">Select Student</option>
-		</select>
+		<div class="form-group">
+			<label>Search Last Name</label>
+			<select class="ui search dropdown form-control" id="students-select" name="ref_id">
+				<option value="">Select Student</option>
+			</select>
+		</div>
 		<input type="hidden" name="class_id" value="<?php echo $teacher_data->class_id; ?>">
-		<label>Date From:</label>
-		<input type="text" name="date_from" id="datepicker_from" value="<?php echo date("m/d/Y");?>" readonly>
-		<label>Date To:</label>
-		<input type="text" name="date_to" id="datepicker_to" value="<?php echo date("m/d/Y");?>" readonly>
-		<button type="submit" class="btn btn-primary" form="gate_logs-form">Search</button>
-		<span class="btn btn-danger" id="gate_logs-reset_search">Reset</span>
+		<div class="form-group">
+			<label>Date From:</label>
+			<input type="text" name="date_from" class="form-control" id="datepicker_from" value="<?php echo date("m/d/Y");?>" readonly>
+		</div>
+		<div class="form-group">
+			<label>Date To:</label>
+			<input type="text" name="date_to" class="form-control" id="datepicker_to" value="<?php echo date("m/d/Y");?>" readonly>
+		</div>
+		<div class="form-group">
+		<button type="submit" class="btn btn-primary" form="gate_logs-form"><span class="glyphicon glyphicon-search"></span> Search</button>
+		<span class="btn btn-danger" id="gate_logs-reset_search"><span class="glyphicon glyphicon-refresh"></span> Reset</span>
+		</div>
 		</form>
-		<table class="table table-hover" id="gatelogs-table">
-			<thead>
-				<tr>
-					<th>Full Name</th>
-					<th>RFID</th>
-					<th>Date</th>
-					<th>Time</th>
-					<th>Type</th>
-				</tr>
-			</thead>
-			<tbody>
-			</tbody>
-		</table>
+			<div class="table-responsive">
+				<table class="table table-hover" id="gatelogs-table">
+					<thead>
+						<tr>
+							<th>Full Name</th>
+							<th>RFID</th>
+							<th>Date</th>
+							<th>Time</th>
+							<th>Type</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>

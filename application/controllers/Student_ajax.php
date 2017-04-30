@@ -379,8 +379,6 @@ class Student_ajax extends CI_Controller {
 			}
 			// var_dump($this->students_model->edit_info($student_data,$this->input->post("student_id")));
 			echo json_encode($data);
-
-			
 		}
 
 	}
@@ -432,34 +430,7 @@ class Student_ajax extends CI_Controller {
 				$student_data["grade"] = "";
 				$student_data["class_adviser"] = "";
 			}
-
-
-
-
 			echo json_encode($student_data);
-
-
-
-
-
-			// last_name
-			// first_name
-			// middle_name
-			// suffix
-			// gender
-			// birthday
-			// contact_number
-			// address
-			// guardian_name
-			// guardian_address
-			// guardian_contact_number
-			// fathers_name
-			// mothers_name
-			// class_name
-			// grade
-			// class_adviser
-
-
 		}else{
 
 			$student_data["id"] = $this->input->get("student_id");

@@ -14,14 +14,16 @@
 <body>
 
 <div class="container-fluid">
+<h1 style="text-align: center;">List of Students</h1>
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <div class="table-responsive">
-      <?php echo form_open("tables/students/list",'id="student-list-form"');?>
+      
+      <?php echo form_open("tables/students/list",'id="student-list-form" class="form-inline"');?>
+      <div class="form-group">
       <label>Class:</label>
       <?php
       echo '
-      <select class="ui search dropdown" id="select_class" name="class_id">
+      <select class="ui search dropdown form-control" id="select_class" name="class_id">
         <option value="">All Class</option>
         ';
         foreach ($classes_list["result"] as $class_data) {
@@ -32,6 +34,8 @@
       </select>
       ';
       ?>
+      </div>
+      <div class="form-group">
       <label>Search Last Name</label>
       <select class="ui search dropdown" name="owner_id" id="select_student">
         <option value="">Select Student's Last Name</option>
@@ -41,16 +45,20 @@
           }
         ?>
       </select>
+      </div>
+      <div class="form-group">
 
 
 
       <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-search"></span> Search</button>
       <button class="btn btn-danger" type="button" id="reset"><span class="glyphicon glyphicon-refresh"></span> Reset</button>
       <button type="submit" form="student_download_list" class="btn btn-info"><span class="glyphicon glyphicon-download"></span> Download</button>
+      </div>
       </form>
       <?php echo form_open("student_ajax/download",'class="form-inline" id="student_download_list"');?>
 
       </form>
+      <div class="table-responsive">
         <table class="table table-hover" id="student-list-table">
           <thead>
             <tr>

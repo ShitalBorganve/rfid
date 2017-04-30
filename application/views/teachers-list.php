@@ -14,25 +14,30 @@
 <body>
 
 <div class="container-fluid">
-	<div class="row">
-		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-			<div class="table-responsive">
-      <?php echo form_open("tables/teachers/list",'id="teacher-list-form"');?>
-      <label>Search Last Name</label>
-      <select class="ui search dropdown" name="owner_id">
-        <option value="">Select Teacher's Last Name</option>
-        <?php
-          foreach ($teachers_list["result"] as $teacher_data) {
-            echo '<option value="'.$teacher_data->id.'">'.$teacher_data->full_name.'</option>';
-          }
-        ?>
-      </select>
+	<h1 style="text-align: center;">List of Teachers</h1>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <?php echo form_open("tables/teachers/list",'id="teacher-list-form" class="form-inline"');?>
+      <div class="form-group">
+        <label>Search Last Name</label>
+        <select class="ui search dropdown form-control" name="owner_id">
+          <option value="">Select Teacher's Last Name</option>
+          <?php
+            foreach ($teachers_list["result"] as $teacher_data) {
+              echo '<option value="'.$teacher_data->id.'">'.$teacher_data->full_name.'</option>';
+            }
+          ?>
+        </select>
+      </div>
+      <div class="form-group">
       <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-search"></span> Search</button>
       <button class="btn btn-danger" type="button" id="reset"><span class="glyphicon glyphicon-refresh"></span> Reset</button>
       <button type="submit" form="teacher_download_list" class="btn btn-info"><span class="glyphicon glyphicon-download"></span> Download</button>
+      </div>
       </form>
       <?php echo form_open("teacher_ajax/download",'class="form-inline" id="teacher_download_list"');?>
       </form>
+      <div class="table-responsive">
 				<table class="table table-hover" id="teacher-list-table">
 					<thead>
 						<tr>

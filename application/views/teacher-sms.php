@@ -11,16 +11,23 @@
 <body>
 
 <div class="container-fluid">
+<h1 style="text-align: center;">SMS Threads</h1>
 	<div class="row">
 		<div class="col-sm-12">
-			<?php echo form_open("tables/sms/threads_list",'id="sms_list_form"'); ?>
+			<?php echo form_open("tables/sms/threads_list",'id="sms_list_form" class="form-inline"'); ?>
 			<input type="hidden" name="sent_by_id" value="<?php echo $teacher_data->id; ?>">
 			<input type="hidden" name="sent_by_table" value="teachers">
-			<label>Date From:</label>
-			<input type="text" name="date_from" id="datepicker_from" value="<?php echo date("m/d/Y");?>" readonly>
-			<label>Date To:</label>
-			<input type="text" name="date_to" id="datepicker_to" value="<?php echo date("m/d/Y");?>" readonly>
-			<button type="submit" class="btn btn-primary" form="sms_list_form">Search</button>
+			<div class="form-group">
+				<label>Date From:</label>
+				<input type="text" name="date_from" class="form-control" id="datepicker_from" value="<?php echo date("m/d/Y");?>" readonly>
+			</div>
+			<div class="form-group">
+				<label>Date To:</label>
+				<input type="text" name="date_to" class="form-control" id="datepicker_to" value="<?php echo date("m/d/Y");?>" readonly>
+			</div>
+			<div class="form-group">
+				<button type="submit" class="btn btn-primary btn-block" form="sms_list_form"><span class="glyphicon glyphicon-search"></span> Search</button>
+			</div>
 			</form>
 			<div class="table-responsive">
 				<table class="table table-hover" id="sms_threads_table">

@@ -11,14 +11,12 @@
 <body>
 
 <div class="container-fluid">
+	<h1 style="text-align: center;">My Students</h1>
 	<div class="row">
 		<div class="col-sm-8 col-md-8 col-lg-8 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
 			<div class="table-responsive">
 				<table class="table table-hover">
 					<thead>
-						<tr>
-							<th class="table-header" colspan="20">My Students</th>
-						</tr>
 						<tr>
 							<th>First Name</th>
 							<th>Middle Name</th>
@@ -60,14 +58,18 @@
         <h4 class="modal-title" id="view_gate_logs-modal-title">Gate Logs</h4>
       </div>
       <div class="modal-body">
-      	<?php echo form_open("tables/gate_logs",'id="view_gate_logs-form"'); ?>
+      	<?php echo form_open("tables/gate_logs",'id="view_gate_logs-form" class="form-inline"'); ?>
       	<input type="hidden" name="ref_id">
       	<input type="hidden" name="ref_table" value="students">
       	<input type="hidden" name="for_guardian" value="true">
-      	<label>Date:</label>
-      	<input id="datepicker_from" type="text" name="date_from" placeholder="Pick a Date From" value="<?php echo date("m/d/Y"); ?>" readonly>
+      	<div class="form-group">
+	      	<label>Date:</label>
+	      	<input id="datepicker_from" type="text" class="form-control" name="date_from" placeholder="Pick a Date From" value="<?php echo date("m/d/Y"); ?>" readonly>
+      	</div>
       	<label> - </label>
-      	<input id="datepicker_to" type="text" name="date_to" placeholder="Pick a Date To" value="<?php echo date("m/d/Y"); ?>" readonly>
+      	<div class="form-group">
+      	<input id="datepicker_to" type="text" class="form-control" name="date_to" placeholder="Pick a Date To" value="<?php echo date("m/d/Y"); ?>" readonly>
+      	</div>
       		
       	</form>
         <div class="table-responsive">
