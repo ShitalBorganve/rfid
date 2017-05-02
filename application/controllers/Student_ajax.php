@@ -452,7 +452,11 @@ class Student_ajax extends CI_Controller {
 
 			$edit_data["ref_id"] = $this->input->post("id");
 			$edit_data["ref_table"] = "students";
-			$this->rfid_model->edit_info($data,$edit_data); 
+			$this->rfid_model->edit_info($data,$edit_data);
+
+			$get_data = array();
+			$get_data["id"] = $this->input->post("id");
+			echo json_encode($this->students_model->get_data($get_data));
 		}
 	}
 

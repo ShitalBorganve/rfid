@@ -1,3 +1,10 @@
+
+$('input[name="rfid"]').click(function(e) {
+  $(this).val("");
+});
+$('input[name="gate_rfid_scan"]').click(function(e) {
+  $(this).val("");
+});
 $(document).on("submit", "#rfid_scan_add_load_credit_form", function(e) {
   e.preventDefault();
   $.ajax({
@@ -92,7 +99,7 @@ $(document).on("submit", "#register_guardian_form", function(e) {
     cache: false,
     dataType: "json",
     success: function(data) {
-      // console.log(data);
+      console.log(data);
       $("button[form='register_guardian_form']").prop('disabled', false);
       $("#add_guardian_address_help-block").html(data.guardian_address_error);
       $("#add_guardian_name_help-block").html(data.guardian_name_error);
@@ -104,11 +111,19 @@ $(document).on("submit", "#register_guardian_form", function(e) {
         $("#register_guardian_form")[0].reset();
         $('.ui.dropdown').dropdown('clear');
         $(".help-block").html("");
-        $("#alert-modal").modal("show");
         $("#register_guardian_modal").modal("hide");
-        $("#alert-modal-title").html("Add Guardian");
-        $("#alert-modal-body p").html("You have successfully registered a guardian.");
         update_select_options("guardian_id", base_url);
+        if(data.sms_code != 0){
+          alertify.success("You have successfully registered a guardian."); 
+          var msg = alertify.notify('The Password was not been sent to <b>'+data.contact_number+'</b>.<br>Click this message to view the error.', 'error', 10);
+          msg.callback = function (isClicked) {
+            if(isClicked){
+              alertify.alert('SMS Failed',data.sms_status);
+            }
+          };
+        }else{
+          alertify.success("You have successfully registered a guardian.<br>The Password has been sent to <b>"+data.contact_number+"</b>"); 
+        }
       } else {
         $("#add_guardian_name_help-block").html(data.guardian_name_error);
         $("#add_email_address_help-block").html(data.email_address_error);
@@ -144,9 +159,7 @@ $(document).on("submit", "#student_add_form", function(e) {
         $(".help-block").html("");
         if (data.is_successful) {
           $("#students_add_modal").modal("hide");
-          $("#alert-modal").modal("show");
-          $("#alert-modal-title").html("Add Student");
-          $("#alert-modal-body p").html("You have successfully added a student in the list.");
+          alertify.success("You have successfully added a student in the list."); 
         }
       } else {
         $("#student_first_name_help-block").html(data.first_name_error);
@@ -177,17 +190,25 @@ $(document).on("submit", "#teacher_add_form", function(e) {
     method: "POST",
     dataType: "json",
     success: function(data) {
+      console.log(data);
       $("button[form='teacher_add_form']").prop('disabled', false);
       if (data.is_valid) {
         $("#teacher_add_form")[0].reset();
         $('.ui.dropdown').dropdown('clear');
         $(".help-block").html("");
-        if (data.is_successful) {
-          $("#teachers_add_modal").modal("hide");
-          $("#alert-modal").modal("show");
-          $("#alert-modal-title").html("Add teacher");
-          $("#alert-modal-body p").html("You have successfully added a teacher in the list.");
-          update_select_options("class_adviser", base_url);
+        $("#teachers_add_modal").modal("hide");
+        
+        update_select_options("class_adviser", base_url);
+        if(data.sms_code != 0){
+          alertify.success("You have successfully added a teacher in the list."); 
+          var msg = alertify.notify('The Password was not been sent to <b>'+data.contact_number+'</b>.<br>Click this message to view the error.', 'error', 10);
+          msg.callback = function (isClicked) {
+            if(isClicked){
+              alertify.alert('SMS Failed',data.sms_status);
+            }
+          };
+        }else{
+          alertify.success("You have successfully added a teacher in the list.<br>The Password has been sent to <b>"+data.contact_number+"</b>"); 
         }
       } else {
         $("#teacher_address_help-block").html(data.address_error);
@@ -225,9 +246,7 @@ $(document).on("submit", "#staff_add_form", function(e) {
         $(".help-block").html("");
         if (data.is_successful) {
           $("#staffs_add_modal").modal("hide");
-          $("#alert-modal").modal("show");
-          $("#alert-modal-title").html("Add staff");
-          $("#alert-modal-body p").html("You have successfully added a staff in the list.");
+          alertify.success("You have successfully added a staff in the list."); 
           update_select_options("class_adviser", base_url);
         }
       } else {
@@ -270,6 +289,7 @@ $(document).on("submit", "#guard_add_form", function(e) {
           $("#alert-modal").modal("show");
           $("#alert-modal-title").html("Add guard");
           $("#alert-modal-body p").html("You have successfully added a guard in the list.");
+          alertify.success("You have successfully added a staff in the list.");
         }
       } else {
         $("#guard_first_name_help-block").html(data.first_name_error);
@@ -530,7 +550,7 @@ $(document).on("submit", "#sms-form", function(e) {
       if (data.is_valid) {
         var count = 0;
         $.each(data.recipients_number, function(i, item) {
-          console.log(data.recipients_table);
+          // console.log(data.recipients_table);
           $.ajax({
             type: "POST",
             url: base_url+"sms_ajax/send_api",
@@ -649,3 +669,6 @@ function update_select_options(type, base_url) {
     });
   }
 }
+
+// alertify settings
+alertify.dialog('confirm').set({transition:'zoom'});

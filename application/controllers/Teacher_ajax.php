@@ -195,10 +195,10 @@ Password: ".$password."
 You can login to ".base_url("teacher");
 
 
-				send_sms($this->input->post("contact_number"),$message);
+				$data["sms_code"] = send_sms($this->input->post("contact_number"),$message);
+				$data["sms_status"] = sms_status($data["sms_code"]);
+				$data["contact_number"] = $teacher_data["contact_number"];
 				$teacher_data["password"] = md5($password);
-
-				$data["is_successful"] = TRUE;
 				$teacher_data = $this->teachers_model->add($teacher_data);
 
 				if($has_uploaded_pic){
@@ -398,6 +398,7 @@ Login: ".$teacher_data["contact_number"]."
 Password: ".$password."
 You can login to ".base_url("teacher");
 					$sms_code = send_sms($this->input->post("contact_number"),$message);
+					// $sms_code = send_sms($this->input->post("contact_number"),$message);
 					$teacher_data["password"] = md5($password);
 					if($sms_code==0){
 						$this->teachers_model->edit_info($teacher_data,$this->input->post("teacher_id"));
@@ -498,7 +499,9 @@ You can login to ".base_url("teacher");
 			$edit_data["ref_table"] = "teachers";
 			$this->rfid_model->edit_info($data,$edit_data);
 
-
+			$get_data = array();
+			$get_data["id"] = $this->input->post("id");
+			echo json_encode($this->teachers_model->get_data($get_data));
 		}
 	}
 

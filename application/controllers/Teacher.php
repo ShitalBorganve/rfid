@@ -70,6 +70,7 @@ class Teacher extends CI_Controller {
 			$this->load->view('teacher',$this->data);
 		}else{
 			$this->data["title"] = "Teachers Login";
+			$this->data["type"] = "TEACHER LOGIN";
 			$this->load->view('app-login',$this->data);
 		}
 	}

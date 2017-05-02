@@ -34,7 +34,7 @@ body#has-logo{
     background: url("../../logo-high.jpg");
     /*background: url("../../logo-high.png");*/
     background-color: white;
-    /*background-size: 100% 100%;*/
+    background-size: 70vw;
     background-repeat:no-repeat;
     background-attachment: fixed;
     background-position: center;

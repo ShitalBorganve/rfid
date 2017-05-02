@@ -271,15 +271,10 @@ $(document).on("submit","#rfid_scan_add_form",function(e) {
     dataType: "json",
     success: function(data) {
       $('input[name="rfid"]').val("");
-      
-      
       if(data.is_valid){
         $("#rfid_scan_add_modal").modal("hide");
         $(".help-block").html("");
-
-        $("#alert-modal").modal("show");
-        $("#alert-modal-title").html("scan teacher&apos;s rfid");
-        $("#alert-modal-body p").html("You have successfully added the rfid of the teacher.");
+        alertify.success("You have successfully added the rfid of the teacher.");  
         show_teacher_list();
       }else{
         $("#rfid_scan_help-block").html(data.error);
@@ -297,8 +292,8 @@ $(document).on("click",".edit_teacher",function(e) {
 
 
 $(document).on("click",".delete_rfid_teacher",function(e) {
-  if(confirm("Are you sure you want to remove the rfid of this teacher? This action is irreversible.")){
-    var datastr = "id="+e.target.id+"&type=teachers";
+  var datastr = "id="+e.target.id+"&type=teachers";
+  alertify.confirm('REMOVE RFID', 'Are you sure you want to remove the rfid of this teacher?<br> This action is irreversible.', function(){
     $.ajax({
       type: "POST",
       url: "<?php echo base_url("rfid_ajax/delete"); ?>",
@@ -306,25 +301,35 @@ $(document).on("click",".delete_rfid_teacher",function(e) {
       cache: false,
       success: function(data) {
         show_teacher_list();
+        alertify.success('RFID has been removed.');
       }
     });
-  }
+  },
+  function(){
+    alertify.error('Cancelled')
+  });
 });
 
 
 $(document).on("click",".delete_teacher",function(e) {
   var datastr = "id="+e.target.id;
-  if(confirm("Are you sure you want to delete this teacher? This acton is irreversible.")){
+  alertify.confirm('DELETE TEACHER', 'Are you sure you want to delete this teacher in the list?<br> This action is irreversible.', function(){
     $.ajax({
       type: "POST",
       url: "<?php echo base_url("teacher_ajax/delete"); ?>",
       data: datastr,
       cache: false,
+      dataType: "json",
       success: function(data) {
         show_teacher_list();
+        alertify.success(data.last_name + ' has been deleted.');
       }
     });
-  }
+  },
+  function(){
+    alertify.error('Cancelled')
+  });
+
 });
 function show_teacher_data(id) {
   $.ajax({
@@ -399,9 +404,7 @@ $(document).on("submit","#teacher_edit_form",function(e) {
         $("#teacher_edit_form")[0].reset();
         $(".ui .dropdown").dropdown("clear");
 				$("#teacher_edit_modal").modal("hide");
-				$("#alert-modal").modal("show");
-				$("#alert-modal-title").html("Edit teacher Information");
-				$("#alert-modal-body p").html("You have successfully editted a teacher's information.");
+        alertify.success("You have successfully updated a teacher's information.");
         show_teacher_list();
 			}
 		}
@@ -421,7 +424,7 @@ $("#search_last_name").autocomplete({
 
 $(document).on("click",".reset_password_teacher",function(e) {
   var datastr = "id="+e.target.id;
-  if(confirm("Are you sure you want to reset the password of this teacher? This action is irreversible.")){
+  alertify.confirm('RESET PASSWORD OF TEACHER', 'Are you sure you want to reset the password this teacher?<br>This action is irreversible.<br><b>The new password will be sent through SMS.</b>', function(){
     $.ajax({
       type: "POST",
       url: "<?php echo base_url("teacher_ajax/reset_password"); ?>",
@@ -429,20 +432,25 @@ $(document).on("click",".reset_password_teacher",function(e) {
       dataType: "json",
       cache: false,
       success: function(data) {
-        
         if(data.is_successful){
-          $("#alert-modal-title").html("Reset Password");
-          $("#alert-modal-body p").html("You have sent the new password to "+ data.contact_number);
-          $("#alert-modal").modal("show");         
+          alertify.success("You have sent the new password to "+ data.contact_number);         
         }else{
-          $("#alert-modal-title").html("Reset Password");
-          $("#alert-modal-body p").html(data.error);
-          $("#alert-modal").modal("show");    
+          var msg = alertify.notify('The Password was not changed.<br>Click this message to view the error.', 'error', 10);
+          msg.callback = function (isClicked) {
+            if(isClicked){
+              alertify.alert('SMS Failed',data.error);
+            }
+          };
+
         }
- 
       }
     });
-  }
+  },
+  function(){
+    alertify.error('Cancelled')
+  });
+
+
 });
 
 $(document).on("submit","#teacher_download_list",function(e) {

@@ -9,5 +9,6 @@ echo '<script type="text/javascript" src="'.base_url("assets/semantic-ui/compone
 echo '<script type="text/javascript" src="'.base_url("assets/js/moment.js").'"></script>';
 echo '<script type="text/javascript" src="'.base_url("assets/js/clipboard.js").'"></script>';
 echo '<script type="text/javascript" src="'.base_url("assets/js/clipboard-action.js").'"></script>';
+echo '<script type="text/javascript" src="'.base_url("assets/js/alertify.js").'"></script>';
 echo '<script type="text/javascript" src="'.base_url("assets/js/core.js").'"></script>';
 ?>

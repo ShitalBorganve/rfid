@@ -136,7 +136,7 @@ if ( ! function_exists('admin_paging'))
 				# code...
 				break;
 			default:
-				return "iTexMo Error. Please try again later.";
+				return "Connection Error. Check your internet connection.";
 				# code...
 				break;
 		}
@@ -144,7 +144,7 @@ if ( ! function_exists('admin_paging'))
 
 	function send_sms($mobile_number='',$message='')
 	{
-		$data["1"] =  $mobile_number;
+/*		$data["1"] =  $mobile_number;
 		$data["2"] =  $message;
 		$data["3"] =  "ST-ROMEO290433_3CTWI";
 
@@ -157,8 +157,8 @@ if ( ! function_exists('admin_paging'))
 			CURLOPT_POSTFIELDS => $data,
 		));
 		$result = curl_exec($curl);
-		curl_close($curl);
-		return $result;
+		curl_close($curl);*/
+		return 4;
 	}
 
 	function age($birthdate)

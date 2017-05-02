@@ -74,6 +74,7 @@ class Admin extends CI_Controller {
 			$this->load->view('gate-logs-students',$this->data);
 		}else{
 			$this->data["title"] = "Admin Login";
+			$this->data["type"] = "ADMINISTRATOR LOGIN";
 			$this->load->view('app-login',$this->data);
 		}
 	}

@@ -4,7 +4,7 @@
 <?php echo '<title>'.$title.'</title>'.$meta_scripts.$css_scripts; ?>
 <style>
 #login-container{
-	margin-top: 5em;
+	margin-top: 25vh;
 	border: 1px solid grey;
 	padding: 1rem 1rem 1rem 1rem;
 }
@@ -17,6 +17,7 @@
 	<div class="row">
 		<div class="col-sm-8 col-md-4 col-lg-4 col-sm-push-2 col-md-push-4 col-lg-push-4">
 			<div id="login-container" style="background-color: white;">
+			<h1 style="text-align: center;"><?php echo $type; ?></h1>
 			<!-- <img class="img-responsive" src="<?php echo base_url("assets/images/logo.png");?>" alt="Chania" id="login-logo"> -->
 				<?php echo form_open($login_type."_ajax/applogin",'class="form-horizontal" id="app-login"');?>
 					<div class="form-group">

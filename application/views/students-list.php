@@ -303,8 +303,9 @@ $(document).on("click",".add_rfid_student",function(e) {
 });
 
 $(document).on("click",".delete_rfid_student",function(e) {
-  if(confirm("Are you sure you want to remove the rfid of this student? This action is irreversible.")){
-    var datastr = "id="+e.target.id+"&type=students";
+  var datastr = "id="+e.target.id+"&type=students";
+
+  alertify.confirm('REMOVE RFID', 'Are you sure you want to remove the rfid of this student?<br> This action is irreversible.', function(){
     $.ajax({
       type: "POST",
       url: "<?php echo base_url("rfid_ajax/delete"); ?>",
@@ -312,9 +313,15 @@ $(document).on("click",".delete_rfid_student",function(e) {
       cache: false,
       success: function(data) {
         show_student_list();
+        alertify.success('RFID has been removed.');
       }
     });
-  }
+  },
+  function(){
+    alertify.error('Cancelled')
+  });
+
+
 });
 
 
@@ -333,10 +340,7 @@ $(document).on("submit","#rfid_scan_add_form",function(e) {
       if(data.is_valid){
         $("#rfid_scan_add_modal").modal("hide");
         $(".help-block").html("");
-
-        $("#alert-modal").modal("show");
-        $("#alert-modal-title").html("scan student&apos;s rfid");
-        $("#alert-modal-body p").html("You have successfully added the rfid of the student.");
+        alertify.success("You have successfully added the rfid of the student.");  
         show_student_list();
       }else{
         $("#rfid_scan_help-block").html(data.error);
@@ -355,17 +359,23 @@ $(document).on("click",".edit_student",function(e) {
 
 $(document).on("click",".delete_student",function(e) {
   var datastr = "id="+e.target.id;
-  if(confirm("Are you sure you want to delete this student? This acton is irreversible.")){
+  alertify.confirm('DELETE STUDENT', 'Are you sure you want to delete this student in the list?<br> This action is irreversible.', function(){
     $.ajax({
       type: "POST",
       url: "<?php echo base_url("student_ajax/delete"); ?>",
       data: datastr,
       cache: false,
+      dataType: "json",
       success: function(data) {
         show_student_list();
+        alertify.success(data.last_name + ' has been deleted.');
       }
     });
-  }
+  },
+  function(){
+    alertify.error('Cancelled')
+  });
+
 });
 
 function show_student_data(id) {
@@ -435,9 +445,7 @@ $(document).on("submit","#student_edit_form",function(e) {
         $("#student_edit_form")[0].reset();
         $(".ui .dropdown").dropdown("clear");
 				$("#student_edit_modal").modal("hide");
-				$("#alert-modal").modal("show");
-				$("#alert-modal-title").html("Edit Student Information");
-				$("#alert-modal-body p").html("You have successfully editted a student's information.");
+        alertify.success("You have successfully updated a student's information.");
 			}
 		}
 	});

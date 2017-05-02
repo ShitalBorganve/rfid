@@ -90,7 +90,9 @@ class Guardian_ajax extends CI_Controller {
 Login: ".$this->input->post("contact_number")."
 Password: ".$password."
 You can login to ".base_url();
-				send_sms($this->input->post("contact_number"),$message);
+				$data["sms_code"] = send_sms($this->input->post("contact_number"),$message);
+				$data["sms_status"] = sms_status($data["sms_code"]);
+				$data["contact_number"] = $guardian_data["contact_number"];
 
 
 				$guardian_data["password"] = md5($password);

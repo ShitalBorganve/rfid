@@ -67,6 +67,7 @@ class Home extends CI_Controller {
 		if(!$this->session->userdata("guardian_sessions")){
 			$this->data["title"] = "Guardian Login";
 			$this->data["login_type"] = "guardian";
+			$this->data["type"] = "GUARDIAN LOGIN";
 			$this->load->view('app-login',$this->data);
 		}else{
 			$this->data["title"] = "My Students";
