@@ -156,7 +156,10 @@ You can login to ".base_url();
 
 					if($sms_code==0){
 						$this->guardian_model->edit_info($guardian_data,$guardian_id);
+						$data["password_reset"] = TRUE;
+						$data["contact_number"] = $this->input->post("contact_number");
 					}else{
+						$data["password_reset"] = FALSE;
 						$data["is_valid"] = FALSE;
 						$data["contact_number_error"] = sms_status($sms_code);
 					}
@@ -172,7 +175,7 @@ You can login to ".base_url();
 	public function applogin($value='')
 	{
 		if($_POST){
-			$this->form_validation->set_rules('account', 'Account', 'required|min_length[5]|max_length[50]|is_in_db[guardians.contact_number]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('account', 'Account', 'required|min_length[5]|max_length[50]|is_valid[guardians.contact_number]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('account_password', 'Password', 'required|min_length[5]|max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_message('is_in_db', 'This account is invalid');
 
@@ -233,6 +236,8 @@ Password: ".$password."
 You can login to ".base_url();
 
 		$sms_status_code = send_sms($guardian_data["contact_number"],$message);
+		$data["status_code"] = $sms_status_code;
+		$data["contact_number"] = $guardian_data["contact_number"];
 		if($sms_status_code=="0"){
 			$update["password"] = md5($password);
 			$data = $this->guardian_model->edit_info($update,$guardian_id);
@@ -251,6 +256,13 @@ You can login to ".base_url();
 		if($_POST){
 			$data["deleted"] = 1;
 			$this->guardian_model->edit_info($data,$this->input->post("id"));
+			$get_data = array();
+			$get_data["id"] = $this->input->post("id");
+			echo json_encode($this->guardian_model->get_data($get_data));
+
+			$this->db->where('guardian_id', $this->input->post("id"));
+			$this->db->set("guardian_id","0");
+			$this->db->update('students');
 		}
 	}
 

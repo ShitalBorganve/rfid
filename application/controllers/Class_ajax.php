@@ -144,6 +144,19 @@ class Class_ajax extends CI_Controller {
 			$data["deleted"] = 1;
 			$data["teacher_id"] = 0;
 			$this->classes_model->delete($data,$this->input->post("id"));
+			$get_data = array();
+			$get_data["id"] = $this->input->post("id");
+			echo json_encode($this->classes_model->get_data($get_data));
+
+			$this->db->where('class_id', $this->input->post("id"));
+			$this->db->set("class_id","0");
+			$this->db->update('students');
+
+			$this->db->where('class_id', $this->input->post("id"));
+			$this->db->set("class_id","0");
+			$this->db->update('teachers');
+
+
 		}
 	}
 

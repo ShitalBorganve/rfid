@@ -2,9 +2,7 @@
 $('input[name="rfid"]').click(function(e) {
   $(this).val("");
 });
-$('input[name="gate_rfid_scan"]').click(function(e) {
-  $(this).val("");
-});
+
 $(document).on("submit", "#rfid_scan_add_load_credit_form", function(e) {
   e.preventDefault();
   $.ajax({
@@ -44,9 +42,7 @@ $(document).on("submit", "#add_load_credits_form", function(e) {
     success: function(data) {
       $("#add_load_credits_form")[0].reset();
       $("#add_load_credits_data_modal").modal("hide");
-      $("#alert-modal").modal("show");
-      $("#alert-modal-title").html("Add Load to a Student");
-      $("#alert-modal-body p").html("You have successfully added a load a student's load credits.");
+      alertify.success("You have successfully added a load a student's load credits.");
     }
   });
 });
@@ -77,10 +73,8 @@ $(document).on("submit", "#change_password-form", function(e) {
       $('button[form="change_password-form"]').prop('disabled', false);
       if (data.is_valid) {
         $(".help-block").html("");
-        $("#alert-modal").modal("show");
         $("#change_password-modal").modal("hide");
-        $("#alert-modal-title").html("change password");
-        $("#alert-modal-body p").html("You have successfully changed your password.");
+        alertify.success("You have successfully changed your password.");
       } else {
         $("#current_password_help-block").html(data.current_password_error);
         $("#new_password_help-block").html(data.new_password_error);
@@ -99,7 +93,6 @@ $(document).on("submit", "#register_guardian_form", function(e) {
     cache: false,
     dataType: "json",
     success: function(data) {
-      console.log(data);
       $("button[form='register_guardian_form']").prop('disabled', false);
       $("#add_guardian_address_help-block").html(data.guardian_address_error);
       $("#add_guardian_name_help-block").html(data.guardian_name_error);
@@ -190,7 +183,6 @@ $(document).on("submit", "#teacher_add_form", function(e) {
     method: "POST",
     dataType: "json",
     success: function(data) {
-      console.log(data);
       $("button[form='teacher_add_form']").prop('disabled', false);
       if (data.is_valid) {
         $("#teacher_add_form")[0].reset();
@@ -246,7 +238,7 @@ $(document).on("submit", "#staff_add_form", function(e) {
         $(".help-block").html("");
         if (data.is_successful) {
           $("#staffs_add_modal").modal("hide");
-          alertify.success("You have successfully added a staff in the list."); 
+          alertify.success("You have successfully added a staff in the list.");
           update_select_options("class_adviser", base_url);
         }
       } else {
@@ -268,41 +260,6 @@ $(document).on("submit", "#staff_add_form", function(e) {
     }
   })
 });
-$(document).on("submit", "#guard_add_form", function(e) {
-  e.preventDefault();
-  $("button[form='guard_add_form']").prop('disabled', true);
-  $.ajax({
-    url: $(this).attr('action'),
-    data: new FormData(this),
-    processData: false,
-    contentType: false,
-    method: "POST",
-    dataType: "json",
-    success: function(data) {
-      $("button[form='guard_add_form']").prop('disabled', false);
-      if (data.is_valid) {
-        $("#guard_add_form")[0].reset();
-        $('.ui.dropdown').dropdown('clear');
-        $(".help-block").html("");
-        if (data.is_successful) {
-          $("#guards_add_modal").modal("hide");
-          $("#alert-modal").modal("show");
-          $("#alert-modal-title").html("Add guard");
-          $("#alert-modal-body p").html("You have successfully added a guard in the list.");
-          alertify.success("You have successfully added a staff in the list.");
-        }
-      } else {
-        $("#guard_first_name_help-block").html(data.first_name_error);
-        $("#guard_last_name_help-block").html(data.last_name_error);
-        $("#guard_middle_name_help-block").html(data.middle_name_error);
-        $("#guard_suffix_help-block").html(data.suffix_error);
-        $("#guard_bday_help-block").html(data.bday_error);
-        $("#guard_guardian_id_help-block").html(data.guardian_id_error);
-        $("#guard_photo_help-block").html(data.photo_error);
-      }
-    }
-  })
-});
 $(document).on("submit", "#app-login", function(e) {
   e.preventDefault();
   $('button[form="app-login"]').prop('disabled', true);
@@ -315,7 +272,7 @@ $(document).on("submit", "#app-login", function(e) {
     success: function(data) {
       $('button[form="app-login"]').prop('disabled', false);
       if (data.is_valid) {
-        window.location = data.redirect;
+        $(location).attr('href',data.redirect);
       } else {
         $("#account_help-block").html(data.account_error);
         $("#account_password_help-block").html(data.account_password_error);
@@ -357,9 +314,7 @@ $(document).on("submit", "#class_add_form", function(e) {
       if (data.is_valid) {
         $("#class_add_form")[0].reset();
         $('.ui.dropdown').dropdown('clear');
-        $("#alert-modal-title").html("Add Class");
-        $("#alert-modal-body p").html("You have successfully added a class in the list.");
-        $("#alert-modal").modal("show");
+        alertify.success("You have successfully added a class in the list.");
         $(".help-block").html("");
         update_select_options("class_id", base_url);
       } else {
@@ -411,9 +366,7 @@ $(document).on("submit", "#guardian_email_settings_form", function(e) {
       if (data.is_valid) {
         $(".help-block").html("");
         $("#email_settings-modal").modal("hide");
-        $("#alert-modal-title").html("email settings");
-        $("#alert-modal-body p").html("You have successfully changed your email settings.");
-        $("#alert-modal").modal("show");
+        alertify.success("You have successfully changed your email settings.");
       } else {
         $("#email_settings_email_address_help-block").html(data.email_address_error);
       }
@@ -437,10 +390,8 @@ $(document).on("submit", "#gate_change_password-form", function(e) {
       if (data.is_valid) {
         $("#gate_change_password-form")[0].reset();
         $(".help-block").html("");
-        $("#alert-modal").modal("show");
-        $("#change_password-modal").modal("hide");
-        $("#alert-modal-title").html("change password");
-        $("#alert-modal-body p").html("You have successfully changed your password.");
+        $("#gate_change_password-modal").modal("hide");
+        alertify.success("You have successfully changed the gate password.");
       } else {
         $("#gate_current_password_help-block").html(data.current_password_error);
         $("#gate_new_password_help-block").html(data.new_password_error);
@@ -481,10 +432,8 @@ $(document).on("submit", "#add_admin-form", function(e) {
       $('button[form="add_admin-form"]').prop('disabled', false);
       if (data.is_valid) {
         $(".help-block").html("");
-        $("#alert-modal").modal("show");
         $("#add_admin-modal").modal("hide");
-        $("#alert-modal-title").html("add admin account");
-        $("#alert-modal-body p").html("You have created an admin account and the password has been sent to "+data.email_address);
+        alertify.success("You have created an admin account and the password has been sent to "+data.email_address);
       } else {
         $("#add_admin_username_help-block").html(data.username_error);
         $("#add_admin_email_address_help-block").html(data.email_address_error);
@@ -507,9 +456,7 @@ $(document).on("submit", "#reset_admin_password-form", function(e) {
         $("#reset_admin_password_help-block").html(data.email_address_error);
         $(".help-block").html("");
         $("#reset_admin_password-modal").modal("hide");
-        $("#alert-modal").modal("show");
-        $("#alert-modal-title").html("admin password reset");
-        $("#alert-modal-body p").html("The new admin password has been sent to " + data.email_address);
+        alertify.success("The new admin password has been sent to " + data.email_address);
       } else {
         $("#reset_admin_password_help-block").html(data.email_address_error);
       }
@@ -550,7 +497,6 @@ $(document).on("submit", "#sms-form", function(e) {
       if (data.is_valid) {
         var count = 0;
         $.each(data.recipients_number, function(i, item) {
-          // console.log(data.recipients_table);
           $.ajax({
             type: "POST",
             url: base_url+"sms_ajax/send_api",
@@ -669,6 +615,13 @@ function update_select_options(type, base_url) {
     });
   }
 }
+
+//when closing a bootstrap modal
+$('button[data-dismiss="modal"]').click(function(e) {
+  if(e.target.className=="btn btn-default"){
+    alertify.error('Cancelled');
+  }
+});
 
 // alertify settings
 alertify.dialog('confirm').set({transition:'zoom'});

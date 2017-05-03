@@ -215,7 +215,7 @@ echo '
       </div>
       <div class="modal-footer">
       <p class="help-block"></p>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default no-notif" data-dismiss="modal">Close</button>
       </div>
     </div>
 

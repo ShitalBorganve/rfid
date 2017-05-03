@@ -99,13 +99,9 @@ $(document).on("click",".resend_sms",function(e) {
 			needToConfirm = false;
 			
 			if(data.is_success){
-				$("#alert-modal").modal("show");
-				$("#alert-modal-title").html("RESEND MESSAGES");
-				$("#alert-modal-body p").html("You have successfully resent the message.");
+				alertify.success("You have successfully resent the message.");
 			}else{
-				$("#alert-modal").modal("show");
-				$("#alert-modal-title").html("ERRROR RESENDING MESSAGES");
-				$("#alert-modal-body p").html("Please Check the message status.");
+				alertify.error("Please Check the message status.");
 			}
 			show_sms_threads();
 		}

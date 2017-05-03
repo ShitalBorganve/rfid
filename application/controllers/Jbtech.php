@@ -61,15 +61,23 @@ class Jbtech extends CI_Controller {
 		$navbar_data["navbar_type"] = "jbtech";
 		($this->session->userdata("jbtech_sessions")?$navbar_data["navbar_is_logged_in"] = TRUE:$navbar_data["navbar_is_logged_in"] = FALSE);
 		$this->data["navbar_scripts"] = $this->load->view("layouts/navbar",$navbar_data,true);
+
+		if(current_url()==base_url("jbtech")){
+			
+		}else{
+			if($this->session->userdata("jbtech_sessions")==NULL){
+				redirect(base_url());
+			}
+		}
 	}
 
 	public function index($student_id='')
 	{
 		$this->data["login_type"] = "jbtech";
 		if($this->session->userdata("jbtech_sessions")){
-
 			$this->load->view('jbtech-students',$this->data);
 		}else{
+			$this->data["type"] = "JBTECH LOGIN";
 			$this->load->view('app-login',$this->data);
 		}
 	}

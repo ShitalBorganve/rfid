@@ -52,7 +52,7 @@ class Admin_ajax extends CI_Controller {
 	public function applogin($arg='')
 	{
 		if($_POST){
-			$this->form_validation->set_rules('account', 'Account', 'required|min_length[5]|max_length[12]|is_in_db[admins.username]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('account', 'Account', 'required|min_length[5]|max_length[12]|is_valid[admins.username]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('account_password', 'Password', 'required|min_length[5]|max_length[12]|trim|htmlspecialchars');
 			$this->form_validation->set_message('is_in_db', 'This account is invalid');
 
@@ -67,6 +67,7 @@ class Admin_ajax extends CI_Controller {
 				$data["username"] = $account_id = $this->input->post("account");
 				$data["password"] = md5($account_password = $this->input->post("account_password"));
 				// $data["var_dump"] = $this->admin_model->login($data);
+				$data["deleted"] = 0;
 				$data["is_valid"] = $this->admin_model->login($data);
 				$data["account_error"] = "";
 				

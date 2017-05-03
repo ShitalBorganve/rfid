@@ -24,7 +24,7 @@ class Admin extends CI_Controller {
 		$this->load->library('form_validation');
 		$this->load->library('session');
 
-
+		echo md5("ICFINkcW");
 		//updates
 		// $this->app_config->updates(current_build());
 		

@@ -274,7 +274,7 @@ $(document).on("submit","#rfid_scan_add_form",function(e) {
       if(data.is_valid){
         $("#rfid_scan_add_modal").modal("hide");
         $(".help-block").html("");
-        alertify.success("You have successfully added the rfid of the teacher.");  
+        alertify.success("You have successfully added the rfid for the teacher.");  
         show_teacher_list();
       }else{
         $("#rfid_scan_help-block").html(data.error);
@@ -404,7 +404,11 @@ $(document).on("submit","#teacher_edit_form",function(e) {
         $("#teacher_edit_form")[0].reset();
         $(".ui .dropdown").dropdown("clear");
 				$("#teacher_edit_modal").modal("hide");
-        alertify.success("You have successfully updated a teacher's information.");
+        if(data.password_reset){
+          alertify.success("You have successfully updated a teacher's information.<br>The new password has been sent to <b>"+data.contact_number+"</b>");
+        }else{
+          alertify.success("You have successfully updated a teacher's information.");
+        }
         show_teacher_list();
 			}
 		}
@@ -441,7 +445,6 @@ $(document).on("click",".reset_password_teacher",function(e) {
               alertify.alert('SMS Failed',data.error);
             }
           };
-
         }
       }
     });

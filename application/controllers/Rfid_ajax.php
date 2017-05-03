@@ -158,12 +158,15 @@ class Rfid_ajax extends CI_Controller {
 
 							$guardian_data = $this->guardian_model->get_data($get_data);
 							if($guardian_data["sms_subscription"]=="1"){
-								$rfid_owner_data["sms_status"] = send_sms($guardian_data["contact_number"],$rfid_owner_data["message"]);
-								if($rfid_owner_data["sms_status"]==0){
+								$rfid_owner_data["status_code"] = send_sms($guardian_data["contact_number"],$rfid_owner_data["message"]);
+								if($rfid_owner_data["status_code"]==0){
 									$rfid_owner_data["sms_status"] = $guardian_data["name"]." had been successfully notified through SMS.";
 								}else{
-									$rfid_owner_data["sms_status"] = sms_status($rfid_owner_data["sms_status"]);
+									$rfid_owner_data["sms_status"] = sms_status($rfid_owner_data["status_code"]);
 								}
+								$rfid_owner_data["guardian_sms_subscription"] = "1";
+							}else{
+								$rfid_owner_data["guardian_sms_subscription"] = "0";
 							}
 
 							if($guardian_data["email_subscription"]=="1"){
@@ -177,16 +180,18 @@ class Rfid_ajax extends CI_Controller {
 
 								$this->email->send();
 							}
+						}else{
+							$rfid_owner_data["guardian_sms_subscription"] = "0";
 						}
 					}elseif ($rfid_owner_log_data["ref_table"]=="teachers"||$rfid_owner_log_data["ref_table"]=="staffs") {
-						if($rfid_owner_data["in_case_contact_number_sms"]){
+						if($rfid_owner_data["in_case_contact_number_sms"] == "1"){
 							$rfid_owner_data["message"] = $rfid_owner_data["full_name"].' '.$type_status.' the school premises on '.date("m/d/Y h:i:s A").'.';
 
-							$rfid_owner_data["sms_status"] = send_sms($rfid_owner_data["in_case_contact_number"],$rfid_owner_data["message"]);
-							if($rfid_owner_data["sms_status"]==0){
+							$rfid_owner_data["status_code"] = send_sms($rfid_owner_data["in_case_contact_number"],$rfid_owner_data["message"]);
+							if($rfid_owner_data["status_code"]==0){
 								$rfid_owner_data["sms_status"] = $rfid_owner_data["in_case_name"]." had been successfully notified through SMS.";
 							}else{
-								$rfid_owner_data["sms_status"] = sms_status($rfid_owner_data["sms_status"]);
+								$rfid_owner_data["sms_status"] = sms_status($rfid_owner_data["status_code"]);
 							}
 
 						}

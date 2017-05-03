@@ -460,6 +460,10 @@ class Staff_ajax extends CI_Controller {
 			$edit_data["ref_table"] = "staffs";
 			$this->rfid_model->edit_info($data,$edit_data);
 
+			$get_data = array();
+			$get_data["id"] = $this->input->post("id");
+			echo json_encode($this->staffs_model->get_data($get_data));
+
 		}
 	}
 

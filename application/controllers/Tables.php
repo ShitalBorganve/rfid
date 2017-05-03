@@ -70,13 +70,20 @@ class Tables extends CI_Controller {
 					$where["deleted"] = 0;
 				}
 
-				if($this->input->get("class_id")){
-					$where["class_id"] = $this->input->get("class_id");
+
+				if($arg_2=="teachers"){
+					if($this->input->get("class_id")||$this->input->get("class_id")==0){
+						$where["class_id"] = $this->input->get("class_id");
+					}
+				}else{
+					if($this->input->get("class_id")){
+						$where["class_id"] = $this->input->get("class_id");
+					}
 				}
 
 				$students_list_data = $this->students_model->get_list($where,$page,$this->config->item("max_item_perpage"),$search);
 
-				// var_dump($this->input->get("owner_id"));
+				// var_dump($this->input->get("class_id"));
 				// var_dump($students_list_data["query"]);
 				// exit;
 				foreach ($students_list_data["result"] as $student_data) {
@@ -100,7 +107,7 @@ class Tables extends CI_Controller {
 					if($arg_2=="jbtech"){
 						echo '
 						<tr>
-							<td>'.$student_data->id.'</td>
+							<td>'.sprintf("%03d",$student_data->id).'</td>
 							<td>'.$student_data->first_name.'</td>
 							<td>'.$student_data->middle_name.'</td>
 							<td>'.$student_data->last_name.'</td>
@@ -115,7 +122,7 @@ class Tables extends CI_Controller {
 					}elseif ($arg_2=="teachers") {
 						echo '
 						<tr>
-							<td>'.$student_data->id.'</td>
+							<td>'.sprintf("%03d",$student_data->id).'</td>
 							<td>'.$student_data->last_name.'</td>
 							<td>'.$student_data->first_name.'</td>
 							<td>'.$student_data->middle_name.'</td>
@@ -135,7 +142,7 @@ class Tables extends CI_Controller {
 						}
 						echo '
 						<tr>
-							<td>'.$student_data->id.'</td>
+							<td>'.sprintf("%03d",$student_data->id).'</td>
 							<td>'.$rfid_status.'</td>
 							<td>'.$student_data->last_name.'</td>
 							<td>'.$student_data->first_name.'</td>
@@ -194,7 +201,7 @@ class Tables extends CI_Controller {
 				if($arg_2=="jbtech"){
 					echo '
 					<tr>
-						<td>'.$teacher_data->id.'</td>
+						<td>'.sprintf("%03d",$teacher_data->id).'</td>
 						<td>'.$teacher_data->first_name.'</td>
 						<td>'.$teacher_data->middle_name.'</td>
 						<td>'.$teacher_data->last_name.'</td>
@@ -215,7 +222,7 @@ class Tables extends CI_Controller {
 					}
 					echo '
 					<tr>
-						<td>'.$teacher_data->id.'</td>
+						<td>'.sprintf("%03d",$teacher_data->id).'</td>
 						<td>'.$rfid_status.'</td>
 						<td>'.$teacher_data->first_name.'</td>
 						<td>'.$teacher_data->middle_name.'</td>

@@ -143,7 +143,7 @@
 
 $(document).on("click",".reset_password_guardian",function(e) {
   var datastr = "id="+e.target.id;
-  if(confirm("Are you sure you want to reset the password of this guardian? This action is irreversible.")){
+  alertify.confirm('RESET PASSWORD OF GUARDIAN', 'Are you sure you want to reset the password this guardian?<br>This action is irreversible.<br><b>The new password will be sent through SMS.</b>', function(){
     $.ajax({
       type: "POST",
       url: "<?php echo base_url("guardian_ajax/reset_password"); ?>",
@@ -152,34 +152,46 @@ $(document).on("click",".reset_password_guardian",function(e) {
       cache: false,
       success: function(data) {
         if(data.is_successful){
-          $("#alert-modal-title").html("Reset Password");
-          $("#alert-modal-body p").html("You have sent the new password to "+ data.contact_number);
-          $("#alert-modal").modal("show");         
+          alertify.success("You have sent the new password to "+ data.contact_number);        
         }else{
-          $("#alert-modal-title").html("Reset Password");
-          $("#alert-modal-body p").html(data.error);
-          $("#alert-modal").modal("show");    
+          var msg = alertify.notify('The Password was not changed.<br>Click this message to view the error.', 'error', 10);
+          msg.callback = function (isClicked) {
+            if(isClicked){
+              alertify.alert('SMS Failed',data.error);
+            }
+          };
         }
-  
       }
     });
-  }
+  },
+  function(){
+    alertify.error('Cancelled')
+  });
+
+
+
+
 });
 
 
 $(document).on("click",".delete_guardian",function(e) {
   var datastr = "id="+e.target.id;
-  if(confirm("Are you sure you want to delete this guardian? This acton is irreversible.")){
+  alertify.confirm('DELETE GUARDIAN', 'Are you sure you want to delete this guardian in the list?<br> This action is irreversible.', function(){
     $.ajax({
       type: "POST",
       url: "<?php echo base_url("guardian_ajax/delete"); ?>",
       data: datastr,
       cache: false,
+      dataType: "json",
       success: function(data) {
         show_guardian_list();
+        alertify.success(data.name + ' has been deleted.');
       }
     });
-  }
+  },
+  function(){
+    alertify.error('Cancelled')
+  });
 });
 
 $(document).on("click","#reset",function(e) {
@@ -240,9 +252,11 @@ $(document).on("submit","#guardian_edit_form",function(e) {
 			$("#subscription_help-block").html(data.subscription_error);
 			if(data.is_valid){
 				$("#guardian_edit_modal").modal("hide");
-				$("#alert-modal").modal("show");
-				$("#alert-modal-title").html("Edit guardian Information");
-				$("#alert-modal-body p").html("You have successfully editted a guardian's information.");
+        if(data.password_reset){
+          alertify.success("You have successfully updated a guardian's information.<br>The new password has been sent to <b>"+data.contact_number+"</b>");
+        }else{
+          alertify.success("You have successfully updated a guardian's information.");
+        }
         show_guardian_list();
 			}
 		}

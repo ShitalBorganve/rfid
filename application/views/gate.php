@@ -90,15 +90,21 @@ $(document).on("submit","#gate_rfid_scan", function(e) {
 			$("#gate_rfid_suffix").html(data.suffix);
 			$("#gate_status").removeClass( "danger success" );
 			$("#gate_status").html("");
-			// console.log(data);
 			if(data.is_valid){
 				$("#rfid_scan").val("");
 				$("#display-photo").attr("src",data.display_photo);
 				$("#rfid_owner").html(data.rfid_data.owner_type + "'S");
 
 				if(data.gate_logs_data.is_valid){
-					$("#gate_status").html('<b>'+data.full_name + "</b> " + data.type_status+ ' the school premises on <br><span style="font-size: 30px;">'+data.gate_logs_data.date_time_passed+"</span><br>"+data.sms_status);
+					$("#gate_status").html('<b>'+data.full_name + "</b> " + data.type_status+ ' the school premises on <br><span style="font-size: 30px;">'+data.gate_logs_data.date_time_passed+"</span>");
 					$("#gate_status").removeClass( "danger success" ).addClass("success");
+					if((data.guardian_sms_subscription == "1" && data.rfid_data.owner_type == "student") || (data.in_case_contact_number_sms == "1" && (data.rfid_data.owner_type == "teacher" || data.rfid_data.owner_type == "staff"))){
+						if(data.status_code == "0"){
+							alertify.success(data.sms_status);
+						}else{
+							alertify.error(data.sms_status);
+						}
+					}
 				}else{
 					$("#gate_status").html("<b>"+data.full_name+"</b> had recently passed the gate. Try again later.");
 					$("#gate_status").removeClass( "danger success" ).addClass("danger");

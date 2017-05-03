@@ -154,17 +154,23 @@ $(document).on("click",".edit_class",function(e) {
 
 $(document).on("click",".delete_class",function(e) {
   var datastr = "id="+e.target.id;
-  if(confirm("Are you sure you want to delete this class? This acton is irreversible.")){
+  alertify.confirm('DELETE CLASS', 'Are you sure you want to delete this class in the list?<br> This action is irreversible.', function(){
     $.ajax({
       type: "POST",
       url: "<?php echo base_url("class_ajax/delete"); ?>",
       data: datastr,
       cache: false,
+      dataType: "json",
       success: function(data) {
         show_class_list();
+        alertify.success(data.class_name + ' has been deleted.');
       }
     });
-  }
+  },
+  function(){
+    alertify.error('Cancelled')
+  });
+
 });
 
 function show_class_data(id) {
@@ -204,10 +210,8 @@ $(document).on("submit","#class_edit_form",function(e) {
 			$('button[form="class_edit_form"]').prop('disabled',false);
 			if(data.is_valid){
 				$(".help-block").html("");
-				$("#alert-modal-title").html("Edit Class");
-				$("#alert-modal-body p").html("You have successfully the class information.");
+        alertify.success("You have successfully the class information.");
 				$("#class_edit_modal").modal("hide");
-				$("#alert-modal").modal("show")
 				show_class_list();
 			}else{
 				$("#class_adviser_help-block").html(data.class_adviser_error);
