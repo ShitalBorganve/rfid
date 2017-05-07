@@ -216,6 +216,8 @@ $(document).on("submit", "#teacher_add_form", function(e) {
         $("#teacher_guardian_id_help-block").html(data.guardian_id_error);
         $("#teacher_class_id_help-block").html(data.class_id_error);
         $("#teacher_photo_help-block").html(data.photo_error);
+        $("#teacher_dept_head_help-block").html(data.dept_head_error);
+        $("#teacher_dept_head_number_help-block").html(data.dept_head_number_error);
       }
     }
   })
