@@ -61,6 +61,7 @@ class Admin_ajax extends CI_Controller {
 				$data["is_valid"] = FALSE;
 				$data["account_error"] = form_error('account');
 				$data["account_password_error"] = form_error('account_password');
+				echo json_encode($data);
 			}
 			else
 			{
@@ -72,17 +73,20 @@ class Admin_ajax extends CI_Controller {
 				$data["account_error"] = "";
 				
 				if($data["is_valid"]){
+					$data = array();
+					$data["is_valid"] = TRUE;
 					$data["account_password_error"] = "";
 					$data["redirect"] = base_url("admin");
-
-
+					echo json_encode($data);
+					// header("location:".base_url("admin"));
 				}else{
 					$data["account_password_error"] = "Incorrect Passord. Try Again.";
 					$data["redirect"] = "";
+					echo json_encode($data);
 				}
 			}
 
-			echo json_encode($data);
+			
 		}
 	}
 

@@ -161,6 +161,20 @@ echo '
               </div>
           </div>
 
+          <div class="form-group">
+              <label class="col-sm-4">In Case of Emergency</label>
+              <div class="input-group col-sm-7">
+                <input id="in_case_name" type="text" class="form-control" name="in_case_name" readonly>
+                <span class="input-group-addon btn btn-default" data-clipboard-target="#in_case_name" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
+              </div>
+          </div>
+          <div class="form-group">
+              <label class="col-sm-4">In Case of Emergency Contact Number</label>
+              <div class="input-group col-sm-7">
+                <input id="in_case_contact_number" type="text" class="form-control" name="in_case_contact_number" readonly>
+                <span class="input-group-addon btn btn-default" data-clipboard-target="#in_case_contact_number" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
+              </div>
+          </div>
            <!--
           <div class="form-group">
               <label class="col-sm-4">fathers_name</label>
@@ -331,8 +345,9 @@ function show_staff_data(id) {
       $('#last_name').val(data.last_name);
       $('#age').val(data.age);
       $('#full_name').val(data.full_name);
-      $('#first_name').val(data.first_name);
-      $('#middle_name').val(data.middle_name);
+      $('#first_name').val(data.Firstst_name);
+      $('#in_case_name').val(data.in_case_name);
+      $('#in_case_contact_number').val(data.in_case_contact_number);
       $('#position').val(data.position);
       $('#suffix').val(data.suffix);
       $('#gender').val(data.gender);

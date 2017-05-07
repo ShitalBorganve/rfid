@@ -122,11 +122,20 @@ class Rfid_ajax extends CI_Controller {
 				$rfid_owner_data["is_valid"] = TRUE;
 				if($rfid_owner_data["rfid_data"]["ref_table"]=="students"){
 					$dir = "student_photo";
+					$get_class_data["id"] = $rfid_owner_data["class_id"];
+					$this->load->model("classes_model");
+					$class_data = $this->classes_model->get_data($get_class_data);
+					$rfid_owner_data["designation_label"] = "Grade Level:";
+					$rfid_owner_data["designation_value"] = $class_data["grade"];
 					$rfid_owner_data["rfid_data"]["owner_type"] = "student";
 				}elseif ($rfid_owner_data["rfid_data"]["ref_table"]=="teachers") {
+					$rfid_owner_data["designation_label"] = "Designation:";
+					$rfid_owner_data["designation_value"] = "Teacher";
 					$dir = "teacher_photo";
 					$rfid_owner_data["rfid_data"]["owner_type"] = "teacher";
 				}elseif ($rfid_owner_data["rfid_data"]["ref_table"]=="staffs") {
+					$rfid_owner_data["designation_label"] = "Designation:";
+					$rfid_owner_data["designation_value"] = $rfid_owner_data["position"];
 					$dir = "staff_photo";
 					$rfid_owner_data["rfid_data"]["owner_type"] = "staff";
 				}

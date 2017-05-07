@@ -56,8 +56,8 @@
 							<td><span id="gate_rfid_middle_name"></span></td>
 						</tr>
 						<tr>
-							<th>Suffix:</th>
-							<td><span id="gate_rfid_suffix"></span></td>
+							<th><span id="designation_label">Designation:</span></th>
+							<td><span id="designation_value"></span></td>
 						</tr>
 						<tr>
 							<th colspan="2" id="gate_status" class="table-header"></th>
@@ -76,6 +76,8 @@ setInterval(function(){
 }, 500);
 $(document).on("submit","#gate_rfid_scan", function(e) {
 	e.preventDefault();
+	var timerId;
+	clearTimeout(timerId);
 	$.ajax({
 		type: "POST",
 		url: $("#gate_rfid_scan").attr("action"),
@@ -85,6 +87,8 @@ $(document).on("submit","#gate_rfid_scan", function(e) {
 		success: function(data) {
 			$("#gate_rfid_scan")[0].reset();
 			$("#gate_rfid_last_name").html(data.last_name);
+			$("#designation_label").html(data.designation_label);
+			$("#designation_value").html(data.designation_value);
 			$("#gate_rfid_first_name").html(data.first_name);
 			$("#gate_rfid_middle_name").html(data.middle_name);
 			$("#gate_rfid_suffix").html(data.suffix);
@@ -109,21 +113,27 @@ $(document).on("submit","#gate_rfid_scan", function(e) {
 					$("#gate_status").html("<b>"+data.full_name+"</b> had recently passed the gate. Try again later.");
 					$("#gate_status").removeClass( "danger success" ).addClass("danger");
 				}
-				setTimeout(function(){
+/*				var timerId;
+				clearTimeout(timerId);
+				timerId = setTimeout(function(){
 					$("#rfid_owner").html("")
 					$("#gate_rfid_last_name").html("");
 					$("#gate_rfid_first_name").html("");
 					$("#gate_rfid_middle_name").html("");
-					$("#gate_rfid_suffix").html("");
+					$("#designation_value").html("");
+					$("#designation_label").html("Designation:");
 					$("#gate_status").html("");
 					$("#gate_status").removeClass( "danger success" );
 					$("#display-photo").attr("src","<?php echo base_url("assets/images/empty.jpg");?>");
-				}, 10000);
+				}, 10000);*/
 				$(".help-block").html("");
 			}else{
 				$("#display-photo").attr("src",data.display_photo);
 				$("#rfid_scan").val("");
 			}
+		},
+		error: function(e) {
+			console.log(e);
 		}
 	});
 

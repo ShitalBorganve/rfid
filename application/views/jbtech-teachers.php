@@ -152,6 +152,21 @@ echo '
               </div>
           </div>
 
+          <div class="form-group">
+              <label class="col-sm-4">Department Head</label>
+              <div class="input-group col-sm-7">
+                <input id="in_case_name" type="text" class="form-control" name="in_case_name" readonly>
+                <span class="input-group-addon btn btn-default" data-clipboard-target="#in_case_name" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
+              </div>
+          </div>
+          <div class="form-group">
+              <label class="col-sm-4">Department Head Contact Number</label>
+              <div class="input-group col-sm-7">
+                <input id="in_case_contact_number" type="text" class="form-control" name="in_case_contact_number" readonly>
+                <span class="input-group-addon btn btn-default" data-clipboard-target="#in_case_contact_number" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
+              </div>
+          </div>
+
            <!--
           <div class="form-group">
               <label class="col-sm-4">fathers_name</label>
@@ -346,6 +361,8 @@ function show_teacher_data(id) {
       $('#birthday').val(data.birthday);
       $('#contact_number').val(data.contact_number);
       $('#address').val(data.address);
+      $('#in_case_name').val(data.in_case_name);
+      $('#in_case_contact_number').val(data.in_case_contact_number);
       // $('#guardian_name').val(data.guardian_name);
       // $('#guardian_address').val(data.guardian_address);
       // $('#guardian_contact_number').val(data.guardian_contact_number);

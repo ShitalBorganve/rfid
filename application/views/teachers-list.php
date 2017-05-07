@@ -184,6 +184,24 @@ echo '
           </div>
 
           <div class="form-group">
+            <label class="col-sm-2" for="dept_head">Department Head:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control edit_field" name="dept_head" placeholder="Enter Contact Name">
+              <p class="help-block" id="dept_head_help-block"></p>
+            </div>
+            
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2" for="dept_head_number">Department Head Contact Number:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control edit_field" name="dept_head_number" placeholder="Enter Contact Name">
+              <p class="help-block" id="dept_head_number_help-block"></p>
+            </div>
+            
+          </div>
+
+          <div class="form-group">
             <label class="col-sm-2" for="in_case_name">In Case of Emergency Contact:</label>
             <div class="col-sm-10">
               <input type="text" class="form-control edit_field" name="in_case_name" placeholder="Enter Contact Name">
@@ -195,12 +213,12 @@ echo '
           <div class="form-group">
             <label class="col-sm-2" for="in_case_contact_number">Contact Number:</label>
             <div class="col-sm-10"> 
-            <div class="input-group">
               <input type="text" class="form-control edit_field" name="in_case_contact_number" placeholder="Enter Contact Number">
+              <!--
               <span class="input-group-addon">
                 <input type="checkbox" name="in_case_contact_number_sms" value="1" class="edit_field"> SMS Notification
               </span>
-            </div>
+              -->
             <p class="help-block" id="in_case_contact_number_help-block"></p>
             </div>
           </div>
@@ -388,6 +406,8 @@ $(document).on("submit","#teacher_edit_form",function(e) {
       $('button[form="teacher_edit_form"]').prop('disabled', false);
       $("#in_case_name_help-block").html(data.in_case_name_error);
       $("#last_name_help-block").html(data.last_name_error);
+      $("#dept_head_help-block").html(data.dept_head_error);
+      $("#dept_head_number_help-block").html(data.dept_head_number_error);
 			$("#first_name_help-block").html(data.first_name_error);
       $("#in_case_contact_number_help-block").html(data.in_case_contact_number_error);
       $("#gender_help-block").html(data.gender_error);

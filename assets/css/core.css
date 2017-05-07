@@ -51,6 +51,10 @@ body#has-logo{
 	height: inherit;
 	width: inherit;
 }
+
+.ui-datepicker{
+    z-index: 20000 !important;
+}
 @media (max-width: 991px) {
     .div-of-search{
       width: 100% !important;

@@ -481,12 +481,12 @@ if($modals_sets=="admin"){
             <div class="form-group">
               <label class="col-sm-2" for="in_case_contact_number">Contact Number:</label>
               <div class="col-sm-10"> 
-              <div class="input-group">
                 <input type="text" class="form-control" name="in_case_contact_number" placeholder="Enter Contact Number">
+                <!--
                 <span class="input-group-addon">
-                  <input type="checkbox" name="in_case_contact_number_sms" value="1"> SMS Notification
+                  <input type="hidden" name="in_case_contact_number_sms" value="1"> SMS Notification
                 </span>
-              </div>
+                -->
               <p class="help-block" id="teacher_in_case_contact_number_help-block"></p>
               </div>
 

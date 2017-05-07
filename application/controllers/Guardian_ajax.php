@@ -184,6 +184,7 @@ You can login to ".base_url();
 				$data["is_valid"] = FALSE;
 				$data["account_error"] = form_error('account');
 				$data["account_password_error"] = form_error('account_password');
+				echo json_encode($data);
 			}
 			else
 			{
@@ -196,15 +197,18 @@ You can login to ".base_url();
 				$data["account_error"] = "";
 				
 				if($data["is_valid"]){
+					$data = array();
+					$data["is_valid"] = TRUE;
 					$data["account_password_error"] = "";
 					$data["redirect"] = base_url("/");
 				}else{
 					$data["account_password_error"] = "Incorrect Passord. Try Again.";
 					$data["redirect"] = "";
+					echo json_encode($data);
 				}
 			}
 
-			echo json_encode($data);
+			
 		}
 	}
 

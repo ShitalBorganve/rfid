@@ -22,13 +22,16 @@
 				<?php echo form_open("gate/login",'class="form-horizontal" id="app-login"');?>
 					<div class="form-group">
 					  <div class="col-sm-12"> 
-					    <input type="password" class="form-control" id="account_password" name="account_password" placeholder="Enter Password">
+					    <div class="ui left icon input fluid">
+					      <input type="password" class="form-control" id="account_password" name="account_password" placeholder="Enter Password">
+					      <i class="lock icon"></i>
+					    </div>
 					    <p class="help-block" id="account_password_help-block"><?php echo form_error('account_password'); ?></p>
 					  </div>
 					</div>
 					<div class="form-group"> 
 					  <div class="col-sm-12">
-					    <button type="submit" class="btn btn-primary btn-block">Login</button>
+					    <button type="submit" class="btn btn-primary btn-block">Open</button>
 					  </div>
 					</div>
 				</form>
