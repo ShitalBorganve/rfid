@@ -40,6 +40,8 @@ class Teacher_ajax extends CI_Controller {
 	{
 		if($_POST){
 			$this->form_validation->set_rules('gender', 'Gender', 'required|max_length[50]trim|htmlspecialchars');
+			$this->form_validation->set_rules('dept_head', 'Department Head', 'required|max_length[50]trim|htmlspecialchars');
+			$this->form_validation->set_rules('dept_head_number', 'Department Head Contact Number', 'required|numeric|max_length[11]|min_length[11]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('address', 'Address', 'required|min_length[2]|max_length[100]trim|htmlspecialchars');
 			$this->form_validation->set_rules('first_name', 'First Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
 			$this->form_validation->set_rules('last_name', 'Last Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
@@ -128,6 +130,8 @@ class Teacher_ajax extends CI_Controller {
 			{
 				$data["is_valid"] = FALSE;
 				$data["gender_error"] = form_error('gender');
+				$data["dept_head_error"] = form_error('dept_head');
+				$data["dept_head_number_error"] = form_error('dept_head_number');
 				$data["in_case_contact_number_error"] = form_error('in_case_contact_number');
 				$data["in_case_name_error"] = form_error('in_case_name');
 				$data["first_name_error"] = form_error('first_name');
@@ -143,6 +147,8 @@ class Teacher_ajax extends CI_Controller {
 			{
 				$data["is_valid"] = TRUE;
 				$data["gender_error"] = "";
+				$data["dept_head_error"] = "";
+				$data["dept_head_number_error"] = "";
 				$data["in_case_contact_number_error"] = "";
 				$data["in_case_name_error"] = "";
 				$data["first_name_error"] = "";
@@ -154,6 +160,8 @@ class Teacher_ajax extends CI_Controller {
 				$data["class_id_error"] = "";
 				$data["bday_error"] = "";
 
+				$teacher_data["dept_head"] = $this->input->post("dept_head");
+				$teacher_data["dept_head_number"] = $this->input->post("dept_head_number");
 				$teacher_data["first_name"] = $this->input->post("first_name");
 				$teacher_data["in_case_name"] = $this->input->post("in_case_name");
 				$teacher_data["gender"] = $this->input->post("gender");
@@ -215,6 +223,8 @@ You can login to ".base_url("teacher");
 	{
 		if($_POST){
 			$this->form_validation->set_rules('gender', 'Gender', 'required|max_length[50]trim|htmlspecialchars');
+			$this->form_validation->set_rules('dept_head', 'Department Head', 'required|max_length[50]trim|htmlspecialchars');
+			$this->form_validation->set_rules('dept_head_number', 'Department Head Contact Number', 'required|numeric|max_length[11]|min_length[11]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('teacher_id', 'First Name', 'required|trim|htmlspecialchars|is_in_db[teachers.id]');
 			$this->form_validation->set_rules('first_name', 'First Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
 			$this->form_validation->set_rules('address', 'Address', 'required|min_length[2]|max_length[100]trim|htmlspecialchars');
@@ -322,6 +332,8 @@ You can login to ".base_url("teacher");
 			if ($this->form_validation->run() == FALSE|| $data["is_valid_photo"] == FALSE)
 			{
 				$data["is_valid"] = FALSE;
+				$data["dept_head_error"] = form_error('dept_head');
+				$data["dept_head_number_error"] = form_error('dept_head_number');
 				$data["in_case_contact_number_error"] = form_error('in_case_contact_number');
 				$data["in_case_name_error"] = form_error('in_case_name');
 				$data["first_name_error"] = form_error('first_name');
@@ -339,6 +351,8 @@ You can login to ".base_url("teacher");
 			}
 			else
 			{
+				$data["dept_head_error"] = "";
+				$data["dept_head_number_error"] = "";
 				$data["is_valid"] = TRUE;
 				$data["gender_error"] = "";
 				$data["in_case_name_error"] = "";
@@ -354,6 +368,8 @@ You can login to ".base_url("teacher");
 				$data["class_id_error"] = "";
 
 				$teacher_data["gender"] = $this->input->post("gender");
+				$teacher_data["dept_head"] = $this->input->post("dept_head");
+				$teacher_data["dept_head_number"] = $this->input->post("dept_head_number");
 				$teacher_data["in_case_name"] = $this->input->post("in_case_name");
 				$teacher_data["in_case_contact_number"] = $this->input->post("in_case_contact_number");
 				$teacher_data["in_case_contact_number_sms"] = $in_case_contact_number_sms;

@@ -205,12 +205,7 @@ echo '
           <div class="form-group">
             <label class="col-sm-2" for="in_case_contact_number">Contact Number:</label>
             <div class="col-sm-10"> 
-            <div class="input-group">
               <input type="text" class="form-control edit_field" name="in_case_contact_number" placeholder="Enter Contact Number">
-              <span class="input-group-addon">
-                <input type="checkbox" name="in_case_contact_number_sms" value="1" class="edit_field"> SMS Notification
-              </span>
-            </div>
             <p class="help-block" id="in_case_contact_number_help-block"></p>
             </div>
           </div>
