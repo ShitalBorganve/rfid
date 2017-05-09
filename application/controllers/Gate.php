@@ -47,6 +47,7 @@ class Gate extends CI_Controller {
 		$navbar_data["navbar_type"] = "home";
 		($this->session->userdata("guardian_sessions")?$navbar_data["navbar_is_logged_in"] = TRUE:$navbar_data["navbar_is_logged_in"] = FALSE);
 		$this->data["navbar_scripts"] = $this->load->view("layouts/navbar",$navbar_data,true);
+		$this->form_validation->set_error_delimiters('', '');
 	}
 
 	public function index($arg='')
@@ -59,13 +60,9 @@ class Gate extends CI_Controller {
 			$this->load->view('gate',$this->data);
 		}else{
 			$this->data["title"] = "Gate Login";
+			$this->data["account_password_error"] = "";
 			$this->load->view('gate-login',$this->data);
 		}
-
-		
-	}
-	public function test($value='')
-	{
 	}
 
 	public function login($value='')
@@ -76,6 +73,9 @@ class Gate extends CI_Controller {
 			{
 				$data["is_valid"] = FALSE;
 				$data["account_password_error"] = form_error('account_password');
+				$this->data["account_password_error"] = form_error('account_password');
+				$this->data["title"] = "Gate Login";
+				$this->load->view('gate-login',$this->data);
 			}
 			else
 			{
@@ -86,15 +86,17 @@ class Gate extends CI_Controller {
 				if($data["is_valid"]){
 					$data["account_password_error"] = "";
 					$data["redirect"] = base_url("gate");
-
-
+					redirect("gate");
 				}else{
 					$data["account_password_error"] = "Incorrect Passord. Try Again.";
 					$data["redirect"] = "";
+					$this->data["account_password_error"] = "Incorrect Passord. Try Again.";
+					$this->data["title"] = "Gate Login";
+					$this->load->view('gate-login',$this->data);
 				}
 			}
 
-			echo json_encode($data);
+			// echo json_encode($data);
 		}
 	
 	public function logout($value='')

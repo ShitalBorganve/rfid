@@ -58,24 +58,24 @@ class Staff_ajax extends CI_Controller {
 
 			// $data["class_id"] = $this->input->post("class_id");
 
-			$this->form_validation->set_rules('position', 'Position', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
-			$this->form_validation->set_rules('address', 'Address', 'required|min_length[2]|max_length[100]trim|htmlspecialchars');
-			$this->form_validation->set_rules('first_name', 'First Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
-			$this->form_validation->set_rules('last_name', 'Last Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
-			$this->form_validation->set_rules('middle_name', 'Middle Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
-			$this->form_validation->set_rules('suffix', 'Suffix', 'custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
+			$this->form_validation->set_rules('position', 'Position', 'required|custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('address', 'Address', 'required|min_length[2]|max_length[100]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('first_name', 'First Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('last_name', 'Last Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('middle_name', 'Middle Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('suffix', 'Suffix', 'custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('bday_m', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('bday_d', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('bday_y', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
-			$this->form_validation->set_rules('contact_number', 'Contact Number', 'numeric|min_length[11]|max_length[11]trim|htmlspecialchars');
-			$this->form_validation->set_rules('gender', 'Gender', 'required|max_length[50]trim|htmlspecialchars');
-			$this->form_validation->set_rules('in_case_name', 'Name', 'custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
+			$this->form_validation->set_rules('contact_number', 'Contact Number', 'numeric|min_length[11]|max_length[11]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('gender', 'Gender', 'required|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('in_case_name', 'Name', 'custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
 
 			if($this->input->post("in_case_contact_number_sms")){
-				$this->form_validation->set_rules('in_case_contact_number', 'In Case of Emergency Contact Number', 'required|numeric|min_length[11]|max_length[11]trim|htmlspecialchars');
+				$this->form_validation->set_rules('in_case_contact_number', 'In Case of Emergency Contact Number', 'required|numeric|min_length[11]|max_length[11]|trim|htmlspecialchars');
 				$in_case_contact_number_sms = 1;
 			}else{
-				$this->form_validation->set_rules('in_case_contact_number', 'In Case of Emergency Contact Number', 'numeric|min_length[11]|max_length[11]trim|htmlspecialchars');
+				$this->form_validation->set_rules('in_case_contact_number', 'In Case of Emergency Contact Number', 'numeric|min_length[11]|max_length[11]|trim|htmlspecialchars');
 				$in_case_contact_number_sms = 0;
 			}
 
@@ -222,24 +222,24 @@ class Staff_ajax extends CI_Controller {
 			// $data["class_id"] = $this->input->post("class_id");
 
 			$this->form_validation->set_rules('staff_id', 'First Name', 'required|trim|htmlspecialchars|is_in_db[staffs.id]');
-			$this->form_validation->set_rules('address', 'Address', 'required|min_length[2]|max_length[100]trim|htmlspecialchars');
-			$this->form_validation->set_rules('position', 'Position', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
-			$this->form_validation->set_rules('first_name', 'First Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
-			$this->form_validation->set_rules('last_name', 'Last Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
-			$this->form_validation->set_rules('middle_name', 'Middle Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
-			$this->form_validation->set_rules('suffix', 'Suffix', 'custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
+			$this->form_validation->set_rules('address', 'Address', 'required|min_length[2]|max_length[100]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('position', 'Position', 'required|custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('first_name', 'First Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('last_name', 'Last Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('middle_name', 'Middle Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('suffix', 'Suffix', 'custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('bday_m', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('bday_d', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('bday_y', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
-			$this->form_validation->set_rules('contact_number', 'Contact Number', 'numeric|min_length[11]|max_length[11]trim|htmlspecialchars');
-			$this->form_validation->set_rules('in_case_name', 'Name', 'custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
-			$this->form_validation->set_rules('gender', 'Gender', 'required|max_length[50]trim|htmlspecialchars');
+			$this->form_validation->set_rules('contact_number', 'Contact Number', 'numeric|min_length[11]|max_length[11]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('in_case_name', 'Name', 'custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('gender', 'Gender', 'required|max_length[50]|trim|htmlspecialchars');
 
 			if($this->input->post("in_case_contact_number_sms")){
-				$this->form_validation->set_rules('in_case_contact_number', 'In Case of Emergency Contact Number', 'required|numeric|min_length[11]|max_length[11]trim|htmlspecialchars');
+				$this->form_validation->set_rules('in_case_contact_number', 'In Case of Emergency Contact Number', 'required|numeric|min_length[11]|max_length[11]|trim|htmlspecialchars');
 				$in_case_contact_number_sms = 1;
 			}else{
-				$this->form_validation->set_rules('in_case_contact_number', 'In Case of Emergency Contact Number', 'numeric|min_length[11]|max_length[11]trim|htmlspecialchars');
+				$this->form_validation->set_rules('in_case_contact_number', 'In Case of Emergency Contact Number', 'numeric|min_length[11]|max_length[11]|trim|htmlspecialchars');
 				$in_case_contact_number_sms = 0;
 			}
 

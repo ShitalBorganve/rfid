@@ -39,27 +39,27 @@ class Teacher_ajax extends CI_Controller {
 	public function add($arg='')
 	{
 		if($_POST){
-			$this->form_validation->set_rules('gender', 'Gender', 'required|max_length[50]trim|htmlspecialchars');
-			$this->form_validation->set_rules('dept_head', 'Department Head', 'required|max_length[50]trim|htmlspecialchars');
+			$this->form_validation->set_rules('gender', 'Gender', 'required|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('dept_head', 'Department Head', 'required|max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('dept_head_number', 'Department Head Contact Number', 'required|numeric|max_length[11]|min_length[11]|trim|htmlspecialchars');
-			$this->form_validation->set_rules('address', 'Address', 'required|min_length[2]|max_length[100]trim|htmlspecialchars');
-			$this->form_validation->set_rules('first_name', 'First Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
-			$this->form_validation->set_rules('last_name', 'Last Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
-			$this->form_validation->set_rules('middle_name', 'Middle Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
-			$this->form_validation->set_rules('suffix', 'Suffix', 'custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
+			$this->form_validation->set_rules('address', 'Address', 'required|min_length[2]|max_length[100]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('first_name', 'First Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('last_name', 'Last Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('middle_name', 'Middle Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('suffix', 'Suffix', 'custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('bday_m', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('bday_d', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('bday_y', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('class_id', 'Class', 'trim|htmlspecialchars');
-			$this->form_validation->set_rules('in_case_name', 'Name', 'custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
+			$this->form_validation->set_rules('in_case_name', 'Name', 'custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
 			
-			$this->form_validation->set_rules('contact_number', 'Contact Number', 'required|is_available[teachers.contact_number]|numeric|min_length[11]|max_length[11]trim|htmlspecialchars');
+			$this->form_validation->set_rules('contact_number', 'Contact Number', 'required|is_available[teachers.contact_number]|numeric|min_length[11]|max_length[11]|trim|htmlspecialchars');
 			$this->form_validation->set_message('is_in_db', 'This account is invalid');
 			if($this->input->post("in_case_contact_number_sms")){
-				$this->form_validation->set_rules('in_case_contact_number', 'In Case of Emergency Contact Number', 'required|numeric|min_length[11]|max_length[11]trim|htmlspecialchars');
+				$this->form_validation->set_rules('in_case_contact_number', 'In Case of Emergency Contact Number', 'required|numeric|min_length[11]|max_length[11]|trim|htmlspecialchars');
 				$in_case_contact_number_sms = 1;
 			}else{
-				$this->form_validation->set_rules('in_case_contact_number', 'In Case of Emergency Contact Number', 'numeric|min_length[11]|max_length[11]trim|htmlspecialchars');
+				$this->form_validation->set_rules('in_case_contact_number', 'In Case of Emergency Contact Number', 'numeric|min_length[11]|max_length[11]|trim|htmlspecialchars');
 				$in_case_contact_number_sms = 0;
 			}
 
@@ -222,28 +222,28 @@ You can login to ".base_url("teacher");
 	public function edit($arg='')
 	{
 		if($_POST){
-			$this->form_validation->set_rules('gender', 'Gender', 'required|max_length[50]trim|htmlspecialchars');
-			$this->form_validation->set_rules('dept_head', 'Department Head', 'required|max_length[50]trim|htmlspecialchars');
+			$this->form_validation->set_rules('gender', 'Gender', 'required|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('dept_head', 'Department Head', 'required|max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('dept_head_number', 'Department Head Contact Number', 'required|numeric|max_length[11]|min_length[11]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('teacher_id', 'First Name', 'required|trim|htmlspecialchars|is_in_db[teachers.id]');
-			$this->form_validation->set_rules('first_name', 'First Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
-			$this->form_validation->set_rules('address', 'Address', 'required|min_length[2]|max_length[100]trim|htmlspecialchars');
-			$this->form_validation->set_rules('last_name', 'Last Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
-			$this->form_validation->set_rules('middle_name', 'Middle Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
-			$this->form_validation->set_rules('suffix', 'Suffix', 'custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
+			$this->form_validation->set_rules('first_name', 'First Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('address', 'Address', 'required|min_length[2]|max_length[100]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('last_name', 'Last Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('middle_name', 'Middle Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('suffix', 'Suffix', 'custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('bday_m', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('bday_d', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('bday_y', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('guardian_id', 'Guardian', 'is_in_db[guardians.id]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('class_id', 'Class', 'is_valid[classes.id]|trim|htmlspecialchars');
-			$this->form_validation->set_rules('in_case_name', 'Name', 'custom_alpha_dash|min_length[2]|max_length[50]trim|htmlspecialchars');
-			$this->form_validation->set_rules('contact_number', 'Contact Number', 'required|is_unique_edit[teachers.contact_number.teacher_id]|numeric|min_length[11]|max_length[11]trim|htmlspecialchars');
+			$this->form_validation->set_rules('in_case_name', 'Name', 'custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('contact_number', 'Contact Number', 'required|is_unique_edit[teachers.contact_number.teacher_id]|numeric|min_length[11]|max_length[11]|trim|htmlspecialchars');
 
 			if($this->input->post("in_case_contact_number_sms")){
-				$this->form_validation->set_rules('in_case_contact_number', 'In Case of Emergency Contact Number', 'required|numeric|min_length[11]|max_length[11]trim|htmlspecialchars');
+				$this->form_validation->set_rules('in_case_contact_number', 'In Case of Emergency Contact Number', 'required|numeric|min_length[11]|max_length[11]|trim|htmlspecialchars');
 				$in_case_contact_number_sms = 1;
 			}else{
-				$this->form_validation->set_rules('in_case_contact_number', 'In Case of Emergency Contact Number', 'numeric|min_length[11]|max_length[11]trim|htmlspecialchars');
+				$this->form_validation->set_rules('in_case_contact_number', 'In Case of Emergency Contact Number', 'numeric|min_length[11]|max_length[11]|trim|htmlspecialchars');
 				$in_case_contact_number_sms = 0;
 			}
 
@@ -512,41 +512,7 @@ You can login to ".base_url("teacher");
 		}
 	}
 
-	public function applogin($arg='')
-	{
-		if($_POST){
-			$this->form_validation->set_rules('account', 'Account', 'required|min_length[5]|max_length[12]|is_valid[teachers.contact_number]|trim|htmlspecialchars');
-			$this->form_validation->set_rules('account_password', 'Password', 'required|min_length[5]|max_length[12]|trim|htmlspecialchars');
-			$this->form_validation->set_message('is_valid', 'This account is invalid');
-
-			if ($this->form_validation->run() == FALSE)
-			{
-				$data["is_valid"] = FALSE;
-				$data["account_error"] = form_error('account');
-				$data["account_password_error"] = form_error('account_password');
-			}
-			else
-			{
-				$data["contact_number"] = $account_id = $this->input->post("account");
-				$data["password"] = md5($account_password = $this->input->post("account_password"));
-				$data["deleted"] = 0;
-				// $data["var_dump"] = $this->teachers_model->login($data);
-				$data["is_valid"] = $this->teachers_model->login($data);
-				$data["account_error"] = "";
-				
-				if($data["is_valid"]){
-					$data["account_password_error"] = "";
-					$data["redirect"] = base_url("teacher");
-
-				}else{
-					$data["account_password_error"] = "Incorrect Passord. Try Again.";
-					$data["redirect"] = "";
-				}
-			}
-
-			echo json_encode($data);
-		}
-	}
+	
 
 
 	public function reset_password($arg='')

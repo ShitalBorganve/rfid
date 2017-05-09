@@ -1,9 +1,5 @@
 <?php
-
 if($modals_sets=="admin"){
-
-
-
   echo '
   <!--RFID Scan to Add Student Modal -->
   <div id="rfid_scan_add_modal" class="modal fade" role="dialog" tabindex="-1">
@@ -84,7 +80,6 @@ if($modals_sets=="admin"){
   </div>
 
   ';
-
 
   echo '
   <!--RFID Scan to Add Student Modal -->
@@ -182,6 +177,14 @@ if($modals_sets=="admin"){
         <div class="modal-body">
           <p>'.form_open_multipart("student_ajax/add",'id="student_add_form" class="form-horizontal"').'
             <!-- <input type="hidden" class="form-control rfid_scanned_add" name="rfid"> -->
+
+            <div class="form-group">
+              <label class="col-sm-2" for="lrn_number">LRN Number:</label>
+              <div class="col-sm-10"> 
+                <input type="text" class="form-control" name="lrn_number" placeholder="Enter LRN Number">
+                <p class="help-block" id="student_lrn_number_help-block"></p>
+              </div>
+            </div>
 
             <div class="form-group">
               <label class="col-sm-2" for="last_name">Last Name:</label>

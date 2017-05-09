@@ -200,7 +200,8 @@ You can login to ".base_url();
 					$data = array();
 					$data["is_valid"] = TRUE;
 					$data["account_password_error"] = "";
-					$data["redirect"] = base_url("/");
+					$data["redirect"] = base_url("");
+					echo json_encode($data);
 				}else{
 					$data["account_password_error"] = "Incorrect Passord. Try Again.";
 					$data["redirect"] = "";

@@ -155,6 +155,7 @@ $(document).on("submit", "#student_add_form", function(e) {
           alertify.success("You have successfully added a student in the list."); 
         }
       } else {
+        $("#student_lrn_number_help-block").html(data.lrn_number_error);
         $("#student_first_name_help-block").html(data.first_name_error);
         $("#student_gender_help-block").html(data.gender_error);
         $("#student_mothers_name_help-block").html(data.mothers_name_error);
@@ -261,26 +262,6 @@ $(document).on("submit", "#staff_add_form", function(e) {
       }
     }
   })
-});
-$(document).on("submit", "#app-login", function(e) {
-  e.preventDefault();
-  $('button[form="app-login"]').prop('disabled', true);
-  $.ajax({
-    type: "POST",
-    url: $("#app-login").attr("action"),
-    data: $("#app-login").serialize(),
-    cache: false,
-    dataType: "json",
-    success: function(data) {
-      $('button[form="app-login"]').prop('disabled', false);
-      if (data.is_valid) {
-        $(location).attr('href',data.redirect);
-      } else {
-        $("#account_help-block").html(data.account_error);
-        $("#account_password_help-block").html(data.account_password_error);
-      }
-    }
-  });
 });
 $(document).on("click", "#add_canteen", function(e) {
   $("#add_canteen_modal").modal("show");

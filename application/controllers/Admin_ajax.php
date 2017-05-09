@@ -49,7 +49,7 @@ class Admin_ajax extends CI_Controller {
 		show_404();
 	}
 	/* admin ajax*/
-	public function applogin($arg='')
+	public function login($arg='')
 	{
 		if($_POST){
 			$this->form_validation->set_rules('account', 'Account', 'required|min_length[5]|max_length[12]|is_valid[admins.username]|trim|htmlspecialchars');
@@ -85,8 +85,6 @@ class Admin_ajax extends CI_Controller {
 					echo json_encode($data);
 				}
 			}
-
-			
 		}
 	}
 

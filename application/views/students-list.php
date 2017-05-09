@@ -63,6 +63,7 @@
           <thead>
             <tr>
               <th>ID</th>
+              <th>LRN</th>
               <th>RFID</th>
               <th>Last Name</th>
               <th>First Name</th>
@@ -107,6 +108,16 @@ echo '
               <img class="img-responsive" id="display-photo" src="'.base_url("assets/images/empty.jpg").'">
             </div>
           </div>
+
+          <div class="form-group">
+            <label class="col-sm-2" for="lrn_number">LRN Number:</label>
+            <div class="col-sm-10"> 
+              <input type="text" class="form-control edit_field" name="lrn_number" placeholder="Enter LRN Number">
+              <p class="help-block" id="lrn_number_help-block"></p>
+            </div>
+          </div>
+
+
           <div class="form-group">
             <label class="col-sm-2" for="last_name">Last Name:</label>
             <div class="col-sm-10"> 
@@ -390,6 +401,7 @@ function show_student_data(id) {
       $('input[name="student_id"]').val(id);
       $('input[name="first_name"].edit_field').val(data.first_name);
       $('input[name="last_name"].edit_field').val(data.last_name);
+      $('input[name="lrn_number"].edit_field').val(data.lrn_number);
       $('input[name="address"].edit_field').val(data.address);
       $('select[name="gender"].edit_field').val(data.gender);
       $('input[name="mothers_name"].edit_field').val(data.mothers_name);
@@ -428,6 +440,7 @@ $(document).on("submit","#student_edit_form",function(e) {
     dataType: "json",
     success: function(data) {
       $('button[form="student_edit_form"]').prop('disabled', false);
+      $("#lrn_number_help-block").html(data.lrn_number_error);
 			$("#first_name_help-block").html(data.first_name_error);
       $("#last_name_help-block").html(data.last_name_error);
       $("#address_help-block").html(data.address_error);

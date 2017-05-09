@@ -143,6 +143,7 @@ class Tables extends CI_Controller {
 						echo '
 						<tr>
 							<td>'.sprintf("%03d",$student_data->id).'</td>
+							<td>'.$student_data->lrn_number.'</td>
 							<td>'.$rfid_status.'</td>
 							<td>'.$student_data->last_name.'</td>
 							<td>'.$student_data->first_name.'</td>

@@ -19,6 +19,7 @@ class Admin extends CI_Controller {
 		$this->load->model("gate_logs_model");
 		$this->load->model("staffs_model");
 		$this->load->model("classes_model");
+		$this->load->model("admin_model");
 		$this->load->model("sms_model");
 
 		$this->load->library('form_validation');
@@ -54,7 +55,7 @@ class Admin extends CI_Controller {
 		($this->session->userdata("admin_sessions")?$navbar_data["navbar_is_logged_in"] = TRUE:$navbar_data["navbar_is_logged_in"] = FALSE);
 		$this->data["navbar_scripts"] = $this->load->view("layouts/navbar",$navbar_data,true);
 
-		if(current_url()==base_url("admin")){
+		if(current_url()==base_url("admin")||current_url()==base_url("admin/login")){
 			
 		}else{
 			if($this->session->userdata("admin_sessions")==NULL){
@@ -77,13 +78,11 @@ class Admin extends CI_Controller {
 		}else{
 			$this->data["title"] = "Admin Login";
 			$this->data["type"] = "ADMINISTRATOR LOGIN";
+			$this->data["account_password_error"] = "";
 			$this->load->view('app-login',$this->data);
 		}
 	}
-	public function login($value='')
-	{
-		# code...
-	}
+
 	public function logout($value='')
 	{
 		$this->session->sess_destroy();
@@ -138,6 +137,57 @@ class Admin extends CI_Controller {
 			$this->data["positions_list"] = $this->staffs_model->get_positions_list();
 			$this->data["title"] = "Non-teaching Staffs Gate Logs";
 			$this->load->view('gate-logs-staffs',$this->data);
+		}
+	}
+
+	public function login($arg='')
+	{
+		if($_POST){
+			$this->data["account_password_error"] = "";
+
+			$this->form_validation->set_error_delimiters('', '');
+			$this->form_validation->set_rules('account', 'Account', 'required|min_length[5]|max_length[12]|is_valid[admins.username]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('account_password', 'Password', 'required|min_length[5]|max_length[12]|trim|htmlspecialchars');
+			$this->form_validation->set_message('is_in_db', 'This account is invalid');
+
+			if ($this->form_validation->run() == FALSE)
+			{
+				$data["is_valid"] = FALSE;
+				$data["account_error"] = form_error('account');
+				$data["account_password_error"] = form_error('account_password');
+				$this->data["login_type"] = "admin";
+				$this->data["account_password_error"] = form_error('account_password');
+				$this->data["title"] = "Admin Login";
+				$this->data["type"] = "ADMINISTRATOR LOGIN";
+				$this->load->view('app-login',$this->data);
+			}
+			else
+			{
+				$data["username"] = $account_id = $this->input->post("account");
+				$data["password"] = md5($account_password = $this->input->post("account_password"));
+				// $data["var_dump"] = $this->admin_model->login($data);
+				$data["deleted"] = 0;
+				$data["is_valid"] = $this->admin_model->login($data);
+				$data["account_error"] = "";
+				
+				if($data["is_valid"]){
+					$data = array();
+					$data["is_valid"] = TRUE;
+					$data["account_password_error"] = "";
+					$data["redirect"] = base_url("admin");
+					redirect('admin');
+				}else{
+					$this->data["account_password_error"] = "Incorrect Passord. Try Again.";
+					$data["redirect"] = "";
+					$this->data["login_type"] = "admin";
+					$this->data["title"] = "Admin Login";
+					$this->data["type"] = "ADMINISTRATOR LOGIN";
+					$this->load->view('app-login',$this->data);
+					// echo json_encode($data);
+				}
+			}
+		}else{
+			redirect('admin');
 		}
 	}
 	public function json($value='')

@@ -18,7 +18,7 @@
 		<div class="col-sm-8 col-md-4 col-lg-4 col-sm-push-2 col-md-push-4 col-lg-push-4">
 			<div id="login-container" style="background-color: white;">
 			<h1 style="text-align: center;"><?php echo $type; ?></h1>
-				<?php echo form_open($login_type."_ajax/applogin",'class="form-horizontal" id="app-login"');?>
+				<?php echo form_open($login_type."/login",'class="form-horizontal" id="app-login"');?>
 					<div class="form-group">
 					  <label class="col-sm-2 col-xs-4 col-md-3" for="email">Account:</label>
 					  <div class="col-sm-10 col-xs-8 col-md-9">
@@ -37,7 +37,7 @@
 					      <input type="password" class="form-control" id="account_password" name="account_password" placeholder="Enter Password">
 					      <i class="lock icon"></i>
 					    </div>
-					    <p class="help-block" id="account_password_help-block"><?php echo form_error('account_password'); ?></p>
+					    <p class="help-block" id="account_password_help-block"><?php echo $account_password_error; ?></p>
 					  </div>
 					</div>
 					<div class="form-group"> 

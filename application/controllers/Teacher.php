@@ -34,6 +34,9 @@ class Teacher extends CI_Controller {
 		$this->load->model("gate_logs_model");
 		$this->load->model("classes_model");
 		$this->load->model("sms_model");
+
+		$this->load->library('form_validation');		
+		$this->form_validation->set_error_delimiters('', '');
 		
 		$this->data["title"] = "Main Title";
 		$this->data["css_scripts"] = $this->load->view("scripts/css","",true);
@@ -53,7 +56,7 @@ class Teacher extends CI_Controller {
 		$this->data["navbar_scripts"] = $this->load->view("layouts/navbar",$navbar_data,true);
 		$this->data["teacher_data"] = $this->session->userdata("teacher_sessions");
 
-		if(current_url()==base_url("teacher")){
+		if(current_url()==base_url("teacher")||current_url()==base_url("teacher/login")){
 			
 		}else{
 			if($this->session->userdata("teacher_sessions")==NULL){
@@ -70,6 +73,7 @@ class Teacher extends CI_Controller {
 			$this->load->view('teacher',$this->data);
 		}else{
 			$this->data["title"] = "Teachers Login";
+			$this->data["account_password_error"] = "";
 			$this->data["type"] = "TEACHER LOGIN";
 			$this->load->view('app-login',$this->data);
 		}
@@ -96,4 +100,51 @@ class Teacher extends CI_Controller {
 		# code...
 	}
 
+
+	public function login($value='')
+	{
+		if($_POST){
+			$this->form_validation->set_rules('account', 'Account', 'required|min_length[5]|max_length[12]|is_valid[teachers.contact_number]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('account_password', 'Password', 'required|min_length[5]|max_length[12]|trim|htmlspecialchars');
+			$this->form_validation->set_message('is_valid', 'This account is invalid');
+
+			if ($this->form_validation->run() == FALSE)
+			{
+				$data["is_valid"] = FALSE;
+				$data["account_error"] = form_error('account');
+				$data["account_password_error"] = form_error('account_password');
+				$this->data["title"] = "Teachers Login";
+				$this->data["login_type"] = "teacher";
+				$this->data["account_password_error"] = form_error('account_password');
+				$this->data["type"] = "TEACHER LOGIN";
+				$this->load->view('app-login',$this->data);
+			}
+			else
+			{
+				$data["contact_number"] = $account_id = $this->input->post("account");
+				$data["password"] = md5($account_password = $this->input->post("account_password"));
+				$data["deleted"] = 0;
+				// $data["var_dump"] = $this->teachers_model->login($data);
+				$data["is_valid"] = $this->teachers_model->login($data);
+				$data["account_error"] = "";
+				
+				if($data["is_valid"]){
+					$data = array();
+					$data["is_valid"] = TRUE;
+					$data["account_password_error"] = "";
+					$data["redirect"] = base_url("teacher");
+					redirect("teacher");
+
+				}else{
+					$data["account_password_error"] = "Incorrect Passord. Try Again.";
+					$data["redirect"] = "";
+					$this->data["login_type"] = "teacher";
+					$this->data["title"] = "Teachers Login";
+					$this->data["account_password_error"] = "Incorrect Passord. Try Again.";
+					$this->data["type"] = "TEACHER LOGIN";
+					$this->load->view('app-login',$this->data);
+				}
+			}
+		}
+	}
 }

@@ -26,7 +26,7 @@
 					      <input type="password" class="form-control" id="account_password" name="account_password" placeholder="Enter Password">
 					      <i class="lock icon"></i>
 					    </div>
-					    <p class="help-block" id="account_password_help-block"><?php echo form_error('account_password'); ?></p>
+					    <p class="help-block" id="account_password_help-block"><?php echo $account_password_error; ?></p>
 					  </div>
 					</div>
 					<div class="form-group"> 
