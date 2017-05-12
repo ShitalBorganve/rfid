@@ -33,10 +33,10 @@ class App_config extends CI_Model {
                     break;
                 case 1.0002:
                     echo $app_config->version;
-                    # code...
+                    
                     break;
                 default:
-                    # code...
+                    
                     break;
             }
         }

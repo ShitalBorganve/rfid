@@ -20,11 +20,11 @@ class Students_model extends CI_Model {
 
         $this->db->where('id', $id);
         return $this->db->get("students")->row();
-    	# code...
+    	
     }
 
     function delete($value=''){
-    	# code...
+    	
     }
 
     function get_list($where='',$page=1,$maxitem=50,$search=""){

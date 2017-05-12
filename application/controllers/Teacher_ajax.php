@@ -63,9 +63,8 @@ class Teacher_ajax extends CI_Controller {
 				$in_case_contact_number_sms = 0;
 			}
 
-
-
 			$has_uploaded_pic = FALSE;
+
 			//uploads files
 			if($_FILES['teacher_photo']["error"]==0){
 
@@ -172,9 +171,7 @@ class Teacher_ajax extends CI_Controller {
 				$teacher_data["contact_number"] = $this->input->post("contact_number");
 				$teacher_data["in_case_contact_number"] = $this->input->post("in_case_contact_number");
 				$teacher_data["in_case_contact_number_sms"] = $in_case_contact_number_sms;
-				// $teacher_data["class_id"] = $this->input->post("class_id");
 				$teacher_data["display_photo"] = $filename;
-				// $teacher_data["display_photo_type"] = $new_image_data['file_type'];
 				$bday_m = sprintf("%02d",$this->input->post("bday_m"));
 				$bday_d = sprintf("%02d",$this->input->post("bday_d"));
 				$bday_y = sprintf("%04d",$this->input->post("bday_y"));
@@ -256,6 +253,7 @@ You can login to ".base_url("teacher");
 			$get_data = array();
 			$get_data["id"] = $this->input->post("teacher_id");
 			$teacher_data_db = $this->teachers_model->get_data($get_data);
+
 			//uploads files
 			if($_FILES['teacher_photo']["error"]==0){
 
@@ -347,7 +345,6 @@ You can login to ".base_url("teacher");
 				$data["guardian_id_error"] = form_error('guardian_id');
 				$data["class_id_error"] = form_error('class_id');
 				$data["teacher_id_error"] = form_error('teacher_id');
-				// echo json_encode($data);
 			}
 			else
 			{
@@ -379,10 +376,8 @@ You can login to ".base_url("teacher");
 				$teacher_data["middle_name"] = $this->input->post("middle_name");
 				$teacher_data["suffix"] = $this->input->post("suffix");
 				$teacher_data["contact_number"] = $this->input->post("contact_number");
-				// $teacher_data["class_id"] = $this->input->post("class_id");
 				$teacher_data["guardian_id"] = $this->input->post("guardian_id");
 				$teacher_data["display_photo"] = $filename;
-				// $teacher_data["display_photo_type"] = $new_image_data['file_type'];
 				$bday_m = sprintf("%02d",$this->input->post("bday_m"));
 				$bday_d = sprintf("%02d",$this->input->post("bday_d"));
 				$bday_y = sprintf("%04d",$this->input->post("bday_y"));
@@ -399,7 +394,6 @@ Login: ".$teacher_data["contact_number"]."
 Password: ".$password."
 You can login to ".base_url("teacher");
 					$sms_code = send_sms($this->input->post("contact_number"),$message);
-					// $sms_code = send_sms($this->input->post("contact_number"),$message);
 					$teacher_data["password"] = md5($password);
 					if($sms_code==0){
 						$this->teachers_model->edit_info($teacher_data,$this->input->post("teacher_id"));
@@ -431,9 +425,6 @@ You can login to ".base_url("teacher");
 				$this->classes_model->change_class($teacher_id,$class_id);
 
 			}
-			// var_dump($this->teachers_model->edit_info($teacher_data,$this->input->post("teacher_id")));
-			// var_dump($data);
-			// exit;
 			echo json_encode($data);
 
 			
@@ -456,10 +447,8 @@ You can login to ".base_url("teacher");
 				$get_data["id"] = $teacher_data["class_id"];
 				$teacher_data["class_data"] = $this->classes_model->get_data($get_data);
 				$teacher_data["class_name"] = $teacher_data["class_data"]["class_name"];
-				// $teacher_data["grade"] = $teacher_data["class_data"]["grade"];
 			}else{
 				$teacher_data["class_name"] = "";
-				// $teacher_data["grade"] = "";
 			}
 
 
@@ -483,7 +472,7 @@ You can login to ".base_url("teacher");
 		}elseif ($arg=="jbtech") {
 			$where["deleted"] = 0;
 			$where["rfid_status"] = 0;
-			$data = $this->teachers_model->get_list($where,"",1,$this->db->get("teachers")->num_rows());
+			$data = $this->teachers_model->get_list($where,1,$this->db->get("teachers")->num_rows());
 			echo json_encode($data["result"]);
 		}
 	}

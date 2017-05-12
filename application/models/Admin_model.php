@@ -16,11 +16,11 @@ class Admin_model extends CI_Model {
     }
 
     function edit_info($value=''){
-    	# code...
+    	
     }
 
     function delete($value=''){
-    	# code...
+    	
     }
 
     function get_list($value=''){

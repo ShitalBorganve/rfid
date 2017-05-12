@@ -3,21 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Class_ajax extends CI_Controller {
 
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see https://codeigniter.com/user_guide/general/urls.html
-	 */
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -110,7 +96,6 @@ class Class_ajax extends CI_Controller {
 		}else{
 			$update_data["class_name"] = $this->input->post("class_name");
 			$update_data["grade"] = $this->input->post("grade");
-			// $update_data["teacher_id"] = $this->input->post("class_adviser");
 			$update_data["schedule"] = $this->input->post("class_schedule");
 			$update_data["room"] = $this->input->post("class_room");
 			$class_id = $this->input->post("class_id");

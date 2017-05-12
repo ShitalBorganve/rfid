@@ -155,12 +155,27 @@ echo '
           <div class="form-group">
               <label class="col-sm-4">Department Head</label>
               <div class="input-group col-sm-7">
+                <input id="dept_head" type="text" class="form-control" name="dept_head" readonly>
+                <span class="input-group-addon btn btn-default" data-clipboard-target="#dept_head" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
+              </div>
+          </div>
+          <div class="form-group">
+              <label class="col-sm-4">Department Head Contact Number</label>
+              <div class="input-group col-sm-7">
+                <input id="dept_head_number" type="text" class="form-control" name="dept_head_number" readonly>
+                <span class="input-group-addon btn btn-default" data-clipboard-target="#dept_head_number" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
+              </div>
+          </div>
+
+          <div class="form-group">
+              <label class="col-sm-4">In Case of Emergency</label>
+              <div class="input-group col-sm-7">
                 <input id="in_case_name" type="text" class="form-control" name="in_case_name" readonly>
                 <span class="input-group-addon btn btn-default" data-clipboard-target="#in_case_name" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
               </div>
           </div>
           <div class="form-group">
-              <label class="col-sm-4">Department Head Contact Number</label>
+              <label class="col-sm-4">In Case of Emergency Contact Number</label>
               <div class="input-group col-sm-7">
                 <input id="in_case_contact_number" type="text" class="form-control" name="in_case_contact_number" readonly>
                 <span class="input-group-addon btn btn-default" data-clipboard-target="#in_case_contact_number" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
@@ -313,6 +328,9 @@ $.ajax({
     $.each(data, function(i, item) {
         $('#select_teacher').append('<option value="'+data[i].id+'">'+data[i].full_name+'</option>');
     });
+  },
+  error: function(e) {
+    console.log(e);
   }
 });
 
@@ -363,8 +381,8 @@ function show_teacher_data(id) {
       $('#address').val(data.address);
       $('#in_case_name').val(data.in_case_name);
       $('#in_case_contact_number').val(data.in_case_contact_number);
-      // $('#guardian_name').val(data.guardian_name);
-      // $('#guardian_address').val(data.guardian_address);
+      $('#dept_head').val(data.dept_head);
+      $('#dept_head_number').val(data.dept_head_number);
       // $('#guardian_contact_number').val(data.guardian_contact_number);
       // $('#fathers_name').val(data.fathers_name);
       // $('#mothers_name').val(data.mothers_name);

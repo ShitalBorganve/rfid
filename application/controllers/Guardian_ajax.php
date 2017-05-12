@@ -3,21 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Guardian_ajax extends CI_Controller {
 
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see https://codeigniter.com/user_guide/general/urls.html
-	 */
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -47,7 +33,7 @@ class Guardian_ajax extends CI_Controller {
 	{
 		show_404();
 	}
-	/* admin ajax*/
+
 	public function register($value='')
 	{
 		if($_POST){
@@ -171,48 +157,7 @@ You can login to ".base_url();
 			echo json_encode($data);
 		}
 	}
-
-	public function applogin($value='')
-	{
-		if($_POST){
-			$this->form_validation->set_rules('account', 'Account', 'required|min_length[5]|max_length[50]|is_valid[guardians.contact_number]|trim|htmlspecialchars');
-			$this->form_validation->set_rules('account_password', 'Password', 'required|min_length[5]|max_length[50]|trim|htmlspecialchars');
-			$this->form_validation->set_message('is_in_db', 'This account is invalid');
-
-			if ($this->form_validation->run() == FALSE)
-			{
-				$data["is_valid"] = FALSE;
-				$data["account_error"] = form_error('account');
-				$data["account_password_error"] = form_error('account_password');
-				echo json_encode($data);
-			}
-			else
-			{
-				$login_data["contact_number"] = $account_id = $this->input->post("account");
-				$login_data["password"] = $account_password = $this->input->post("account_password");
-				$login_data["deleted"] = 0;
-				$login_data["password"] = md5($login_data["password"]);
-
-				$data["is_valid"] = $this->guardian_model->login($login_data);
-				$data["account_error"] = "";
-				
-				if($data["is_valid"]){
-					$data = array();
-					$data["is_valid"] = TRUE;
-					$data["account_password_error"] = "";
-					$data["redirect"] = base_url("");
-					echo json_encode($data);
-				}else{
-					$data["account_password_error"] = "Incorrect Passord. Try Again.";
-					$data["redirect"] = "";
-					echo json_encode($data);
-				}
-			}
-
-			
-		}
-	}
-
+	
 	public function get_data($value='')
 	{
 		$guardian_data["id"] = $this->input->get("guardian_id");
@@ -234,7 +179,6 @@ You can login to ".base_url();
 		$guardian_data = $this->guardian_model->get_data($get_data);
 
 		$password = random_string('alnum', 8);
-		// echo "akjsndakjsdnjaksdnjkasndajkdansdasjnjkasdkj";
 		$message = "Your account details as guardian are:
 Login: ".$guardian_data["contact_number"]."
 Password: ".$password."

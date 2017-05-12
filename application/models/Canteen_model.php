@@ -20,11 +20,11 @@ class Canteen_model extends CI_Model {
     }
 
     function edit_info($value=''){
-    	# code...
+    	
     }
 
     function delete($value=''){
-    	# code...
+    	
     }
 
     function get_list($data=''){
@@ -117,7 +117,7 @@ class Canteen_model extends CI_Model {
 
     function load_credits($rfid,$total_purchase)
     {
-        # code...
+        
     }
 
     function sale_items_is_valid($items='')

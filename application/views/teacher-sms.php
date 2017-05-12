@@ -79,6 +79,9 @@ $(document).on("click",".message",function(e) {
 			    	</tr>\
 			    	');
 			});
+		},
+		error: function(e) {
+		  console.log(e);
 		}
 	});
 });
@@ -91,22 +94,28 @@ $(document).on("submit","#sms_list_form",function(e) {
 var needToConfirm = false;
 $(document).on("click",".resend_sms",function(e) {
 	var dataStr = "id="+e.target.id;
-	needToConfirm = true;
 	$.ajax({
 		type: "POST",
 		url: "<?php echo base_url("sms_ajax/resend");?>",
 		data: dataStr,
 		cache: false,
 		dataType: "json",
+		beforeSend: function() {
+			needToConfirm = true;
+		},
 		success: function(data) {
-			needToConfirm = false;
-			
 			if(data.is_success){
 				alertify.success("You have successfully resent the message.");
 			}else{
 				alertify.error("Please Check the message status.");
 			}
 				show_sms_threads();
+		},
+		error: function(e) {
+		  console.log(e);
+		},
+		complete: function() {
+			needToConfirm = false;
 		}
 	});
 });
@@ -131,6 +140,9 @@ function show_sms_threads(page=1) {
 		success: function(data) {
 			// alert(data);
 			$("#sms_threads_table tbody").html(data);
+		},
+		error: function(e) {
+		  console.log(e);
 		}
 	});
 }

@@ -35,7 +35,7 @@ class Rfid_model extends CI_Model {
 
     function get_list($data='')
     {
-    	# code...
+    	
     }
 
 
@@ -45,7 +45,7 @@ class Rfid_model extends CI_Model {
         
         $this->db->where($where);
         return $this->db->get_where("rfid",$data)->row();
-        # code...
+        
     }
 
 

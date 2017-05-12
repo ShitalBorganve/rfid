@@ -3,21 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Sms_ajax extends CI_Controller {
 
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see https://codeigniter.com/user_guide/general/urls.html
-	 */
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -421,7 +407,6 @@ class Sms_ajax extends CI_Controller {
 		$data["message"] = $this->input->post("message");
 		$data["mobile_number"] = $this->input->post("recipients_number");
 		
-		// $data["status_code"] = 0;
 		$data["status_code"] = send_sms($data["mobile_number"],$data["message"]);
 		$data["status"] = sms_status($data["status_code"]);
 		$owner_data = $this->sms_model->find_owner($data["mobile_number"]);
@@ -455,15 +440,8 @@ class Sms_ajax extends CI_Controller {
 		$get_data = array();
 		$get_data["sms_id"] = $sms_id;
 		$data["sms_list"] = $this->sms_model->get_sms_list($get_data);
-		// $messages_list = ;
-		//substr_replace("Hello world", "", -1);
 		$data["sms_id"] = $sms_id;
-		// $data["tables"] = );
 		echo json_encode($data);
-
-
-		
-		
 		// echo $this->input->post("recipients_number")." ".$this->input->post("recipients_id")." ".$owner_data->table." ".$this->input->post("sms_id");
 	}
 

@@ -20,7 +20,7 @@ class Guardian_model extends CI_Model {
 
 
     function delete($value=''){
-    	# code...
+    	
     }
 
     function get_list($where='',$page=1,$maxitem=50,$order_by_col="id",$order_by_val="DESC"){
@@ -61,7 +61,7 @@ class Guardian_model extends CI_Model {
         $this->db->update('guardians', $data);
         $this->db->where('id', $id);
         return $this->db->get("guardians")->row();
-        # code...
+        
     }
 }
 

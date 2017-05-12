@@ -3,21 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Tables extends CI_Controller {
 
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see https://codeigniter.com/user_guide/general/urls.html
-	 */
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -26,10 +12,10 @@ class Tables extends CI_Controller {
 		$this->load->helper('form');
 		$this->load->helper('url');
 		$this->load->helper('app_helper');
+		$this->load->helper('string');
 
 
 		//models
-		$this->load->helper('string');
 		$this->load->model('staffs_model');
 		$this->load->model('guardian_model');
 		$this->load->model("admin_model");
@@ -465,9 +451,6 @@ class Tables extends CI_Controller {
 		$attrib["href"] = "#";
 		$attrib["class"] = "paging";
 		echo paging($page,$gate_logs_data["count"],$this->config->item("max_item_perpage"),$attrib,'<tr><td colspan="20" style="text-align:center">','</td></tr>');	
-		// $attrib["href"] = "#";
-		// $attrib["class"] = "paging";
-		// echo paging($page,$students_log_data["count"],$this->config->item("max_item_perpage"),$attrib,'<tr><td colspan="20" style="text-align:center">','</td></tr>');
 	}
 
 	public function canteen($arg='')
@@ -523,7 +506,6 @@ class Tables extends CI_Controller {
 						<th style="text-align:right;" class="cart_total">'.number_format($total,2).'</th>
 					</tr>
 				';
-				// echo "</table>";
 			}else{
 				echo '
 					<tr class="success">
@@ -532,7 +514,7 @@ class Tables extends CI_Controller {
 					</tr>
 				';
 			}
-			# code...
+			
 		}
 	}
 
@@ -549,7 +531,7 @@ class Tables extends CI_Controller {
 
 			$between = "date BETWEEN '".$date_from."' AND '".$date_to."'";
 			$messages_list = $this->sms_model->get_list($where,$between,$page,$this->config->item("max_item_perpage"));
-			// var_dump($messages_list["	query"]);
+			// var_dump($messages_list["query"]);
 			// exit;	
 
 			foreach ($messages_list["result"] as $message_data) {

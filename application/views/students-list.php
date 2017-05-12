@@ -325,6 +325,9 @@ $(document).on("click",".delete_rfid_student",function(e) {
       success: function(data) {
         show_student_list();
         alertify.success('RFID has been removed.');
+      },
+      error: function(e) {
+        console.log(e);
       }
     });
   },
@@ -345,9 +348,6 @@ $(document).on("submit","#rfid_scan_add_form",function(e) {
     cache: false,
     dataType: "json",
     success: function(data) {
-      $('input[name="rfid"]').val("");
-      
-      
       if(data.is_valid){
         $("#rfid_scan_add_modal").modal("hide");
         $(".help-block").html("");
@@ -357,6 +357,12 @@ $(document).on("submit","#rfid_scan_add_form",function(e) {
         $("#rfid_scan_help-block").html(data.error);
         $("#rfid_valid_date_help-block").html(data.date_error);
       }
+    },
+    error: function(e) {
+      console.log(e);
+    },
+    complete: function() {
+      $('input[name="rfid"]').val("");
     }
   });
 });
@@ -380,6 +386,9 @@ $(document).on("click",".delete_student",function(e) {
       success: function(data) {
         show_student_list();
         alertify.success(data.last_name + ' has been deleted.');
+      },
+      error: function(e) {
+        console.log(e);
       }
     });
   },
@@ -423,6 +432,9 @@ function show_student_data(id) {
         $('#edit-class_id').dropdown('clear');
       }
       $("#student_edit_modal").modal("show");
+    },
+    error: function(e) {
+      console.log(e);
     }
   });
 }
@@ -430,7 +442,6 @@ function show_student_data(id) {
 
 $(document).on("submit","#student_edit_form",function(e) {
 	e.preventDefault();
-  $('button[form="student_edit_form"]').prop('disabled', true);
   $.ajax({
     url: $(this).attr('action'),
     data: new FormData(this),
@@ -438,8 +449,10 @@ $(document).on("submit","#student_edit_form",function(e) {
     contentType: false,
     method:"POST",
     dataType: "json",
+    beforeSend: function() {
+      $('button[form="student_edit_form"]').prop('disabled', true);
+    },
     success: function(data) {
-      $('button[form="student_edit_form"]').prop('disabled', false);
       $("#lrn_number_help-block").html(data.lrn_number_error);
 			$("#first_name_help-block").html(data.first_name_error);
       $("#last_name_help-block").html(data.last_name_error);
@@ -460,15 +473,17 @@ $(document).on("submit","#student_edit_form",function(e) {
 				$("#student_edit_modal").modal("hide");
         alertify.success("You have successfully updated a student's information.");
 			}
-		}
+		},
+    error: function(e) {
+      console.log(e);
+    },
+    complete: function() {
+      $('button[form="student_edit_form"]').prop('disabled', false);
+    }
 	});
 });
 
 $(document).on("change",'#select_class',function(e) {
-  // show_gatelogs();
-  $('#select_student').dropdown("clear");
-  $('#select_student').html("");
-  $('#select_student').append('<option value="">Select a Class</option>');
   var datastr = "class_id="+e.target.value;
   $.ajax({
     type: "GET",
@@ -476,10 +491,18 @@ $(document).on("change",'#select_class',function(e) {
     data: datastr,
     cache: false,
     dataType: "json",
+    beforeSend: function() {
+      $('#select_student').dropdown("clear");
+      $('#select_student').html("");
+      $('#select_student').append('<option value="">Select a Class</option>');
+    },
     success: function(data) {
       $.each(data, function(i, item) {
           $('#select_student').append('<option value="'+data[i].id+'">'+data[i].full_name+'</option>');
       });
+    },
+    error: function(e) {
+      console.log(e);
     }
   });
 });
@@ -487,15 +510,6 @@ $(document).on("change",'#select_class',function(e) {
 
 $(document).on("click",".paging",function(e) {
 	show_student_list(e.target.id);
-});
-
-$("#search_last_name").autocomplete({
-  source: "<?php echo base_url("search/students/list"); ?>",
-  select: function(event, ui){
-      $('input[name="owner_id"]').val(ui.item.data);
-      
-      show_student_list(1,true);
-  }
 });
 
 $(document).on("submit","#student_download_list",function(e) {
@@ -506,6 +520,9 @@ $(document).on("submit","#student_download_list",function(e) {
     cache: false,
     success: function(data) {
       window.location = data;
+    },
+    error: function(e) {
+      console.log(e);
     }
   });
 });
@@ -519,7 +536,6 @@ $(document).on("submit","#student-list-form",function(e) {
 
 show_student_list();
 function show_student_list(page='1',clear=false) {
-
   var datastr = $("#student-list-form").serialize();
 	$.ajax({
 		type: "GET",
@@ -531,7 +547,10 @@ function show_student_list(page='1',clear=false) {
         $("#search_last_name").val("");
       }
 			$("#student-list-table tbody").html(data);
-		}
+		},
+    error: function(e) {
+      console.log(e);
+    }
 	});
 }
 </script>

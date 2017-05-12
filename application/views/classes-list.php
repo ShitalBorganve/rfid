@@ -164,6 +164,9 @@ $(document).on("click",".delete_class",function(e) {
       success: function(data) {
         show_class_list();
         alertify.success(data.class_name + ' has been deleted.');
+      },
+      error: function(e) {
+        console.log(e);
       }
     });
   },
@@ -181,7 +184,6 @@ function show_class_data(id) {
     cache: false,
     dataType: "json",
     success: function(data) {
-      // alert(data);
       if(data.teacher_id!=""){
 	      $('#edit-class_adviser').dropdown('set value',data.teacher_id);
       }else{
@@ -193,21 +195,25 @@ function show_class_data(id) {
       $('input[name="class_schedule"].edit_field').val(data.schedule);
       $('input[name="class_id"]').val(id);
       $("#class_edit_modal").modal("show");
+    },
+    error: function(e) {
+      console.log(e);
     }
   });
 }
 
 $(document).on("submit","#class_edit_form",function(e) {
 	e.preventDefault();
-	$('button[form="class_edit_form"]').prop('disabled',true);
 		$.ajax({
 		type: "POST",
 		url: $("#class_edit_form").attr("action"),
 		data: $("#class_edit_form").serialize(),
 		cache: false,
 		dataType: "json",
+    beforeSend: function() {
+      $('button[form="class_edit_form"]').prop('disabled',true);
+    },
 		success: function(data) {
-			$('button[form="class_edit_form"]').prop('disabled',false);
 			if(data.is_valid){
 				$(".help-block").html("");
         alertify.success("You have successfully the class information.");
@@ -221,7 +227,13 @@ $(document).on("submit","#class_edit_form",function(e) {
 				$("#class_schedule_help-block").html(data.class_schedule_error);
 				$("#class_schedule_help-block").html(data.class_schedule_error);
 			}
-		}
+		},
+    error: function(e) {
+      console.log(e);
+    },
+    complete: function() {
+      $('button[form="class_edit_form"]').prop('disabled',false);
+    }
 		});
 	});
 $(document).on("click",".paging",function(e) {
@@ -238,16 +250,6 @@ $(document).on("click","#reset",function(e) {
   show_class_list();
 });
 
-
-
-$("#search_last_name").autocomplete({
-	source: "<?php echo base_url("search/classes/list"); ?>",
-	select: function(event, ui){
-		show_class_data(ui.item.data);
-		$("#search_last_name").val("");
-	}
-});
-
 show_class_list();
 function show_class_list(page='1') {
   var datastr = $("#class-list-form").serialize();
@@ -258,7 +260,10 @@ function show_class_list(page='1') {
 		cache: false,
 		success: function(data) {
 			$("#class-list-table tbody").html(data);
-		}
+		},
+    error: function(e) {
+      console.log(e);
+    }
 	});
 }
 </script>

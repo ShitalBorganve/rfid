@@ -20,7 +20,7 @@ class Staffs_model extends CI_Model {
         
         $this->db->where('id', $id);
         return $this->db->get("staffs")->row();
-    	# code...
+    	
     }
 
     function delete($data='',$id=''){
@@ -29,7 +29,7 @@ class Staffs_model extends CI_Model {
 
             $this->db->where('id', $id);
             return $this->db->get("staffs")->row();
-            # code...
+            
     }
 
     function get_list($where='',$page=1,$maxitem=50,$search=""){
@@ -77,7 +77,7 @@ class Staffs_model extends CI_Model {
         $this->db->select("position");
         $this->db->distinct();
         return $this->db->get("staffs")->result();
-        # code...
+        
     }
 
     function get_data($where='',$to_object=FALSE){

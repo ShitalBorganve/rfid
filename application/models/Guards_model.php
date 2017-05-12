@@ -18,11 +18,11 @@ class Guards_model extends CI_Model {
         $this->db->where('id', $id);
         $this->db->update('guards', $data);
         return $this->db->last_query();
-    	# code...
+    	
     }
 
     function delete($value=''){
-    	# code...
+    	
     }
 
     function get_list($where='',$page=1,$maxitem=50){

@@ -20,7 +20,7 @@ class Teachers_model extends CI_Model {
         
         $this->db->where('id', $id);
         return $this->db->get("teachers")->row();
-    	# code...
+    	
     }
 
     function delete($data='',$id=''){
@@ -33,7 +33,7 @@ class Teachers_model extends CI_Model {
 
             $this->db->where('id', $id);
             return $this->db->get("teachers")->row();
-            # code...
+            
     }
 
     function get_list($where='',$page=1,$maxitem=50,$search=""){

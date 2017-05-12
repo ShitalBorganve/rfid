@@ -3,21 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Staff_ajax extends CI_Controller {
 
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see https://codeigniter.com/user_guide/general/urls.html
-	 */
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -55,9 +41,6 @@ class Staff_ajax extends CI_Controller {
 	{
 		
 		if($_POST){
-
-			// $data["class_id"] = $this->input->post("class_id");
-
 			$this->form_validation->set_rules('position', 'Position', 'required|custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('address', 'Address', 'required|min_length[2]|max_length[100]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('first_name', 'First Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
@@ -82,6 +65,7 @@ class Staff_ajax extends CI_Controller {
 
 
 			$has_uploaded_pic = FALSE;
+
 			//uploads files
 			if($_FILES['staff_photo']["error"]==0){
 
@@ -189,7 +173,6 @@ class Staff_ajax extends CI_Controller {
 				$bday_y = sprintf("%04d",$this->input->post("bday_y"));
 				$birthdate_str = $bday_m."/".$bday_d."/".$bday_y;
 				$staff_data["birthdate"] = strtotime($birthdate_str);
-				// $staff_data["rfid"] = $this->input->post("rfid");
 				$data["is_successful"] = TRUE;
 				$staff_data = $this->staffs_model->add($staff_data);
 
@@ -201,7 +184,6 @@ class Staff_ajax extends CI_Controller {
 				}
 
 
-				// $rfid_data["rfid"] = $this->input->post("rfid");
 				$rfid_data["ref_id"] = $staff_data->id;
 				$rfid_data["ref_table"] = "staffs";
 				$rfid_data["valid"] = 1;
@@ -217,9 +199,6 @@ class Staff_ajax extends CI_Controller {
 	public function edit($arg='')
 	{
 		if($_POST){
-
-
-			// $data["class_id"] = $this->input->post("class_id");
 
 			$this->form_validation->set_rules('staff_id', 'First Name', 'required|trim|htmlspecialchars|is_in_db[staffs.id]');
 			$this->form_validation->set_rules('address', 'Address', 'required|min_length[2]|max_length[100]|trim|htmlspecialchars');
@@ -251,6 +230,7 @@ class Staff_ajax extends CI_Controller {
 			$get_data = array();
 			$get_data["id"] = $this->input->post("staff_id");
 			$staff_data_db = $this->staffs_model->get_data($get_data);
+
 			//uploads files
 			if($_FILES['staff_photo']["error"]==0){
 
@@ -337,7 +317,6 @@ class Staff_ajax extends CI_Controller {
 				$data["contact_number_error"] = form_error('contact_number');
 				$data["bday_error"] = form_error('bday_m');
 				$data["staff_id_error"] = form_error('staff_id');
-				// echo json_encode($data);
 			}
 			else
 			{
@@ -366,9 +345,7 @@ class Staff_ajax extends CI_Controller {
 				$staff_data["in_case_name"] = $this->input->post("in_case_name");
 				$staff_data["in_case_contact_number"] = $this->input->post("in_case_contact_number");
 				$staff_data["in_case_contact_number_sms"] = $in_case_contact_number_sms;
-				// $staff_data["class_id"] = $this->input->post("class_id");
 				$staff_data["display_photo"] = $filename;
-				// $staff_data["display_photo_type"] = $new_image_data['file_type'];
 				$bday_m = sprintf("%02d",$this->input->post("bday_m"));
 				$bday_d = sprintf("%02d",$this->input->post("bday_d"));
 				$bday_y = sprintf("%04d",$this->input->post("bday_y"));
@@ -380,11 +357,7 @@ class Staff_ajax extends CI_Controller {
 				$get_data["id"] = $this->input->post("staff_id");
 				$staff_data_db = $this->staffs_model->get_data($get_data);
 
-				
 				$this->staffs_model->edit_info($staff_data,$this->input->post("staff_id"));
-
-
-				
 
 				if($has_uploaded_pic){
 					unlink("assets/images/staff_photo/".$staff_data_db["display_photo"]);
@@ -396,9 +369,6 @@ class Staff_ajax extends CI_Controller {
 				}
 
 			}
-			// var_dump($this->staffs_model->edit_info($staff_data,$this->input->post("staff_id")));
-			// var_dump($data);
-			// exit;
 			echo json_encode($data);
 
 			
@@ -484,7 +454,6 @@ class Staff_ajax extends CI_Controller {
 			{
 				$data["contact_number"] = $account_id = $this->input->post("account");
 				$data["password"] = md5($account_password = $this->input->post("account_password"));
-				// $data["var_dump"] = $this->staffs_model->login($data);
 				$data["is_valid"] = $this->staffs_model->login($data);
 				$data["account_error"] = "";
 				

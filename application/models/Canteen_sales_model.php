@@ -24,6 +24,6 @@ class Canteen_sales_model extends CI_Model {
     }
 
     function edit_info($value=''){
-    	# code...
+    	
     }
 }

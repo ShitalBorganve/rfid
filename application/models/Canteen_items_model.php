@@ -16,11 +16,11 @@ class Canteen_items_model extends CI_Model {
     }
 
     function edit_info($value=''){
-    	# code...
+    	
     }
 
     function delete($value=''){
-    	# code...
+    	
     }
 
     function get_list($where='',$page='1',$maxitem='50'){
@@ -46,7 +46,7 @@ class Canteen_items_model extends CI_Model {
 
     function is_valid_item_to_sale($item_id='')
     {
-        # code...
+        
     }
 }
 

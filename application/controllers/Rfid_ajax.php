@@ -3,21 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Rfid_ajax extends CI_Controller {
 
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see https://codeigniter.com/user_guide/general/urls.html
-	 */
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -201,19 +187,6 @@ class Rfid_ajax extends CI_Controller {
 						}else{
 							$rfid_owner_data["sms_status"] = sms_status($rfid_owner_data["status_code"]);
 						}
-						/*
-						if($rfid_owner_data["in_case_contact_number_sms"] == "1"){
-							$rfid_owner_data["message"] = $rfid_owner_data["full_name"].' '.$type_status.' the school premises on '.date("m/d/Y h:i:s A").'.';
-
-							$rfid_owner_data["status_code"] = send_sms($rfid_owner_data["in_case_contact_number"],$rfid_owner_data["message"]);
-							if($rfid_owner_data["status_code"]==0){
-								$rfid_owner_data["sms_status"] = $rfid_owner_data["in_case_name"]." had been successfully notified through SMS.";
-							}else{
-								$rfid_owner_data["sms_status"] = sms_status($rfid_owner_data["status_code"]);
-							}
-
-						}
-						*/
 					}
 				
 				}else{
@@ -222,8 +195,6 @@ class Rfid_ajax extends CI_Controller {
 				}
 
 			}
-			// var_dump($rfid_owner_data["gate_logs_data"]);
-			// exit;
 			echo json_encode($rfid_owner_data);
 			
 		}
@@ -231,8 +202,6 @@ class Rfid_ajax extends CI_Controller {
 
 	public function addloadstudent($arg='')
 	{
-
-	/*
 		if($_POST){
 			$this->form_validation->set_rules('rfid_scan_addloadstudent', 'RFID', 'required|numeric|trim|htmlspecialchars|is_valid_rfid');
 			if ($this->form_validation->run() == FALSE)
@@ -253,8 +222,8 @@ class Rfid_ajax extends CI_Controller {
 				$student_data["guardian_data"] = $this->guardian_model->get_data($student_data["guardian_id"]);
 			}
 			echo json_encode($student_data);
-		}
-	*/}
+		}	
+	}
 
 	public function delete($arg='')
 	{
@@ -294,7 +263,6 @@ class Rfid_ajax extends CI_Controller {
 				$rfid_owner_data->is_valid = TRUE;
 
 			}
-			// var_dump($rfid_owner_data);
 			echo json_encode($rfid_owner_data);
 		}
 	}
@@ -312,15 +280,12 @@ class Rfid_ajax extends CI_Controller {
 				$get_data["rfid"] = $this->input->post("rfid_scan");
 				$get_data["valid"] = 1;
 				$get_data["deleted"] = 0;
-				// var_dump($this->rfid_model->get_data($get_data,TRUE));
-				// exit;
 				$rfid_owner_data = $this->rfid_model->get_data($get_data,TRUE);
 				$rfid_owner_data->is_valid = TRUE;
 				$rfid_owner_data->load_credits = number_format($rfid_owner_data->rfid_data->load_credits,2);
 				$rfid_owner_data->display_photo = base_url("assets/images/student_photo/".$rfid_owner_data->display_photo);
 				$rfid_owner_data->full_name = $rfid_owner_data->last_name.", ".$rfid_owner_data->first_name." ".$rfid_owner_data->middle_name[0].". ".$rfid_owner_data->suffix;
 			}
-			// var_dump($rfid_owner_data);
 			echo json_encode($rfid_owner_data);
 		}
 	}

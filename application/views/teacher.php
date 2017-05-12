@@ -83,10 +83,13 @@ function show_student_list(page='1',clear=false) {
 		data: datastr+"&page="+page,
 		cache: false,
 		success: function(data) {
-      if(clear){
-        $("#search_last_name").val("");
-      }
+			if(clear){
+				$("#search_last_name").val("");
+			}
 			$("#student-list-table tbody").html(data);
+		},
+		error: function(e) {
+		  console.log(e);
 		}
 	});
 }
@@ -103,6 +106,9 @@ function populate_selection() {
 			$.each(data, function(i, item) {
 			    $("#students-select").append('<option value="'+data[i].id+'">'+data[i].full_name+'</option>');
 			})
+		},
+		error: function(e) {
+		  console.log(e);
 		}
 	});
 }

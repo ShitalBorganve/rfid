@@ -49,7 +49,7 @@ class Sms_model extends CI_Model {
         }else{
             return $this->db->get("sms_list")->row_array();
         }
-        # code...
+        
     }
 
 

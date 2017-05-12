@@ -268,6 +268,9 @@ $(document).on("submit","#rfid_scan_add_form",function(e) {
         $("#rfid_scan_help-block").html(data.error);
         $("#rfid_valid_date_help-block").html(data.date_error);
       }
+    },
+    error: function(e) {
+      console.log(e);
     }
   });
 });
@@ -290,6 +293,9 @@ $(document).on("click",".delete_rfid_staff",function(e) {
       success: function(data) {
         show_staff_list();
         alertify.success('RFID has been removed.');
+      },
+      error: function(e) {
+        console.log(e);
       }
     });
   },
@@ -313,6 +319,9 @@ $(document).on("click",".delete_staff",function(e) {
       success: function(data) {
         show_staff_list();
         alertify.success(data.last_name + ' has been deleted.');
+      },
+      error: function(e) {
+        console.log(e);
       }
     });
   },
@@ -356,13 +365,15 @@ function show_staff_data(id) {
         $('#edit-class_id').dropdown('clear');
       }
       $("#staff_edit_modal").modal("show");
+    },
+    error: function(e) {
+      console.log(e);
     }
   });
 }
 
 $(document).on("submit","#staff_edit_form",function(e) {
   e.preventDefault();
-  $('button[form="staff_edit_form"]').prop('disabled', true);
   $.ajax({
     url: $(this).attr('action'),
     data: new FormData(this),
@@ -370,8 +381,10 @@ $(document).on("submit","#staff_edit_form",function(e) {
     contentType: false,
     method:"POST",
     dataType: "json",
+    beforeSend: function() {
+      $('button[form="staff_edit_form"]').prop('disabled', true);
+    },
     success: function(data) {
-      $('button[form="staff_edit_form"]').prop('disabled', false);
       $("#first_name_help-block").html(data.first_name_error);
       $("#in_case_name_help-block").html(data.in_case_name_error);
       $("#in_case_contact_number_help-block").html(data.in_case_contact_number_error);
@@ -393,19 +406,17 @@ $(document).on("submit","#staff_edit_form",function(e) {
         alertify.success("You have successfully updated a non-teaching staff's information.");
         show_staff_list();
       }
+    },
+    error: function(e) {
+      console.log(e);
+    },
+    complete: function() {
+      $('button[form="staff_edit_form"]').prop('disabled', false);
     }
   });
 });
 $(document).on("click",".paging",function(e) {
   show_staff_list(e.target.id);
-});
-
-$("#search_last_name").autocomplete({
-  source: "<?php echo base_url("search/staffs/list"); ?>",
-  select: function(event, ui){
-      $('input[name="owner_id"]').val(ui.item.data);
-      show_staff_list(1,true);
-  }
 });
 
 $(document).on("click","#reset",function(e) {
@@ -423,7 +434,6 @@ $(document).on("click",".reset_password_staff",function(e) {
       dataType: "json",
       cache: false,
       success: function(data) {
-        
         if(data.is_successful){
           $("#alert-modal-title").html("Reset Password");
           $("#alert-modal-body p").html("You have sent the new password to "+ data.contact_number);
@@ -433,7 +443,9 @@ $(document).on("click",".reset_password_staff",function(e) {
           $("#alert-modal-body p").html(data.error);
           $("#alert-modal").modal("show");    
         }
- 
+      },
+      error: function(e) {
+        console.log(e);
       }
     });
   }
@@ -447,6 +459,9 @@ $(document).on("submit","#staff_download_list",function(e) {
     cache: false,
     success: function(data) {
       window.location = data;
+    },
+    error: function(e) {
+      console.log(e);
     }
   });
 });
@@ -473,6 +488,9 @@ function show_staff_list(page='1',clear=false) {
         $("#search_last_name").val("");
       }
       $("#staff-list-table tbody").html(data);
+    },
+    error: function(e) {
+      console.log(e);
     }
   });
 }

@@ -19,13 +19,11 @@ class Student extends CI_Controller {
 
 	public function index($arg='')
 	{
-		// var_dump($this->data);
 		$this->data["type_entry"] = $arg; 
 		$this->load->view('students-entry',$this->data);
 	}
 	public function gate($arg='')
 	{
-		// var_dump($this->data);
 		$this->data["type_entry"] = $arg; 
 		$this->load->view('students-entry',$this->data);
 	}

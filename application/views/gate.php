@@ -74,16 +74,18 @@
 setInterval(function(){
 	$("#gate-time").html(moment().format('hh:mm:ss A'));
 }, 500);
+var timerId;
 $(document).on("submit","#gate_rfid_scan", function(e) {
 	e.preventDefault();
-	var timerId;
-	clearTimeout(timerId);
 	$.ajax({
 		type: "POST",
 		url: $("#gate_rfid_scan").attr("action"),
 		data: $("#gate_rfid_scan :input").serialize(),
 		cache: false,
 		dataType: "json",
+		beforeSend: function() {
+			clearTimeout(timerId);
+		},
 		success: function(data) {
 			$("#gate_rfid_scan")[0].reset();
 			$("#gate_rfid_last_name").html(data.last_name);
@@ -113,20 +115,6 @@ $(document).on("submit","#gate_rfid_scan", function(e) {
 					$("#gate_status").html("<b>"+data.full_name+"</b> had recently passed the gate. Try again later.");
 					$("#gate_status").removeClass( "danger success" ).addClass("danger");
 				}
-/*				var timerId;
-				clearTimeout(timerId);
-				timerId = setTimeout(function(){
-					$("#rfid_owner").html("")
-					$("#gate_rfid_last_name").html("");
-					$("#gate_rfid_first_name").html("");
-					$("#gate_rfid_middle_name").html("");
-					$("#designation_value").html("");
-					$("#designation_label").html("Designation:");
-					$("#gate_status").html("");
-					$("#gate_status").removeClass( "danger success" );
-					$("#display-photo").attr("src","<?php echo base_url("assets/images/empty.jpg");?>");
-				}, 10000);*/
-				$(".help-block").html("");
 			}else{
 				$("#display-photo").attr("src",data.display_photo);
 				$("#rfid_scan").val("");
@@ -134,6 +122,20 @@ $(document).on("submit","#gate_rfid_scan", function(e) {
 		},
 		error: function(e) {
 			console.log(e);
+		},
+		complete: function() {
+			timerId = setTimeout(function(){
+				$("#rfid_owner").html("")
+				$("#gate_rfid_last_name").html("");
+				$("#gate_rfid_first_name").html("");
+				$("#gate_rfid_middle_name").html("");
+				$("#designation_value").html("");
+				$("#designation_label").html("Designation:");
+				$("#gate_status").html("");
+				$("#gate_status").removeClass( "danger success" );
+				$("#display-photo").attr("src","<?php echo base_url("assets/images/empty.jpg");?>");
+			}, 10000);
+			$(".help-block").html("");
 		}
 	});
 

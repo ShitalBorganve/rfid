@@ -269,7 +269,7 @@ if($navbar_type=="admin"){
     ';
 
 
-  # code...
+  
 }elseif ($navbar_type=="teacher") {
 
     echo '

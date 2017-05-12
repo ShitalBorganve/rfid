@@ -31,7 +31,8 @@
 }
 
 body#has-logo{
-    background: url("../../logo-high.jpg");
+    
+    /*background: url("../../logo-high.jpg");*/
     /*background: url("../../logo-high.png");*/
     background-color: white;
     background-size: 70vw;

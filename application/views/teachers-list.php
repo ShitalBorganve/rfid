@@ -288,7 +288,6 @@ $(document).on("submit","#rfid_scan_add_form",function(e) {
     cache: false,
     dataType: "json",
     success: function(data) {
-      $('input[name="rfid"]').val("");
       if(data.is_valid){
         $("#rfid_scan_add_modal").modal("hide");
         $(".help-block").html("");
@@ -298,6 +297,12 @@ $(document).on("submit","#rfid_scan_add_form",function(e) {
         $("#rfid_scan_help-block").html(data.error);
         $("#rfid_valid_date_help-block").html(data.date_error);
       }
+    },
+    error: function(e) {
+      console.log(e);
+    },
+    complete: function() {
+      $('input[name="rfid"]').val("");
     }
   });
 });
@@ -320,6 +325,9 @@ $(document).on("click",".delete_rfid_teacher",function(e) {
       success: function(data) {
         show_teacher_list();
         alertify.success('RFID has been removed.');
+      },
+      error: function(e) {
+        console.log(e);
       }
     });
   },
@@ -341,6 +349,9 @@ $(document).on("click",".delete_teacher",function(e) {
       success: function(data) {
         show_teacher_list();
         alertify.success(data.last_name + ' has been deleted.');
+      },
+      error: function(e) {
+        console.log(e);
       }
     });
   },
@@ -385,6 +396,9 @@ function show_teacher_data(id) {
         $('#edit-class_id').dropdown('clear');
       }
       $("#teacher_edit_modal").modal("show");
+    },
+    error: function(e) {
+      console.log(e);
     }
   });
 }
@@ -396,7 +410,6 @@ $(document).on("click","#reset",function(e) {
 
 $(document).on("submit","#teacher_edit_form",function(e) {
 	e.preventDefault();
-  $('button[form="teacher_edit_form"]').prop('disabled', true);
   $.ajax({
     url: $(this).attr('action'),
     data: new FormData(this),
@@ -404,8 +417,10 @@ $(document).on("submit","#teacher_edit_form",function(e) {
     contentType: false,
     method:"POST",
     dataType: "json",
+    beforeSend: function() {
+      $('button[form="teacher_edit_form"]').prop('disabled', true);
+    },
     success: function(data) {
-      $('button[form="teacher_edit_form"]').prop('disabled', false);
       $("#in_case_name_help-block").html(data.in_case_name_error);
       $("#last_name_help-block").html(data.last_name_error);
       $("#dept_head_help-block").html(data.dept_head_error);
@@ -433,19 +448,17 @@ $(document).on("submit","#teacher_edit_form",function(e) {
         }
         show_teacher_list();
 			}
-		}
+		},
+    error: function(e) {
+      console.log(e);
+    },
+    complete: function() {
+      $('button[form="teacher_edit_form"]').prop('disabled', false);
+    }
 	});
 });
 $(document).on("click",".paging",function(e) {
 	show_teacher_list(e.target.id);
-});
-
-$("#search_last_name").autocomplete({
-  source: "<?php echo base_url("search/teachers/list"); ?>",
-  select: function(event, ui){
-      $('input[name="owner_id"]').val(ui.item.data);
-      show_teacher_list(1,true);
-  }
 });
 
 $(document).on("click",".reset_password_teacher",function(e) {
@@ -468,6 +481,9 @@ $(document).on("click",".reset_password_teacher",function(e) {
             }
           };
         }
+      },
+      error: function(e) {
+        console.log(e);
       }
     });
   },
@@ -486,6 +502,9 @@ $(document).on("submit","#teacher_download_list",function(e) {
     cache: false,
     success: function(data) {
       window.location = data;
+    },
+    error: function(e) {
+      console.log(e);
     }
   });
 });
@@ -511,7 +530,10 @@ function show_teacher_list(page='1',clear=false) {
         $("#search_last_name").val("");
       }
 			$("#teacher-list-table tbody").html(data);
-		}
+		},
+    error: function(e) {
+      console.log(e);
+    }
 	});
 }
 </script>

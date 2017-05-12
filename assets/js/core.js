@@ -25,6 +25,9 @@ $(document).on("submit", "#rfid_scan_add_load_credit_form", function(e) {
       } else {
         $('#rfid_scan_add_load_credits_help-block').html("RFID is invalid or available.");
       }
+    },
+    error: function(e) {
+      console.log(e);
     }
   });
 });
@@ -43,6 +46,9 @@ $(document).on("submit", "#add_load_credits_form", function(e) {
       $("#add_load_credits_form")[0].reset();
       $("#add_load_credits_data_modal").modal("hide");
       alertify.success("You have successfully added a load a student's load credits.");
+    },
+    error: function(e) {
+      console.log(e);
     }
   });
 });
@@ -80,6 +86,9 @@ $(document).on("submit", "#change_password-form", function(e) {
         $("#new_password_help-block").html(data.new_password_error);
         $("#confirm_password_help-block").html(data.confirm_password_error);
       }
+    },
+    error: function(e) {
+      console.log(e);
     }
   });
 });
@@ -122,6 +131,9 @@ $(document).on("submit", "#register_guardian_form", function(e) {
         $("#add_email_address_help-block").html(data.email_address_error);
         $("#add_contact_number_help-block").html(data.contact_number_error);
       }
+    },
+    error: function(e) {
+      console.log(e);
     }
   });
 });
@@ -136,7 +148,6 @@ $(".rfid_scan_add#staffs").click(function(e) {
 });
 $(document).on("submit", "#student_add_form", function(e) {
   e.preventDefault();
-  $("button[form='student_add_form']").prop('disabled', true);
   $.ajax({
     url: $(this).attr('action'),
     data: new FormData(this),
@@ -144,8 +155,10 @@ $(document).on("submit", "#student_add_form", function(e) {
     contentType: false,
     method: "POST",
     dataType: "json",
+    beforeSend: function() {
+      $("button[form='student_add_form']").prop('disabled', true);
+    },
     success: function(data) {
-      $("button[form='student_add_form']").prop('disabled', false);
       if (data.is_valid) {
         $("#student_add_form")[0].reset();
         $('.ui.dropdown').dropdown('clear');
@@ -170,12 +183,17 @@ $(document).on("submit", "#student_add_form", function(e) {
         $("#student_class_id_help-block").html(data.class_id_error);
         $("#student_photo_help-block").html(data.photo_error);
       }
+    },
+    error: function(e) {
+      console.log(e);
+    },
+    complete: function() {
+      $("button[form='student_add_form']").prop('disabled', false);
     }
   })
 });
 $(document).on("submit", "#teacher_add_form", function(e) {
   e.preventDefault();
-  $("button[form='teacher_add_form']").prop('disabled', true);
   $.ajax({
     url: $(this).attr('action'),
     data: new FormData(this),
@@ -183,8 +201,10 @@ $(document).on("submit", "#teacher_add_form", function(e) {
     contentType: false,
     method: "POST",
     dataType: "json",
+    beforeSend: function() {
+      $("button[form='teacher_add_form']").prop('disabled', true);
+    },
     success: function(data) {
-      $("button[form='teacher_add_form']").prop('disabled', false);
       if (data.is_valid) {
         $("#teacher_add_form")[0].reset();
         $('.ui.dropdown').dropdown('clear');
@@ -220,12 +240,17 @@ $(document).on("submit", "#teacher_add_form", function(e) {
         $("#teacher_dept_head_help-block").html(data.dept_head_error);
         $("#teacher_dept_head_number_help-block").html(data.dept_head_number_error);
       }
+    },
+    error: function(e) {
+      console.log(e);
+    },
+    complete: function() {
+      $("button[form='teacher_add_form']").prop('disabled', false);
     }
   })
 });
 $(document).on("submit", "#staff_add_form", function(e) {
   e.preventDefault();
-  $("button[form='staff_add_form']").prop('disabled', true);
   $.ajax({
     url: $(this).attr('action'),
     data: new FormData(this),
@@ -233,8 +258,10 @@ $(document).on("submit", "#staff_add_form", function(e) {
     contentType: false,
     method: "POST",
     dataType: "json",
+    beforeSend: function() {
+      $("button[form='staff_add_form']").prop('disabled', true);
+    },
     success: function(data) {
-      $("button[form='staff_add_form']").prop('disabled', false);
       if (data.is_valid) {
         $("#staff_add_form")[0].reset();
         $('.ui.dropdown').dropdown('clear');
@@ -260,6 +287,12 @@ $(document).on("submit", "#staff_add_form", function(e) {
         $("#staff_class_id_help-block").html(data.class_id_error);
         $("#staff_photo_help-block").html(data.photo_error);
       }
+    },
+    error: function(e) {
+      console.log(e);
+    },
+    complete: function() {
+      $("button[form='staff_add_form']").prop('disabled', false);
     }
   })
 });
@@ -268,16 +301,23 @@ $(document).on("click", "#add_canteen", function(e) {
 });
 $(document).on("submit", "#add_canteen_form", function(e) {
   e.preventDefault();
-  $('button[form="add_canteen_form"]').prop('disabled', true);
   $.ajax({
     type: "POST",
     url: $("#add_canteen_form").attr("action"),
     data: $("#add_canteen_form").serialize(),
     cache: false,
     dataType: "json",
+    beforeSend: function() {
+      $('button[form="add_canteen_form"]').prop('disabled', true);
+    },
     success: function(data) {
-      $('button[form="add_canteen_form"]').prop('disabled', false);
       if (data.is_valid) {}
+    },
+    error: function(e) {
+      console.log(e);
+    },
+    complete: function() {
+      $('button[form="add_canteen_form"]').prop('disabled', false);
     }
   });
 });
@@ -286,13 +326,15 @@ $(document).on("click", "#class_add", function(e) {
 });
 $(document).on("submit", "#class_add_form", function(e) {
   e.preventDefault();
-  $('button[form="class_add_form"]').prop('disabled', true);
   $.ajax({
     type: "POST",
     url: $("#class_add_form").attr("action"),
     data: $("#class_add_form").serialize(),
     cache: false,
     dataType: "json",
+    beforeSend: function() {
+      $('button[form="class_add_form"]').prop('disabled', true);
+    },
     success: function(data) {
       if (data.is_valid) {
         $("#class_add_form")[0].reset();
@@ -307,6 +349,11 @@ $(document).on("submit", "#class_add_form", function(e) {
         $("#class_room_help-block").html(data.class_room_error);
         $("#class_schedule_help-block").html(data.class_schedule_error);
       }
+    },
+    error: function(e) {
+      console.log(e);
+    },
+    complete: function() {
       $('button[form="class_add_form"]').prop('disabled', false);
     }
   });
@@ -337,15 +384,16 @@ $(document).on("click", ".email_settings", function(e) {
 });
 $(document).on("submit", "#guardian_email_settings_form", function(e) {
   e.preventDefault();
-  $('button[form="guardian_email_settings_form"]').prop('disabled', true);
   $.ajax({
     type: "POST",
     url: $("#guardian_email_settings_form").attr("action"),
     data: $("#guardian_email_settings_form").serialize(),
     cache: false,
     dataType: "json",
+    beforeSend: function() {
+      $('button[form="guardian_email_settings_form"]').prop('disabled', true);
+    },
     success: function(data) {
-      $('button[form="guardian_email_settings_form"]').prop('disabled', false);
       if (data.is_valid) {
         $(".help-block").html("");
         $("#email_settings-modal").modal("hide");
@@ -353,6 +401,12 @@ $(document).on("submit", "#guardian_email_settings_form", function(e) {
       } else {
         $("#email_settings_email_address_help-block").html(data.email_address_error);
       }
+    },
+    error: function(e) {
+      console.log(e);
+    },
+    complete: function() {
+      $('button[form="guardian_email_settings_form"]').prop('disabled', false);
     }
   });
 });
@@ -360,7 +414,6 @@ $(document).on("click", "#gate_change_password", function(e) {
   $("#gate_change_password-modal").modal("show");
 });
 $(document).on("submit", "#gate_change_password-form", function(e) {
-  $('button[form="gate_change_password-form"]').prop('disabled', true);
   e.preventDefault();
   $.ajax({
     type: "POST",
@@ -368,8 +421,10 @@ $(document).on("submit", "#gate_change_password-form", function(e) {
     data: $("#gate_change_password-form").serialize(),
     cache: false,
     dataType: "json",
+    beforeSend: function() {
+      $('button[form="gate_change_password-form"]').prop('disabled', true);
+    },
     success: function(data) {
-      $('button[form="gate_change_password-form"]').prop('disabled', false);
       if (data.is_valid) {
         $("#gate_change_password-form")[0].reset();
         $(".help-block").html("");
@@ -380,39 +435,51 @@ $(document).on("submit", "#gate_change_password-form", function(e) {
         $("#gate_new_password_help-block").html(data.new_password_error);
         $("#gate_confirm_password_help-block").html(data.confirm_password_error);
       }
+    },
+    error: function(e) {
+      console.log(e);
+    },
+    success: function() {
+      $('button[form="gate_change_password-form"]').prop('disabled', false);
     }
   });
 });
 $(document).on("click", "#reset_admin_password", function(e) {
   $("#reset_admin_password-modal").modal("show");
-  $('#select_admin_username').dropdown("clear");
-  $('#select_admin_username').html("");
-  $('#select_admin_username').append('<option value="">Select a Class</option>');
   $.ajax({
     type: "GET",
     url: base_url + "admin_ajax/get_list",
     data: "get=1",
     cache: false,
     dataType: "json",
+    beforeSend: function() {
+      $('#select_admin_username').dropdown("clear");
+      $('#select_admin_username').html("");
+      $('#select_admin_username').append('<option value="">Select a Class</option>');
+    },
     success: function(data) {
       $.each(data, function(i, item) {
         $('#select_admin_username').append('<option value="' + data[i].id + '">' + data[i].username +
           '</option>');
       });
+    },
+    error: function(e) {
+      console.log(e);
     }
   });
 });
 $(document).on("submit", "#add_admin-form", function(e) {
   e.preventDefault();
-  $('button[form="add_admin-form"]').prop('disabled', true);
   $.ajax({
     type: "POST",
     data: $("#add_admin-form").serialize(),
     url: $("#add_admin-form").attr("action"),
     cache: false,
     dataType: "json",
+    beforeSend: function() {
+      $('button[form="add_admin-form"]').prop('disabled', true);
+    },
     success: function(data) {
-      $('button[form="add_admin-form"]').prop('disabled', false);
       if (data.is_valid) {
         $(".help-block").html("");
         $("#add_admin-modal").modal("hide");
@@ -421,20 +488,27 @@ $(document).on("submit", "#add_admin-form", function(e) {
         $("#add_admin_username_help-block").html(data.username_error);
         $("#add_admin_email_address_help-block").html(data.email_address_error);
       }
+    },
+    error: function(e) {
+      console.log(e);
+    },
+    complete: function() {
+      $('button[form="add_admin-form"]').prop('disabled', false);
     }
   });
 });
 $(document).on("submit", "#reset_admin_password-form", function(e) {
   e.preventDefault();
-  $('button[form="reset_admin_password-form"]').prop('disabled', true);
   $.ajax({
     type: "POST",
     url: $("#reset_admin_password-form").attr("action"),
     data: $("#reset_admin_password-form").serialize(),
     cache: false,
     dataType: "json",
+    beforeSend: function() {
+      $('button[form="reset_admin_password-form"]').prop('disabled', true);
+    },
     success: function(data) {
-      $('button[form="reset_admin_password-form"]').prop('disabled', false);
       if (data.is_valid) {
         $("#reset_admin_password_help-block").html(data.email_address_error);
         $(".help-block").html("");
@@ -443,6 +517,12 @@ $(document).on("submit", "#reset_admin_password-form", function(e) {
       } else {
         $("#reset_admin_password_help-block").html(data.email_address_error);
       }
+    },
+    error: function(e) {
+      console.log(e);
+    },
+    complete: function() {
+      $('button[form="reset_admin_password-form"]').prop('disabled', false);
     }
   });
 });
@@ -459,6 +539,9 @@ $(document).on("click",".send-sms",function(data) {
     dataType: "json",
     success: function(data) {
       $("#smsapi-message-left").html(data.MessagesLeft);
+    },
+    error: function(e) {
+      console.log(e);
     }
   });
 });
@@ -466,16 +549,18 @@ $(document).on("click",".send-sms",function(data) {
 var needToConfirm = false;
 $(document).on("submit", "#sms-form", function(e) {
   e.preventDefault();
-  needToConfirm = true;
-  $('button[form="sms-form"]').prop('disabled', true);
-  $('button[form="sms-form"]').html("Sending...");
-  $('.loading').css("display", "initial");
   $.ajax({
     type: "POST",
     url: $("#sms-form").attr("action"),
     data: $("#sms-form").serialize(),
     cache: false,
     dataType: "json",
+    beforeSend: function() {
+      needToConfirm = true;
+      $('button[form="sms-form"]').prop('disabled', true);
+      $('button[form="sms-form"]').html("Sending...");
+      $('.loading').css("display", "initial");
+    },
     success: function(data) {
       if (data.is_valid) {
         var count = 0;
@@ -518,12 +603,10 @@ $(document).on("submit", "#sms-form", function(e) {
                     });
                   }
                 });
-
-                needToConfirm = false;
-                $('.loading').css("display", "none");
-                $('button[form="sms-form"]').html("Submit");
-                $('button[form="sms-form"]').prop('disabled', false);
               }
+            },
+            error: function(e) {
+              console.log(e);
             }
           })
         });
@@ -537,6 +620,15 @@ $(document).on("submit", "#sms-form", function(e) {
         $("#message_help-block").html(data.message_error);
         $("#class_id_help-block").html(data.class_id_error);
       }
+    },
+    error: function(e) {
+      console.log(e);
+    },
+    complete: function() {
+      needToConfirm = false;
+      $('.loading').css("display", "none");
+      $('button[form="sms-form"]').html("Submit");
+      $('button[form="sms-form"]').prop('disabled', false);
     }
   });
 });
@@ -552,48 +644,63 @@ update_select_options("class_id", base_url);
 
 function update_select_options(type, base_url) {
   if (type == "guardian_id") {
-    $('select[name="' + type + '"]').html("");
-    $('select[name="' + type + '"]').append('<option value="">Select a Guardians Email</option>');
     $.ajax({
       type: "GET",
       url: base_url + "guardian_ajax/get_list",
       cache: false,
       dataType: "json",
+      beforeSend: function() {
+        $('select[name="' + type + '"]').html("");
+        $('select[name="' + type + '"]').append('<option value="">Select a Guardians Email</option>');
+      },
       success: function(data) {
         $.each(data, function(i, item) {
           $('select[name="' + type + '"]').append('<option value="' + data[i].id + '">' + data[i].contact_number +
             '</option>');
         })
+      },
+      error: function(e) {
+        console.log(e);
       }
     });
   } else if (type == "class_adviser") {
-    $('select[name="' + type + '"]').html("");
-    $('select[name="' + type + '"]').append('<option value="">Select a Class Adviser</option>');
     $.ajax({
       type: "GET",
       url: base_url + "teacher_ajax/get_list/admin",
       cache: false,
       dataType: "json",
+      beforeSend: function() {
+        $('select[name="' + type + '"]').html("");
+        $('select[name="' + type + '"]').append('<option value="">Select a Class Adviser</option>');
+      },
       success: function(data) {
         $.each(data, function(i, item) {
           $('select[name="' + type + '"]').append('<option value="' + data[i].id + '">' + data[i].full_name +
             '</option>');
         })
+      },
+      error: function(e) {
+        console.log(e);
       }
     });
   } else if (type == "class_id[]" || type == "class_id") {
-    $('select[name="' + type + '"]').html("");
-    $('select[name="' + type + '"]').append('<option value="">Select a Class</option>');
     $.ajax({
       type: "GET",
       url: base_url + "class_ajax/get_list",
       cache: false,
       dataType: "json",
+      beforeSend: function() {
+        $('select[name="' + type + '"]').html("");
+        $('select[name="' + type + '"]').append('<option value="">Select a Class</option>');
+      },
       success: function(data) {
         $.each(data, function(i, item) {
           $('select[name="' + type + '"]').append('<option value="' + data[i].id + '">' + data[i].class_name +
             '</option>');
         })
+      },
+      error: function(e) {
+        console.log(e);
       }
     });
   }

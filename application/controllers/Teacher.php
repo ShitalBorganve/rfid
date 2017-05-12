@@ -3,21 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Teacher extends CI_Controller {
 
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see https://codeigniter.com/user_guide/general/urls.html
-	 */
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -97,7 +83,7 @@ class Teacher extends CI_Controller {
 		$this->data["title"] = "Logout";
 		$this->session->sess_destroy();
 		redirect("teacher");		
-		# code...
+		
 	}
 
 
@@ -124,7 +110,6 @@ class Teacher extends CI_Controller {
 				$data["contact_number"] = $account_id = $this->input->post("account");
 				$data["password"] = md5($account_password = $this->input->post("account_password"));
 				$data["deleted"] = 0;
-				// $data["var_dump"] = $this->teachers_model->login($data);
 				$data["is_valid"] = $this->teachers_model->login($data);
 				$data["account_error"] = "";
 				

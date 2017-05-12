@@ -94,7 +94,7 @@ class Gate_logs_model extends CI_Model {
             $get_owner_data = array();
             $get_owner_data["id"] = $gate_log_data->ref_id;
             $gate_log_data->owner_data = $this->db->get_where($gate_log_data->ref_table,$get_owner_data)->row();
-            # code...
+            
         }
 
         $data["result"] = $gate_logs_data;

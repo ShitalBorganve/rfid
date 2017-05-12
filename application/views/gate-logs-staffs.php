@@ -117,6 +117,9 @@ $(document).on("change","#select_position",function(e) {
 			$.each(data, function(i, item) {
 			    $('#select_staff').append('<option value="'+data[i].id+'">'+data[i].full_name+'</option>');
 			});
+		},
+		error: function(e) {
+		  console.log(e);
 		}
 	});
 });
@@ -124,11 +127,6 @@ $(document).on("change","#datepicker_from,#datepicker_to",function(e) {
 	show_gatelogs();
 });
 $(document).on("click","#gate_logs-reset_search",function(e) {
-	$("#gate_logs-form")[0].reset();
-	$('input[name="ref_id"]').val("");
-	$(".ui.dropdown").dropdown("clear");
-	$('#select_staff').html("");
-	$('#select_staff').append('<option value="">Select a Staff&apos;s Last Name</option>');
 	var datastr = "get=1";
 	$.ajax({
 		type: "GET",
@@ -136,10 +134,20 @@ $(document).on("click","#gate_logs-reset_search",function(e) {
 		data: datastr,
 		cache: false,
 		dataType: "json",
+		beforeSend: function() {
+			$("#gate_logs-form")[0].reset();
+			$('input[name="ref_id"]').val("");
+			$(".ui.dropdown").dropdown("clear");
+			$('#select_staff').html("");
+			$('#select_staff').append('<option value="">Select a Staff&apos;s Last Name</option>');
+		},
 		success: function(data) {
 			$.each(data, function(i, item) {
 			    $('#select_staff').append('<option value="'+data[i].id+'">'+data[i].full_name+'</option>');
 			});
+		},
+		error: function(e) {
+			console.log(e);
 		}
 	});
 	show_gatelogs();
@@ -162,7 +170,9 @@ function show_gatelogs(page=1,clear) {
 			if(clear){
 				$("#search_last_name").val("");
 			}
-			
+		},
+		error: function(e) {
+		  console.log(e);
 		}
 	});
 }

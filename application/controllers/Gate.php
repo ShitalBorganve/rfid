@@ -3,28 +3,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Gate extends CI_Controller {
 
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see https://codeigniter.com/user_guide/general/urls.html
-	 */
+
 	public function __construct()
 	{
 		parent::__construct();
 		$this->load->database();
 		$this->load->helper('form');
 		$this->load->helper('url');
-		$this->load->library('session');
 
 		$this->load->model("students_model");
 		$this->load->model("guardian_model");
@@ -95,8 +80,6 @@ class Gate extends CI_Controller {
 					$this->load->view('gate-login',$this->data);
 				}
 			}
-
-			// echo json_encode($data);
 		}
 	
 	public function logout($value='')
@@ -104,8 +87,4 @@ class Gate extends CI_Controller {
 		$this->session->unset_userdata('guardian_sessions');
 	}
 
-	public function gate($arg='')
-	{
-		
-	}
 }

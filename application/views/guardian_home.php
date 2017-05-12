@@ -124,6 +124,9 @@ function show_gatelogs(page=1) {
 		cache: false,
 		success: function(data) {
 			$("#gatelogs-table tbody").html(data);
+		},
+		error: function(e) {
+		  console.log(e);
 		}
 	});
 }

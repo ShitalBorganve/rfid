@@ -25,7 +25,6 @@ class Admin extends CI_Controller {
 		$this->load->library('form_validation');
 		$this->load->library('session');
 
-		// echo md5("ICFINkcW");
 		//updates
 		// $this->app_config->updates(current_build());
 		
@@ -34,8 +33,6 @@ class Admin extends CI_Controller {
 		$this->data["js_scripts"] = $this->load->view("scripts/js","",true);
 		$this->data["meta_scripts"] = $this->load->view("scripts/meta","",true);
 		
-		// $result = file_get_contents("https://www.itexmo.com/php_api/apicode_info.php?apicode=ST-ROMEO290433_3CTWI");
-		// $sms_module_status = json_decode($result,true);
 
 
 		
@@ -46,12 +43,10 @@ class Admin extends CI_Controller {
 		$modal_data["staffs_list"] = $this->staffs_model->get_list();
 		$modal_data["classes_list"] = $this->classes_model->get_list();
 		$modal_data["modals_sets"] = "admin";
-		// $modal_data["sms_module_sms_left"] = $sms_module_status["Result "]["MessagesLeft"];
 		$this->data["modaljs_scripts"] = $this->load->view("layouts/modals",$modal_data,true);
 		
 
 		$navbar_data["navbar_type"] = "admin";
-		// $navbar_data["sms_module_sms_left"] = $sms_module_status["Result "]["MessagesLeft"];
 		($this->session->userdata("admin_sessions")?$navbar_data["navbar_is_logged_in"] = TRUE:$navbar_data["navbar_is_logged_in"] = FALSE);
 		$this->data["navbar_scripts"] = $this->load->view("layouts/navbar",$navbar_data,true);
 
@@ -66,9 +61,6 @@ class Admin extends CI_Controller {
 
 	public function index($student_id='')
 	{
-
-		
-		// var_dump($this->sms_model->find_owner("09301167856"));
 		$this->data["login_type"] = "admin";
 		if($this->session->userdata("admin_sessions")){
 			$where["type"] = "entry";
@@ -130,7 +122,7 @@ class Admin extends CI_Controller {
 			$this->data["title"] = "Students Gate Logs";
 			$this->load->view('gate-logs-students',$this->data);
 		}elseif ($arg=="teachers") {
-			# code...
+			
 			$this->data["title"] = "Teachers Gate Logs";
 			$this->load->view('gate-logs-teachers',$this->data);
 		}elseif ($arg=="staffs") {

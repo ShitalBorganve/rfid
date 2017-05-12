@@ -109,23 +109,30 @@ function show_gatelogs(page=1,clear) {
 			if(clear){
 				$("#search_last_name").val("");
 			}
-			
+		},
+		error: function(e) {
+		  console.log(e);
 		}
 	});
 }
 
 function populate_selection() {
-	$("#students-select").html("");
 	$.ajax({
 		type: "GET",
 		url: "<?php echo base_url("student_ajax/get_list/teachers"); ?>",
 		data: $("#student-list-form").serialize(),
 		cache: false,
 		dataType: "json",
+		beforeSend: function() {
+			$("#students-select").html("");
+		},
 		success: function(data) {
 			$.each(data, function(i, item) {
 			    $("#students-select").append('<option value="'+data[i].id+'">'+data[i].full_name+'</option>');
 			})
+		},
+		error: function(e) {
+		  console.log(e);
 		}
 	});
 }

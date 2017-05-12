@@ -161,6 +161,9 @@ $(document).on("click",".reset_password_guardian",function(e) {
             }
           };
         }
+      },
+      error: function(e) {
+        console.log(e);
       }
     });
   },
@@ -186,6 +189,9 @@ $(document).on("click",".delete_guardian",function(e) {
       success: function(data) {
         show_guardian_list();
         alertify.success(data.name + ' has been deleted.');
+      },
+      error: function(e) {
+        console.log(e);
       }
     });
   },
@@ -228,13 +234,15 @@ function show_guardian_data(id) {
       }
       
       $("#guardian_edit_modal").modal("show");
+    },
+    error: function(e) {
+      console.log(e);
     }
   });
 }
 
 $(document).on("submit","#guardian_edit_form",function(e) {
   e.preventDefault();
-  $('button[form="guardian_edit_form"]').prop('disabled', true);
   $.ajax({
     url: $(this).attr('action'),
     data: new FormData(this),
@@ -242,8 +250,10 @@ $(document).on("submit","#guardian_edit_form",function(e) {
     contentType: false,
     method:"POST",
     dataType: "json",
+    beforeSend: function() {
+      $('button[form="guardian_edit_form"]').prop('disabled', true);
+    },
     success: function(data) {
-      $('button[form="guardian_edit_form"]').prop('disabled', false);
       $("#guardian_id_help-block").html(data.guardian_id_error);
       $("#guardian_name_help-block").html(data.guardian_name_error);
       $("#guardian_address_help-block").html(data.guardian_address_error);
@@ -259,22 +269,19 @@ $(document).on("submit","#guardian_edit_form",function(e) {
         }
         show_guardian_list();
 			}
-		}
+		},
+    error: function(e) {
+      console.log(e);
+    },
+    complete: function() {
+      $('button[form="guardian_edit_form"]').prop('disabled', false);
+    }
 	});
 });
 $(document).on("click",".paging",function(e) {
 	show_guardian_list(e.target.id);
 });
 
-$("#search_last_name").autocomplete({
-  source: "<?php echo base_url("search/guardians/list"); ?>",
-  select: function(event, ui){
-      show_guardian_data(ui.item.data);
-      $("#search_last_name").val("");
-      // alert(data);
-    // window.location='item?s='+ui.item.data;
-  }
-});
 $(document).on("submit","#guardian-list-form",function(e) {
   e.preventDefault();
   show_guardian_list();  
@@ -291,7 +298,10 @@ function show_guardian_list(page='1') {
 		cache: false,
 		success: function(data) {
 			$("#guardian-list-table tbody").html(data);
-		}
+		},
+    error: function(e) {
+      console.log(e);
+    }
 	});
 }
 </script>

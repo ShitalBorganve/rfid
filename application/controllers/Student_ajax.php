@@ -3,21 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Student_ajax extends CI_Controller {
 
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see https://codeigniter.com/user_guide/general/urls.html
-	 */
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -26,10 +12,10 @@ class Student_ajax extends CI_Controller {
 		$this->load->helper('form');
 		$this->load->helper('url');
 		$this->load->helper('app_helper');
+		$this->load->helper('string');
 
 
 		//models
-		$this->load->helper('string');
 		$this->load->model('guardian_model');
 		$this->load->model("admin_model");
 		$this->load->model("classes_model");
@@ -74,6 +60,7 @@ class Student_ajax extends CI_Controller {
 
 			$this->form_validation->set_message('is_in_db', 'This account is invalid');
 			$has_uploaded_pic = FALSE;
+
 			//uploads files
 			if($_FILES['student_photo']["error"]==0){
 
@@ -181,14 +168,12 @@ class Student_ajax extends CI_Controller {
 				$student_data["guardian_id"] = $this->input->post("guardian_id");
 				$student_data["class_id"] = $this->input->post("class_id");
 				$student_data["display_photo"] = $filename;
-				// $student_data["display_photo_type"] = $new_image_data['file_type'];
 				$bday_m = sprintf("%02d",$this->input->post("bday_m"));
 				$bday_d = sprintf("%02d",$this->input->post("bday_d"));
 				$bday_y = sprintf("%04d",$this->input->post("bday_y"));
 				$birthdate_str = $bday_m."/".$bday_d."/".$bday_y;
 				$student_data["birthdate"] = strtotime($birthdate_str);
 
-				// $student_data["rfid"] = $this->session->userdata("rfid_scanned_add");
 				$data["is_successful"] = TRUE;
 				$student_data = $this->students_model->add($student_data);
 
@@ -199,8 +184,6 @@ class Student_ajax extends CI_Controller {
 					$this->students_model->edit_info($edit_data,$student_data->id);
 				}
 
-
-				// $rfid_data["rfid"] = $this->input->post("rfid");
 				$rfid_data["ref_id"] = $student_data->id;
 				$rfid_data["ref_table"] = "students";
 				$rfid_data["valid"] = 1;
@@ -216,12 +199,6 @@ class Student_ajax extends CI_Controller {
 	public function edit($arg='')
 	{
 		if($_POST){
-
-
-			// $data["guardian_id"] = $this->input->post("guardian_id");
-			// $data["class_id"] = $this->input->post("class_id");
-			// var_dump($this->input->post("class_id"));
-			// exit;
 			$this->form_validation->set_rules('lrn_number', 'LRN Number', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('student_id', 'First Name', 'required|trim|htmlspecialchars|is_in_db[students.id]');
 			$this->form_validation->set_rules('first_name', 'First Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
@@ -238,7 +215,6 @@ class Student_ajax extends CI_Controller {
 			$this->form_validation->set_rules('contact_number', 'Contact Number', 'numeric|min_length[11]|max_length[11]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('guardian_id', 'Guardian', 'is_in_db[guardians.id]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('class_id', 'Class', 'required|is_valid[classes.id]|trim|htmlspecialchars');
-
 			$this->form_validation->set_message('is_in_db', 'An Error has occured please refresh the page and try again.');
 
 
@@ -247,6 +223,7 @@ class Student_ajax extends CI_Controller {
 			$student_data_db = $this->students_model->get_data($get_data);
 
 			$has_uploaded_pic = FALSE;
+
 			//uploads files
 			if($_FILES['student_photo']["error"]==0){
 
@@ -333,7 +310,6 @@ class Student_ajax extends CI_Controller {
 				$data["guardian_id_error"] = form_error('guardian_id');
 				$data["class_id_error"] = form_error('class_id');
 				$data["student_id_error"] = form_error('student_id');
-				// echo json_encode($data);
 			}
 			else
 			{
@@ -365,7 +341,6 @@ class Student_ajax extends CI_Controller {
 				$student_data["guardian_id"] = $this->input->post("guardian_id");
 				$student_data["class_id"] = $this->input->post("class_id");
 				$student_data["display_photo"] = $filename;
-				// $student_data["display_photo_type"] = $new_image_data['file_type'];
 				$bday_m = sprintf("%02d",$this->input->post("bday_m"));
 				$bday_d = sprintf("%02d",$this->input->post("bday_d"));
 				$bday_y = sprintf("%04d",$this->input->post("bday_y"));
@@ -384,7 +359,6 @@ class Student_ajax extends CI_Controller {
 				}
 
 			}
-			// var_dump($this->students_model->edit_info($student_data,$this->input->post("student_id")));
 			echo json_encode($data);
 		}
 
