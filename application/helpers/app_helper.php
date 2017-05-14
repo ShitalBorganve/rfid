@@ -172,8 +172,6 @@ if ( ! function_exists('admin_paging'))
 
 	function current_build()
 	{
-		//ALTER TABLE `teachers` ADD `dept_head` VARCHAR(50) NOT NULL AFTER `in_case_contact_number_sms`, ADD `dept_head_number` VARCHAR(11) NOT NULL AFTER `dept_head`;
-		//ALTER TABLE `students` ADD `lrn_number` VARCHAR(50) NOT NULL AFTER `id`;
 		return "1.0000";
 	}
 }
