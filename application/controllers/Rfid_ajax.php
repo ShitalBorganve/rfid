@@ -178,7 +178,7 @@ class Rfid_ajax extends CI_Controller {
 						}else{
 							$rfid_owner_data["guardian_sms_subscription"] = "0";
 						}
-					}elseif ($rfid_owner_log_data["ref_table"]=="teachers") {
+					}elseif ($rfid_owner_log_data["ref_table"]=="teachers"||$rfid_owner_log_data["ref_table"]=="staffs") {
 						$rfid_owner_data["in_case_contact_number_sms"] = 1;
 						$rfid_owner_data["message"] = $rfid_owner_data["full_name"].' '.$type_status.' the school premises on '.date("m/d/Y h:i:s A").'.';
 						$rfid_owner_data["status_code"] = send_sms($rfid_owner_data["dept_head_number"],$rfid_owner_data["message"]);

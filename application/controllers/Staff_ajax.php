@@ -41,6 +41,8 @@ class Staff_ajax extends CI_Controller {
 	{
 		
 		if($_POST){
+			$this->form_validation->set_rules('dept_head', 'Department Head', 'required|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('dept_head_number', 'Department Head Contact Number', 'required|numeric|max_length[11]|min_length[11]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('position', 'Position', 'required|custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('address', 'Address', 'required|min_length[2]|max_length[100]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('first_name', 'First Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
@@ -129,6 +131,8 @@ class Staff_ajax extends CI_Controller {
 			if ($this->form_validation->run() == FALSE|| $data["is_valid_photo"] == FALSE)
 			{
 				$data["is_valid"] = FALSE;
+				$data["gender_error"] = form_error('gender');
+				$data["dept_head_error"] = form_error('dept_head');
 				$data["address_error"] = form_error('address');
 				$data["in_case_name_error"] = form_error('in_case_name');
 				$data["in_case_contact_number_error"] = form_error('in_case_contact_number');
@@ -144,6 +148,8 @@ class Staff_ajax extends CI_Controller {
 			else
 			{
 				$data["is_valid"] = TRUE;
+				$data["gender_error"] = form_error('gender');
+				$data["dept_head_error"] = form_error('dept_head');
 				$data["address_error"] = form_error('address');
 				$data["in_case_name_error"] = form_error('in_case_name');
 				$data["in_case_contact_number_error"] = form_error('in_case_contact_number');
@@ -156,6 +162,8 @@ class Staff_ajax extends CI_Controller {
 				$data["contact_number_error"] = form_error('contact_number');
 				$data["bday_error"] = form_error('bday_m');
 
+				$staff_data["dept_head"] = $this->input->post("dept_head");
+				$staff_data["dept_head_number"] = $this->input->post("dept_head_number");
 				$staff_data["first_name"] = $this->input->post("first_name");
 				$staff_data["in_case_name"] = $this->input->post("in_case_name");
 				$staff_data["in_case_contact_number"] = $this->input->post("in_case_contact_number");
@@ -201,6 +209,8 @@ class Staff_ajax extends CI_Controller {
 		if($_POST){
 
 			$this->form_validation->set_rules('staff_id', 'First Name', 'required|trim|htmlspecialchars|is_in_db[staffs.id]');
+			$this->form_validation->set_rules('dept_head', 'Department Head', 'required|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('dept_head_number', 'Department Head Contact Number', 'required|numeric|max_length[11]|min_length[11]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('address', 'Address', 'required|min_length[2]|max_length[100]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('position', 'Position', 'required|custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('first_name', 'First Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
@@ -305,6 +315,8 @@ class Staff_ajax extends CI_Controller {
 			if ($this->form_validation->run() == FALSE|| $data["is_valid_photo"] == FALSE)
 			{
 				$data["is_valid"] = FALSE;
+				$data["dept_head_error"] = form_error('dept_head');
+				$data["dept_head_number_error"] = form_error('dept_head_number');
 				$data["gender_error"] = form_error('gender');
 				$data["in_case_name_error"] = form_error('in_case_name');
 				$data["in_case_contact_number_error"] = form_error('in_case_contact_number');
@@ -321,6 +333,8 @@ class Staff_ajax extends CI_Controller {
 			else
 			{
 				$data["is_valid"] = TRUE;
+				$data["dept_head_error"] = form_error('dept_head');
+				$data["dept_head_number_error"] = form_error('dept_head_number');
 				$data["gender_error"] = form_error('gender');
 				$data["in_case_name_error"] = form_error('in_case_name');
 				$data["in_case_contact_number_error"] = form_error('in_case_contact_number');
@@ -335,6 +349,8 @@ class Staff_ajax extends CI_Controller {
 				$data["class_id_error"] = "";
 
 				$staff_data["first_name"] = $this->input->post("first_name");
+				$staff_data["dept_head"] = $this->input->post("dept_head");
+				$staff_data["dept_head_number"] = $this->input->post("dept_head_number");
 				$staff_data["address"] = $this->input->post("address");
 				$staff_data["position"] = $this->input->post("position");
 				$staff_data["gender"] = $this->input->post("gender");

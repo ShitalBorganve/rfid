@@ -3,6 +3,10 @@ $('input[name="rfid"]').click(function(e) {
   $(this).val("");
 });
 
+$(document).on("change","#login-select-type",function(e) {
+  window.location = base_url+e.target.value;
+});
+
 $(document).on("submit", "#rfid_scan_add_load_credit_form", function(e) {
   e.preventDefault();
   $.ajax({
@@ -286,6 +290,8 @@ $(document).on("submit", "#staff_add_form", function(e) {
         $("#staff_guardian_id_help-block").html(data.guardian_id_error);
         $("#staff_class_id_help-block").html(data.class_id_error);
         $("#staff_photo_help-block").html(data.photo_error);
+        $("#staff_dept_head_help-block").html(data.dept_head_error);
+        $("#staff_dept_head_number_help-block").html(data.dept_head_number_error);
       }
     },
     error: function(e) {

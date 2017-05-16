@@ -20,6 +20,17 @@
 			<h1 style="text-align: center;"><?php echo $type; ?></h1>
 				<?php echo form_open($login_type."/login",'class="form-horizontal" id="app-login"');?>
 					<div class="form-group">
+					  <label class="col-sm-3">Login Type</label> 
+					  <div class="col-sm-9">
+					    <select class="form-control" id="login-select-type">
+					    	<option value="home" <?php echo ($login_type=="home"?'selected="selected"':false); ?> >Guardian</option>
+					    	<option value="teacher" <?php echo ($login_type=="teacher"?'selected="selected"':false); ?> >Teachers</option>
+					    	<option value="admin" <?php echo ($login_type=="admin"?'selected="selected"':false); ?> >Admin</option>
+					    	<option value="gate" <?php echo ($login_type=="gate"?'selected="selected"':false); ?> >Gate</option>
+					    </select>
+					  </div>
+					</div>
+					<div class="form-group">
 					  <label class="col-sm-2 col-xs-4 col-md-3" for="email">Account:</label>
 					  <div class="col-sm-10 col-xs-8 col-md-9">
 					  <div class="ui left icon input fluid">

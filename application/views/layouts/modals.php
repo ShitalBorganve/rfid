@@ -673,6 +673,22 @@ if($modals_sets=="admin"){
               </div>
             </div>
 
+            <div class="form-group">
+              <label class="col-sm-2" for="dept_head">Department Head:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="dept_head" placeholder="Enter Department Head">
+                <p class="help-block" id="staff_dept_head_help-block"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="dept_head_number">Department Head Contact Number:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="dept_head_number" placeholder="Enter Department Head Contact Number">
+                <p class="help-block" id="staff_dept_head_number_help-block"></p>
+              </div>
+            </div>
+
 
             <div class="form-group">
               <label class="col-sm-2" for="in_case_name">In Case of Emergency Contact:</label>
