@@ -68,76 +68,81 @@
 		</div>
 	</div>
 </div>
+
 <?php echo $modaljs_scripts; ?>
 <?php echo $js_scripts; ?>
 <script>
-setInterval(function(){
-	$("#gate-time").html(moment().format('hh:mm:ss A'));
-}, 500);
-var timerId;
-$(document).on("submit","#gate_rfid_scan", function(e) {
-	e.preventDefault();
-	$.ajax({
-		type: "POST",
-		url: $("#gate_rfid_scan").attr("action"),
-		data: $("#gate_rfid_scan :input").serialize(),
-		cache: false,
-		dataType: "json",
-		beforeSend: function() {
-			clearTimeout(timerId);
-		},
-		success: function(data) {
-			$("#gate_rfid_scan")[0].reset();
-			$("#gate_rfid_last_name").html(data.last_name);
-			$("#designation_label").html(data.designation_label);
-			$("#designation_value").html(data.designation_value);
-			$("#gate_rfid_first_name").html(data.first_name);
-			$("#gate_rfid_middle_name").html(data.middle_name);
-			$("#gate_rfid_suffix").html(data.suffix);
-			$("#gate_status").removeClass( "danger success" );
-			$("#gate_status").html("");
-			if(data.is_valid){
-				$("#rfid_scan").val("");
-				$("#display-photo").attr("src",data.display_photo);
-				$("#rfid_owner").html(data.rfid_data.owner_type + "'S");
+$("document").ready(function() {
+	setInterval(function(){
+		$("#gate-time").html(moment().format('hh:mm:ss A'));
+	}, 500);
+	var timerId;
+	$("#gate_rfid_scan").submit(function(e) {
+		e.preventDefault();
+		$.ajax({
+			type: "POST",
+			url: $("#gate_rfid_scan").attr("action"),
+			data: $("#gate_rfid_scan :input").serialize(),
+			cache: false,
+			dataType: "json",
+			beforeSend: function() {
+				clearTimeout(timerId);
+			},
+			success: function(data) {
+				$("#gate_rfid_scan")[0].reset();
+				$("#gate_rfid_last_name").html(data.last_name);
+				$("#designation_label").html(data.designation_label);
+				$("#designation_value").html(data.designation_value);
+				$("#gate_rfid_first_name").html(data.first_name);
+				$("#gate_rfid_middle_name").html(data.middle_name);
+				$("#gate_rfid_suffix").html(data.suffix);
+				$("#gate_status").removeClass( "danger success" );
+				$("#gate_status").html("");
+				if(data.is_valid){
+					$("#rfid_scan").val("");
+					$("#display-photo").attr("src",data.display_photo);
+					$("#rfid_owner").html(data.rfid_data.owner_type + "'S");
 
-				if(data.gate_logs_data.is_valid){
-					$("#gate_status").html('<b>'+data.full_name + "</b> " + data.type_status+ ' the school premises on <br><span style="font-size: 30px;">'+data.gate_logs_data.date_time_passed+"</span>");
-					$("#gate_status").removeClass( "danger success" ).addClass("success");
-					if((data.guardian_sms_subscription == "1" && data.rfid_data.owner_type == "student") || (data.in_case_contact_number_sms == "1" && (data.rfid_data.owner_type == "teacher" || data.rfid_data.owner_type == "staff"))){
-						if(data.status_code == "0"){
-							alertify.success(data.sms_status);
-						}else{
-							alertify.error(data.sms_status);
+					if(data.gate_logs_data.is_valid){
+						$("#gate_status").html('<b>'+data.full_name + "</b> " + data.type_status+ ' the school premises on <br><span style="font-size: 30px;">'+data.gate_logs_data.date_time_passed+"</span>");
+						$("#gate_status").removeClass( "danger success" ).addClass("success");
+						if((data.guardian_sms_subscription == "1" && data.rfid_data.owner_type == "student") || (data.in_case_contact_number_sms == "1" && (data.rfid_data.owner_type == "teacher" || data.rfid_data.owner_type == "staff"))){
+							if(data.status_code == "0"){
+								alertify.success(data.sms_status);
+							}else{
+								alertify.error(data.sms_status);
+							}
 						}
+					}else{
+						$("#gate_status").html("<b>"+data.full_name+"</b> had recently passed the gate. Try again later.");
+						$("#gate_status").removeClass( "danger success" ).addClass("danger");
 					}
 				}else{
-					$("#gate_status").html("<b>"+data.full_name+"</b> had recently passed the gate. Try again later.");
-					$("#gate_status").removeClass( "danger success" ).addClass("danger");
+					$("#display-photo").attr("src",data.display_photo);
+					$("#rfid_scan").val("");
 				}
-			}else{
-				$("#display-photo").attr("src",data.display_photo);
-				$("#rfid_scan").val("");
+			},
+			error: function(e) {
+				console.log(e);
+			},
+			complete: function() {
+				timerId = setTimeout(function(){
+					$("#rfid_owner").html("")
+					$("#gate_rfid_last_name").html("");
+					$("#gate_rfid_first_name").html("");
+					$("#gate_rfid_middle_name").html("");
+					$("#designation_value").html("");
+					$("#designation_label").html("Designation:");
+					$("#gate_status").html("");
+					$("#gate_status").removeClass( "danger success" );
+					$("#display-photo").attr("src","<?php echo base_url("assets/images/empty.jpg");?>");
+				}, 10000);
+				$(".help-block").html("");
 			}
-		},
-		error: function(e) {
-			console.log(e);
-		},
-		complete: function() {
-			timerId = setTimeout(function(){
-				$("#rfid_owner").html("")
-				$("#gate_rfid_last_name").html("");
-				$("#gate_rfid_first_name").html("");
-				$("#gate_rfid_middle_name").html("");
-				$("#designation_value").html("");
-				$("#designation_label").html("Designation:");
-				$("#gate_status").html("");
-				$("#gate_status").removeClass( "danger success" );
-				$("#display-photo").attr("src","<?php echo base_url("assets/images/empty.jpg");?>");
-			}, 10000);
-			$(".help-block").html("");
-		}
+		});
+	return false;
 	});
+
 
 });
 </script>
