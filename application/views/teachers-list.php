@@ -10,8 +10,8 @@
 </style>
 </head>
 
-<?php echo $navbar_scripts; ?>
 <body>
+<?php echo $navbar_scripts; ?>
 
 <div class="container-fluid">
 	<h1 style="text-align: center;">List of Teachers</h1>
@@ -267,275 +267,256 @@ echo '
 <?php echo $modaljs_scripts; ?>
 <?php echo $js_scripts; ?>
 <script>
-
-$(document).on("click",".add_rfid_teacher",function(e) {
-  var id = e.target.id;
-  $('input[name="type"]').val("teachers");
-  $('input[name="id"]').val(id);
-  $("#rfid_add_modal_title").html("scan teacher&apos;s rfid");
-  $("#rfid_scan_add_modal").modal("show");
-});
-
-
-
-
-$(document).on("submit","#rfid_scan_add_form",function(e) {
-  e.preventDefault();
-  $.ajax({
-    type: "POST",
-    url: $("#rfid_scan_add_form").attr("action"),
-    data: $("#rfid_scan_add_form :input").serialize(),
-    cache: false,
-    dataType: "json",
-    success: function(data) {
-      if(data.is_valid){
-        $("#rfid_scan_add_modal").modal("hide");
-        $(".help-block").html("");
-        alertify.success("You have successfully added the rfid for the teacher.");  
-        show_teacher_list();
-      }else{
-        $("#rfid_scan_help-block").html(data.error);
-        $("#rfid_valid_date_help-block").html(data.date_error);
-      }
-    },
-    error: function(e) {
-      console.log(e);
-    },
-    complete: function() {
-      $('input[name="rfid"]').val("");
-    }
-  });
-});
-
-$(document).on("click",".edit_teacher",function(e) {
+$(document).ready(function() {
+  $(document).on("click",".add_rfid_teacher",function(e) {
     var id = e.target.id;
-    show_teacher_data(id);
-});
-
-
-
-$(document).on("click",".delete_rfid_teacher",function(e) {
-  var datastr = "id="+e.target.id+"&type=teachers";
-  alertify.confirm('REMOVE RFID', 'Are you sure you want to remove the rfid of this teacher?<br> This action is irreversible.', function(){
-    $.ajax({
-      type: "POST",
-      url: "<?php echo base_url("rfid_ajax/delete"); ?>",
-      data: datastr,
-      cache: false,
-      success: function(data) {
-        show_teacher_list();
-        alertify.success('RFID has been removed.');
-      },
-      error: function(e) {
-        console.log(e);
-      }
-    });
-  },
-  function(){
-    alertify.error('Cancelled')
+    $('input[name="type"]').val("teachers");
+    $('input[name="id"]').val(id);
+    $("#rfid_add_modal_title").html("scan teacher&apos;s rfid");
+    $("#rfid_scan_add_modal").modal("show");
   });
-});
-
-
-$(document).on("click",".delete_teacher",function(e) {
-  var datastr = "id="+e.target.id;
-  alertify.confirm('DELETE TEACHER', 'Are you sure you want to delete this teacher in the list?<br> This action is irreversible.', function(){
+  $(document).on("submit","#rfid_scan_add_form",function(e) {
+    e.preventDefault();
     $.ajax({
       type: "POST",
-      url: "<?php echo base_url("teacher_ajax/delete"); ?>",
-      data: datastr,
+      url: $("#rfid_scan_add_form").attr("action"),
+      data: $("#rfid_scan_add_form :input").serialize(),
       cache: false,
       dataType: "json",
       success: function(data) {
-        show_teacher_list();
-        alertify.success(data.last_name + ' has been deleted.');
-      },
-      error: function(e) {
-        console.log(e);
-      }
-    });
-  },
-  function(){
-    alertify.error('Cancelled')
-  });
-
-});
-function show_teacher_data(id) {
-  $.ajax({
-    type: "GET",
-    url: "<?php echo base_url("teacher_ajax/get_data"); ?>",
-    data: "teacher_id="+id,
-    cache: false,
-    dataType: "json",
-    success: function(data) {
-      $('input[name="teacher_id"]').val(id);
-      $("#display-photo").attr("src","<?php echo base_url("assets/images/teacher_photo/");?>"+data.display_photo);
-      $('input[name="in_case_name"].edit_field').val(data.in_case_name);
-      $('input[name="dept_head"].edit_field').val(data.dept_head);
-      $('input[name="dept_head_number"].edit_field').val(data.dept_head_number);
-      $('input[name="first_name"].edit_field').val(data.first_name);
-      $('input[name="last_name"].edit_field').val(data.last_name);
-      $('input[name="address"].edit_field').val(data.address);
-      $('input[name="middle_name"].edit_field').val(data.middle_name);
-      $('input[name="suffix"].edit_field').val(data.suffix);
-      $('input[name="contact_number"].edit_field').val(data.contact_number);
-      $('input[name="in_case_contact_number"].edit_field').val(data.in_case_contact_number);
-      if(data.in_case_contact_number_sms == 1){
-        $('input[name="in_case_contact_number_sms"].edit_field').prop("checked",true);
-      }else{
-        $('input[name="in_case_contact_number_sms"].edit_field').prop("checked",false);
-      }
-      $('select[name="bday_m"].edit_field').val(data.bday_m);
-      $('select[name="gender"].edit_field').val(data.gender);
-      $('select[name="bday_d"].edit_field').val(data.bday_d);
-      $('select[name="bday_y"].edit_field').val(data.bday_y);
-      $('select[name="guardian_id"].edit_field').val(data.guardian_id);
-      if(data.class_id!=""){
-        $('#edit-class_id').dropdown('set value',data.class_id);
-      }else{
-        $('#edit-class_id').dropdown('clear');
-      }
-      $("#teacher_edit_modal").modal("show");
-    },
-    error: function(e) {
-      console.log(e);
-    }
-  });
-}
-$(document).on("click","#reset",function(e) {
-  $(".ui").dropdown("clear");
-  show_teacher_list();
-});
-
-
-$(document).on("submit","#teacher_edit_form",function(e) {
-	e.preventDefault();
-  $.ajax({
-    url: $(this).attr('action'),
-    data: new FormData(this),
-    processData: false,
-    contentType: false,
-    method:"POST",
-    dataType: "json",
-    beforeSend: function() {
-      $('button[form="teacher_edit_form"]').prop('disabled', true);
-    },
-    success: function(data) {
-      $("#in_case_name_help-block").html(data.in_case_name_error);
-      $("#last_name_help-block").html(data.last_name_error);
-      $("#dept_head_help-block").html(data.dept_head_error);
-      $("#dept_head_number_help-block").html(data.dept_head_number_error);
-			$("#first_name_help-block").html(data.first_name_error);
-      $("#in_case_contact_number_help-block").html(data.in_case_contact_number_error);
-      $("#gender_help-block").html(data.gender_error);
-			$("#address_help-block").html(data.address_error);
-			$("#middle_name_help-block").html(data.middle_name_error);
-      $("#suffix_help-block").html(data.suffix_error);
-			$("#contact_number_help-block").html(data.contact_number_error);
-			$("#bday_help-block").html(data.bday_error);
-      $("#guardian_id_help-block").html(data.guardian_id_error);
-			$("#teacher_class_id_help-block").html(data.class_id_error);
-			$("#teacher_photo_help-block").html(data.teacher_photo_error);
-			$("#teacher_id_help-block").html(data.teacher_id_error);
-			if(data.is_valid){
-        $("#teacher_edit_form")[0].reset();
-        $(".ui .dropdown").dropdown("clear");
-				$("#teacher_edit_modal").modal("hide");
-        if(data.password_reset){
-          alertify.success("You have successfully updated a teacher's information.<br>The new password has been sent to <b>"+data.contact_number+"</b>");
+        if(data.is_valid){
+          $("#rfid_scan_add_modal").modal("hide");
+          $(".help-block").html("");
+          alertify.success("You have successfully added the rfid for the teacher.");  
+          show_teacher_list();
         }else{
-          alertify.success("You have successfully updated a teacher's information.");
-        }
-        show_teacher_list();
-			}
-		},
-    error: function(e) {
-      console.log(e);
-    },
-    complete: function() {
-      $('button[form="teacher_edit_form"]').prop('disabled', false);
-    }
-	});
-});
-$(document).on("click",".paging",function(e) {
-	show_teacher_list(e.target.id);
-});
-
-$(document).on("click",".reset_password_teacher",function(e) {
-  var datastr = "id="+e.target.id;
-  alertify.confirm('RESET PASSWORD OF TEACHER', 'Are you sure you want to reset the password this teacher?<br>This action is irreversible.<br><b>The new password will be sent through SMS.</b>', function(){
-    $.ajax({
-      type: "POST",
-      url: "<?php echo base_url("teacher_ajax/reset_password"); ?>",
-      data: datastr,
-      dataType: "json",
-      cache: false,
-      success: function(data) {
-        if(data.is_successful){
-          alertify.success("You have sent the new password to "+ data.contact_number);         
-        }else{
-          var msg = alertify.notify('The Password was not changed.<br>Click this message to view the error.', 'error', 10);
-          msg.callback = function (isClicked) {
-            if(isClicked){
-              alertify.alert('SMS Failed',data.error);
-            }
-          };
+          $("#rfid_scan_help-block").html(data.error);
+          $("#rfid_valid_date_help-block").html(data.date_error);
         }
       },
       error: function(e) {
         console.log(e);
+      },
+      complete: function() {
+        $('input[name="rfid"]').val("");
       }
     });
-  },
-  function(){
-    alertify.error('Cancelled')
   });
-
-
-});
-
-$(document).on("submit","#teacher_download_list",function(e) {
-  e.preventDefault();
-  $.ajax({
-    type: "GET",
-    url: $("#teacher_download_list").attr("action"),
-    cache: false,
-    success: function(data) {
-      window.location = data;
+  $(document).on("click",".edit_teacher",function(e) {
+      var id = e.target.id;
+      show_teacher_data(id);
+  });
+  $(document).on("click",".delete_rfid_teacher",function(e) {
+    var datastr = "id="+e.target.id+"&type=teachers";
+    alertify.confirm('REMOVE RFID', 'Are you sure you want to remove the rfid of this teacher?<br> This action is irreversible.', function(){
+      $.ajax({
+        type: "POST",
+        url: "<?php echo base_url("rfid_ajax/delete"); ?>",
+        data: datastr,
+        cache: false,
+        success: function(data) {
+          show_teacher_list();
+          alertify.success('RFID has been removed.');
+        },
+        error: function(e) {
+          console.log(e);
+        }
+      });
     },
-    error: function(e) {
-      console.log(e);
-    }
+    function(){
+      alertify.error('Cancelled')
+    });
   });
-});
+  $(document).on("click",".delete_teacher",function(e) {
+    var datastr = "id="+e.target.id;
+    alertify.confirm('DELETE TEACHER', 'Are you sure you want to delete this teacher in the list?<br> This action is irreversible.', function(){
+      $.ajax({
+        type: "POST",
+        url: "<?php echo base_url("teacher_ajax/delete"); ?>",
+        data: datastr,
+        cache: false,
+        dataType: "json",
+        success: function(data) {
+          show_teacher_list();
+          alertify.success(data.last_name + ' has been deleted.');
+        },
+        error: function(e) {
+          console.log(e);
+        }
+      });
+    },
+    function(){
+      alertify.error('Cancelled')
+    });
 
-
-$(document).on("submit","#teacher-list-form",function(e) {
-  e.preventDefault();
-  $('input[name="owner_id"]').removeAttr('value');
-  show_teacher_list();
-});
-
-
-show_teacher_list();
-function show_teacher_list(page='1',clear=false) {
-  var datastr = $("#teacher-list-form").serialize();
-	$.ajax({
-		type: "GET",
-    url: $("#teacher-list-form").attr("action"),
-		data: datastr+"&page="+page,
-		cache: false,
-		success: function(data) {
-      if(clear){
-        $("#search_last_name").val("");
+  });
+  function show_teacher_data(id) {
+    $.ajax({
+      type: "GET",
+      url: "<?php echo base_url("teacher_ajax/get_data"); ?>",
+      data: "teacher_id="+id,
+      cache: false,
+      dataType: "json",
+      success: function(data) {
+        $('input[name="teacher_id"]').val(id);
+        $("#display-photo").attr("src","<?php echo base_url("assets/images/teacher_photo/");?>"+data.display_photo);
+        $('input[name="in_case_name"].edit_field').val(data.in_case_name);
+        $('input[name="dept_head"].edit_field').val(data.dept_head);
+        $('input[name="dept_head_number"].edit_field').val(data.dept_head_number);
+        $('input[name="first_name"].edit_field').val(data.first_name);
+        $('input[name="last_name"].edit_field').val(data.last_name);
+        $('input[name="address"].edit_field').val(data.address);
+        $('input[name="middle_name"].edit_field').val(data.middle_name);
+        $('input[name="suffix"].edit_field').val(data.suffix);
+        $('input[name="contact_number"].edit_field').val(data.contact_number);
+        $('input[name="in_case_contact_number"].edit_field').val(data.in_case_contact_number);
+        if(data.in_case_contact_number_sms == 1){
+          $('input[name="in_case_contact_number_sms"].edit_field').prop("checked",true);
+        }else{
+          $('input[name="in_case_contact_number_sms"].edit_field').prop("checked",false);
+        }
+        $('select[name="bday_m"].edit_field').val(data.bday_m);
+        $('select[name="gender"].edit_field').val(data.gender);
+        $('select[name="bday_d"].edit_field').val(data.bday_d);
+        $('select[name="bday_y"].edit_field').val(data.bday_y);
+        $('select[name="guardian_id"].edit_field').val(data.guardian_id);
+        if(data.class_id!=""){
+          $('#edit-class_id').dropdown('set value',data.class_id);
+        }else{
+          $('#edit-class_id').dropdown('clear');
+        }
+        $("#teacher_edit_modal").modal("show");
+      },
+      error: function(e) {
+        console.log(e);
       }
-			$("#teacher-list-table tbody").html(data);
-		},
-    error: function(e) {
-      console.log(e);
-    }
-	});
-}
+    });
+  }
+  $(document).on("click","#reset",function(e) {
+    $(".ui").dropdown("clear");
+    show_teacher_list();
+  });
+  $(document).on("submit","#teacher_edit_form",function(e) {
+    e.preventDefault();
+    $.ajax({
+      url: $(this).attr('action'),
+      data: new FormData(this),
+      processData: false,
+      contentType: false,
+      method:"POST",
+      dataType: "json",
+      beforeSend: function() {
+        $('button[form="teacher_edit_form"]').prop('disabled', true);
+      },
+      success: function(data) {
+        $("#in_case_name_help-block").html(data.in_case_name_error);
+        $("#last_name_help-block").html(data.last_name_error);
+        $("#dept_head_help-block").html(data.dept_head_error);
+        $("#dept_head_number_help-block").html(data.dept_head_number_error);
+        $("#first_name_help-block").html(data.first_name_error);
+        $("#in_case_contact_number_help-block").html(data.in_case_contact_number_error);
+        $("#gender_help-block").html(data.gender_error);
+        $("#address_help-block").html(data.address_error);
+        $("#middle_name_help-block").html(data.middle_name_error);
+        $("#suffix_help-block").html(data.suffix_error);
+        $("#contact_number_help-block").html(data.contact_number_error);
+        $("#bday_help-block").html(data.bday_error);
+        $("#guardian_id_help-block").html(data.guardian_id_error);
+        $("#teacher_class_id_help-block").html(data.class_id_error);
+        $("#teacher_photo_help-block").html(data.teacher_photo_error);
+        $("#teacher_id_help-block").html(data.teacher_id_error);
+        if(data.is_valid){
+          $("#teacher_edit_form")[0].reset();
+          $(".ui .dropdown").dropdown("clear");
+          $("#teacher_edit_modal").modal("hide");
+          if(data.password_reset){
+            alertify.success("You have successfully updated a teacher's information.<br>The new password has been sent to <b>"+data.contact_number+"</b>");
+          }else{
+            alertify.success("You have successfully updated a teacher's information.");
+          }
+          show_teacher_list();
+        }
+      },
+      error: function(e) {
+        console.log(e);
+      },
+      complete: function() {
+        $('button[form="teacher_edit_form"]').prop('disabled', false);
+      }
+    });
+  });
+  $(document).on("click",".paging",function(e) {
+    show_teacher_list(e.target.id);
+  });
+  $(document).on("click",".reset_password_teacher",function(e) {
+    var datastr = "id="+e.target.id;
+    alertify.confirm('RESET PASSWORD OF TEACHER', 'Are you sure you want to reset the password this teacher?<br>This action is irreversible.<br><b>The new password will be sent through SMS.</b>', function(){
+      $.ajax({
+        type: "POST",
+        url: "<?php echo base_url("teacher_ajax/reset_password"); ?>",
+        data: datastr,
+        dataType: "json",
+        cache: false,
+        success: function(data) {
+          if(data.is_successful){
+            alertify.success("You have sent the new password to "+ data.contact_number);         
+          }else{
+            var msg = alertify.notify('The Password was not changed.<br>Click this message to view the error.', 'error', 10);
+            msg.callback = function (isClicked) {
+              if(isClicked){
+                alertify.alert('SMS Failed',data.error);
+              }
+            };
+          }
+        },
+        error: function(e) {
+          console.log(e);
+        }
+      });
+    },
+    function(){
+      alertify.error('Cancelled')
+    });
+  });
+  $(document).on("submit","#teacher_download_list",function(e) {
+    e.preventDefault();
+    $.ajax({
+      type: "GET",
+      url: $("#teacher_download_list").attr("action"),
+      cache: false,
+      success: function(data) {
+        window.location = data;
+      },
+      error: function(e) {
+        console.log(e);
+      }
+    });
+  });
+  $(document).on("submit","#teacher-list-form",function(e) {
+    e.preventDefault();
+    $('input[name="owner_id"]').removeAttr('value');
+    show_teacher_list();
+  });
+  show_teacher_list();
+  function show_teacher_list(page='1',clear=false) {
+    var datastr = $("#teacher-list-form").serialize();
+    $.ajax({
+      type: "GET",
+      url: $("#teacher-list-form").attr("action"),
+      data: datastr+"&page="+page,
+      cache: false,
+      success: function(data) {
+        if(clear){
+          $("#search_last_name").val("");
+        }
+        $("#teacher-list-table tbody").html(data);
+      },
+      error: function(e) {
+        console.log(e);
+      }
+    });
+  }
+});
 </script>
 </body>
 </html>

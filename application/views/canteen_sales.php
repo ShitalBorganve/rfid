@@ -7,8 +7,8 @@
 </style>
 </head>
 
-<?php echo $navbar_scripts; ?>
 <body>
+<?php echo $navbar_scripts; ?>
 
 <div class="container-fluid">
 

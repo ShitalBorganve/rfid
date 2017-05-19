@@ -7,8 +7,8 @@
 </style>
 </head>
 
-<?php echo $navbar_scripts; ?>
 <body id="has-logo">
+<?php echo $navbar_scripts; ?>
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-xs-12" style="font-size: 5.9vw;display: block;padding: 1.7vw">
@@ -142,8 +142,6 @@ $("document").ready(function() {
 		});
 	return false;
 	});
-
-
 });
 </script>
 </body>

@@ -10,8 +10,8 @@
 </style>
 </head>
 
-<?php echo $navbar_scripts; ?>
 <body>
+<?php echo $navbar_scripts; ?>
 
 <div class="container-fluid">
 <h1 style="text-align: center;">List of Students</h1>
@@ -297,262 +297,241 @@ echo '
 <?php echo $modaljs_scripts; ?>
 <?php echo $js_scripts; ?>
 <script>
-
-$(document).on("click","#reset",function(e) {
-  $(".ui").dropdown("clear");
-  show_student_list();
-});
-
-
-
-$(document).on("click",".add_rfid_student",function(e) {
-  var id = e.target.id;
-  $('input[name="type"]').val("students");
-  $('input[name="id"]').val(id);
-  $("#rfid_add_modal_title").html("scan student&apos;s rfid");
-  $("#rfid_scan_add_modal").modal("show");
-});
-
-$(document).on("click",".delete_rfid_student",function(e) {
-  var datastr = "id="+e.target.id+"&type=students";
-
-  alertify.confirm('REMOVE RFID', 'Are you sure you want to remove the rfid of this student?<br> This action is irreversible.', function(){
-    $.ajax({
-      type: "POST",
-      url: "<?php echo base_url("rfid_ajax/delete"); ?>",
-      data: datastr,
-      cache: false,
-      success: function(data) {
-        show_student_list();
-        alertify.success('RFID has been removed.');
-      },
-      error: function(e) {
-        console.log(e);
-      }
-    });
-  },
-  function(){
-    alertify.error('Cancelled')
+$(document).ready(function() {
+  $(document).on("click","#reset",function(e) {
+    $(".ui").dropdown("clear");
+    show_student_list();
   });
-
-
-});
-
-
-$(document).on("submit","#rfid_scan_add_form",function(e) {
-  e.preventDefault();
-  $.ajax({
-    type: "POST",
-    url: $("#rfid_scan_add_form").attr("action"),
-    data: $("#rfid_scan_add_form :input").serialize(),
-    cache: false,
-    dataType: "json",
-    success: function(data) {
-      if(data.is_valid){
-        $("#rfid_scan_add_modal").modal("hide");
-        $(".help-block").html("");
-        alertify.success("You have successfully added the rfid of the student.");  
-        show_student_list();
-      }else{
-        $("#rfid_scan_help-block").html(data.error);
-        $("#rfid_valid_date_help-block").html(data.date_error);
-      }
-    },
-    error: function(e) {
-      console.log(e);
-    },
-    complete: function() {
-      $('input[name="rfid"]').val("");
-    }
-  });
-});
-
-
-
-$(document).on("click",".edit_student",function(e) {
+  $(document).on("click",".add_rfid_student",function(e) {
     var id = e.target.id;
-    show_student_data(id);
-});
-
-$(document).on("click",".delete_student",function(e) {
-  var datastr = "id="+e.target.id;
-  alertify.confirm('DELETE STUDENT', 'Are you sure you want to delete this student in the list?<br> This action is irreversible.', function(){
+    $('input[name="type"]').val("students");
+    $('input[name="id"]').val(id);
+    $("#rfid_add_modal_title").html("scan student&apos;s rfid");
+    $("#rfid_scan_add_modal").modal("show");
+  });
+  $(document).on("click",".delete_rfid_student",function(e) {
+    var datastr = "id="+e.target.id+"&type=students";
+    alertify.confirm('REMOVE RFID', 'Are you sure you want to remove the rfid of this student?<br> This action is irreversible.', function(){
+      $.ajax({
+        type: "POST",
+        url: "<?php echo base_url("rfid_ajax/delete"); ?>",
+        data: datastr,
+        cache: false,
+        success: function(data) {
+          show_student_list();
+          alertify.success('RFID has been removed.');
+        },
+        error: function(e) {
+          console.log(e);
+        }
+      });
+    },
+    function(){
+      alertify.error('Cancelled')
+    });
+  });
+  $(document).on("submit","#rfid_scan_add_form",function(e) {
+    e.preventDefault();
     $.ajax({
       type: "POST",
-      url: "<?php echo base_url("student_ajax/delete"); ?>",
-      data: datastr,
+      url: $("#rfid_scan_add_form").attr("action"),
+      data: $("#rfid_scan_add_form :input").serialize(),
       cache: false,
       dataType: "json",
       success: function(data) {
-        show_student_list();
-        alertify.success(data.last_name + ' has been deleted.');
+        if(data.is_valid){
+          $("#rfid_scan_add_modal").modal("hide");
+          $(".help-block").html("");
+          alertify.success("You have successfully added the rfid of the student.");  
+          show_student_list();
+        }else{
+          $("#rfid_scan_help-block").html(data.error);
+          $("#rfid_valid_date_help-block").html(data.date_error);
+        }
+      },
+      error: function(e) {
+        console.log(e);
+      },
+      complete: function() {
+        $('input[name="rfid"]').val("");
+      }
+    });
+  });
+  $(document).on("click",".edit_student",function(e) {
+      var id = e.target.id;
+      show_student_data(id);
+  });
+  $(document).on("click",".delete_student",function(e) {
+    var datastr = "id="+e.target.id;
+    alertify.confirm('DELETE STUDENT', 'Are you sure you want to delete this student in the list?<br> This action is irreversible.', function(){
+      $.ajax({
+        type: "POST",
+        url: "<?php echo base_url("student_ajax/delete"); ?>",
+        data: datastr,
+        cache: false,
+        dataType: "json",
+        success: function(data) {
+          show_student_list();
+          alertify.success(data.last_name + ' has been deleted.');
+        },
+        error: function(e) {
+          console.log(e);
+        }
+      });
+    },
+    function(){
+      alertify.error('Cancelled')
+    });
+
+  });
+  function show_student_data(id) {
+    $.ajax({
+      type: "GET",
+      url: "<?php echo base_url("student_ajax/get_data"); ?>",
+      data: "student_id="+id,
+      cache: false,
+      dataType: "json",
+      success: function(data) {
+        $("#display-photo").attr("src","<?php echo base_url("assets/images/student_photo/");?>"+data.display_photo);
+        $('input[name="student_id"]').val(id);
+        $('input[name="first_name"].edit_field').val(data.first_name);
+        $('input[name="last_name"].edit_field').val(data.last_name);
+        $('input[name="lrn_number"].edit_field').val(data.lrn_number);
+        $('input[name="address"].edit_field').val(data.address);
+        $('select[name="gender"].edit_field').val(data.gender);
+        $('input[name="mothers_name"].edit_field').val(data.mothers_name);
+        $('input[name="fathers_name"].edit_field').val(data.fathers_name);
+        $('input[name="middle_name"].edit_field').val(data.middle_name);
+        $('input[name="suffix"].edit_field').val(data.suffix);
+        $('input[name="contact_number"].edit_field').val(data.contact_number);
+        $('select[name="bday_m"].edit_field').val(data.bday_m);
+        $('select[name="bday_d"].edit_field').val(data.bday_d);
+        $('select[name="bday_y"].edit_field').val(data.bday_y);
+        if(data.guardian_id!=""){
+          $('#edit-guardian_id').dropdown('set value',data.guardian_id);
+        }else{
+          $('#edit-guardian_id').dropdown('clear');
+        }
+        if(data.class_id!=""){
+          $('#edit-class_id').dropdown('set value',data.class_id);
+        }else{
+          $('#edit-class_id').dropdown('clear');
+        }
+        $("#student_edit_modal").modal("show");
       },
       error: function(e) {
         console.log(e);
       }
     });
-  },
-  function(){
-    alertify.error('Cancelled')
-  });
-
-});
-
-function show_student_data(id) {
-  $.ajax({
-    type: "GET",
-    url: "<?php echo base_url("student_ajax/get_data"); ?>",
-    data: "student_id="+id,
-    cache: false,
-    dataType: "json",
-    success: function(data) {
-      $("#display-photo").attr("src","<?php echo base_url("assets/images/student_photo/");?>"+data.display_photo);
-      $('input[name="student_id"]').val(id);
-      $('input[name="first_name"].edit_field').val(data.first_name);
-      $('input[name="last_name"].edit_field').val(data.last_name);
-      $('input[name="lrn_number"].edit_field').val(data.lrn_number);
-      $('input[name="address"].edit_field').val(data.address);
-      $('select[name="gender"].edit_field').val(data.gender);
-      $('input[name="mothers_name"].edit_field').val(data.mothers_name);
-      $('input[name="fathers_name"].edit_field').val(data.fathers_name);
-      $('input[name="middle_name"].edit_field').val(data.middle_name);
-      $('input[name="suffix"].edit_field').val(data.suffix);
-      $('input[name="contact_number"].edit_field').val(data.contact_number);
-      $('select[name="bday_m"].edit_field').val(data.bday_m);
-      $('select[name="bday_d"].edit_field').val(data.bday_d);
-      $('select[name="bday_y"].edit_field').val(data.bday_y);
-      if(data.guardian_id!=""){
-        $('#edit-guardian_id').dropdown('set value',data.guardian_id);
-      }else{
-        $('#edit-guardian_id').dropdown('clear');
+  }
+  $(document).on("submit","#student_edit_form",function(e) {
+    e.preventDefault();
+    $.ajax({
+      url: $(this).attr('action'),
+      data: new FormData(this),
+      processData: false,
+      contentType: false,
+      method:"POST",
+      dataType: "json",
+      beforeSend: function() {
+        $('button[form="student_edit_form"]').prop('disabled', true);
+      },
+      success: function(data) {
+        $("#lrn_number_help-block").html(data.lrn_number_error);
+        $("#first_name_help-block").html(data.first_name_error);
+        $("#last_name_help-block").html(data.last_name_error);
+        $("#address_help-block").html(data.address_error);
+        $("#gender_help-block").html(data.gender_error);
+        $("#mothers_name_help-block").html(data.mothers_name_error);
+        $("#fathers_name_help-block").html(data.fathers_name_error);
+        $("#middle_name_help-block").html(data.middle_name_error);
+        $("#suffix_help-block").html(data.suffix_error);
+        $("#contact_number_help-block").html(data.contact_number_error);
+        $("#bday_help-block").html(data.bday_error);
+        $("#guardian_id_help-block").html(data.guardian_id_error);
+        $("#student_photo_help-block").html(data.student_photo_error);
+        $("#student_id_help-block").html(data.student_id_error);
+        if(data.is_valid){
+          $("#student_edit_form")[0].reset();
+          $(".ui .dropdown").dropdown("clear");
+          $("#student_edit_modal").modal("hide");
+          alertify.success("You have successfully updated a student's information.");
+        }
+      },
+      error: function(e) {
+        console.log(e);
+      },
+      complete: function() {
+        $('button[form="student_edit_form"]').prop('disabled', false);
       }
-      if(data.class_id!=""){
-        $('#edit-class_id').dropdown('set value',data.class_id);
-      }else{
-        $('#edit-class_id').dropdown('clear');
+    });
+  });
+  $(document).on("change",'#select_class',function(e) {
+    var datastr = "class_id="+e.target.value;
+    $.ajax({
+      type: "GET",
+      url: "<?php echo base_url("student_ajax/get_list/admin"); ?>",
+      data: datastr,
+      cache: false,
+      dataType: "json",
+      beforeSend: function() {
+        $('#select_student').dropdown("clear");
+        $('#select_student').html("");
+        $('#select_student').append('<option value="">Select a Class</option>');
+      },
+      success: function(data) {
+        $.each(data, function(i, item) {
+            $('#select_student').append('<option value="'+data[i].id+'">'+data[i].full_name+'</option>');
+        });
+      },
+      error: function(e) {
+        console.log(e);
       }
-      $("#student_edit_modal").modal("show");
-    },
-    error: function(e) {
-      console.log(e);
-    }
+    });
   });
-}
-
-
-$(document).on("submit","#student_edit_form",function(e) {
-	e.preventDefault();
-  $.ajax({
-    url: $(this).attr('action'),
-    data: new FormData(this),
-    processData: false,
-    contentType: false,
-    method:"POST",
-    dataType: "json",
-    beforeSend: function() {
-      $('button[form="student_edit_form"]').prop('disabled', true);
-    },
-    success: function(data) {
-      $("#lrn_number_help-block").html(data.lrn_number_error);
-			$("#first_name_help-block").html(data.first_name_error);
-      $("#last_name_help-block").html(data.last_name_error);
-      $("#address_help-block").html(data.address_error);
-      $("#gender_help-block").html(data.gender_error);
-      $("#mothers_name_help-block").html(data.mothers_name_error);
-			$("#fathers_name_help-block").html(data.fathers_name_error);
-			$("#middle_name_help-block").html(data.middle_name_error);
-      $("#suffix_help-block").html(data.suffix_error);
-			$("#contact_number_help-block").html(data.contact_number_error);
-			$("#bday_help-block").html(data.bday_error);
-			$("#guardian_id_help-block").html(data.guardian_id_error);
-			$("#student_photo_help-block").html(data.student_photo_error);
-			$("#student_id_help-block").html(data.student_id_error);
-			if(data.is_valid){
-        $("#student_edit_form")[0].reset();
-        $(".ui .dropdown").dropdown("clear");
-				$("#student_edit_modal").modal("hide");
-        alertify.success("You have successfully updated a student's information.");
-			}
-		},
-    error: function(e) {
-      console.log(e);
-    },
-    complete: function() {
-      $('button[form="student_edit_form"]').prop('disabled', false);
-    }
-	});
-});
-
-$(document).on("change",'#select_class',function(e) {
-  var datastr = "class_id="+e.target.value;
-  $.ajax({
-    type: "GET",
-    url: "<?php echo base_url("student_ajax/get_list/admin"); ?>",
-    data: datastr,
-    cache: false,
-    dataType: "json",
-    beforeSend: function() {
-      $('#select_student').dropdown("clear");
-      $('#select_student').html("");
-      $('#select_student').append('<option value="">Select a Class</option>');
-    },
-    success: function(data) {
-      $.each(data, function(i, item) {
-          $('#select_student').append('<option value="'+data[i].id+'">'+data[i].full_name+'</option>');
-      });
-    },
-    error: function(e) {
-      console.log(e);
-    }
+  $(document).on("click",".paging",function(e) {
+    show_student_list(e.target.id);
   });
-});
 
-
-$(document).on("click",".paging",function(e) {
-	show_student_list(e.target.id);
-});
-
-$(document).on("submit","#student_download_list",function(e) {
-  e.preventDefault();
-  $.ajax({
-    type: "GET",
-    url: $("#student_download_list").attr("action"),
-    cache: false,
-    success: function(data) {
-      window.location = data;
-    },
-    error: function(e) {
-      console.log(e);
-    }
+  $(document).on("submit","#student_download_list",function(e) {
+    e.preventDefault();
+    $.ajax({
+      type: "GET",
+      url: $("#student_download_list").attr("action"),
+      cache: false,
+      success: function(data) {
+        window.location = data;
+      },
+      error: function(e) {
+        console.log(e);
+      }
+    });
   });
-});
-
-$(document).on("submit","#student-list-form",function(e) {
-  e.preventDefault();
-  $('input[name="owner_id"]').removeAttr('value');
+  $(document).on("submit","#student-list-form",function(e) {
+    e.preventDefault();
+    $('input[name="owner_id"]').removeAttr('value');
+    show_student_list();
+  });
   show_student_list();
-});
-
-
-show_student_list();
-function show_student_list(page='1',clear=false) {
-  var datastr = $("#student-list-form").serialize();
-	$.ajax({
-		type: "GET",
-    url: $("#student-list-form").attr("action"),
-		data: datastr+"&page="+page,
-		cache: false,
-		success: function(data) {
-      if(clear){
-        $("#search_last_name").val("");
+  function show_student_list(page='1',clear=false) {
+    var datastr = $("#student-list-form").serialize();
+    $.ajax({
+      type: "GET",
+      url: $("#student-list-form").attr("action"),
+      data: datastr+"&page="+page,
+      cache: false,
+      success: function(data) {
+        if(clear){
+          $("#search_last_name").val("");
+        }
+        $("#student-list-table tbody").html(data);
+      },
+      error: function(e) {
+        console.log(e);
       }
-			$("#student-list-table tbody").html(data);
-		},
-    error: function(e) {
-      console.log(e);
-    }
-	});
-}
+    });
+  }
+});
 </script>
 </body>
 </html>

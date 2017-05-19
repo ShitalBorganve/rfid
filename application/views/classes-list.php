@@ -7,8 +7,8 @@
 </style>
 </head>
 
-<?php echo $navbar_scripts; ?>
 <body>
+<?php echo $navbar_scripts; ?>
 
 <div class="container-fluid">
 <h1 style="text-align: center;">List of Classes</h1>
@@ -145,127 +145,122 @@ echo '
 <?php echo $js_scripts; ?>
 <script>
 
-
-$(document).on("click",".edit_class",function(e) {
-    var id = e.target.id;
-    // alert(id);
-    show_class_data(id);
-});
-
-$(document).on("click",".delete_class",function(e) {
-  var datastr = "id="+e.target.id;
-  alertify.confirm('DELETE CLASS', 'Are you sure you want to delete this class in the list?<br> This action is irreversible.', function(){
+$(document).ready(function(e) {
+  $(document).on("click",".edit_class",function(e) {
+      var id = e.target.id;
+      show_class_data(id);
+  });
+  $(document).on("click",".delete_class",function(e) {
+    var datastr = "id="+e.target.id;
+    alertify.confirm('DELETE CLASS', 'Are you sure you want to delete this class in the list?<br> This action is irreversible.', function(){
+      $.ajax({
+        type: "POST",
+        url: "<?php echo base_url("class_ajax/delete"); ?>",
+        data: datastr,
+        cache: false,
+        dataType: "json",
+        success: function(data) {
+          show_class_list();
+          alertify.success(data.class_name + ' has been deleted.');
+        },
+        error: function(e) {
+          console.log(e);
+        }
+      });
+    },
+    function(){
+      alertify.error('Cancelled')
+    });
+  });
+  function show_class_data(id) {
     $.ajax({
-      type: "POST",
-      url: "<?php echo base_url("class_ajax/delete"); ?>",
-      data: datastr,
+      type: "GET",
+      url: "<?php echo base_url("class_ajax/get_data"); ?>",
+      data: "class_id="+id,
       cache: false,
       dataType: "json",
       success: function(data) {
-        show_class_list();
-        alertify.success(data.class_name + ' has been deleted.');
+        if(data.teacher_id!=""){
+          $('#edit-class_adviser').dropdown('set value',data.teacher_id);
+        }else{
+          $('#edit-class_adviser').dropdown('clear');
+        }
+        $('input[name="class_name"].edit_field').val(data.class_name);
+        $('input[name="grade"].edit_field').val(data.grade);
+        $('input[name="class_room"].edit_field').val(data.room);
+        $('input[name="class_schedule"].edit_field').val(data.schedule);
+        $('input[name="class_id"]').val(id);
+        $("#class_edit_modal").modal("show");
       },
       error: function(e) {
         console.log(e);
       }
     });
-  },
-  function(){
-    alertify.error('Cancelled')
-  });
-
-});
-
-function show_class_data(id) {
-  $.ajax({
-    type: "GET",
-    url: "<?php echo base_url("class_ajax/get_data"); ?>",
-    data: "class_id="+id,
-    cache: false,
-    dataType: "json",
-    success: function(data) {
-      if(data.teacher_id!=""){
-	      $('#edit-class_adviser').dropdown('set value',data.teacher_id);
-      }else{
-	      $('#edit-class_adviser').dropdown('clear');
+  }
+  $(document).on("submit","#class_edit_form",function(e) {
+    e.preventDefault();
+      $.ajax({
+      type: "POST",
+      url: $("#class_edit_form").attr("action"),
+      data: $("#class_edit_form").serialize(),
+      cache: false,
+      dataType: "json",
+      beforeSend: function() {
+        $('button[form="class_edit_form"]').prop('disabled',true);
+      },
+      success: function(data) {
+        if(data.is_valid){
+          $(".help-block").html("");
+          alertify.success("You have successfully the class information.");
+          $("#class_edit_modal").modal("hide");
+          show_class_list();
+        }else{
+          $("#class_adviser_help-block").html(data.class_adviser_error);
+          $("#class_class_name_help-block").html(data.class_name_error);
+          $("#class_grade_help-block").html(data.grade_error);
+          $("#class_room_help-block").html(data.class_room_error);
+          $("#class_schedule_help-block").html(data.class_schedule_error);
+          $("#class_schedule_help-block").html(data.class_schedule_error);
+        }
+      },
+      error: function(e) {
+        console.log(e);
+      },
+      complete: function() {
+        $('button[form="class_edit_form"]').prop('disabled',false);
       }
-      $('input[name="class_name"].edit_field').val(data.class_name);
-      $('input[name="grade"].edit_field').val(data.grade);
-      $('input[name="class_room"].edit_field').val(data.room);
-      $('input[name="class_schedule"].edit_field').val(data.schedule);
-      $('input[name="class_id"]').val(id);
-      $("#class_edit_modal").modal("show");
-    },
-    error: function(e) {
-      console.log(e);
-    }
+      });
+    });
+  $(document).on("click",".paging",function(e) {
+    show_class_list(e.target.id);
   });
-}
 
-$(document).on("submit","#class_edit_form",function(e) {
-	e.preventDefault();
-		$.ajax({
-		type: "POST",
-		url: $("#class_edit_form").attr("action"),
-		data: $("#class_edit_form").serialize(),
-		cache: false,
-		dataType: "json",
-    beforeSend: function() {
-      $('button[form="class_edit_form"]').prop('disabled',true);
-    },
-		success: function(data) {
-			if(data.is_valid){
-				$(".help-block").html("");
-        alertify.success("You have successfully the class information.");
-				$("#class_edit_modal").modal("hide");
-				show_class_list();
-			}else{
-				$("#class_adviser_help-block").html(data.class_adviser_error);
-				$("#class_class_name_help-block").html(data.class_name_error);
-				$("#class_grade_help-block").html(data.grade_error);
-				$("#class_room_help-block").html(data.class_room_error);
-				$("#class_schedule_help-block").html(data.class_schedule_error);
-				$("#class_schedule_help-block").html(data.class_schedule_error);
-			}
-		},
-    error: function(e) {
-      console.log(e);
-    },
-    complete: function() {
-      $('button[form="class_edit_form"]').prop('disabled',false);
-    }
-		});
-	});
-$(document).on("click",".paging",function(e) {
-	show_class_list(e.target.id);
-});
+  $(document).on("submit","#class-list-form",function(e) {
+    e.preventDefault();
+    show_class_list();  
+  });
 
-$(document).on("submit","#class-list-form",function(e) {
-  e.preventDefault();
-  show_class_list();  
-});
-
-$(document).on("click","#reset",function(e) {
-  $(".ui").dropdown("clear");
+  $(document).on("click","#reset",function(e) {
+    $(".ui").dropdown("clear");
+    show_class_list();
+  });
   show_class_list();
-});
-
-show_class_list();
-function show_class_list(page='1') {
-  var datastr = $("#class-list-form").serialize();
-	$.ajax({
-		type: "GET",
-    url: $("#class-list-form").attr("action"),
-		data: datastr+"&page="+page,
-		cache: false,
-		success: function(data) {
-			$("#class-list-table tbody").html(data);
-		},
-    error: function(e) {
-      console.log(e);
-    }
-	});
-}
+  function show_class_list(page='1') {
+    var datastr = $("#class-list-form").serialize();
+    $.ajax({
+      type: "GET",
+      url: $("#class-list-form").attr("action"),
+      data: datastr+"&page="+page,
+      cache: false,
+      success: function(data) {
+        $("#class-list-table tbody").html(data);
+      },
+      error: function(e) {
+        console.log(e);
+      }
+    });
+  }
+})
 </script>
 </body>
 </html>

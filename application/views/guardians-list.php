@@ -6,8 +6,8 @@
 </style>
 </head>
 
-<?php echo $navbar_scripts; ?>
 <body>
+<?php echo $navbar_scripts; ?>
 
 <div class="container-fluid">
 <h1 style="text-align: center;">List of Guardians</h1>
@@ -140,170 +140,155 @@
 <?php echo $modaljs_scripts; ?>
 <?php echo $js_scripts; ?>
 <script>
+$(document).ready(function() {
+  $(document).on("click",".reset_password_guardian",function(e) {
+    var datastr = "id="+e.target.id;
+    alertify.confirm('RESET PASSWORD OF GUARDIAN', 'Are you sure you want to reset the password this guardian?<br>This action is irreversible.<br><b>The new password will be sent through SMS.</b>', function(){
+      $.ajax({
+        type: "POST",
+        url: "<?php echo base_url("guardian_ajax/reset_password"); ?>",
+        data: datastr,
+        dataType: "json",
+        cache: false,
+        success: function(data) {
+          if(data.is_successful){
+            alertify.success("You have sent the new password to "+ data.contact_number);        
+          }else{
+            var msg = alertify.notify('The Password was not changed.<br>Click this message to view the error.', 'error', 10);
+            msg.callback = function (isClicked) {
+              if(isClicked){
+                alertify.alert('SMS Failed',data.error);
+              }
+            };
+          }
+        },
+        error: function(e) {
+          console.log(e);
+        }
+      });
+    },
+    function(){
+      alertify.error('Cancelled')
+    });
+  });
+  $(document).on("click",".delete_guardian",function(e) {
+    var datastr = "id="+e.target.id;
+    alertify.confirm('DELETE GUARDIAN', 'Are you sure you want to delete this guardian in the list?<br> This action is irreversible.', function(){
+      $.ajax({
+        type: "POST",
+        url: "<?php echo base_url("guardian_ajax/delete"); ?>",
+        data: datastr,
+        cache: false,
+        dataType: "json",
+        success: function(data) {
+          show_guardian_list();
+          alertify.success(data.name + ' has been deleted.');
+        },
+        error: function(e) {
+          console.log(e);
+        }
+      });
+    },
+    function(){
+      alertify.error('Cancelled')
+    });
+  });
+  $(document).on("click","#reset",function(e) {
+    $(".ui").dropdown("clear");
+    show_guardian_list();
+  });
 
-$(document).on("click",".reset_password_guardian",function(e) {
-  var datastr = "id="+e.target.id;
-  alertify.confirm('RESET PASSWORD OF GUARDIAN', 'Are you sure you want to reset the password this guardian?<br>This action is irreversible.<br><b>The new password will be sent through SMS.</b>', function(){
+  $(document).on("click",".edit_guardian",function(e) {
+      var id = e.target.id;
+      show_guardian_data(id);
+  });
+  function show_guardian_data(id) {
     $.ajax({
-      type: "POST",
-      url: "<?php echo base_url("guardian_ajax/reset_password"); ?>",
-      data: datastr,
-      dataType: "json",
+      type: "GET",
+      url: "<?php echo base_url("guardian_ajax/get_data"); ?>",
+      data: "guardian_id="+id,
       cache: false,
+      dataType: "json",
       success: function(data) {
-        if(data.is_successful){
-          alertify.success("You have sent the new password to "+ data.contact_number);        
-        }else{
-          var msg = alertify.notify('The Password was not changed.<br>Click this message to view the error.', 'error', 10);
-          msg.callback = function (isClicked) {
-            if(isClicked){
-              alertify.alert('SMS Failed',data.error);
-            }
-          };
+        $('input[name="guardian_id"]').val(id);
+        $('input[name="guardian_name"].edit_field').val(data.name);
+        $('input[name="email_address"].edit_field').val(data.email_address);
+        $('input[name="contact_number"].edit_field').val(data.contact_number);
+        $('input[name="guardian_address"].edit_field').val(data.guardian_address);
+        if(data.email_subscription=="1"){
+          $('input[name="email_subscription"].edit_field').attr('checked', true);
+        }
+        if(data.sms_subscription=="1"){
+          $('input[name="sms_subscription"].edit_field').attr('checked', true);
+        }
+        $("#guardian_edit_modal").modal("show");
+      },
+      error: function(e) {
+        console.log(e);
+      }
+    });
+  }
+  $(document).on("submit","#guardian_edit_form",function(e) {
+    e.preventDefault();
+    $.ajax({
+      url: $(this).attr('action'),
+      data: new FormData(this),
+      processData: false,
+      contentType: false,
+      method:"POST",
+      dataType: "json",
+      beforeSend: function() {
+        $('button[form="guardian_edit_form"]').prop('disabled', true);
+      },
+      success: function(data) {
+        $("#guardian_id_help-block").html(data.guardian_id_error);
+        $("#guardian_name_help-block").html(data.guardian_name_error);
+        $("#guardian_address_help-block").html(data.guardian_address_error);
+        $("#email_address_help-block").html(data.email_address_error);
+        $("#contact_number_help-block").html(data.contact_number_error);
+        $("#subscription_help-block").html(data.subscription_error);
+        if(data.is_valid){
+          $("#guardian_edit_modal").modal("hide");
+          if(data.password_reset){
+            alertify.success("You have successfully updated a guardian's information.<br>The new password has been sent to <b>"+data.contact_number+"</b>");
+          }else{
+            alertify.success("You have successfully updated a guardian's information.");
+          }
+          show_guardian_list();
         }
       },
       error: function(e) {
         console.log(e);
-      }
-    });
-  },
-  function(){
-    alertify.error('Cancelled')
-  });
-
-
-
-
-});
-
-
-$(document).on("click",".delete_guardian",function(e) {
-  var datastr = "id="+e.target.id;
-  alertify.confirm('DELETE GUARDIAN', 'Are you sure you want to delete this guardian in the list?<br> This action is irreversible.', function(){
-    $.ajax({
-      type: "POST",
-      url: "<?php echo base_url("guardian_ajax/delete"); ?>",
-      data: datastr,
-      cache: false,
-      dataType: "json",
-      success: function(data) {
-        show_guardian_list();
-        alertify.success(data.name + ' has been deleted.');
       },
-      error: function(e) {
-        console.log(e);
+      complete: function() {
+        $('button[form="guardian_edit_form"]').prop('disabled', false);
       }
     });
-  },
-  function(){
-    alertify.error('Cancelled')
   });
-});
-
-$(document).on("click","#reset",function(e) {
-  $(".ui").dropdown("clear");
+  $(document).on("click",".paging",function(e) {
+    show_guardian_list(e.target.id);
+  });
+  $(document).on("submit","#guardian-list-form",function(e) {
+    e.preventDefault();
+    show_guardian_list();  
+  });
   show_guardian_list();
-});
-
-$(document).on("click",".edit_guardian",function(e) {
-    var id = e.target.id;
-    show_guardian_data(id);
-});
-
-
-
-function show_guardian_data(id) {
-  $.ajax({
-    type: "GET",
-    url: "<?php echo base_url("guardian_ajax/get_data"); ?>",
-    data: "guardian_id="+id,
-    cache: false,
-    dataType: "json",
-    success: function(data) {
-      // alert(data.email_subscription);
-      $('input[name="guardian_id"]').val(id);
-      $('input[name="guardian_name"].edit_field').val(data.name);
-      $('input[name="email_address"].edit_field').val(data.email_address);
-      $('input[name="contact_number"].edit_field').val(data.contact_number);
-      $('input[name="guardian_address"].edit_field').val(data.guardian_address);
-      if(data.email_subscription=="1"){
-        $('input[name="email_subscription"].edit_field').attr('checked', true);
+  function show_guardian_list(page='1') {
+    var datastr = $("#guardian-list-form").serialize();
+    $.ajax({
+      type: "GET",
+      url: $("#guardian-list-form").attr("action"),
+      data: datastr+"&page="+page,
+      cache: false,
+      success: function(data) {
+        $("#guardian-list-table tbody").html(data);
+      },
+      error: function(e) {
+        console.log(e);
       }
-      if(data.sms_subscription=="1"){
-        $('input[name="sms_subscription"].edit_field').attr('checked', true);
-      }
-      
-      $("#guardian_edit_modal").modal("show");
-    },
-    error: function(e) {
-      console.log(e);
-    }
-  });
-}
-
-$(document).on("submit","#guardian_edit_form",function(e) {
-  e.preventDefault();
-  $.ajax({
-    url: $(this).attr('action'),
-    data: new FormData(this),
-    processData: false,
-    contentType: false,
-    method:"POST",
-    dataType: "json",
-    beforeSend: function() {
-      $('button[form="guardian_edit_form"]').prop('disabled', true);
-    },
-    success: function(data) {
-      $("#guardian_id_help-block").html(data.guardian_id_error);
-      $("#guardian_name_help-block").html(data.guardian_name_error);
-      $("#guardian_address_help-block").html(data.guardian_address_error);
-      $("#email_address_help-block").html(data.email_address_error);
-      $("#contact_number_help-block").html(data.contact_number_error);
-			$("#subscription_help-block").html(data.subscription_error);
-			if(data.is_valid){
-				$("#guardian_edit_modal").modal("hide");
-        if(data.password_reset){
-          alertify.success("You have successfully updated a guardian's information.<br>The new password has been sent to <b>"+data.contact_number+"</b>");
-        }else{
-          alertify.success("You have successfully updated a guardian's information.");
-        }
-        show_guardian_list();
-			}
-		},
-    error: function(e) {
-      console.log(e);
-    },
-    complete: function() {
-      $('button[form="guardian_edit_form"]').prop('disabled', false);
-    }
-	});
-});
-$(document).on("click",".paging",function(e) {
-	show_guardian_list(e.target.id);
-});
-
-$(document).on("submit","#guardian-list-form",function(e) {
-  e.preventDefault();
-  show_guardian_list();  
-});
-
-
-show_guardian_list();
-function show_guardian_list(page='1') {
-  var datastr = $("#guardian-list-form").serialize();
-	$.ajax({
-		type: "GET",
-    url: $("#guardian-list-form").attr("action"),
-		data: datastr+"&page="+page,
-		cache: false,
-		success: function(data) {
-			$("#guardian-list-table tbody").html(data);
-		},
-    error: function(e) {
-      console.log(e);
-    }
-	});
-}
+    });
+  }
+})
 </script>
 </body>
 </html>

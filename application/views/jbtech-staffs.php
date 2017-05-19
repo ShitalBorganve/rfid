@@ -10,8 +10,8 @@
 </style>
 </head>
 
-<?php echo $navbar_scripts; ?>
 <body>
+<?php echo $navbar_scripts; ?>
 
 <div class="container-fluid">
   <div class="row">
@@ -266,120 +266,112 @@ $(document).on("click",".paging",function(e) {
   show_staff_list(e.target.id);
 });
 
-$("#search_last_name").autocomplete({
-  source: "<?php echo base_url("search/staffs/list"); ?>",
-  select: function(event, ui){
-      $('input[name="owner_id"]').val(ui.item.data);
-      show_staff_list(1,true);
-  }
-});
+$(document).ready(function() {
+  
 
-$(document).on("submit","#staff-list-form",function(e) {
-  e.preventDefault();
-  $('input[name="owner_id"]').removeAttr('value');
-  show_staff_list();
-});
-
-$(document).on("change",'input[name="has_rfid"]',function(e) {
-  show_staff_list();
-});
-
-$(document).on("click",".view_staff",function(e) {
-  var id = e.target.id;
-  show_staff_data(id);  
-});
-
-
-$('#select_staff').dropdown("clear");
-$('#select_staff').html("");
-$('#select_staff').append('<option value="">Select a Class</option>');
-$.ajax({
-  type: "GET",
-  url: "<?php echo base_url("staff_ajax/get_list/jbtech"); ?>",
-  data: "get=1",
-  cache: false,
-  dataType: "json",
-  success: function(data) {
-    $.each(data, function(i, item) {
-        $('#select_staff').append('<option value="'+data[i].id+'">'+data[i].full_name+'</option>');
-    });
-  }
-});
-
-
-$(document).on("click","#reset",function(e) {
-  $(".ui").dropdown("clear");
-  show_staff_list();
-});
-
-
-show_staff_list();
-function show_staff_list(page='1',clear=false) {
-
-  var datastr = $("#staff-list-form").serialize();
-  $.ajax({
-    type: "GET",
-    url: $("#staff-list-form").attr("action"),
-    data: datastr+"&page="+page,
-    cache: false,
-    success: function(data) {
-      if(clear){
-        $("#search_last_name").val("");
-      }
-      $("#staff-list-table tbody").html(data);
-    }
+  $(document).on("submit","#staff-list-form",function(e) {
+    e.preventDefault();
+    $('input[name="owner_id"]').removeAttr('value');
+    show_staff_list();
   });
-}
 
-function show_staff_data(id) {
+  $(document).on("change",'input[name="has_rfid"]',function(e) {
+    show_staff_list();
+  });
+
+  $(document).on("click",".view_staff",function(e) {
+    var id = e.target.id;
+    show_staff_data(id);  
+  });
+
+
+  $('#select_staff').dropdown("clear");
+  $('#select_staff').html("");
+  $('#select_staff').append('<option value="">Select a Class</option>');
   $.ajax({
     type: "GET",
-    url: "<?php echo base_url("staff_ajax/get_data/jbtech"); ?>",
-    data: "staff_id="+id,
+    url: "<?php echo base_url("staff_ajax/get_list/jbtech"); ?>",
+    data: "get=1",
     cache: false,
     dataType: "json",
     success: function(data) {
-      // console.log(data);
-      $("#display-photo").attr("src","<?php echo base_url("assets/images/staff_photo/");?>"+data.display_photo);
-      $('#id').val(data.id);
-      $('#last_name').val(data.last_name);
-      $('#age').val(data.age);
-      $('#full_name').val(data.full_name);
-      $('#first_name').val(data.Firstst_name);
-      $('#in_case_name').val(data.in_case_name);
-      $('#in_case_contact_number').val(data.in_case_contact_number);
-      $('#position').val(data.position);
-      $('#suffix').val(data.suffix);
-      $('#gender').val(data.gender);
-      $('#birthday').val(data.birthday);
-      $('#contact_number').val(data.contact_number);
-      $('#address').val(data.address);
-      // $('#guardian_name').val(data.guardian_name);
-      // $('#guardian_address').val(data.guardian_address);
-      // $('#guardian_contact_number').val(data.guardian_contact_number);
-      // $('#fathers_name').val(data.fathers_name);
-      // $('#mothers_name').val(data.mothers_name);
-      $('#class_name').val(data.class_name);
-      $('#grade').val(data.grade);
-      // $('#class_adviser').val(data.class_adviser);
-      if(data.guardian_id!=""){
-        $('#edit-guardian_id').dropdown('set value',data.guardian_id);
-      }else{
-        $('#edit-guardian_id').dropdown('clear');
-      }
-      if(data.class_id!=""){
-        $('#edit-class_id').dropdown('set value',data.class_id);
-      }else{
-        $('#edit-class_id').dropdown('clear');
-      }
-      $("#staff_edit_modal").modal("show");
+      $.each(data, function(i, item) {
+          $('#select_staff').append('<option value="'+data[i].id+'">'+data[i].full_name+'</option>');
+      });
     }
   });
-}
 
 
+  $(document).on("click","#reset",function(e) {
+    $(".ui").dropdown("clear");
+    show_staff_list();
+  });
 
 
+  show_staff_list();
+  function show_staff_list(page='1',clear=false) {
+
+    var datastr = $("#staff-list-form").serialize();
+    $.ajax({
+      type: "GET",
+      url: $("#staff-list-form").attr("action"),
+      data: datastr+"&page="+page,
+      cache: false,
+      success: function(data) {
+        if(clear){
+          $("#search_last_name").val("");
+        }
+        $("#staff-list-table tbody").html(data);
+      }
+    });
+  }
+
+  function show_staff_data(id) {
+    $.ajax({
+      type: "GET",
+      url: "<?php echo base_url("staff_ajax/get_data/jbtech"); ?>",
+      data: "staff_id="+id,
+      cache: false,
+      dataType: "json",
+      success: function(data) {
+        // console.log(data);
+        $("#display-photo").attr("src","<?php echo base_url("assets/images/staff_photo/");?>"+data.display_photo);
+        $('#id').val(data.id);
+        $('#last_name').val(data.last_name);
+        $('#age').val(data.age);
+        $('#full_name').val(data.full_name);
+        $('#first_name').val(data.Firstst_name);
+        $('#in_case_name').val(data.in_case_name);
+        $('#in_case_contact_number').val(data.in_case_contact_number);
+        $('#position').val(data.position);
+        $('#suffix').val(data.suffix);
+        $('#gender').val(data.gender);
+        $('#birthday').val(data.birthday);
+        $('#contact_number').val(data.contact_number);
+        $('#address').val(data.address);
+        // $('#guardian_name').val(data.guardian_name);
+        // $('#guardian_address').val(data.guardian_address);
+        // $('#guardian_contact_number').val(data.guardian_contact_number);
+        // $('#fathers_name').val(data.fathers_name);
+        // $('#mothers_name').val(data.mothers_name);
+        $('#class_name').val(data.class_name);
+        $('#grade').val(data.grade);
+        // $('#class_adviser').val(data.class_adviser);
+        if(data.guardian_id!=""){
+          $('#edit-guardian_id').dropdown('set value',data.guardian_id);
+        }else{
+          $('#edit-guardian_id').dropdown('clear');
+        }
+        if(data.class_id!=""){
+          $('#edit-class_id').dropdown('set value',data.class_id);
+        }else{
+          $('#edit-class_id').dropdown('clear');
+        }
+        $("#staff_edit_modal").modal("show");
+      }
+    });
+  }
+});
 </script>
 </body>
 </html>

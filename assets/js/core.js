@@ -1,9 +1,7 @@
 $(document).ready(function(e) {
-  
   $('input[name="rfid"]').click(function(e) {
     $(this).val("");
   });
-
   $(document).on("submit", "#rfid_scan_add_load_credit_form", function(e) {
     e.preventDefault();
     $.ajax({
@@ -32,15 +30,12 @@ $(document).ready(function(e) {
       }
     });
   });
-
   $('input[name="rfid"]').click(function(e) {
     $(this).val("");
   });
-
   $(document).on("change","#login-select-type",function(e) {
     window.location = base_url+e.target.value;
   });
-
   $(document).on("submit", "#rfid_scan_add_load_credit_form", function(e) {
     e.preventDefault();
     $.ajax({
@@ -66,7 +61,6 @@ $(document).ready(function(e) {
       }
     });
   });
-
   $(document).on("click", "#rfid_add_load_credits", function(e) {
     $("#rfid_scan_add_load_credits_modal").modal("show");
   });
@@ -96,7 +90,6 @@ $(document).ready(function(e) {
     $('input[name="auto"]').val("1");
     $("#register_guardian_modal").modal("show");
   });
-
   $(document).on("click", ".change_password", function(e) {
     var type = e.target.id;
     $("#change_password_type").val(type);
@@ -144,8 +137,7 @@ $(document).ready(function(e) {
         $("#add_email_address_help-block").html(data.email_address_error);
         $("#add_contact_number_help-block").html(data.contact_number_error);
         $("#add_subscription_help-block").html(data.subscription_error);
-        if (data.is_valid) {
-          
+        if (data.is_valid) {          
           $("#register_guardian_form")[0].reset();
           $('.ui.dropdown').dropdown('clear');
           $(".help-block").html("");
@@ -284,8 +276,7 @@ $(document).ready(function(e) {
         $("button[form='teacher_add_form']").prop('disabled', false);
       }
     });
-  });
-  
+  });  
   $(document).on("submit", "#staff_add_form", function(e) {
     e.preventDefault();
     $.ajax({
@@ -566,7 +557,6 @@ $(document).ready(function(e) {
   $(document).on("click", "#add_admin", function(e) {
     $("#add_admin-modal").modal("show");
   });
-
   $(document).on("click",".send-sms",function(data) {
     $.ajax({
       type: "GET",
@@ -582,7 +572,6 @@ $(document).ready(function(e) {
       }
     });
   });
-
   var needToConfirm = false;
   $(document).on("submit", "#sms-form", function(e) {
     e.preventDefault();
@@ -678,7 +667,6 @@ $(document).ready(function(e) {
   update_select_options("class_adviser", base_url);
   update_select_options("class_id[]", base_url);
   update_select_options("class_id", base_url);
-
   function update_select_options(type, base_url) {
     if (type == "guardian_id") {
       $.ajax({
@@ -742,14 +730,12 @@ $(document).ready(function(e) {
       });
     }
   }
-
   //when closing a bootstrap modal
   $('button[data-dismiss="modal"]').click(function(e) {
     if(e.target.className=="btn btn-default"){
       alertify.error('Cancelled');
     }
   });
-
   // alertify settings
   alertify.dialog('confirm').set({transition:'zoom'});
 });
