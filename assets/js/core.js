@@ -32,6 +32,41 @@ $(document).ready(function(e) {
       }
     });
   });
+
+  $('input[name="rfid"]').click(function(e) {
+    $(this).val("");
+  });
+
+  $(document).on("change","#login-select-type",function(e) {
+    window.location = base_url+e.target.value;
+  });
+
+  $(document).on("submit", "#rfid_scan_add_load_credit_form", function(e) {
+    e.preventDefault();
+    $.ajax({
+      type: "POST",
+      url: $("#rfid_scan_add_load_credit_form").attr("action"),
+      data: $("#rfid_scan_add_load_credit_form :input").serialize(),
+      cache: false,
+      dataType: "json",
+      success: function(data) {
+        $("#rfid_scan_add_load_credit_form")[0].reset();
+        if (data.is_valid) {
+          $("#rfid_scan_add_load_credits_modal").modal("hide");
+          $('input[name="rfid_id"]').val(data.rfid_data.id);
+          $("#add_load_credits_display-photo").attr("src", data.display_photo);
+          $("#add_load_credits_full_name").html(data.full_name);
+          $("#add_load_credits_remaining_load").html(data.rfid_data.load_credits);
+          $("#add_load_credits_data_modal").modal("show");
+          $("#rfid_scan_add_load_credits_form")[0].reset();
+          $(".help-block").html("");
+        } else {
+          $('#rfid_scan_add_load_credits_help-block').html("RFID is invalid or available.");
+        }
+      }
+    });
+  });
+
   $(document).on("click", "#rfid_add_load_credits", function(e) {
     $("#rfid_scan_add_load_credits_modal").modal("show");
   });
@@ -248,8 +283,9 @@ $(document).ready(function(e) {
       complete: function() {
         $("button[form='teacher_add_form']").prop('disabled', false);
       }
-    })
+    });
   });
+  
   $(document).on("submit", "#staff_add_form", function(e) {
     e.preventDefault();
     $.ajax({

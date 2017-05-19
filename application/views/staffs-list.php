@@ -194,6 +194,23 @@ echo '
           </div>
 
           <div class="form-group">
+            <label class="col-sm-2" for="dept_head">Department Head:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control edit_field" name="dept_head" placeholder="Enter Department Head">
+              <p class="help-block" id="dept_head_help-block"></p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2" for="dept_head_number">Department Head Contact Number:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control edit_field" name="dept_head_number" placeholder="Enter Department Head Contact Number">
+              <p class="help-block" id="dept_head_number_help-block"></p>
+            </div>
+          </div>
+
+
+          <div class="form-group">
             <label class="col-sm-2" for="in_case_name">In Case of Emergency Contact:</label>
             <div class="col-sm-10">
               <input type="text" class="form-control edit_field" name="in_case_name" placeholder="Enter Contact Name">
@@ -342,6 +359,8 @@ function show_staff_data(id) {
       $('input[name="staff_id"]').val(id);
       $("#display-photo").attr("src","<?php echo base_url("assets/images/staff_photo/");?>"+data.display_photo);
       $('input[name="position"].edit_field').val(data.position);
+      $('input[name="dept_head"].edit_field').val(data.dept_head);
+      $('input[name="dept_head_number"].edit_field').val(data.dept_head_number);
       $('input[name="first_name"].edit_field').val(data.first_name);
       $('input[name="in_case_name"].edit_field').val(data.in_case_name);
       $('input[name="in_case_contact_number"].edit_field').val(data.in_case_contact_number);
@@ -386,6 +405,8 @@ $(document).on("submit","#staff_edit_form",function(e) {
     },
     success: function(data) {
       $("#first_name_help-block").html(data.first_name_error);
+      $("#dept_head_help-block").html(data.dept_head_error);
+      $("#dept_head_number_help-block").html(data.dept_head_number_error);
       $("#in_case_name_help-block").html(data.in_case_name_error);
       $("#in_case_contact_number_help-block").html(data.in_case_contact_number_error);
       $("#gender_help-block").html(data.gender_error);
