@@ -15,11 +15,10 @@
   <div class="row">
     <div class="col-sm-12">
     <?php echo form_open("tables/students/list/teachers",'id="student-list-form"');?>
-    <input type="hidden" name="class_id" value="<?php echo $teacher_data->class_id; ?>">
     </form>
 
 
-    <?php echo form_open("tables/gate_logs", 'id="gate_logs-form" class="form-inline"'); ?>
+    <?php echo form_open("tables/gate_logs/teachers", 'id="gate_logs-form" class="form-inline"'); ?>
     <input type="hidden" name="ref_table" id="ref_table" value="students">
     <div class="form-group">
       <label>Search Last Name</label>
@@ -27,7 +26,15 @@
         <option value="">Select Student</option>
       </select>
     </div>
-    <input type="hidden" name="class_id" value="<?php echo $teacher_data->class_id; ?>">
+    <div class="form-group">
+      <select name="class_id_" class="form-control" id="class_id_">
+      <?php 
+        foreach ($classes_of_teacher as $classes_of_teacher_data) {
+          echo '<option value="'.$classes_of_teacher_data->id.'">'.$classes_of_teacher_data->class_name.'</option>';
+        }
+      ?>
+      </select>
+    </div>
     <div class="form-group">
       <label>Date From:</label>
       <input type="text" name="date_from" class="form-control" id="datepicker_from" value="<?php echo date("m/d/Y");?>" readonly>
@@ -93,6 +100,11 @@ $(document).ready(function() {
   $(document).on("click",".paging",function(e) {
     show_gatelogs(e.target.id);
   });
+  $(document).on("change","#class_id_",function(e) {
+    $("#students-select").dropdown("clear");
+    populate_selection();
+    show_gatelogs();
+  });
   show_gatelogs();
   populate_selection()
   function show_gatelogs(page=1,clear) {
@@ -117,11 +129,12 @@ $(document).ready(function() {
     $.ajax({
       type: "GET",
       url: "<?php echo base_url("student_ajax/get_list/teachers"); ?>",
-      data: $("#student-list-form").serialize(),
+      data: $("#student-list-form").serialize()+"&class_id_="+$("#class_id_").val(),
       cache: false,
       dataType: "json",
       beforeSend: function() {
         $("#students-select").html("");
+        $("#students-select").append('<option value="">Search Last Name</option>');
       },
       success: function(data) {
         $.each(data, function(i, item) {

@@ -70,46 +70,6 @@ class Classes_model extends CI_Model {
         // return $this->db->get("classes")->last_row();
     }
 
-    function change_class($teacher_id='',$class_id="")
-    {
-
-        $this->db->where("id",$class_id);
-        $class_data = $this->db->get("classes")->row();
-
-        $this->db->where("id",$teacher_id);
-        $teacher_data = $this->db->get("teachers")->row();
-
-        //clear all assignments
-        if($class_id!=0){
-        	$this->db->set("class_id","0");
-        	$this->db->where("id",$class_data->teacher_id);
-        	$this->db->update('teachers');
-
-        	$this->db->set("teacher_id","0");
-        	$this->db->where("id",$class_data->id);
-        	$this->db->update('classes');
-        }
-
-        if($teacher_id!=0){
-        	$this->db->set("teacher_id","0");
-        	$this->db->where("id",$teacher_data->class_id);
-        	$this->db->update('classes');
-
-        	$this->db->set("class_id","0");
-        	$this->db->where("id",$teacher_data->id);
-        	$this->db->update('teachers');
-
-        }
-        //reassign teachers and classes
-        $this->db->set("class_id",$class_id);
-        $this->db->where("id",$teacher_id);
-        $this->db->update('teachers');
-
-        $this->db->set("teacher_id",$teacher_id);
-        $this->db->where("id",$class_id);
-        $this->db->update('classes');
-
-    }
 
     function delete($data='',$id=''){
             $this->db->where('id', $id);

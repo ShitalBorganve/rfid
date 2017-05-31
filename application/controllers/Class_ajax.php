@@ -60,10 +60,6 @@ class Class_ajax extends CI_Controller {
 			$insert_data["room"] = $this->input->post("class_room");
 			$data["is_valid"] = TRUE;
 			$class_data = $this->classes_model->add($insert_data);
-
-			$teacher_id = ($this->input->post("class_adviser")?$this->input->post("class_adviser"):"0");
-			$class_id = $class_data->id;
-			$this->classes_model->change_class($teacher_id,$class_id);
 		}
 		echo json_encode($data);
 	}
@@ -95,15 +91,12 @@ class Class_ajax extends CI_Controller {
 			$data["class_id_error"] = form_error("class_id");
 		}else{
 			$update_data["class_name"] = $this->input->post("class_name");
+			$update_data["teacher_id"] = $this->input->post("class_adviser");
 			$update_data["grade"] = $this->input->post("grade");
 			$update_data["schedule"] = $this->input->post("class_schedule");
 			$update_data["room"] = $this->input->post("class_room");
 			$class_id = $this->input->post("class_id");
 			$data["is_valid"] = $this->classes_model->edit($update_data,$class_id);
-
-			$teacher_id = ($this->input->post("class_adviser")?$this->input->post("class_adviser"):"0");
-			$class_id = ($this->input->post("class_id")?$this->input->post("class_id"):"0");
-			$this->classes_model->change_class($teacher_id,$class_id);
 		}
 		echo json_encode($data);
 	}

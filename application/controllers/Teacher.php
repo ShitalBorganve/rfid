@@ -56,6 +56,7 @@ class Teacher extends CI_Controller {
 		$this->data["login_type"] = "teacher";
 		if($this->session->userdata("teacher_sessions")){
 			$this->data["title"] = "My Students";
+			$this->data["classes_of_teacher"] = $this->teachers_model->get_classes($this->session->userdata("teacher_sessions")->id);
 			$this->load->view('teacher',$this->data);
 		}else{
 			$this->data["title"] = "Teachers Login";
@@ -75,6 +76,7 @@ class Teacher extends CI_Controller {
 	{
 		$this->data["title"] = "My Student's Gate logs";
 		$this->data["teacher_data"] = $this->session->userdata("teacher_sessions");
+		$this->data["classes_of_teacher"] = $this->teachers_model->get_classes($this->session->userdata("teacher_sessions")->id);
 		$this->load->view("teacher-gatelogs",$this->data);
 	}
 

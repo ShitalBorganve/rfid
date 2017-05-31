@@ -223,24 +223,6 @@ echo '
             </div>
           </div>
 
-
-          <div class="form-group">
-            <label class="col-sm-2" for="class_id">Class:</label>
-            <div class="col-sm-10"> 
-              <select name="class_id" class="ui search dropdown form-control edit_field" id="edit-class_id">
-                <option value="">Select a Class</option>
-                ';
-                foreach ($classes_list["result"] as $class_data) {
-                  echo '<option value="'.$class_data->id.'">'.$class_data->class_name.'</option>';
-                }
-
-                echo '
-              </select>
-
-              <p class="help-block" id="teacher_class_id_help-block"></p>
-            </div>
-          </div>
-
           <div class="form-group">
             <label class="col-sm-2" for="teacher_photo">Photo:</label>
             <div class="col-sm-10">

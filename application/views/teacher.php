@@ -22,7 +22,15 @@
         </select>
         </div>
         <div class="form-group">
-        <input type="hidden" name="class_id" value="<?php echo $teacher_data->class_id; ?>">
+          <select name="class_id_" class="form-control" id="class_id_">
+          <?php 
+            foreach ($classes_of_teacher as $classes_of_teacher_data) {
+              echo '<option value="'.$classes_of_teacher_data->id.'">'.$classes_of_teacher_data->class_name.'</option>';
+            }
+          ?>
+          </select>
+        </div>
+        <div class="form-group">
         <button class="btn btn-primary" type="submit" form="student-list-form"><span class="glyphicon glyphicon-search"></span> Search</button>
         <span class="btn btn-danger" id="clear"><span class="glyphicon glyphicon-refresh"></span> Reset</span>
         </div>
@@ -49,7 +57,6 @@
       </div>
     </div>
   </div>
-
 </div>
 <?php echo $modaljs_scripts; ?>
 
@@ -70,13 +77,17 @@ $(document).ready(function() {
   $(document).on("click",".paging",function(e) {
     show_student_list(e.target.id);
   });
+  $(document).on("change","#class_id_",function(e) {
+    $("#students-select").dropdown("clear");
+    populate_selection();
+  });
   show_student_list();
-  populate_selection()
+  populate_selection();
   function show_student_list(page='1',clear=false) {
     var datastr = $("#student-list-form").serialize();
     $.ajax({
       type: "GET",
-        url: $("#student-list-form").attr("action"),
+      url: $("#student-list-form").attr("action"),
       data: datastr+"&page="+page,
       cache: false,
       success: function(data) {

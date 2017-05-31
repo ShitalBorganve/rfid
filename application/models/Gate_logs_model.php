@@ -48,7 +48,7 @@ class Gate_logs_model extends CI_Model {
         return $data;
     }
 
-    function get_list($table="students",$where='',$between='',$page=1,$maxitem=50)
+    function get_list($table="students",$where='',$or_where='',$between='',$page=1,$maxitem=50)
     {
 
     
@@ -64,6 +64,12 @@ class Gate_logs_model extends CI_Model {
         $select[] = $table.'.first_name';
         $select[] = $table.'.last_name';
         $select[] = $table.'.first_name';
+
+        if($or_where != ""){
+            foreach ($or_where as $or_where_data) {
+                $this->db->or_where($or_where_data);
+            }
+        }
 
         $this->db->where("ref_table",$table);
         ($where!=""?$this->db->where($where):false);

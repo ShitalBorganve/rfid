@@ -512,25 +512,6 @@ if($modals_sets=="admin"){
             </div>
 
             <div class="form-group">
-              <label class="col-sm-2" for="class_id">Class:</label>
-              <div class="col-sm-8"> 
-                <select class="ui search dropdown form-control" name="class_id" data-live-search="true">
-                  <option value="">Select a Class</option>
-                  ';
-                  foreach ($classes_list["result"] as $class_data) {
-                    echo '<option value="'.$class_data->id.'">'.$class_data->class_name.'</option>';
-                  }
-
-                  echo '
-                </select>
-                <p class="help-block" id="teacher_class_id_help-block"></p>
-              </div>
-              <div class="col-sm-2"> 
-                <button class="btn btn-block btn-default" type="button" id="add-class">Add</button>
-              </div>
-            </div>
-
-            <div class="form-group">
               <label class="col-sm-2" for="teacher_photo">Photo:</label>
               <div class="col-sm-10">
               <input type="file" name="teacher_photo" size="20" class="form-control">

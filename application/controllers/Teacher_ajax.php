@@ -203,12 +203,6 @@ You can login to ".base_url("teacher");
 				$rfid_data["ref_table"] = "teachers";
 				$rfid_data["valid"] = 1;
 				$this->rfid_model->add($rfid_data);
-
-
-				$teacher_id = $teacher_data->id;
-				$class_id = ($this->input->post("class_id")?$this->input->post("class_id"):"0");
-				$this->classes_model->change_class($teacher_id,$class_id);
-
 			}
 
 			echo json_encode($data);
@@ -419,10 +413,6 @@ You can login to ".base_url("teacher");
 					$edit_data["display_photo"] = $teacher_id."_".$file_name;
 					$this->teachers_model->edit_info($edit_data,$teacher_id);
 				}
-
-				$teacher_id = ($this->input->post("teacher_id")?$this->input->post("teacher_id"):"0");
-				$class_id = ($this->input->post("class_id")?$this->input->post("class_id"):"0");
-				$this->classes_model->change_class($teacher_id,$class_id);
 
 			}
 			echo json_encode($data);

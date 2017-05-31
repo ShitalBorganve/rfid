@@ -58,8 +58,16 @@ class Tables extends CI_Controller {
 
 
 				if($arg_2=="teachers"){
-					if($this->input->get("class_id")||$this->input->get("class_id")==0){
-						$where["class_id"] = $this->input->get("class_id");
+					if($this->input->get("class_id_")){
+						if($this->input->get("class_id_")==""){
+							$or_where = array();
+							$classes_of_teacher = $this->teachers_model->get_classes($this->session->userdata("teacher_sessions")->id);
+							foreach ($classes_of_teacher as $classes_of_teacher_data) {
+								$or_where["class_id"] = $classes_of_teacher_data->id;
+							}
+						}else{
+							$where["class_id"] = $this->input->get("class_id_");
+						}
 					}
 				}else{
 					if($this->input->get("class_id")){
@@ -381,6 +389,7 @@ class Tables extends CI_Controller {
 	public function gate_logs($arg='')
 	{
 		$where = "";
+		$or_where = "";
 		$table = ((
 			$this->input->get("ref_table") ||
 			$this->input->get("ref_table")=="students" ||
@@ -388,7 +397,11 @@ class Tables extends CI_Controller {
 			)?$this->input->get("ref_table"):"students");
 		$page = $this->input->get("page");
 		($this->input->get("ref_id")?$where["ref_id"]=$this->input->get("ref_id"):FALSE);
-		($this->input->get("class_id")?$where["class_id"]=$this->input->get("class_id"):FALSE);
+		if($arg=="teachers"){
+			($this->input->get("class_id_")?$where["class_id"]=$this->input->get("class_id_"):FALSE);
+		}else{
+			($this->input->get("class_id")?$where["class_id"]=$this->input->get("class_id"):FALSE);
+		}
 		($this->input->get("position")?$where["position"]=$this->input->get("position"):FALSE);
 		if(!$this->input->get("ref_id")&&$this->input->get("search_last_name")){
 			$this->db->where("last_name",$this->input->get("search_last_name"));
@@ -407,7 +420,7 @@ class Tables extends CI_Controller {
 		// exit;
 		// var_dump($this->gate_logs_model->get_list($where,$between,$page,$this->config->item("max_item_perpage")));exit;
 		// $students_log_data = $this->gate_logs_model->get_list($where,$between,$page,$this->config->item("max_item_perpage"));
-		$gate_logs_data = $this->gate_logs_model->get_list($table,$where,$between,$page,$this->config->item("max_item_perpage"));
+		$gate_logs_data = $this->gate_logs_model->get_list($table,$where,$or_where,$between,$page,$this->config->item("max_item_perpage"));
 		// echo '
 		// <tr>
 		// 	<td>';

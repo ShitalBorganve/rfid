@@ -446,7 +446,9 @@ class Student_ajax extends CI_Controller {
 	{
 		$where = "";
 		if($arg=="teachers"){
-			$where["class_id"] = $this->input->get("class_id");
+
+			$where["class_id"] = $this->input->get("class_id_");
+
 			$where["deleted"] = 0;
 			$data = $this->students_model->get_list($where,1,$this->db->get_where("students",$where)->num_rows());
 

@@ -123,6 +123,12 @@ class Teachers_model extends CI_Model {
         return ($login_query->num_rows()===1);
     }
 
+    function get_classes($teacher_id)
+    {
+        $this->db->where("teacher_id",$teacher_id);
+        return $this->db->get("classes")->result();
+    }
+
 }
 
 

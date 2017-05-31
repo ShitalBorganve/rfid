@@ -144,7 +144,7 @@ if ( ! function_exists('admin_paging'))
 
 	function send_sms($mobile_number='',$message='')
 	{
-		$data["1"] =  $mobile_number;
+/*		$data["1"] =  $mobile_number;
 		$data["2"] =  $message;
 		$data["3"] =  "ST-ROMEO290433_3CTWI";
 		$data = http_build_query($data);
@@ -156,8 +156,9 @@ if ( ! function_exists('admin_paging'))
 			CURLOPT_POSTFIELDS => $data,
 		));
 		$result = curl_exec($curl);
-		curl_close($curl);
-		return $result;
+		curl_close($curl);*/
+		return 0;
+		// return $result;
 	}
 
 	function age($birthdate)
