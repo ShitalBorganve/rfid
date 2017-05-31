@@ -94,7 +94,7 @@ $(document).ready(function() {
 
   var needToConfirm = false;
   $(document).on("click",".resend_sms",function(e) {
-    var dataStr = "id="+e.target.id;
+    var dataStr = "<?php echo $this->security->get_csrf_token_name();?>=<?php echo $this->security->get_csrf_hash();?>"+"&id="+e.target.id;
     $.ajax({
       type: "POST",
       url: "<?php echo base_url("sms_ajax/resend");?>",

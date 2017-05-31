@@ -142,7 +142,7 @@
 <script>
 $(document).ready(function() {
   $(document).on("click",".reset_password_guardian",function(e) {
-    var datastr = "id="+e.target.id;
+    var datastr = "<?php echo $this->security->get_csrf_token_name();?>=<?php echo $this->security->get_csrf_hash();?>"+"&id="+e.target.id;
     alertify.confirm('RESET PASSWORD OF GUARDIAN', 'Are you sure you want to reset the password this guardian?<br>This action is irreversible.<br><b>The new password will be sent through SMS.</b>', function(){
       $.ajax({
         type: "POST",
@@ -172,7 +172,7 @@ $(document).ready(function() {
     });
   });
   $(document).on("click",".delete_guardian",function(e) {
-    var datastr = "id="+e.target.id;
+    var datastr = "<?php echo $this->security->get_csrf_token_name();?>=<?php echo $this->security->get_csrf_hash();?>"+"&id="+e.target.id;
     alertify.confirm('DELETE GUARDIAN', 'Are you sure you want to delete this guardian in the list?<br> This action is irreversible.', function(){
       $.ajax({
         type: "POST",

@@ -151,7 +151,7 @@ $(document).ready(function(e) {
       show_class_data(id);
   });
   $(document).on("click",".delete_class",function(e) {
-    var datastr = "id="+e.target.id;
+    var datastr = "<?php echo $this->security->get_csrf_token_name();?>=<?php echo $this->security->get_csrf_hash();?>"+"&id="+e.target.id;
     alertify.confirm('DELETE CLASS', 'Are you sure you want to delete this class in the list?<br> This action is irreversible.', function(){
       $.ajax({
         type: "POST",

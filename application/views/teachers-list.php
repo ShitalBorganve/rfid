@@ -289,7 +289,7 @@ $(document).ready(function() {
       show_teacher_data(id);
   });
   $(document).on("click",".delete_rfid_teacher",function(e) {
-    var datastr = "id="+e.target.id+"&type=teachers";
+    var datastr = "<?php echo $this->security->get_csrf_token_name();?>=<?php echo $this->security->get_csrf_hash();?>"+"&id="+e.target.id+"&type=teachers";
     alertify.confirm('REMOVE RFID', 'Are you sure you want to remove the rfid of this teacher?<br> This action is irreversible.', function(){
       $.ajax({
         type: "POST",
@@ -310,7 +310,7 @@ $(document).ready(function() {
     });
   });
   $(document).on("click",".delete_teacher",function(e) {
-    var datastr = "id="+e.target.id;
+    var datastr = "<?php echo $this->security->get_csrf_token_name();?>=<?php echo $this->security->get_csrf_hash();?>"+"&id="+e.target.id;
     alertify.confirm('DELETE TEACHER', 'Are you sure you want to delete this teacher in the list?<br> This action is irreversible.', function(){
       $.ajax({
         type: "POST",
@@ -431,7 +431,7 @@ $(document).ready(function() {
     show_teacher_list(e.target.id);
   });
   $(document).on("click",".reset_password_teacher",function(e) {
-    var datastr = "id="+e.target.id;
+    var datastr = "<?php echo $this->security->get_csrf_token_name();?>=<?php echo $this->security->get_csrf_hash();?>"+"&id="+e.target.id;
     alertify.confirm('RESET PASSWORD OF TEACHER', 'Are you sure you want to reset the password this teacher?<br>This action is irreversible.<br><b>The new password will be sent through SMS.</b>', function(){
       $.ajax({
         type: "POST",

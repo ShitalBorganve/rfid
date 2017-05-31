@@ -191,7 +191,7 @@ $(document).on("click",".sales_cart-remove_item",function(e) {
 	$.ajax({
 		type: "POST",
 		url: "<?php echo base_url("canteen_ajax/sales/delete_items_to_cart"); ?>",
-		data: "item_id="+item_id,
+		data: "<?php echo $this->security->get_csrf_token_name();?>=<?php echo $this->security->get_csrf_hash();?>"+"&item_id="+item_id,
 		cache: false,
 		success: function(data) {
 			show_cart();
@@ -205,7 +205,7 @@ $("#search-item_name_sales").autocomplete({
 		$.ajax({
 			type: "POST",
 			url: "<?php echo base_url("canteen_ajax/sales/add_items_to_cart"); ?>",
-			data: "item_id="+ui.item.data,
+			data: "<?php echo $this->security->get_csrf_token_name();?>=<?php echo $this->security->get_csrf_hash();?>"+"&item_id="+ui.item.data,
 			cache: false,
 			success: function(data) {
 				$("#search-item_name_sales").val("");
@@ -219,7 +219,7 @@ $("#search-item_name_sales").autocomplete({
 
 $(document).on("change keyup",".sales_cart_quantity",function(e) {
 	var item_id = e.target.id;
-	var data = "item_id="+item_id+"&quantity="+e.target.value;
+	var data = "<?php echo $this->security->get_csrf_token_name();?>=<?php echo $this->security->get_csrf_hash();?>"+"&item_id="+item_id+"&quantity="+e.target.value;
 	$.ajax({
 		type: "POST",
 		url: "<?php echo base_url("canteen_ajax/sales/edit_quantity_items_to_cart"); ?>",
@@ -280,7 +280,7 @@ $(document).on("click","#remove_customer",function(e) {
 	$.ajax({
 		type: "POST",
 		url: "<?php echo base_url("canteen_ajax/sales/remove_customer"); ?>",
-		data: "remove=1",
+		data: "<?php echo $this->security->get_csrf_token_name();?>=<?php echo $this->security->get_csrf_hash();?>"+"&remove=1",
 		cache: false,
 		success: function function_name(data) {
 			location.reload();
@@ -288,7 +288,7 @@ $(document).on("click","#remove_customer",function(e) {
 	});
 });
 $(document).on("change keyup","#canteen_sales_comments",function(e) {
-	var datastring = "comments="+e.target.value;
+	var datastring = "<?php echo $this->security->get_csrf_token_name();?>=<?php echo $this->security->get_csrf_hash();?>"+"&comments="+e.target.value;
 	$.ajax({
 		type: "POST",
 		url: "<?php echo base_url("canteen_ajax/sales/add_comments"); ?>",
@@ -300,7 +300,7 @@ $(document).on("change keyup","#canteen_sales_comments",function(e) {
 	});
 });
 $(document).on("change keyup","#canteen_sales_customer_name",function(e) {
-	var datastring = "customer_name="+e.target.value;
+	var datastring = "<?php echo $this->security->get_csrf_token_name();?>=<?php echo $this->security->get_csrf_hash();?>"+"&customer_name="+e.target.value;
 	$.ajax({
 		type: "POST",
 		url: "<?php echo base_url("canteen_ajax/sales/add_customer"); ?>",
@@ -316,7 +316,7 @@ function show_cart() {
 	$.ajax({
 		type: "POST",
 		url: "<?php echo base_url("tables/canteen/sales_cart"); ?>",
-		data: "d=1",
+		data: "<?php echo $this->security->get_csrf_token_name();?>=<?php echo $this->security->get_csrf_hash();?>"+"&d=1",
 		cache: false,
 		success: function(data) {
 			$("#sales-cart-table tbody").html(data);

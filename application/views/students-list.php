@@ -310,7 +310,7 @@ $(document).ready(function() {
     $("#rfid_scan_add_modal").modal("show");
   });
   $(document).on("click",".delete_rfid_student",function(e) {
-    var datastr = "id="+e.target.id+"&type=students";
+    var datastr = "<?php echo $this->security->get_csrf_token_name();?>=<?php echo $this->security->get_csrf_hash();?>"+"&id="+e.target.id+"&type=students";
     alertify.confirm('REMOVE RFID', 'Are you sure you want to remove the rfid of this student?<br> This action is irreversible.', function(){
       $.ajax({
         type: "POST",
@@ -362,7 +362,7 @@ $(document).ready(function() {
       show_student_data(id);
   });
   $(document).on("click",".delete_student",function(e) {
-    var datastr = "id="+e.target.id;
+    var datastr = "<?php echo $this->security->get_csrf_token_name();?>=<?php echo $this->security->get_csrf_hash();?>"+"&id="+e.target.id;
     alertify.confirm('DELETE STUDENT', 'Are you sure you want to delete this student in the list?<br> This action is irreversible.', function(){
       $.ajax({
         type: "POST",

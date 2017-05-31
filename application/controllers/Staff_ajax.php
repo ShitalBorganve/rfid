@@ -133,6 +133,7 @@ class Staff_ajax extends CI_Controller {
 				$data["is_valid"] = FALSE;
 				$data["gender_error"] = form_error('gender');
 				$data["dept_head_error"] = form_error('dept_head');
+				$data["dept_head_number_error"] = form_error('dept_head_number');
 				$data["address_error"] = form_error('address');
 				$data["in_case_name_error"] = form_error('in_case_name');
 				$data["in_case_contact_number_error"] = form_error('in_case_contact_number');
@@ -150,6 +151,7 @@ class Staff_ajax extends CI_Controller {
 				$data["is_valid"] = TRUE;
 				$data["gender_error"] = form_error('gender');
 				$data["dept_head_error"] = form_error('dept_head');
+				$data["dept_head_number_error"] = form_error('dept_head_number');
 				$data["address_error"] = form_error('address');
 				$data["in_case_name_error"] = form_error('in_case_name');
 				$data["in_case_contact_number_error"] = form_error('in_case_contact_number');

@@ -126,6 +126,7 @@ class Teachers_model extends CI_Model {
     function get_classes($teacher_id)
     {
         $this->db->where("teacher_id",$teacher_id);
+        $this->db->where("deleted",0);
         return $this->db->get("classes")->result();
     }
 

@@ -81,6 +81,16 @@ echo '
         <div id="display-photo-container">
           <img class="img-responsive" id="display-photo" src="'.base_url("assets/images/empty.jpg").'">
         </div>
+
+          <div class="form-group">
+              <label class="col-sm-4">LRN Number</label>
+              <div class="input-group col-sm-7">
+                <input id="lrn_number" type="text" class="form-control" name="lrn_number" readonly>
+                <span class="input-group-addon btn btn-default" data-clipboard-target="#lrn_number" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
+              </div>
+          </div>
+
+
           <div class="form-group">
               <label class="col-sm-4">ID</label>
               <div class="input-group col-sm-7">
@@ -347,6 +357,7 @@ $(document).ready(function() {
         $("#display-photo").attr("src","<?php echo base_url("assets/images/student_photo/");?>"+data.display_photo);
         $('#id').val(data.id);
         $('#last_name').val(data.last_name);
+        $('#lrn_number').val(data.lrn_number);
         $('#age').val(data.age);
         $('#full_name').val(data.full_name);
         $('#first_name').val(data.first_name);

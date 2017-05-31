@@ -72,15 +72,20 @@ class Classes_model extends CI_Model {
 
 
     function delete($data='',$id=''){
-            $this->db->where('id', $id);
-            $this->db->update('classes', $data);
-            
-            $this->db->where("class_id",$id);
-            $this->db->set("class_id",0);
-            $this->db->update('teachers');
+        $this->db->where('id', $id);
+        $this->db->update('classes', $data);
 
-            $this->db->where('id', $id);
-            return $this->db->get("classes")->row();
+        $this->db->where("class_id",$id);
+        $this->db->set("class_id",0);
+        $this->db->update('teachers');
+
+        $this->db->where("class_id",$id);
+        $this->db->set("class_id",0);
+        $this->db->update('students');
+
+
+        $this->db->where('id', $id);
+        return $this->db->get("classes")->row();
             
     }
 
