@@ -488,7 +488,7 @@ class Student_ajax extends CI_Controller {
 
 	public function download($arg='')
 	{
-
+		$where = "";
 		$fp = fopen('students.csv', 'w');
 
 		$headers = array (
@@ -511,7 +511,11 @@ class Student_ajax extends CI_Controller {
 			'Grade or Year'
 			);
 	    fputcsv($fp, $headers);
-	    $student_list = $this->students_model->get_list("",1,$this->db->get("students")->num_rows());
+	    if($this->input->get("class_id")&&$this->input->get("class_id")!=""){
+	    	$where["class_id"] = $this->input->get("class_id");
+	    	$where["deleted"] = 0;
+	    }
+	    $student_list = $this->students_model->get_list($where,1,$this->db->get("students")->num_rows());
 	    foreach ($student_list["result"] as $student_data) {
 	    	$get_data = array();
 	    	$get_data["id"] = $student_data->guardian_id;

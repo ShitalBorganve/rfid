@@ -499,6 +499,7 @@ $(document).ready(function() {
       type: "GET",
       url: $("#student_download_list").attr("action"),
       cache: false,
+      data: "class_id="+$("#select_class").val(),
       success: function(data) {
         window.location = data;
       },
