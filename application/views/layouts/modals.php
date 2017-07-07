@@ -9,7 +9,7 @@ if($modals_sets=="admin"){
       <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title" id="rfid_add_modal_title">Add studentsss</h4>
+        <h4 class="modal-title" id="rfid_add_modal_title">Add students</h4>
       </div>
         <div class="modal-body">
           <p>
@@ -90,7 +90,7 @@ if($modals_sets=="admin"){
       <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title" id="rfid_add_modal_title">Add studentsss</h4>
+        <h4 class="modal-title" id="rfid_add_modal_title">Add students</h4>
       </div>
         <div class="modal-body">
           <p>
@@ -202,7 +202,6 @@ if($modals_sets=="admin"){
               </div>
               
             </div>
-            
             
             <div class="form-group">
               <label class="col-sm-2" for="middle_name">Middle Name:</label>
@@ -388,10 +387,7 @@ if($modals_sets=="admin"){
                 <input type="text" class="form-control" name="first_name" placeholder="Enter First Name">
                 <p class="help-block" id="teacher_first_name_help-block"></p>
               </div>
-              
             </div>
-            
-
             
             <div class="form-group">
               <label class="col-sm-2" for="middle_name">Middle Name:</label>
@@ -434,7 +430,6 @@ if($modals_sets=="admin"){
                 <input type="text" class="form-control" name="address" placeholder="Enter Address">
                 <p class="help-block" id="teacher_address_help-block"></p>
               </div>
-              
             </div>
             
 
@@ -472,6 +467,46 @@ if($modals_sets=="admin"){
             </div>
 
             <div class="form-group">
+              <label class="col-sm-2" for="blood_type">Blood Type:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="blood_type" placeholder="Enter Blood Type">
+                <p class="help-block" id="teacher_blood_type_help-block"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="sss">SSS:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="sss" placeholder="Enter SSS">
+                <p class="help-block" id="teacher_sss_help-block"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="philhealth">PhilHealth:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="philhealth" placeholder="Enter PhilHealth">
+                <p class="help-block" id="teacher_philhealth_help-block"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="pagibig">Pag-IBIG:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="pagibig" placeholder="Enter Pag-IBIG">
+                <p class="help-block" id="teacher_pagibig_help-block"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="tin">TIN:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="tin" placeholder="Enter TIN">
+                <p class="help-block" id="teacher_tin_help-block"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
               <label class="col-sm-2" for="dept_head">Department Head:</label>
               <div class="col-sm-10">
                 <input type="text" class="form-control" name="dept_head" placeholder="Enter Department Head">
@@ -492,23 +527,23 @@ if($modals_sets=="admin"){
               <div class="col-sm-10">
                 <input type="text" class="form-control" name="in_case_name" placeholder="Enter Contact Name">
                 <p class="help-block" id="teacher_in_case_name_help-block"></p>
-              </div>
-              
+              </div>              
             </div>
-            
 
             <div class="form-group">
-              <label class="col-sm-2" for="in_case_contact_number">Contact Number:</label>
+              <label class="col-sm-2" for="in_case_contact_number">Person Contact Number:</label>
               <div class="col-sm-10"> 
                 <input type="text" class="form-control" name="in_case_contact_number" placeholder="Enter Contact Number">
-                <!--
-                <span class="input-group-addon">
-                  <input type="hidden" name="in_case_contact_number_sms" value="1"> SMS Notification
-                </span>
-                -->
               <p class="help-block" id="teacher_in_case_contact_number_help-block"></p>
               </div>
+            </div>
 
+            <div class="form-group">
+              <label class="col-sm-2" for="in_case_address">Person Address:</label>
+              <div class="col-sm-10"> 
+                <input type="text" class="form-control" name="in_case_address" placeholder="Enter Address">
+              <p class="help-block" id="teacher_in_case_address_help-block"></p>
+              </div>
             </div>
 
             <div class="form-group">
@@ -655,6 +690,46 @@ if($modals_sets=="admin"){
             </div>
 
             <div class="form-group">
+              <label class="col-sm-2" for="blood_type">Blood Type:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="blood_type" placeholder="Enter Blood Type">
+                <p class="help-block" id="staff_blood_type_help-block"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="sss">SSS:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="sss" placeholder="Enter SSS">
+                <p class="help-block" id="staff_sss_help-block"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="philhealth">PhilHealth:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="philhealth" placeholder="Enter PhilHealth">
+                <p class="help-block" id="staff_philhealth_help-block"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="pagibig">Pag-IBIG:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="pagibig" placeholder="Enter Pag-IBIG">
+                <p class="help-block" id="staff_pagibig_help-block"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="tin">TIN:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="tin" placeholder="Enter TIN">
+                <p class="help-block" id="staff_tin_help-block"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
               <label class="col-sm-2" for="dept_head">Department Head:</label>
               <div class="col-sm-10">
                 <input type="text" class="form-control" name="dept_head" placeholder="Enter Department Head">
@@ -682,12 +757,19 @@ if($modals_sets=="admin"){
             
 
             <div class="form-group">
-              <label class="col-sm-2" for="in_case_contact_number">Contact Number:</label>
+              <label class="col-sm-2" for="in_case_contact_number">Person Contact Number:</label>
               <div class="col-sm-10"> 
                 <input type="text" class="form-control" name="in_case_contact_number" placeholder="Enter Contact Number">
               <p class="help-block" id="staff_in_case_contact_number_help-block"></p>
               </div>
+            </div>
 
+            <div class="form-group">
+              <label class="col-sm-2" for="in_case_address">Person Address:</label>
+              <div class="col-sm-10"> 
+                <input type="text" class="form-control" name="in_case_address" placeholder="Enter Address">
+              <p class="help-block" id="staff_in_case_address_help-block"></p>
+              </div>
             </div>
 
 

@@ -52,7 +52,6 @@ class Tables extends CI_Controller {
 					$where["id"] = $this->input->get("owner_id");
 				}
 				if($arg_2=="jbtech"){
-					$where["rfid_status"] = 0;
 					$where["deleted"] = 0;
 				}
 
@@ -180,7 +179,6 @@ class Tables extends CI_Controller {
 				$where["id"] = $this->input->get("owner_id");
 			}
 			if($arg_2=="jbtech"){
-				$where["rfid_status"] = 0;
 				$where["deleted"] = 0;
 			}
 
@@ -261,7 +259,6 @@ class Tables extends CI_Controller {
 				$where["id"] = $this->input->get("owner_id");
 			}
 			if($arg_2=="jbtech"){
-				$where["rfid_status"] = 0;
 				$where["deleted"] = 0;
 			}
 

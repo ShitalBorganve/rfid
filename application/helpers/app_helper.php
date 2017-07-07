@@ -172,6 +172,6 @@ if ( ! function_exists('admin_paging'))
 
 	function current_build()
 	{
-		return "1.0000";
+		return "1.0001";
 	}
 }

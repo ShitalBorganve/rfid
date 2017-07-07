@@ -39,13 +39,19 @@ class Teacher_ajax extends CI_Controller {
 	public function add($arg='')
 	{
 		if($_POST){
-			$this->form_validation->set_rules('gender', 'Gender', 'required|max_length[50]|trim|htmlspecialchars');
-			$this->form_validation->set_rules('dept_head', 'Department Head', 'required|max_length[50]|trim|htmlspecialchars');
-			$this->form_validation->set_rules('dept_head_number', 'Department Head Contact Number', 'required|numeric|max_length[11]|min_length[11]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('blood_type', 'Blood Type', 'max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('sss', 'SSS', 'max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('philhealth', 'PhilHealth', 'max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('pagibig', 'Pag-IBIG', 'max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('tin', 'TIN', 'max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('in_case_address', 'Person Address', 'max_length[200]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('gender', 'Gender', 'max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('dept_head', 'Department Head', 'max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('dept_head_number', 'Department Head Contact Number', 'numeric|max_length[11]|min_length[11]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('address', 'Address', 'required|min_length[2]|max_length[100]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('first_name', 'First Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('last_name', 'Last Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
-			$this->form_validation->set_rules('middle_name', 'Middle Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('middle_name', 'Middle Name', 'custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('suffix', 'Suffix', 'custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('bday_m', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('bday_d', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
@@ -141,6 +147,12 @@ class Teacher_ajax extends CI_Controller {
 				$data["contact_number_error"] = form_error('contact_number');
 				$data["class_id_error"] = form_error('class_id');
 				$data["bday_error"] = form_error('bday_m');
+				$data["blood_type_error"] = form_error('blood_type');
+				$data["sss_error"] = form_error('sss');
+				$data["philhealth_error"] = form_error('philhealth');
+				$data["pagibig_error"] = form_error('pagibig');
+				$data["tin_error"] = form_error('tin');
+				$data["in_case_address_error"] = form_error('in_case_address');
 			}
 			else
 			{
@@ -158,7 +170,19 @@ class Teacher_ajax extends CI_Controller {
 				$data["contact_number_error"] = "";
 				$data["class_id_error"] = "";
 				$data["bday_error"] = "";
+				$data["blood_type_error"] = form_error('blood_type');
+				$data["sss_error"] = form_error('sss');
+				$data["philhealth_error"] = form_error('philhealth');
+				$data["pagibig_error"] = form_error('pagibig');
+				$data["tin_error"] = form_error('tin');
+				$data["in_case_address_error"] = form_error('in_case_address');
 
+				$teacher_data["blood_type"] = $this->input->post("blood_type");
+				$teacher_data["sss"] = $this->input->post("sss");
+				$teacher_data["philhealth"] = $this->input->post("philhealth");
+				$teacher_data["pagibig"] = $this->input->post("pagibig");
+				$teacher_data["tin"] = $this->input->post("tin");
+				$teacher_data["in_case_address"] = $this->input->post("in_case_address");
 				$teacher_data["dept_head"] = $this->input->post("dept_head");
 				$teacher_data["dept_head_number"] = $this->input->post("dept_head_number");
 				$teacher_data["first_name"] = $this->input->post("first_name");
@@ -212,15 +236,22 @@ You can login to ".base_url("teacher");
 
 	public function edit($arg='')
 	{
+
 		if($_POST){
+			$this->form_validation->set_rules('blood_type', 'Blood Type', 'max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('sss', 'SSS', 'max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('philhealth', 'PhilHealth', 'max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('pagibig', 'Pag-IBIG', 'max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('tin', 'TIN', 'max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('in_case_address', 'Person Address', 'max_length[200]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('gender', 'Gender', 'required|max_length[50]|trim|htmlspecialchars');
-			$this->form_validation->set_rules('dept_head', 'Department Head', 'required|max_length[50]|trim|htmlspecialchars');
-			$this->form_validation->set_rules('dept_head_number', 'Department Head Contact Number', 'required|numeric|max_length[11]|min_length[11]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('dept_head', 'Department Head', 'max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('dept_head_number', 'Department Head Contact Number', 'numeric|max_length[11]|min_length[11]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('teacher_id', 'First Name', 'required|trim|htmlspecialchars|is_in_db[teachers.id]');
 			$this->form_validation->set_rules('first_name', 'First Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('address', 'Address', 'required|min_length[2]|max_length[100]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('last_name', 'Last Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
-			$this->form_validation->set_rules('middle_name', 'Middle Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('middle_name', 'Middle Name', 'custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('suffix', 'Suffix', 'custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('bday_m', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('bday_d', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
@@ -339,6 +370,12 @@ You can login to ".base_url("teacher");
 				$data["guardian_id_error"] = form_error('guardian_id');
 				$data["class_id_error"] = form_error('class_id');
 				$data["teacher_id_error"] = form_error('teacher_id');
+				$data["blood_type_error"] = form_error('blood_type');
+				$data["sss_error"] = form_error('sss');
+				$data["philhealth_error"] = form_error('philhealth');
+				$data["pagibig_error"] = form_error('pagibig');
+				$data["tin_error"] = form_error('tin');
+				$data["in_case_address_error"] = form_error('in_case_address');
 			}
 			else
 			{
@@ -357,7 +394,19 @@ You can login to ".base_url("teacher");
 				$data["bday_error"] = "";
 				$data["guardian_id_error"] = "";
 				$data["class_id_error"] = "";
+				$data["blood_type_error"] = form_error('blood_type');
+				$data["sss_error"] = form_error('sss');
+				$data["philhealth_error"] = form_error('philhealth');
+				$data["pagibig_error"] = form_error('pagibig');
+				$data["tin_error"] = form_error('tin');
+				$data["in_case_address_error"] = form_error('in_case_address');
 
+				$teacher_data["blood_type"] = $this->input->post("blood_type");
+				$teacher_data["sss"] = $this->input->post("sss");
+				$teacher_data["philhealth"] = $this->input->post("philhealth");
+				$teacher_data["pagibig"] = $this->input->post("pagibig");
+				$teacher_data["tin"] = $this->input->post("tin");
+				$teacher_data["in_case_address"] = $this->input->post("in_case_address");
 				$teacher_data["gender"] = $this->input->post("gender");
 				$teacher_data["dept_head"] = $this->input->post("dept_head");
 				$teacher_data["dept_head_number"] = $this->input->post("dept_head_number");

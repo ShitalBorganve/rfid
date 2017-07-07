@@ -267,6 +267,12 @@ $(document).ready(function(e) {
           $("#teacher_photo_help-block").html(data.photo_error);
           $("#teacher_dept_head_help-block").html(data.dept_head_error);
           $("#teacher_dept_head_number_help-block").html(data.dept_head_number_error);
+          $("#teacher_blood_type_help-block").html(data.blood_type_error);
+          $("#teacher_sss_help-block").html(data.sss_error);
+          $("#teacher_philhealth_help-block").html(data.philhealth_error);
+          $("#teacher_pagibig_help-block").html(data.pagibig_error);
+          $("#teacher_tin_help-block").html(data.tin_error);
+          $("#teacher_in_case_address_help-block").html(data.in_case_address_error);
         }
       },
       error: function(e) {
@@ -316,6 +322,12 @@ $(document).ready(function(e) {
           $("#staff_guardian_id_help-block").html(data.guardian_id_error);
           $("#staff_class_id_help-block").html(data.class_id_error);
           $("#staff_photo_help-block").html(data.photo_error);
+          $("#staff_blood_type_help-block").html(data.blood_type_error);
+          $("#staff_sss_help-block").html(data.sss_error);
+          $("#staff_philhealth_help-block").html(data.philhealth_error);
+          $("#staff_pagibig_help-block").html(data.pagibig_error);
+          $("#staff_tin_help-block").html(data.tin_error);
+          $("#staff_in_case_address_help-block").html(data.in_case_address_error);
         }
       },
       error: function(e) {

@@ -26,7 +26,7 @@ class Admin extends CI_Controller {
 		$this->load->library('session');
 
 		//updates
-		// $this->app_config->updates(current_build());
+		$this->app_config->updates(current_build());
 		
 		$this->data["title"] = "Main Title";
 		$this->data["css_scripts"] = $this->load->view("scripts/css","",true);

@@ -29,6 +29,11 @@ class App_config extends CI_Model {
             $app_config->version += 0.0001;
             switch ($app_config->version) {
                 case 1.0001:
+                    $this->db->query("ALTER TABLE `teachers` ADD `blood_type` VARCHAR(50) NOT NULL AFTER `birthdate`, ADD `sss` VARCHAR(50) NOT NULL AFTER `blood_type`, ADD `philhealth` VARCHAR(50) NOT NULL AFTER `sss`, ADD `pagibig` VARCHAR(50) NOT NULL AFTER `philhealth`, ADD `tin` VARCHAR(50) NOT NULL AFTER `pagibig`");
+                    $this->db->query("ALTER TABLE `teachers` ADD `in_case_address` TEXT NOT NULL AFTER `in_case_contact_number`");
+                    $this->db->query("ALTER TABLE `staffs` ADD `blood_type` VARCHAR(50) NOT NULL AFTER `birthdate`, ADD `sss` VARCHAR(50) NOT NULL AFTER `blood_type`, ADD `philhealth` VARCHAR(50) NOT NULL AFTER `sss`, ADD `pagibig` VARCHAR(50) NOT NULL AFTER `philhealth`, ADD `tin` VARCHAR(50) NOT NULL AFTER `pagibig`");
+                    $this->db->query("ALTER TABLE `staffs` ADD `in_case_address` TEXT NOT NULL AFTER `in_case_contact_number`");
+                    $this->db->query("UPDATE app_config SET version='".$app_config->version."' WHERE id='1'");
                     echo $app_config->version;
                     break;
                 case 1.0002:

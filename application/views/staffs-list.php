@@ -194,6 +194,46 @@ echo '
           </div>
 
           <div class="form-group">
+            <label class="col-sm-2" for="blood_type">Blood Type:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control edit_field" name="blood_type" placeholder="Enter Blood Type">
+              <p class="help-block" id="blood_type_help-block"></p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2" for="sss">SSS:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control edit_field" name="sss" placeholder="Enter SSS">
+              <p class="help-block" id="sss_help-block"></p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2" for="philhealth">PhilHealth:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control edit_field" name="philhealth" placeholder="Enter PhilHealth">
+              <p class="help-block" id="philhealth_help-block"></p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2" for="pagibig">Pag-IBIG:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control edit_field" name="pagibig" placeholder="Enter Pag-IBIG">
+              <p class="help-block" id="pagibig_help-block"></p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2" for="tin">TIN:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control edit_field" name="tin" placeholder="Enter TIN">
+              <p class="help-block" id="tin_help-block"></p>
+            </div>
+          </div>
+
+          <div class="form-group">
             <label class="col-sm-2" for="dept_head">Department Head:</label>
             <div class="col-sm-10">
               <input type="text" class="form-control edit_field" name="dept_head" placeholder="Enter Department Head">
@@ -209,21 +249,27 @@ echo '
             </div>
           </div>
 
-
           <div class="form-group">
             <label class="col-sm-2" for="in_case_name">In Case of Emergency Contact:</label>
             <div class="col-sm-10">
               <input type="text" class="form-control edit_field" name="in_case_name" placeholder="Enter Contact Name">
               <p class="help-block" id="in_case_name_help-block"></p>
             </div>
-            
           </div>
 
           <div class="form-group">
-            <label class="col-sm-2" for="in_case_contact_number">Contact Number:</label>
+            <label class="col-sm-2" for="in_case_contact_number">Person Contact Number:</label>
             <div class="col-sm-10"> 
               <input type="text" class="form-control edit_field" name="in_case_contact_number" placeholder="Enter Contact Number">
             <p class="help-block" id="in_case_contact_number_help-block"></p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2" for="in_case_address">Person Address:</label>
+            <div class="col-sm-10"> 
+              <input type="text" class="form-control edit_field" name="in_case_address" placeholder="Enter Address">
+            <p class="help-block" id="in_case_address_help-block"></p>
             </div>
           </div>
 
@@ -354,6 +400,12 @@ $(document).ready(function() {
         $('input[name="middle_name"].edit_field').val(data.middle_name);
         $('input[name="suffix"].edit_field').val(data.suffix);
         $('input[name="contact_number"].edit_field').val(data.contact_number);
+        $('input[name="blood_type"].edit_field').val(data.blood_type);
+        $('input[name="sss"].edit_field').val(data.sss);
+        $('input[name="philhealth"].edit_field').val(data.philhealth);
+        $('input[name="pagibig"].edit_field').val(data.pagibig);
+        $('input[name="tin"].edit_field').val(data.tin);
+        $('input[name="in_case_address"].edit_field').val(data.in_case_address);
         $('select[name="bday_m"].edit_field').val(data.bday_m);
         $('select[name="gender"].edit_field').val(data.gender);
         $('select[name="bday_d"].edit_field').val(data.bday_d);
@@ -389,6 +441,12 @@ $(document).ready(function() {
       },
       success: function(data) {
         $("#first_name_help-block").html(data.first_name_error);
+        $("#blood_type_help-block").html(data.blood_type_error);
+        $("#sss_help-block").html(data.sss_error);
+        $("#philhealth_help-block").html(data.philhealth_error);
+        $("#pagibig_help-block").html(data.pagibig_error);
+        $("#tin_help-block").html(data.tin_error);
+        $("#in_case_address_help-block").html(data.in_case_address_error);
         $("#dept_head_help-block").html(data.dept_head_error);
         $("#dept_head_number_help-block").html(data.dept_head_number_error);
         $("#in_case_name_help-block").html(data.in_case_name_error);
