@@ -48,6 +48,7 @@ class Admin extends CI_Controller {
 
 		$navbar_data["navbar_type"] = "admin";
 		($this->session->userdata("admin_sessions")?$navbar_data["navbar_is_logged_in"] = TRUE:$navbar_data["navbar_is_logged_in"] = FALSE);
+		$navbar_data["school_name"] = $this->db->get("app_config")->row()->client_name;
 		$this->data["navbar_scripts"] = $this->load->view("layouts/navbar",$navbar_data,true);
 
 		if(current_url()==base_url("admin")||current_url()==base_url("admin/login")){
@@ -181,6 +182,10 @@ class Admin extends CI_Controller {
 		}else{
 			redirect('admin');
 		}
+	}
+	public function change_school_name()
+	{
+		
 	}
 	public function json($value='')
 	{

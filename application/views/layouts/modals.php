@@ -1348,6 +1348,44 @@ echo '
 ';
 
 
+echo '
+<!--RFID Scan to Load up Student Modal -->
+<div id="change_school_name_modal" class="modal fade" role="dialog" tabindex="-1">
+  <div class="modal-dialog modal-sm">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <h4 class="modal-title">Change school name</h4>
+    </div>
+      <div class="modal-body">
+        <p>
+        '.form_open("admin/change_school_name",'id="change_school_name_form"').'
+
+          <div class="form-group">
+            <label for="change_school_name"></label>
+            <div class="col-sm-12">
+              <input type="text" class="form-control" name="school_name" placeholder="Enter School Name">
+              <p class="help-block" id="school_name_help-block"></p>
+            </div>
+          </div>
+
+
+        </form>
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" form="change_school_name_form">Save</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+';
+
 
 }elseif ($modals_sets=="teacher") {
     echo '

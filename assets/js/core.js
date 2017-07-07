@@ -2,6 +2,22 @@ $(document).ready(function(e) {
   $('input[name="rfid"]').click(function(e) {
     $(this).val("");
   });
+  $("#change_school_name").click(function(e) {
+    $("#change_school_name_modal").modal("show");
+  });
+  $(document).on("submit","#change_school_name_form",function(e) {
+    e.preventDefault();
+    $.ajax({
+      type: "POST",
+      url: $("#change_school_name_form").attr("action"),
+      data: $("#change_school_name_form").serialize(),
+      cache: false,
+      dataType: "json",
+      success: function(data) {
+        
+      }
+    });
+  });
   $(document).on("submit", "#rfid_scan_add_load_credit_form", function(e) {
     e.preventDefault();
     $.ajax({
