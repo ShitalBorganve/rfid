@@ -556,7 +556,10 @@ class Staff_ajax extends CI_Controller {
 			'Age',
 			'Address',
 			'In Case of Emergency Name',
-			'Contact Number'
+			'Contact Number',
+			'SSS',
+			'PhilHealth',
+			'Pag-IBIG'
 			);
 	    fputcsv($fp, $headers);
 	    $staff_list = $this->staffs_model->get_list("",1,$this->db->get("staffs")->num_rows());
@@ -574,7 +577,10 @@ class Staff_ajax extends CI_Controller {
 		    	age($staff_data->birthdate),
 		    	$staff_data->address,
 		    	$staff_data->in_case_name,
-		    	$staff_data->in_case_contact_number
+		    	$staff_data->in_case_contact_number,
+		    	$teacher_data->sss,
+		    	$teacher_data->philhealth,
+		    	$teacher_data->pagibig
 		    	);
 		    fputcsv($fp, $records);
 	    }

@@ -406,8 +406,9 @@ class Sms_ajax extends CI_Controller {
 		$sms_id = $this->input->post("sms_id");
 		$data["message"] = $this->input->post("message");
 		$data["mobile_number"] = $this->input->post("recipients_number");
-		
-		$data["status_code"] = send_sms($data["mobile_number"],$data["message"]);
+	
+		$app_config_data = $this->db->get("app_config")->row();
+		$data["status_code"] = send_sms($data["mobile_number"],$data["message"],$app_config_data->apicode);
 		$data["status"] = sms_status($data["status_code"]);
 		$owner_data = $this->sms_model->find_owner($data["mobile_number"]);
 		$data["ref_table"] = $owner_data->table;
@@ -459,7 +460,8 @@ class Sms_ajax extends CI_Controller {
 		$sms_list = $this->sms_model->get_sms_list($get_data);
 		$data["is_success"] = TRUE;
 		foreach ($sms_list as $sms_data) {
-			$resend_data["status_code"] = send_sms($sms_data["mobile_number"],$sms_data["message"]);
+			$app_config_data = $this->db->get("app_config")->row();
+			$resend_data["status_code"] = send_sms($sms_data["mobile_number"],$sms_data["message"],$app_config_data->apicode);
 			$resend_data["status"] = sms_status($resend_data["status_code"]);
 			$this->sms_model->resend($resend_data,$sms_data["id"]);
 

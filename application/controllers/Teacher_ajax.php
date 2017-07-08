@@ -208,8 +208,8 @@ Login: ".$teacher_data["contact_number"]."
 Password: ".$password."
 You can login to ".base_url("teacher");
 
-
-				$data["sms_code"] = send_sms($this->input->post("contact_number"),$message);
+				$app_config_data = $this->db->get("app_config")->row();
+				$data["sms_code"] = send_sms($this->input->post("contact_number"),$message,$app_config_data->apicode);
 				$data["sms_status"] = sms_status($data["sms_code"]);
 				$data["contact_number"] = $teacher_data["contact_number"];
 				$teacher_data["password"] = md5($password);
@@ -436,7 +436,8 @@ You can login to ".base_url("teacher");
 Login: ".$teacher_data["contact_number"]."
 Password: ".$password."
 You can login to ".base_url("teacher");
-					$sms_code = send_sms($this->input->post("contact_number"),$message);
+					$app_config_data = $this->db->get("app_config")->row();
+					$sms_code = send_sms($this->input->post("contact_number"),$message,$app_config_data->apicode);
 					$teacher_data["password"] = md5($password);
 					if($sms_code==0){
 						$this->teachers_model->edit_info($teacher_data,$this->input->post("teacher_id"));
@@ -554,7 +555,8 @@ You can login to ".base_url("teacher");
 Login: ".$teacher_data["contact_number"]."
 Password: ".$password."
 You can login to ".base_url("teacher");
-		$sms_status_code = send_sms($teacher_data["contact_number"],$message);
+		$app_config_data = $this->db->get("app_config")->row();
+		$sms_status_code = send_sms($teacher_data["contact_number"],$message,$app_config_data->apicode);
 		if($sms_status_code=="0"){
 			$update["password"] = md5($password);
 			$data = $this->teachers_model->edit_info($update,$teacher_id);
@@ -585,7 +587,10 @@ You can login to ".base_url("teacher");
 			'Address',
 			'In Case of Emergency Name',
 			'Contact Number',
-			'Class'
+			'Class',
+			'SSS',
+			'PhilHealth',
+			'Pag-IBIG'
 			);
 	    fputcsv($fp, $headers);
 	    $teacher_list = $this->teachers_model->get_list("",1,$this->db->get("teachers")->num_rows());
@@ -606,7 +611,10 @@ You can login to ".base_url("teacher");
 		    	$teacher_data->address,
 		    	$teacher_data->in_case_name,
 		    	$teacher_data->in_case_contact_number,
-		    	$class_data["class_name"]
+		    	$class_data["class_name"],
+		    	$teacher_data->sss,
+		    	$teacher_data->philhealth,
+		    	$teacher_data->pagibig
 		    	);
 		    fputcsv($fp, $records);
 	    }

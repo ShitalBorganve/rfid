@@ -76,7 +76,8 @@ class Guardian_ajax extends CI_Controller {
 Login: ".$this->input->post("contact_number")."
 Password: ".$password."
 You can login to ".base_url();
-				$data["sms_code"] = send_sms($this->input->post("contact_number"),$message);
+				$app_config_data = $this->db->get("app_config")->row();
+				$data["sms_code"] = send_sms($this->input->post("contact_number"),$message,$app_config_data->apicode);
 				$data["sms_status"] = sms_status($data["sms_code"]);
 				$data["contact_number"] = $guardian_data["contact_number"];
 
@@ -137,7 +138,8 @@ You can login to ".base_url();
 Login: ".$this->input->post("contact_number")."
 Password: ".$password."
 You can login to ".base_url();
-					$sms_code = send_sms($this->input->post("contact_number"),$message);
+					$app_config_data = $this->db->get("app_config")->row();
+					$sms_code = send_sms($this->input->post("contact_number"),$message,$app_config_data->apicode);
 					$guardian_data["password"] = md5($password);
 
 					if($sms_code==0){
@@ -183,8 +185,8 @@ You can login to ".base_url();
 Login: ".$guardian_data["contact_number"]."
 Password: ".$password."
 You can login to ".base_url();
-
-		$sms_status_code = send_sms($guardian_data["contact_number"],$message);
+		$app_config_data = $this->db->get("app_config")->row();
+		$sms_status_code = send_sms($guardian_data["contact_number"],$message,$app_config_data->apicode);
 		$data["status_code"] = $sms_status_code;
 		$data["contact_number"] = $guardian_data["contact_number"];
 		if($sms_status_code=="0"){

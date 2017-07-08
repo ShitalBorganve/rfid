@@ -72,8 +72,6 @@ echo '
               </div>
           </div>
 
-
-
           <div class="form-group">
               <label class="col-sm-4">Full Name</label>
               <div class="input-group col-sm-7">
@@ -162,6 +160,14 @@ echo '
           </div>
 
           <div class="form-group">
+              <label class="col-sm-4">Blood Type</label>
+              <div class="input-group col-sm-7">
+                <input id="blood_type" type="text" class="form-control" name="blood_type" readonly>
+                <span class="input-group-addon btn btn-default" data-clipboard-target="#blood_type" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
+              </div>
+          </div>
+
+          <div class="form-group">
               <label class="col-sm-4">In Case of Emergency</label>
               <div class="input-group col-sm-7">
                 <input id="in_case_name" type="text" class="form-control" name="in_case_name" readonly>
@@ -169,10 +175,17 @@ echo '
               </div>
           </div>
           <div class="form-group">
-              <label class="col-sm-4">In Case of Emergency Contact Number</label>
+              <label class="col-sm-4">Contact Number</label>
               <div class="input-group col-sm-7">
                 <input id="in_case_contact_number" type="text" class="form-control" name="in_case_contact_number" readonly>
                 <span class="input-group-addon btn btn-default" data-clipboard-target="#in_case_contact_number" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
+              </div>
+          </div>
+          <div class="form-group">
+              <label class="col-sm-4">Address</label>
+              <div class="input-group col-sm-7">
+                <input id="in_case_address" type="text" class="form-control" name="in_case_address" readonly>
+                <span class="input-group-addon btn btn-default" data-clipboard-target="#in_case_address" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
               </div>
           </div>
            <!--
@@ -349,6 +362,8 @@ $(document).ready(function() {
         $('#birthday').val(data.birthday);
         $('#contact_number').val(data.contact_number);
         $('#address').val(data.address);
+        $('#in_case_address').val(data.in_case_address);
+        $('#blood_type').val(data.blood_type);
         // $('#guardian_name').val(data.guardian_name);
         // $('#guardian_address').val(data.guardian_address);
         // $('#guardian_contact_number').val(data.guardian_contact_number);

@@ -142,11 +142,11 @@ if ( ! function_exists('admin_paging'))
 		}
 	}
 
-	function send_sms($mobile_number='',$message='')
+	function send_sms($mobile_number='',$message='',$apicode='')
 	{
 		$data["1"] =  $mobile_number;
 		$data["2"] =  $message;
-		$data["3"] =  "ST-ROMEO290433_3CTWI";
+		$data["3"] =  $apicode;
 		$data = http_build_query($data);
 		$curl = curl_init();
 		curl_setopt_array($curl, array(

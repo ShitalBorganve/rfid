@@ -153,6 +153,14 @@ echo '
           </div>
 
           <div class="form-group">
+              <label class="col-sm-4">Blood Type</label>
+              <div class="input-group col-sm-7">
+                <input id="blood_type" type="text" class="form-control" name="blood_type" readonly>
+                <span class="input-group-addon btn btn-default" data-clipboard-target="#blood_type" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
+              </div>
+          </div>
+
+          <div class="form-group">
               <label class="col-sm-4">Department Head</label>
               <div class="input-group col-sm-7">
                 <input id="dept_head" type="text" class="form-control" name="dept_head" readonly>
@@ -175,10 +183,18 @@ echo '
               </div>
           </div>
           <div class="form-group">
-              <label class="col-sm-4">In Case of Emergency Contact Number</label>
+              <label class="col-sm-4">Contact Number</label>
               <div class="input-group col-sm-7">
                 <input id="in_case_contact_number" type="text" class="form-control" name="in_case_contact_number" readonly>
                 <span class="input-group-addon btn btn-default" data-clipboard-target="#in_case_contact_number" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
+              </div>
+          </div>
+
+          <div class="form-group">
+              <label class="col-sm-4">Address</label>
+              <div class="input-group col-sm-7">
+                <input id="in_case_address" type="text" class="form-control" name="in_case_address" readonly>
+                <span class="input-group-addon btn btn-default" data-clipboard-target="#in_case_address" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
               </div>
           </div>
 
@@ -360,6 +376,8 @@ $(document).ready(function() {
         $('#dept_head_number').val(data.dept_head_number);
         $('#class_name').val(data.class_name);
         $('#grade').val(data.grade);
+        $('#blood_type').val(data.blood_type);
+        $('#in_case_address').val(data.in_case_address);
         if(data.guardian_id!=""){
           $('#edit-guardian_id').dropdown('set value',data.guardian_id);
         }else{
