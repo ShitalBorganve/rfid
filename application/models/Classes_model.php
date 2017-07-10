@@ -37,7 +37,8 @@ class Classes_model extends CI_Model {
             		$get_data["id"] = $class_data->teacher_id;
             		$teacher_query = $this->db->get_where("teachers",$get_data);
             		$class_data->teacher_data = $teacher_query->row();
-            		$class_data->teacher_data->full_name = $class_data->teacher_data->last_name.", ".$class_data->teacher_data->first_name." ".$class_data->teacher_data->middle_name[0].". ".$class_data->teacher_data->suffix;
+                    $class_data->teacher_data->middle_initial = ($class_data->teacher_data->middle_name==""?"":$class_data->teacher_data->middle_name[0].". ");
+            		$class_data->teacher_data->full_name = $class_data->teacher_data->last_name.", ".$class_data->teacher_data->first_name." ".$class_data->teacher_data->middle_initial.$class_data->teacher_data->suffix;
             	}else{
             		$teacher_data = new stdClass();
             		$teacher_data->id = 0;

@@ -265,7 +265,8 @@ class Rfid_ajax extends CI_Controller {
 
 				$rfid_owner_data->rfid_data->load_credits = number_format($rfid_owner_data->rfid_data->load_credits,2);
 				$rfid_owner_data->display_photo = base_url("assets/images/student_photo/".$rfid_owner_data->display_photo);
-				$rfid_owner_data->full_name = $rfid_owner_data->last_name.", ".$rfid_owner_data->first_name." ".$rfid_owner_data->middle_name[0].". ".$rfid_owner_data->suffix;
+				$rfid_owner_data->middle_initial = ($rfid_owner_data->middle_name==""?"":$rfid_owner_data->middle_name[0].". ");
+				$rfid_owner_data->full_name = $rfid_owner_data->last_name.", ".$rfid_owner_data->first_name." ".$rfid_owner_data->middle_initial.$rfid_owner_data->suffix;
 
 				$rfid_owner_data->is_valid = TRUE;
 
@@ -291,7 +292,8 @@ class Rfid_ajax extends CI_Controller {
 				$rfid_owner_data->is_valid = TRUE;
 				$rfid_owner_data->load_credits = number_format($rfid_owner_data->rfid_data->load_credits,2);
 				$rfid_owner_data->display_photo = base_url("assets/images/student_photo/".$rfid_owner_data->display_photo);
-				$rfid_owner_data->full_name = $rfid_owner_data->last_name.", ".$rfid_owner_data->first_name." ".$rfid_owner_data->middle_name[0].". ".$rfid_owner_data->suffix;
+				$rfid_owner_data->middle_initial = ($rfid_owner_data->middle_name==""?"":$rfid_owner_data->middle_name[0].". ");
+				$rfid_owner_data->full_name = $rfid_owner_data->last_name.", ".$rfid_owner_data->first_name." ".$rfid_owner_data->middle_initial.$rfid_owner_data->suffix;
 			}
 			echo json_encode($rfid_owner_data);
 		}

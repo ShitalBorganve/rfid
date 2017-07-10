@@ -48,7 +48,8 @@ class Staffs_model extends CI_Model {
             $data["query"] = $this->db->last_query();
             $staffs_data = $query->result();
             foreach ($staffs_data as $staff_data) {
-                $staff_data->full_name = $staff_data->last_name.", ".$staff_data->first_name." ".$staff_data->middle_name[0].". ".$staff_data->suffix;
+                $staff_data->middle_initial = ($staff_data->middle_name==""?"":$staff_data->middle_name[0].". ");
+                $staff_data->full_name = $staff_data->last_name.", ".$staff_data->first_name." ".$staff_data->middle_initial.$staff_data->suffix;
                 $get_data = array();
                 $get_data["ref_id"] = $staff_data->id;
                 $get_data["ref_table"] = "staffs";

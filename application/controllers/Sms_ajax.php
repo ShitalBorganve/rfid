@@ -416,16 +416,19 @@ class Sms_ajax extends CI_Controller {
 		$get_data["id"] = $owner_data->id;
 		if($owner_data->table=="students"){
 			$students_data = $this->students_model->get_data($get_data,TRUE);
-			$data["recipient"] = $students_data->last_name.", ".$students_data->first_name." ".$students_data->middle_name[0].". ".$students_data->suffix;
+			$students_data->middle_initial = ($students_data->middle_name==""?"":$students_data->middle_name[0].". ");
+			$data["recipient"] = $students_data->last_name.", ".$students_data->first_name." ".$students_data->middle_initial.$students_data->suffix;
 		}elseif ($owner_data->table=="teachers") {
 			if($owner_data->table=="teachers"){
 				$teachers_data = $this->teachers_model->get_data($get_data,TRUE);
-				$data["recipient"] = $teachers_data->last_name.", ".$teachers_data->first_name." ".$teachers_data->middle_name[0].". ".$teachers_data->suffix;
+				$teachers_data->middle_initial = ($teachers_data->middle_name==""?"":$teachers_data->middle_name[0].". ");
+				$data["recipient"] = $teachers_data->last_name.", ".$teachers_data->first_name." ".$teachers_data->middle_initial.$teachers_data->suffix;
 			}
 		}elseif ($owner_data->table=="staffs") {
 			if($owner_data->table=="staffs"){
 				$staffs_data = $this->staffs_model->get_data($get_data,TRUE);
-				$data["recipient"] = $staffs_data->last_name.", ".$staffs_data->first_name." ".$staffs_data->middle_name[0].". ".$staffs_data->suffix;
+				$staffs_data->middle_initial = ($staffs_data->middle_name==""?"":$staffs_data->middle_name[0].". ");
+				$data["recipient"] = $staffs_data->last_name.", ".$staffs_data->first_name." ".$staffs_data->middle_initial.$staffs_data->suffix;
 			}
 		}elseif ($owner_data->table=="guardians") {
 			if($owner_data->table=="guardians"){

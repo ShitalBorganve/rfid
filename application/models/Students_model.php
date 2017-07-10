@@ -47,7 +47,8 @@ class Students_model extends CI_Model {
                 $get_data["ref_id"] = $student_data->id;
                 $get_data["ref_table"] = "students";
                 $student_data->rfid_data = $this->db->get_where("rfid",$get_data)->row();
-                $student_data->full_name = $student_data->last_name.", ".$student_data->first_name." ".$student_data->middle_name[0].". ".$student_data->suffix;
+                $student_data->middle_initial = ($student_data->middle_name==""?"":$student_data->middle_name[0].". ");
+                $student_data->full_name = $student_data->last_name.", ".$student_data->first_name." ".$student_data->middle_initial.$student_data->suffix;
             }
             $data["result"] = $students_data;
 

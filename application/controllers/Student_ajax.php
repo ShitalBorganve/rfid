@@ -453,7 +453,8 @@ class Student_ajax extends CI_Controller {
 			$data = $this->students_model->get_list($where,1,$this->db->get_where("students",$where)->num_rows());
 
 			foreach ($data["result"] as $student_data) {
-				$student_data->full_name = $student_data->last_name.", ".$student_data->first_name." ".$student_data->middle_name[0].". ".$student_data->suffix;
+				$student_data->middle_initial = ($student_data->middle_name==""?"":$student_data->middle_name[0].". ");
+				$student_data->full_name = $student_data->last_name.", ".$student_data->first_name." ".$student_data->middle_initial.$student_data->suffix;
 			}
 			echo json_encode($data["result"]);
 		}elseif ($arg=="admin") {
@@ -465,7 +466,8 @@ class Student_ajax extends CI_Controller {
 			$data = $this->students_model->get_list($where,1,$this->db->get_where("students",$where)->num_rows());
 
 			foreach ($data["result"] as $student_data) {
-				$student_data->full_name = $student_data->last_name.", ".$student_data->first_name." ".$student_data->middle_name[0].". ".$student_data->suffix;
+				$student_data->middle_initial = ($student_data->middle_name==""?"":$student_data->middle_name[0].". ");
+				$student_data->full_name = $student_data->last_name.", ".$student_data->first_name." ".$student_data->middle_initial.$student_data->suffix;
 			}
 			echo json_encode($data["result"]);
 			
@@ -479,7 +481,8 @@ class Student_ajax extends CI_Controller {
 			$data = $this->students_model->get_list($where,1,$this->db->get_where("students",$where)->num_rows());
 
 			foreach ($data["result"] as $student_data) {
-				$student_data->full_name = $student_data->last_name.", ".$student_data->first_name." ".$student_data->middle_name[0].". ".$student_data->suffix;
+				$student_data->middle_initial = ($student_data->middle_name==""?"":$student_data->middle_name[0].". ");
+				$student_data->full_name = $student_data->last_name.", ".$student_data->first_name." ".$student_data->middle_initial.$student_data->suffix;
 			}
 			echo json_encode($data["result"]);
 			
