@@ -168,7 +168,7 @@ class Rfid_ajax extends CI_Controller {
 							if($guardian_data["email_subscription"]=="1"){
 
 								$this->db->where("id",1);
-								$app_config_data = $this->db->get("app_config")->row());
+								$app_config_data = $this->db->get("app_config")->row();
 								$this->load->library('email');
 
 								$this->email->from('no-reply@rfid-ph.net', $app_config_data->client_name.'Gate Notifications');
