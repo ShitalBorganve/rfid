@@ -336,7 +336,7 @@ if($modals_sets=="admin"){
             <div class="form-group">
               <label class="col-sm-2" for="student_photo">Photo:</label>
               <div class="col-sm-10">
-              <input type="file" name="student_photo" size="20" class="form-control">
+              <input type="file" name="student_photo" size="20" class="form-control" accept="image/*">
                 <p class="help-block" id="student_photo_help-block"></p>
               </div>
             </div>
@@ -549,7 +549,7 @@ if($modals_sets=="admin"){
             <div class="form-group">
               <label class="col-sm-2" for="teacher_photo">Photo:</label>
               <div class="col-sm-10">
-              <input type="file" name="teacher_photo" size="20" class="form-control">
+              <input type="file" name="teacher_photo" size="20" class="form-control" accept="image/*">
                 <p class="help-block" id="teacher_photo_help-block"></p>
               </div>
             </div>
@@ -776,7 +776,7 @@ if($modals_sets=="admin"){
             <div class="form-group">
               <label class="col-sm-2" for="staff_photo">Photo:</label>
               <div class="col-sm-10">
-              <input type="file" name="staff_photo" size="20" class="form-control">
+              <input type="file" name="staff_photo" size="20" class="form-control" accept="image/*">
                 <p class="help-block" id="staff_photo_help-block"></p>
               </div>
             </div>

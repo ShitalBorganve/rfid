@@ -128,7 +128,7 @@ if($navbar_type=="admin"){
                 // echo '<a href="#" id="send-sms-admin">Send SMS <span class="badge">'.$sms_module_sms_left.'</span></a>';
                 echo '<a href="'.base_url("admin/sms").'"><span class="glyphicon glyphicon glyphicon-envelope"></span> SMS Threads</a>';
                 echo '<a href="#" id="gate_change_password"><span class="glyphicon glyphicon-cog"></span> Change Gate Password</a>';
-                // echo '<a href="#" id="change_school_name"><span class="glyphicon glyphicon-cog"></span> '.$school_name.'</a>';
+                // echo '<a href="#" id="change_school_ name"><span class="glyphicon glyphicon-cog"></span> '.$school_name.'</a>';
                 echo '<a href="'.base_url("$navbar_type/logout").'"><span class="glyphicon glyphicon-log-out"></span> Logout</a>';
               }else{
                 echo '<a href="'.base_url("$navbar_type/login").'"><span class="glyphicon glyphicon-log-in"></span> Login</a>';

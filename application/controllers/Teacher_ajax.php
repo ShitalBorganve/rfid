@@ -94,7 +94,7 @@ class Teacher_ajax extends CI_Controller {
 
 				$config['overwrite'] = TRUE;
 				$config['upload_path'] = './assets/images/teacher_photo/';
-				$config['allowed_types'] = 'gif|jpg|png';
+				$config['allowed_types'] = '*';
 				$config['file_name'] = $filename;
 				$config['max_size']	= '20480';
 				$this->load->library('upload', $config);
@@ -105,26 +105,31 @@ class Teacher_ajax extends CI_Controller {
 				}
 				else
 				{
+					$image_data = $this->upload->data();
 					$data["photo_error"] = "";
 					$data["is_valid_photo"] = TRUE;
-					$image_data = $this->upload->data();
-					$filename = $filename.$image_data["file_ext"];
-					$image_data = $this->upload->data();
-					$config['image_library'] = 'gd2';
-					$config['source_image'] = $image_data["full_path"];
-					$full_path = $image_data["full_path"];
-					$file_path = $image_data["file_path"];
-					$file_name = $image_data["file_name"];
-					$config['create_thumb'] = FALSE;
-					$config['new_image'] = $filename;
-					$config['maintain_ratio'] = TRUE;
-					$config['width']     = 360;
-					$config['height']   = 360;
-					$this->load->library('image_lib', $config); 
-					$this->image_lib->resize();
-					$this->image_lib->clear();
+					if($image_data["is_image"]=="0"){
+						$data["is_valid_photo"] = FALSE;
+						$data["photo_error"] = "The file you are attempting to upload is not an image.";
+					}else{
+						$filename = $filename.$image_data["file_ext"];
+						$image_data = $this->upload->data();
+						$config['image_library'] = 'gd2';
+						$config['source_image'] = $image_data["full_path"];
+						$full_path = $image_data["full_path"];
+						$file_path = $image_data["file_path"];
+						$file_name = $image_data["file_name"];
+						$config['create_thumb'] = FALSE;
+						$config['new_image'] = $filename;
+						$config['maintain_ratio'] = TRUE;
+						$config['width']     = 360;
+						$config['height']   = 360;
+						$this->load->library('image_lib', $config); 
+						$this->image_lib->resize();
+						$this->image_lib->clear();
 
-					$has_uploaded_pic = TRUE;
+						$has_uploaded_pic = TRUE;
+					}
 				}
 			}else{
 				$data["is_valid_photo"] = TRUE;
@@ -308,7 +313,7 @@ You can login to ".base_url("teacher");
 
 				$config['overwrite'] = TRUE;
 				$config['upload_path'] = './assets/images/teacher_photo/';
-				$config['allowed_types'] = 'gif|jpg|png';
+				$config['allowed_types'] = '*';
 				$config['file_name'] = $filename;
 				$config['max_size']	= '20480';
 				$this->load->library('upload', $config);
@@ -319,26 +324,31 @@ You can login to ".base_url("teacher");
 				}
 				else
 				{
+					$image_data = $this->upload->data();
 					$data["photo_error"] = "";
 					$data["is_valid_photo"] = TRUE;
-					$image_data = $this->upload->data();
-					$filename = $filename.$image_data["file_ext"];
-					$image_data = $this->upload->data();
-					$config['image_library'] = 'gd2';
-					$config['source_image'] = $image_data["full_path"]; 
-					$full_path = $image_data["full_path"];
-					$file_path = $image_data["file_path"];
-					$file_name = $image_data["file_name"];
-					$config['create_thumb'] = FALSE;
-					$config['new_image'] = $filename;
-					$config['maintain_ratio'] = TRUE;
-					$config['width']     = 360;
-					$config['height']   = 360;
-					$this->load->library('image_lib', $config); 
-					$this->image_lib->resize();
-					$this->image_lib->clear();
+					if($image_data["is_image"]=="0"){
+						$data["is_valid_photo"] = FALSE;
+						$data["photo_error"] = "The file you are attempting to upload is not an image.";
+					}else{
+						$filename = $filename.$image_data["file_ext"];
+						$image_data = $this->upload->data();
+						$config['image_library'] = 'gd2';
+						$config['source_image'] = $image_data["full_path"]; 
+						$full_path = $image_data["full_path"];
+						$file_path = $image_data["file_path"];
+						$file_name = $image_data["file_name"];
+						$config['create_thumb'] = FALSE;
+						$config['new_image'] = $filename;
+						$config['maintain_ratio'] = TRUE;
+						$config['width']     = 360;
+						$config['height']   = 360;
+						$this->load->library('image_lib', $config); 
+						$this->image_lib->resize();
+						$this->image_lib->clear();
 
-					$has_uploaded_pic = TRUE;
+						$has_uploaded_pic = TRUE;
+					}
 				}
 			}else{
 				$data["is_valid_photo"] = TRUE;
@@ -456,8 +466,8 @@ You can login to ".base_url("teacher");
 				
 
 				if($has_uploaded_pic){
-					if(file_exists("assets/images/student_photo/".$student_data_db["display_photo"])){
-						unlink("assets/images/student_photo/".$student_data_db["display_photo"]);
+					if(file_exists("assets/images/student_photo/".$teacher_data_db["display_photo"])){
+						unlink("assets/images/student_photo/".$teacher_data_db["display_photo"]);
 					}
 					$teacher_id = $this->input->post("teacher_id");
 					rename($full_path,$file_path.$teacher_id."_".$file_name);

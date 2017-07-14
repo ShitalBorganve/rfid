@@ -84,7 +84,7 @@ class Student_ajax extends CI_Controller {
 
 				$config['overwrite'] = TRUE;
 				$config['upload_path'] = './assets/images/student_photo/';
-				$config['allowed_types'] = 'gif|jpg|png';
+				$config['allowed_types'] = '*';
 				$config['file_name'] = $filename;
 				$config['max_size']	= '20480';
 				$this->load->library('upload', $config);
@@ -95,26 +95,31 @@ class Student_ajax extends CI_Controller {
 				}
 				else
 				{
+					$image_data = $this->upload->data();
 					$data["photo_error"] = "";
 					$data["is_valid_photo"] = TRUE;
-					$image_data = $this->upload->data();
-					$filename = $filename.$image_data["file_ext"];
-					$image_data = $this->upload->data();
-					$config['image_library'] = 'gd2';
-					$config['source_image'] = $image_data["full_path"];
-					$full_path = $image_data["full_path"];
-					$file_path = $image_data["file_path"];
-					$file_name = $image_data["file_name"];
-					$config['create_thumb'] = FALSE;
-					$config['new_image'] = $filename;
-					$config['maintain_ratio'] = TRUE;
-					$config['width']     = 360;
-					$config['height']   = 360;
-					$this->load->library('image_lib', $config); 
-					$this->image_lib->resize();
-					$this->image_lib->clear();
+					if($image_data["is_image"]=="0"){
+						$data["is_valid_photo"] = FALSE;
+						$data["photo_error"] = "The file you are attempting to upload is not an image.";
+					}else{
+						$filename = $filename.$image_data["file_ext"];
+						$image_data = $this->upload->data();
+						$config['image_library'] = 'gd2';
+						$config['source_image'] = $image_data["full_path"];
+						$full_path = $image_data["full_path"];
+						$file_path = $image_data["file_path"];
+						$file_name = $image_data["file_name"];
+						$config['create_thumb'] = FALSE;
+						$config['new_image'] = $filename;
+						$config['maintain_ratio'] = TRUE;
+						$config['width']     = 360;
+						$config['height']   = 360;
+						$this->load->library('image_lib', $config); 
+						$this->image_lib->resize();
+						$this->image_lib->clear();
 
-					$has_uploaded_pic = TRUE;
+						$has_uploaded_pic = TRUE;
+					}
 				}
 			}else{
 				$data["is_valid_photo"] = TRUE;
@@ -253,7 +258,7 @@ class Student_ajax extends CI_Controller {
 
 				$config['overwrite'] = TRUE;
 				$config['upload_path'] = './assets/images/student_photo/';
-				$config['allowed_types'] = 'gif|jpg|png';
+				$config['allowed_types'] = '*';
 				$config['file_name'] = $filename;
 				$config['max_size']	= '20480';
 				$this->load->library('upload', $config);
@@ -264,26 +269,32 @@ class Student_ajax extends CI_Controller {
 				}
 				else
 				{
+					$image_data = $this->upload->data();
 					$data["photo_error"] = "";
 					$data["is_valid_photo"] = TRUE;
-					$image_data = $this->upload->data();
-					$filename = $filename.$image_data["file_ext"];
-					$image_data = $this->upload->data();
-					$config['image_library'] = 'gd2';
-					$config['source_image'] = $image_data["full_path"]; 
-					$full_path = $image_data["full_path"];
-					$file_path = $image_data["file_path"];
-					$file_name = $image_data["file_name"];
-					$config['create_thumb'] = FALSE;
-					$config['new_image'] = $filename;
-					$config['maintain_ratio'] = TRUE;
-					$config['width']     = 360;
-					$config['height']   = 360;
-					$this->load->library('image_lib', $config); 
-					$this->image_lib->resize();
-					$this->image_lib->clear();
+					if($image_data["is_image"]=="0"){
+						$data["is_valid_photo"] = FALSE;
+						$data["photo_error"] = "The file you are attempting to upload is not an image.";
 
-					$has_uploaded_pic = TRUE;
+					}else{
+						$filename = $filename.$image_data["file_ext"];
+						$image_data = $this->upload->data();
+						$config['image_library'] = 'gd2';
+						$config['source_image'] = $image_data["full_path"]; 
+						$full_path = $image_data["full_path"];
+						$file_path = $image_data["file_path"];
+						$file_name = $image_data["file_name"];
+						$config['create_thumb'] = FALSE;
+						$config['new_image'] = $filename;
+						$config['maintain_ratio'] = TRUE;
+						$config['width']     = 360;
+						$config['height']   = 360;
+						$this->load->library('image_lib', $config); 
+						$this->image_lib->resize();
+						$this->image_lib->clear();
+
+						$has_uploaded_pic = TRUE;
+					}
 				}
 			}else{
 				$data["is_valid_photo"] = TRUE;

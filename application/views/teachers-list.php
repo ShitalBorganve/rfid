@@ -268,7 +268,7 @@ echo '
           <div class="form-group">
             <label class="col-sm-2" for="teacher_photo">Photo:</label>
             <div class="col-sm-10">
-            <input type="file" name="teacher_photo" size="20" class="form-control">
+            <input type="file" name="teacher_photo" size="20" class="form-control" accept="image/*">
               <p class="help-block" id="photo_help-block"></p>
             </div>
           </div>
@@ -459,7 +459,7 @@ $(document).ready(function() {
         $("#bday_help-block").html(data.bday_error);
         $("#guardian_id_help-block").html(data.guardian_id_error);
         $("#teacher_class_id_help-block").html(data.class_id_error);
-        $("#teacher_photo_help-block").html(data.teacher_photo_error);
+        $("#photo_help-block").html(data.photo_error);
         $("#teacher_id_help-block").html(data.teacher_id_error);
         if(data.is_valid){
           $("#teacher_edit_form")[0].reset();
