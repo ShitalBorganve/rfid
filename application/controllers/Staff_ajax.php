@@ -41,12 +41,12 @@ class Staff_ajax extends CI_Controller {
 	{
 		
 		if($_POST){
-			$this->form_validation->set_rules('blood_type', 'Blood Type', 'required|max_length[50]|trim|htmlspecialchars');
-			$this->form_validation->set_rules('sss', 'SSS', 'required|max_length[50]|trim|htmlspecialchars');
-			$this->form_validation->set_rules('philhealth', 'PhilHealth', 'required|max_length[50]|trim|htmlspecialchars');
-			$this->form_validation->set_rules('pagibig', 'Pag-IBIG', 'required|max_length[50]|trim|htmlspecialchars');
-			$this->form_validation->set_rules('tin', 'TIN', 'required|max_length[50]|trim|htmlspecialchars');
-			$this->form_validation->set_rules('in_case_address', 'Person Address', 'required|max_length[200]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('blood_type', 'Blood Type', 'max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('sss', 'SSS', 'max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('philhealth', 'PhilHealth', 'max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('pagibig', 'Pag-IBIG', 'max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('tin', 'TIN', 'max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('in_case_address', 'Person Address', 'max_length[200]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('dept_head', 'Department Head', 'max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('dept_head_number', 'Department Head Contact Number', 'numeric|max_length[11]|min_length[11]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('position', 'Position', 'required|custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');

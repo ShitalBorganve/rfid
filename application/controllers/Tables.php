@@ -449,7 +449,7 @@ class Tables extends CI_Controller {
 					<tr class="'.$status.'">
 						
 						<td>'.sprintf("%03d",$gate_log_data->owner_data->id).'</td>
-						<td><a href="#" id="'.$gate_log_data->owner_data->id.'" class="gate_logs">'.$gate_log_data->owner_data->last_name.", ".$gate_log_data->owner_data->first_name." ".$gate_log_data->owner_data->middle_name[0].". ".$gate_log_data->owner_data->suffix.'</td>
+						<td><a href="#" id="'.$gate_log_data->owner_data->id.'" class="gate_logs">'.$gate_log_data->owner_data->last_name.", ".$gate_log_data->owner_data->first_name." ".($gate_log_data->owner_data->middle_name==""?"":$gate_log_data->owner_data->middle_name[0].". ").$gate_log_data->owner_data->suffix.'</td>
 						<td>'.date("m/d/Y",$gate_log_data->date).'</td>
 						<td>'.date("h:i:s A",$gate_log_data->date_time).'</td>
 						<td>'.strtoupper($gate_log_data->type).'</td>

@@ -168,7 +168,7 @@ class Rfid_ajax extends CI_Controller {
 							if($guardian_data["email_subscription"]=="1"){
 
 								$this->db->where("id",1);
-								$app_config_data = $this->db->get("app_config")->row());
+								$app_config_data = $this->db->get("app_config")->row();
 								$this->load->library('email');
 
 								$this->email->from('no-reply@rfid-ph.net', $app_config_data->client_name.' Gate Notifications');
@@ -265,7 +265,8 @@ class Rfid_ajax extends CI_Controller {
 
 				$rfid_owner_data->rfid_data->load_credits = number_format($rfid_owner_data->rfid_data->load_credits,2);
 				$rfid_owner_data->display_photo = base_url("assets/images/student_photo/".$rfid_owner_data->display_photo);
-				$rfid_owner_data->full_name = $rfid_owner_data->last_name.", ".$rfid_owner_data->first_name." ".$rfid_owner_data->middle_name[0].". ".$rfid_owner_data->suffix;
+				$rfid_owner_data->middle_initial = ($rfid_owner_data->middle_name==""?"":$rfid_owner_data->middle_name[0].". ");
+				$rfid_owner_data->full_name = $rfid_owner_data->last_name.", ".$rfid_owner_data->first_name." ".$rfid_owner_data->middle_initial.$rfid_owner_data->suffix;
 
 				$rfid_owner_data->is_valid = TRUE;
 
@@ -291,7 +292,8 @@ class Rfid_ajax extends CI_Controller {
 				$rfid_owner_data->is_valid = TRUE;
 				$rfid_owner_data->load_credits = number_format($rfid_owner_data->rfid_data->load_credits,2);
 				$rfid_owner_data->display_photo = base_url("assets/images/student_photo/".$rfid_owner_data->display_photo);
-				$rfid_owner_data->full_name = $rfid_owner_data->last_name.", ".$rfid_owner_data->first_name." ".$rfid_owner_data->middle_name[0].". ".$rfid_owner_data->suffix;
+				$rfid_owner_data->middle_initial = ($rfid_owner_data->middle_name==""?"":$rfid_owner_data->middle_name[0].". ");
+				$rfid_owner_data->full_name = $rfid_owner_data->last_name.", ".$rfid_owner_data->first_name." ".$rfid_owner_data->middle_initial.$rfid_owner_data->suffix;
 			}
 			echo json_encode($rfid_owner_data);
 		}
