@@ -171,7 +171,7 @@ class Rfid_ajax extends CI_Controller {
 								$app_config_data = $this->db->get("app_config")->row());
 								$this->load->library('email');
 
-								$this->email->from('no-reply@rfid-ph.net', $app_config_data->client_name.'Gate Notifications');
+								$this->email->from('no-reply@rfid-ph.net', $app_config_data->client_name.' Gate Notifications');
 								$this->email->to($guardian_data["email_address"]);
 
 								$this->email->subject('Gate Notification');

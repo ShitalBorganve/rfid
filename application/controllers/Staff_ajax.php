@@ -425,7 +425,9 @@ class Staff_ajax extends CI_Controller {
 				$this->staffs_model->edit_info($staff_data,$this->input->post("staff_id"));
 
 				if($has_uploaded_pic){
-					unlink("assets/images/staff_photo/".$staff_data_db["display_photo"]);
+					if(file_exists("assets/images/staff_photo/".$staff_data_db["display_photo"])){
+						unlink("assets/images/staff_photo/".$staff_data_db["display_photo"]);
+					}
 					$staff_id = $this->input->post("staff_id");
 					rename($full_path,$file_path.$staff_id."_".$file_name);
 					$edit_data = array();

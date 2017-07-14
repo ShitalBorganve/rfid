@@ -350,7 +350,9 @@ class Student_ajax extends CI_Controller {
 				($this->students_model->edit_info($student_data,$this->input->post("student_id"))?$data["is_successful"] = TRUE:$data["is_successful"] = FALSE);
 
 				if($has_uploaded_pic){
-					unlink("assets/images/student_photo/".$student_data_db["display_photo"]);
+					if(file_exists("assets/images/student_photo/".$student_data_db["display_photo"])){
+						unlink("assets/images/student_photo/".$student_data_db["display_photo"]);
+					}
 					$student_id = $this->input->post("student_id");
 					rename($full_path,$file_path.$student_id."_".$file_name);
 					$edit_data = array();
