@@ -217,7 +217,7 @@ echo '
 
           <div class="form-group">
             <label class="col-sm-2" for="guardian">Guardians Contact Number:</label>
-            <div class="col-sm-10"> 
+            <div class="col-sm-8"> 
               <select name="guardian_id" id="edit-guardian_id" class="ui search dropdown form-control edit_field">
                 <option value="">Select a Guardians Email</option>
                 ';
@@ -228,6 +228,9 @@ echo '
               </select>
 
               <p class="guardian_id_help-block"></p>
+            </div>
+            <div class="col-sm-2"> 
+              <button type="button" class="btn btn-default btn-block" id="add_guardian">Add</button>
             </div>
           </div>
 
