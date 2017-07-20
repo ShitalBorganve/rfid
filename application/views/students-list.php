@@ -40,7 +40,7 @@
       <select class="ui search dropdown" name="owner_id" id="select_student">
         <option value="">Select Student's Last Name</option>
         <?php
-          foreach ($students_list["result"] as $student_data) {
+          foreach ($students_list["all"] as $student_data) {
             echo '<option value="'.$student_data->id.'">'.$student_data->full_name.'</option>';
           }
         ?>

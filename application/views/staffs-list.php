@@ -44,9 +44,9 @@
             <tr>
               <th>ID</th>
               <th>RFID</th>
+              <th>Last Name</th>
               <th>First Name</th>
               <th>Middle Name</th>
-              <th>Last Name</th>
               <th>Suffix</th>
               <th>Gender</th>
               <th>Age</th>

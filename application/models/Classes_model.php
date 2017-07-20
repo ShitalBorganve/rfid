@@ -17,6 +17,7 @@ class Classes_model extends CI_Model {
     }
 
     function get_list($where='',$page=1,$maxitem=50,$search=""){
+        //start
         if($where==""){
             $this->db->where('deleted=0');
         }else{
@@ -25,33 +26,60 @@ class Classes_model extends CI_Model {
         if($search!=""){
             $this->db->like($search["search"],$search["value"]);
         }
-            $limit = ($page*$maxitem)-$maxitem;
-            $this->db->limit($maxitem,$limit);
-            $this->db->order_by("grade", "ASC");
-            $query = $this->db->get("classes");
-            $data["query"] = $this->db->last_query();
-            $data["count"] = $this->db->count_all_results("classes");
-            $classes_data = $query->result();
-            foreach ($classes_data as $class_data) {
-            	if($class_data->teacher_id != 0){
-            		$get_data["id"] = $class_data->teacher_id;
-            		$teacher_query = $this->db->get_where("teachers",$get_data);
-            		$class_data->teacher_data = $teacher_query->row();
-                    $class_data->teacher_data->middle_initial = ($class_data->teacher_data->middle_name==""?"":$class_data->teacher_data->middle_name[0].". ");
-            		$class_data->teacher_data->full_name = $class_data->teacher_data->last_name.", ".$class_data->teacher_data->first_name." ".$class_data->teacher_data->middle_initial.$class_data->teacher_data->suffix;
-            	}else{
-            		$teacher_data = new stdClass();
-            		$teacher_data->id = 0;
-            		$teacher_data->full_name = "";
+        $limit = ($page*$maxitem)-$maxitem;
+        $this->db->limit($maxitem,$limit);
+        $this->db->order_by("grade", "ASC");
+        $query = $this->db->get("classes");
+        $data["query"] = $this->db->last_query();
+        //end
+        
+        $classes_data = $query->result();
+        $data["result"] = $classes_data;
+        foreach ($classes_data as $class_data) {
+            if($class_data->teacher_id != 0){
+                $get_data["id"] = $class_data->teacher_id;
+                $teacher_query = $this->db->get_where("teachers",$get_data);
+                $class_data->teacher_data = $teacher_query->row();
+                $class_data->teacher_data->middle_initial = ($class_data->teacher_data->middle_name==""?"":$class_data->teacher_data->middle_name[0].". ");
+                $class_data->teacher_data->full_name = $class_data->teacher_data->last_name.", ".$class_data->teacher_data->first_name." ".$class_data->teacher_data->middle_initial.$class_data->teacher_data->suffix;
+            }else{
+                $teacher_data = new stdClass();
+                $teacher_data->id = 0;
+                $teacher_data->full_name = "";
 
-            		$class_data->teacher_data = $teacher_data;
-            	}
-
+                $class_data->teacher_data = $teacher_data;
             }
-            $data["result"] = $classes_data;
 
-            
-            return $data;
+        }
+        //start
+        if($where==""){
+            $this->db->where('deleted=0');
+        }else{
+            $this->db->where($where);
+        }
+        if($search!=""){
+            $this->db->like($search["search"],$search["value"]);
+        }
+        $this->db->order_by("grade", "ASC");
+        $query = $this->db->get("classes");
+        $data["count"] = $query->num_rows();
+        //end
+
+        //start
+        if($where==""){
+            $this->db->where('deleted=0');
+        }else{
+            $this->db->where($where);
+        }
+        if($search!=""){
+            $this->db->like($search["search"],$search["value"]);
+        }
+        $this->db->order_by("grade", "ASC");
+        $query = $this->db->get("classes");
+        $data["all"] = $query->num_rows();
+        //end
+        
+        return $data;
     }
 
     function get_data($where='',$to_object=FALSE){

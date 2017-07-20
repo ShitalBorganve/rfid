@@ -21,7 +21,7 @@
           <option value="">Select Class Name</option>
           <?php
             foreach ($classes_list["result"] as $classe_data) {
-              echo '<option value="'.$classe_data->id.'">'.$classe_data->class_name.'</option>';
+              echo '<option value="'.$classe_data->id.'">'.$classe_data->class_name.' - '.$classe_data->grade.'</option>';
             }
           ?>
         </select>

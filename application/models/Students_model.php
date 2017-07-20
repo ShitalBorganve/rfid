@@ -27,7 +27,9 @@ class Students_model extends CI_Model {
     	
     }
 
-    function get_list($where='',$page=1,$maxitem=50,$search=""){
+    function get_list($where='',$page=1,$maxitem=2,$search=""){
+        //start
+
         if($where==""){
             $this->db->where('deleted=0');
         }else{
@@ -50,22 +52,47 @@ class Students_model extends CI_Model {
                 $student_data->middle_initial = ($student_data->middle_name==""?"":$student_data->middle_name[0].". ");
                 $student_data->full_name = $student_data->last_name.", ".$student_data->first_name." ".$student_data->middle_initial.$student_data->suffix;
             }
-            $data["result"] = $students_data;
+        $data["result"] = $students_data;
+        //end
 
 
+        //start count
+        if($where==""){
+            $this->db->where('deleted=0');
+        }else{
+            $this->db->where($where);
+        }
+        if($search!=""){
+            $this->db->like($search["search"],$search["value"]);
+        }
+        $query = $this->db->get("students");
+        $data["count"] = $query->num_rows();
+        //end count
 
-            if($where==""){
-                $this->db->where('deleted=0');
-            }else{
-                $this->db->where($where);
-            }
-            if($search!=""){
-                $this->db->like($search["search"],$search["value"]);
-            }
+        //all records
+        if($where==""){
+            $this->db->where('deleted=0');
+        }else{
+            $this->db->where($where);
+        }
+        if($search!=""){
+            $this->db->like($search["search"],$search["value"]);
+        }
+            $this->db->order_by('last_name ASC, first_name ASC, middle_name ASC, suffix ASC');
             $query = $this->db->get("students");
-            $data["count"] = $query->num_rows();
-            
-            return $data;
+            $students_data = $query->result();
+            foreach ($students_data as $student_data) {
+                $get_data = array();
+                $get_data["ref_id"] = $student_data->id;
+                $get_data["ref_table"] = "students";
+                $student_data->rfid_data = $this->db->get_where("rfid",$get_data)->row();
+                $student_data->middle_initial = ($student_data->middle_name==""?"":$student_data->middle_name[0].". ");
+                $student_data->full_name = $student_data->last_name.", ".$student_data->first_name." ".$student_data->middle_initial.$student_data->suffix;
+            }
+        $data["all"] = $students_data;
+
+        //end all records
+        return $data;
     }
 
     function get_data($where='',$to_object=FALSE){

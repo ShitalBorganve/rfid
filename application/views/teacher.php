@@ -18,7 +18,7 @@
         <div class="form-group">
         <label>Search Last Name</label>
         <select class="ui search dropdown form-control" id="students-select" name="owner_id">
-        <option value="">Select Student</option>
+          <option value="">Search Lastname</option>
         </select>
         </div>
         <div class="form-group">
@@ -78,7 +78,7 @@ $(document).ready(function() {
     show_student_list(e.target.id);
   });
   $(document).on("change","#class_id_",function(e) {
-    $("#students-select").dropdown("clear");
+    // $("#students-select").dropdown("clear");
     populate_selection();
   });
   show_student_list();
@@ -109,6 +109,11 @@ $(document).ready(function() {
       data: $("#student-list-form").serialize(),
       cache: false,
       dataType: "json",
+      beforeSend: function(data) {
+        $("#students-select").dropdown("clear");
+        $("#students-select").html("");
+        $("#students-select").append('<option value="">Search Lastname</option>');
+      },
       success: function(data) {
         $.each(data, function(i, item) {
             $("#students-select").append('<option value="'+data[i].id+'">'+data[i].full_name+'</option>');

@@ -41,7 +41,7 @@
         <select class="ui search dropdown form-control" id="select_student" name="ref_id">
           <option value="">Search for Student&apos;s Last Name</option>
           ';
-          foreach ($students_list["result"] as $student_data) {
+          foreach ($students_list["all"] as $student_data) {
             echo '<option value="'.$student_data->id.'">'.$student_data->full_name.'</option>';
           }
 

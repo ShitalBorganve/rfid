@@ -23,7 +23,7 @@
         <select class="ui search dropdown form-control" name="owner_id">
           <option value="">Select Teacher's Last Name</option>
           <?php
-            foreach ($teachers_list["result"] as $teacher_data) {
+            foreach ($teachers_list["all"] as $teacher_data) {
               echo '<option value="'.$teacher_data->id.'">'.$teacher_data->full_name.'</option>';
             }
           ?>
@@ -43,9 +43,9 @@
 						<tr>
               <th>ID</th>
               <th>RFID</th>
+              <th>Last Name</th>
               <th>First Name</th>
               <th>Middle Name</th>
-              <th>Last Name</th>
               <th>Suffix</th>
               <th>Gender</th>
               <th>Age</th>

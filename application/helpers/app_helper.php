@@ -5,7 +5,7 @@ if ( ! function_exists('admin_paging'))
 	function paging($page,$num_items,$maxitem,$attrib="",$pre='<div class="text-center">',$post='</div>')
 	{
 		if($attrib==""){
-			$attrib["href"] = "#";
+			$attrib["href"] = "javascript:void(0);";
 		}
 		echo $pre;
 		($page<=1?$page=1:false);

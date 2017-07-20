@@ -68,6 +68,7 @@ class Tables extends CI_Controller {
 						}else{
 							$where["class_id"] = $this->input->get("class_id_");
 							$where["deleted"] = 0;
+							echo $this->input->get("class_id_");
 						}
 					}
 				}else{
@@ -81,7 +82,7 @@ class Tables extends CI_Controller {
 
 				// var_dump($this->input->get("class_id"));
 				// echo '<tr><td>';
-				// var_dump($students_list_data["query"]);
+				var_dump($students_list_data["query"]);
 				// echo '</td></tr>';
 				// exit;
 				foreach ($students_list_data["result"] as $student_data) {
@@ -159,7 +160,7 @@ class Tables extends CI_Controller {
 						';
 					}
 				}
-				$attrib["href"] = "#";
+				$attrib["href"] = "javascript:void(0);";
 				$attrib["class"] = "paging";
 				echo paging($page,$students_list_data["count"],$this->config->item("max_item_perpage"),$attrib,'<tr><td colspan="20" style="text-align:center">','</td></tr>');	
 		}	
@@ -226,9 +227,9 @@ class Tables extends CI_Controller {
 					<tr>
 						<td>'.sprintf("%03d",$teacher_data->id).'</td>
 						<td>'.$rfid_status.'</td>
+						<td>'.$teacher_data->last_name.'</td>
 						<td>'.$teacher_data->first_name.'</td>
 						<td>'.$teacher_data->middle_name.'</td>
-						<td>'.$teacher_data->last_name.'</td>
 						<td>'.$teacher_data->suffix.'</td>
 						<td>'.$teacher_data->gender.'</td>
 						<td>'.age($teacher_data->birthdate).'</td>
@@ -243,7 +244,7 @@ class Tables extends CI_Controller {
 				}
 
 			}
-			$attrib["href"] = "#";
+			$attrib["href"] = "javascript:void(0);";
 			$attrib["class"] = "paging";
 			echo paging($page,$teachers_list_data["count"],$this->config->item("max_item_perpage"),$attrib,'<tr><td colspan="20" style="text-align:center">','</td></tr>');	
 		}
@@ -266,6 +267,7 @@ class Tables extends CI_Controller {
 			if($this->input->get("owner_id")){
 				$search = "";
 				$where["id"] = $this->input->get("owner_id");
+				$where["deleted"] = 0;
 			}
 			if($arg_2=="jbtech"){
 				$where["deleted"] = 0;
@@ -304,9 +306,9 @@ class Tables extends CI_Controller {
 					<tr>
 						<td>'.sprintf("%03d",$staff_data->id).'</td>
 						<td>'.$rfid_status.'</td>
+						<td>'.$staff_data->last_name.'</td>
 						<td>'.$staff_data->first_name.'</td>
 						<td>'.$staff_data->middle_name.'</td>
-						<td>'.$staff_data->last_name.'</td>
 						<td>'.$staff_data->suffix.'</td>
 						<td>'.$staff_data->gender.'</td>
 						<td>'.age($staff_data->birthdate).'</td>
@@ -320,7 +322,7 @@ class Tables extends CI_Controller {
 				}
 
 			}
-			$attrib["href"] = "#";
+			$attrib["href"] = "javascript:void(0);";
 			$attrib["class"] = "paging";
 			echo paging($page,$staffs_list_data["count"],$this->config->item("max_item_perpage"),$attrib,'<tr><td colspan="20" style="text-align:center">','</td></tr>');	
 		}
@@ -334,6 +336,7 @@ class Tables extends CI_Controller {
 				$where = "";
 				if($this->input->get("id")){
 					$where["id"] = $this->input->get("id");
+					$where["deleted"] = 0;
 				}
 				$classes_list_data = $this->classes_model->get_list($where,$page,$this->config->item("max_item_perpage"));
 
@@ -352,7 +355,7 @@ class Tables extends CI_Controller {
 					</tr>
 					';
 				}
-				$attrib["href"] = "#";
+				$attrib["href"] = "javascript:void(0);";
 				$attrib["class"] = "paging";
 				echo paging($page,$classes_list_data["count"],$this->config->item("max_item_perpage"),$attrib,'<tr><td colspan="20" style="text-align:center">','</td></tr>');	
 		}
@@ -366,6 +369,7 @@ class Tables extends CI_Controller {
 				$where = "";
 				if($this->input->get("id")){
 					$where["id"] = $this->input->get("id");
+					$where["deleted"] = 0;
 				}
 				$guardians_list_data = $this->guardian_model->get_list($where,$page,$this->config->item("max_item_perpage"));
 
@@ -385,7 +389,7 @@ class Tables extends CI_Controller {
 					</tr>
 					';
 				}
-				$attrib["href"] = "#";
+				$attrib["href"] = "javascript:void(0);";
 				$attrib["class"] = "paging";
 				echo paging($page,$guardians_list_data["count"],$this->config->item("max_item_perpage"),$attrib,'<tr><td colspan="20" style="text-align:center">','</td></tr>');	
 		}
@@ -467,7 +471,7 @@ class Tables extends CI_Controller {
 			}
 
 		}
-		$attrib["href"] = "#";
+		$attrib["href"] = "javascript:void(0);";
 		$attrib["class"] = "paging";
 		echo paging($page,$gate_logs_data["count"],$this->config->item("max_item_perpage"),$attrib,'<tr><td colspan="20" style="text-align:center">','</td></tr>');	
 	}
@@ -491,7 +495,7 @@ class Tables extends CI_Controller {
 				</tr>
 				';
 			}
-			$attrib["href"] = "#";
+			$attrib["href"] = "javascript:void(0);";
 			$attrib["class"] = "paging";
 			echo paging($page,$item_list_data["count"],$this->config->item("max_item_perpage"),$attrib,'<tr><td colspan="20" style="text-align:center">','</td></tr>');
 
@@ -598,7 +602,7 @@ class Tables extends CI_Controller {
 				';
 			}
 
-			$attrib["href"] = "#";
+			$attrib["href"] = "javascript:void(0);";
 			$attrib["class"] = "paging";
 			echo paging($page,$messages_list["count"],$this->config->item("max_item_perpage"),$attrib,'<tr><td colspan="20" style="text-align:center">','</td></tr>');
 		}

@@ -45,47 +45,87 @@ class Teachers_model extends CI_Model {
         if($search!=""){
             $this->db->like($search["search"],$search["value"]);
         }
-            $limit = ($page*$maxitem)-$maxitem;
-            $this->db->order_by('last_name ASC, first_name ASC, middle_name ASC, suffix ASC');
-            $this->db->limit($maxitem,$limit);
-            $query = $this->db->get("teachers");
-            $data["query"] = $this->db->last_query();
-            $teachers_data = $query->result();
-            foreach ($teachers_data as $teacher_data) {
-                $teacher_data->middle_initial = ($teacher_data->middle_name==""?"":$teacher_data->middle_name[0].". ");
-                $teacher_data->full_name = $teacher_data->last_name.", ".$teacher_data->first_name." ".$teacher_data->middle_initial.$teacher_data->suffix;
-                $get_data = array();
-                $get_data["ref_id"] = $teacher_data->id;
-                $get_data["ref_table"] = "teachers";
-                $teacher_data->rfid_data = $this->db->get_where("rfid",$get_data)->row();
-            }
+        $limit = ($page*$maxitem)-$maxitem;
+        $this->db->order_by('last_name ASC, first_name ASC, middle_name ASC, suffix ASC');
+        $this->db->limit($maxitem,$limit);
+        $query = $this->db->get("teachers");
+        $data["query"] = $this->db->last_query();
+        $teachers_data = $query->result();
+        foreach ($teachers_data as $teacher_data) {
+            $teacher_data->middle_initial = ($teacher_data->middle_name==""?"":$teacher_data->middle_name[0].". ");
+            $teacher_data->full_name = $teacher_data->last_name.", ".$teacher_data->first_name." ".$teacher_data->middle_initial.$teacher_data->suffix;
+            $get_data = array();
+            $get_data["ref_id"] = $teacher_data->id;
+            $get_data["ref_table"] = "teachers";
+            $teacher_data->rfid_data = $this->db->get_where("rfid",$get_data)->row();
+        }
 
-            foreach ($teachers_data as $teacher_data) {
-                $get_data = array();
-                if($teacher_data->class_id != 0){
-                    $get_data["id"] = $teacher_data->class_id;
-                    $teacher_data->class_data = $this->db->get_where("classes",$get_data)->row();                    
-                }else{
-                    $class_data = new stdClass();
-                    $class_data->id = 0;
-                    $class_data->class_name = "";
-                    $teacher_data->class_data = $class_data;                    
-                }
-
-            }
-            $data["result"] = $teachers_data;
-
-
-
-            if($where==""){
-                $this->db->where('deleted="0"');
+        foreach ($teachers_data as $teacher_data) {
+            $get_data = array();
+            if($teacher_data->class_id != 0){
+                $get_data["id"] = $teacher_data->class_id;
+                $teacher_data->class_data = $this->db->get_where("classes",$get_data)->row();                    
             }else{
-                $this->db->where($where);
+                $class_data = new stdClass();
+                $class_data->id = 0;
+                $class_data->class_name = "";
+                $teacher_data->class_data = $class_data;                    
             }
-            $query = $this->db->get("teachers");
-            $data["count"] = $query->num_rows();
-            
-            return $data;
+
+        }
+        $data["result"] = $teachers_data;
+
+
+        //count
+        if($where==""){
+            $this->db->where('deleted="0"');
+        }else{
+            $this->db->where($where);
+        }
+        $query = $this->db->get("teachers");
+        $data["count"] = $query->num_rows();
+        //end count
+
+        //start all
+        if($where==""){
+            $this->db->where('deleted="0"');
+        }else{
+            $this->db->where($where);
+        }
+        if($search!=""){
+            $this->db->like($search["search"],$search["value"]);
+        }
+        $this->db->order_by('last_name ASC, first_name ASC, middle_name ASC, suffix ASC');
+        $query = $this->db->get("teachers");
+        $data["query"] = $this->db->last_query();
+        $teachers_data = $query->result();
+        foreach ($teachers_data as $teacher_data) {
+            $teacher_data->middle_initial = ($teacher_data->middle_name==""?"":$teacher_data->middle_name[0].". ");
+            $teacher_data->full_name = $teacher_data->last_name.", ".$teacher_data->first_name." ".$teacher_data->middle_initial.$teacher_data->suffix;
+            $get_data = array();
+            $get_data["ref_id"] = $teacher_data->id;
+            $get_data["ref_table"] = "teachers";
+            $teacher_data->rfid_data = $this->db->get_where("rfid",$get_data)->row();
+        }
+
+        foreach ($teachers_data as $teacher_data) {
+            $get_data = array();
+            if($teacher_data->class_id != 0){
+                $get_data["id"] = $teacher_data->class_id;
+                $teacher_data->class_data = $this->db->get_where("classes",$get_data)->row();                    
+            }else{
+                $class_data = new stdClass();
+                $class_data->id = 0;
+                $class_data->class_name = "";
+                $teacher_data->class_data = $class_data;                    
+            }
+
+        }
+        $data["all"] = $teachers_data;
+        //end all
+
+
+        return $data;
     }
 
     function get_data($where='',$to_object=FALSE){

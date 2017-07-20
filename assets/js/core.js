@@ -710,7 +710,7 @@ $(document).ready(function(e) {
         },
         success: function(data) {
           $.each(data, function(i, item) {
-            $('select[name="' + type + '"]').append('<option value="' + data[i].id + '">' + data[i].contact_number +
+            $('select[name="' + type + '"]').append('<option value="' + data[i].id + '">' + data[i].contact_number + ' - ' + data[i].name +
               '</option>');
           })
         },
