@@ -50,6 +50,7 @@ class Tables extends CI_Controller {
 				if($this->input->get("owner_id")){
 					$search = "";
 					$where["id"] = $this->input->get("owner_id");
+					$where["deleted"] = 0;
 				}
 				if($arg_2=="jbtech"){
 					$where["deleted"] = 0;
@@ -66,18 +67,22 @@ class Tables extends CI_Controller {
 							}
 						}else{
 							$where["class_id"] = $this->input->get("class_id_");
+							$where["deleted"] = 0;
 						}
 					}
 				}else{
 					if($this->input->get("class_id")){
 						$where["class_id"] = $this->input->get("class_id");
+						$where["deleted"] = 0;
 					}
 				}
 
 				$students_list_data = $this->students_model->get_list($where,$page,$this->config->item("max_item_perpage"),$search);
 
 				// var_dump($this->input->get("class_id"));
+				// echo '<tr><td>';
 				// var_dump($students_list_data["query"]);
+				// echo '</td></tr>';
 				// exit;
 				foreach ($students_list_data["result"] as $student_data) {
 					if($student_data->guardian_id!=0){
@@ -108,7 +113,7 @@ class Tables extends CI_Controller {
 							<td>'.$student_data->guardian_data->name.'</td>
 							<td>'.$student_data->contact_number.'</td>
 							<td>'.$class_name.'</td>
-							<td><a href="#" class="view_student" id="'.$student_data->id.'">View</a></td>
+							<td><a href="javascript:void(0)" class="view_student" id="'.$student_data->id.'">View</a></td>
 						</tr>
 						';
 
@@ -129,9 +134,9 @@ class Tables extends CI_Controller {
 					}else{
 
 						if($rfid_data->rfid==""){
-							$rfid_status = '<a href="#" class="add_rfid_student" id="'.$student_data->id.'">Scan</a>';
+							$rfid_status = '<a href="javascript:void(0)" class="add_rfid_student" id="'.$student_data->id.'">Scan</a>';
 						}else{
-							$rfid_status = '<a href="#" class="delete_rfid_student" id="'.$student_data->id.'" data-balloon="Valid until '.date("m/d/Y",$rfid_data->valid_date).'" data-balloon-pos="right">'.$rfid_data->rfid.'</a>';
+							$rfid_status = '<a href="javascript:void(0)" class="delete_rfid_student" id="'.$student_data->id.'" data-balloon="Valid until '.date("m/d/Y",$rfid_data->valid_date).'" data-balloon-pos="right">'.$rfid_data->rfid.'</a>';
 						}
 						echo '
 						<tr>
@@ -148,8 +153,8 @@ class Tables extends CI_Controller {
 							<td>'.$student_data->guardian_data->name.'</td>
 							<td>'.$student_data->contact_number.'</td>
 							<td>'.$class_name.'</td>
-							<td><a href="#" class="edit_student" id="'.$student_data->id.'">Edit info</a></td>
-							<td><a href="#" class="delete_student" id="'.$student_data->id.'" data-balloon="Delete" data-balloon-pos="down">&times;</a></td>
+							<td><a href="javascript:void(0)" class="edit_student" id="'.$student_data->id.'">Edit info</a></td>
+							<td><a href="javascript:void(0)" class="delete_student" id="'.$student_data->id.'" data-balloon="Delete" data-balloon-pos="down">&times;</a></td>
 						</tr>
 						';
 					}
@@ -177,6 +182,7 @@ class Tables extends CI_Controller {
 			if($this->input->get("owner_id")){
 				$search = "";
 				$where["id"] = $this->input->get("owner_id");
+				$where["deleted"] = 0;
 			}
 			if($arg_2=="jbtech"){
 				$where["deleted"] = 0;
@@ -186,6 +192,9 @@ class Tables extends CI_Controller {
 
 			// var_dump($teachers_list_data);
 			// exit;
+			// echo '<tr><td>';
+			// var_dump($teachers_list_data["query"]);
+			// echo '</td></tr>';
 			foreach ($teachers_list_data["result"] as $teacher_data) {
 				$get_data = array();
 				$get_data["ref_id"] = $teacher_data->id;
@@ -203,15 +212,15 @@ class Tables extends CI_Controller {
 						<td>'.date("m/d/Y",$teacher_data->birthdate).'</td>
 						<td>'.$teacher_data->contact_number.'</td>
 						<td>'.$teacher_data->class_data->class_name.'</td>
-						<td><a href="#" class="view_teacher" id="'.$teacher_data->id.'">View</a></td>
+						<td><a href="javascript:void(0)" class="view_teacher" id="'.$teacher_data->id.'">View</a></td>
 					</tr>
 					';
 				}else{
 					
 					if($rfid_data->rfid==""){
-						$rfid_status = '<a href="#" class="add_rfid_teacher" id="'.$teacher_data->id.'">Scan</a>';
+						$rfid_status = '<a href="javascript:void(0)" class="add_rfid_teacher" id="'.$teacher_data->id.'">Scan</a>';
 					}else{
-						$rfid_status = '<a href="#" class="delete_rfid_teacher" id="'.$teacher_data->id.'" data-balloon="Valid until '.date("m/d/Y",$rfid_data->valid_date).'" data-balloon-pos="right">'.$rfid_data->rfid.'</a>';
+						$rfid_status = '<a href="javascript:void(0)" class="delete_rfid_teacher" id="'.$teacher_data->id.'" data-balloon="Valid until '.date("m/d/Y",$rfid_data->valid_date).'" data-balloon-pos="right">'.$rfid_data->rfid.'</a>';
 					}
 					echo '
 					<tr>
@@ -226,9 +235,9 @@ class Tables extends CI_Controller {
 						<td>'.date("m/d/Y",$teacher_data->birthdate).'</td>
 						<td>'.$teacher_data->contact_number.'</td>
 						<td>'.$teacher_data->class_data->class_name.'</td>
-						<td><a href="#" class="edit_teacher" id="'.$teacher_data->id.'">Edit info</a></td>
-						<td><a href="#" class="reset_password_teacher" id="'.$teacher_data->id.'">Reset Password</a></td>
-						<td><a href="#" class="delete_teacher" id="'.$teacher_data->id.'" data-balloon="Delete" data-balloon-pos="down">&times;</a></td>
+						<td><a href="javascript:void(0)" class="edit_teacher" id="'.$teacher_data->id.'">Edit info</a></td>
+						<td><a href="javascript:void(0)" class="reset_password_teacher" id="'.$teacher_data->id.'">Reset Password</a></td>
+						<td><a href="javascript:void(0)" class="delete_teacher" id="'.$teacher_data->id.'" data-balloon="Delete" data-balloon-pos="down">&times;</a></td>
 					</tr>
 					';
 				}
@@ -281,15 +290,15 @@ class Tables extends CI_Controller {
 						<td>'.date("m/d/Y",$staff_data->birthdate).'</td>
 						<td>'.$staff_data->contact_number.'</td>
 						<td>'.$staff_data->position.'</td>
-						<td><a href="#" class="view_staff" id="'.$staff_data->id.'">View</a></td>
+						<td><a href="javascript:void(0)" class="view_staff" id="'.$staff_data->id.'">View</a></td>
 					</tr>
 					';
 				}else{
 					
 					if($rfid_data->rfid==""){
-						$rfid_status = '<a href="#" class="add_rfid_staff" id="'.$staff_data->id.'">Scan</a>';
+						$rfid_status = '<a href="javascript:void(0)" class="add_rfid_staff" id="'.$staff_data->id.'">Scan</a>';
 					}else{
-						$rfid_status = '<a href="#" class="delete_rfid_staff" id="'.$staff_data->id.'" data-balloon="Valid until '.date("m/d/Y",$rfid_data->valid_date).'" data-balloon-pos="right">'.$rfid_data->rfid.'</a>';
+						$rfid_status = '<a href="javascript:void(0)" class="delete_rfid_staff" id="'.$staff_data->id.'" data-balloon="Valid until '.date("m/d/Y",$rfid_data->valid_date).'" data-balloon-pos="right">'.$rfid_data->rfid.'</a>';
 					}
 					echo '
 					<tr>
@@ -304,8 +313,8 @@ class Tables extends CI_Controller {
 						<td>'.date("m/d/Y",$staff_data->birthdate).'</td>
 						<td>'.$staff_data->contact_number.'</td>
 						<td>'.$staff_data->position.'</td>
-						<td><a href="#" class="edit_staff" id="'.$staff_data->id.'">Edit info</a></td>
-						<td><a href="#" class="delete_staff" id="'.$staff_data->id.'" data-balloon="Delete" data-balloon-pos="down">&times;</a></td>
+						<td><a href="javascript:void(0)" class="edit_staff" id="'.$staff_data->id.'">Edit info</a></td>
+						<td><a href="javascript:void(0)" class="delete_staff" id="'.$staff_data->id.'" data-balloon="Delete" data-balloon-pos="down">&times;</a></td>
 					</tr>
 					';
 				}
@@ -338,8 +347,8 @@ class Tables extends CI_Controller {
 						<td>'.$class_data->room.'</td>
 						<td>'.$class_data->schedule.'</td>
 						<td>'.$class_data->teacher_data->full_name.'</td>
-						<td><a href="#" class="edit_class" id="'.$class_data->id.'">Edit info</a></td>
-						<td><a href="#" class="delete_class" id="'.$class_data->id.'" data-balloon="Delete" data-balloon-pos="down">&times;</a></td>
+						<td><a href="javascript:void(0)" class="edit_class" id="'.$class_data->id.'">Edit info</a></td>
+						<td><a href="javascript:void(0)" class="delete_class" id="'.$class_data->id.'" data-balloon="Delete" data-balloon-pos="down">&times;</a></td>
 					</tr>
 					';
 				}
@@ -370,9 +379,9 @@ class Tables extends CI_Controller {
 						<td>'.$guardian_data->email_address.'</td>
 						<td style="text-align: center">'.($guardian_data->email_subscription==1?"YES":"NO").'</td>
 						<td style="text-align: center">'.($guardian_data->sms_subscription==1?"YES":"NO").'</td>
-						<td><a href="#" class="edit_guardian" id="'.$guardian_data->id.'">Edit info</a></td>
-						<td><a href="#" class="reset_password_guardian" id="'.$guardian_data->id.'">Reset Password</a></td>
-						<td><a href="#" class="delete_guardian" id="'.$guardian_data->id.'" data-balloon="Delete" data-balloon-pos="down">&times;</a></td>
+						<td><a href="javascript:void(0)" class="edit_guardian" id="'.$guardian_data->id.'">Edit info</a></td>
+						<td><a href="javascript:void(0)" class="reset_password_guardian" id="'.$guardian_data->id.'">Reset Password</a></td>
+						<td><a href="javascript:void(0)" class="delete_guardian" id="'.$guardian_data->id.'" data-balloon="Delete" data-balloon-pos="down">&times;</a></td>
 					</tr>
 					';
 				}
@@ -449,7 +458,7 @@ class Tables extends CI_Controller {
 					<tr class="'.$status.'">
 						
 						<td>'.sprintf("%03d",$gate_log_data->owner_data->id).'</td>
-						<td><a href="#" id="'.$gate_log_data->owner_data->id.'" class="gate_logs">'.$gate_log_data->owner_data->last_name.", ".$gate_log_data->owner_data->first_name." ".($gate_log_data->owner_data->middle_name==""?"":$gate_log_data->owner_data->middle_name[0].". ").$gate_log_data->owner_data->suffix.'</td>
+						<td><a href="javascript:void(0)" id="'.$gate_log_data->owner_data->id.'" class="gate_logs">'.$gate_log_data->owner_data->last_name.", ".$gate_log_data->owner_data->first_name." ".($gate_log_data->owner_data->middle_name==""?"":$gate_log_data->owner_data->middle_name[0].". ").$gate_log_data->owner_data->suffix.'</td>
 						<td>'.date("m/d/Y",$gate_log_data->date).'</td>
 						<td>'.date("h:i:s A",$gate_log_data->date_time).'</td>
 						<td>'.strtoupper($gate_log_data->type).'</td>
@@ -501,7 +510,7 @@ class Tables extends CI_Controller {
 					$total += $line_total;
 					echo '
 					<tr>
-						<td><a class="sales_cart-remove_item" href="#" title="Remove" id="item_'.$cart_data["id"].'">&times;</a></td>
+						<td><a class="sales_cart-remove_item" href="javascript:void(0)" title="Remove" id="item_'.$cart_data["id"].'">&times;</a></td>
 						<td>'.$item_data["item_name"].'</td>
 						<td style="text-align:center;">'.$item_data["stocks"].'</td>
 						<td style="text-align:center;"><input type="number" class="sales_cart_quantity" name="quantity" min="1" max="'.$item_data["stocks"].'" value="'.$cart_data["quantity"].'" id="item_'.$cart_data["id"].'"></td>
@@ -568,7 +577,7 @@ class Tables extends CI_Controller {
 				if($this->sms_model->check_messages($message_data->id)){
 					$threads_status = "SENT";
 				}else{
-					$threads_status = '<a href="#" class="resend_sms" id="'.$message_data->id.'">RESEND</a>';
+					$threads_status = '<a href="javascript:void(0)" class="resend_sms" id="'.$message_data->id.'">RESEND</a>';
 				}
 				$get_data = array();
 				$get_data["sms_id"] = $message_data->id;
@@ -578,7 +587,7 @@ class Tables extends CI_Controller {
 				}
 				echo '
 				<tr>
-					<td><a href="#" class="message" id="'.$message_data->id.'">'.$message_data->id.'</a></td>
+					<td><a href="javascript:void(0)" class="message" id="'.$message_data->id.'">'.$message_data->id.'</a></td>
 					<td>'.$message_content["message"].'</td>
 					<td>'.date("m/d/Y",$message_data->date).'</td>
 					<td>'.date("h:i:s A",$message_data->date_time).'</td>

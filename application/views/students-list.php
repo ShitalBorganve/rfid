@@ -50,7 +50,7 @@
 
 
 
-      <button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-search"></span> Search</button>
+      <button class="btn btn-primary" type="submit" form="student-list-form"><span class="glyphicon glyphicon-search"></span> Search</button>
       <button class="btn btn-danger" type="button" id="reset"><span class="glyphicon glyphicon-refresh"></span> Reset</button>
       <button type="submit" form="student_download_list" class="btn btn-info"><span class="glyphicon glyphicon-download"></span> Download</button>
       </div>

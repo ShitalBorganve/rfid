@@ -34,7 +34,7 @@
                   <td>'.$student_data->middle_name.'</td>
                   <td>'.$student_data->last_name.'</td>
                   <td>'.$student_data->suffix.'</td>
-                  <td style="text-align:right"><a href="#" class="view_gate_logs" id="'.$student_data->id.'" title="Gate Logs of '.$student_data->last_name.", ".$student_data->first_name." ".($student_data->middle_name==""?"":$student_data->middle_name[0].". ").$student_data->suffix.'">View Gate Logs</a></td>
+                  <td style="text-align:right"><a href="javascript:void(0)" class="view_gate_logs" id="'.$student_data->id.'" title="Gate Logs of '.$student_data->last_name.", ".$student_data->first_name." ".($student_data->middle_name==""?"":$student_data->middle_name[0].". ").$student_data->suffix.'">View Gate Logs</a></td>
                 </tr>
                 ';
               }

@@ -27,7 +27,7 @@ class Classes_model extends CI_Model {
         }
             $limit = ($page*$maxitem)-$maxitem;
             $this->db->limit($maxitem,$limit);
-            $this->db->order_by("class_name", "ASC");
+            $this->db->order_by("grade", "ASC");
             $query = $this->db->get("classes");
             $data["query"] = $this->db->last_query();
             $data["count"] = $this->db->count_all_results("classes");

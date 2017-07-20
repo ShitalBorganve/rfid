@@ -750,7 +750,7 @@ $(document).ready(function(e) {
         },
         success: function(data) {
           $.each(data, function(i, item) {
-            $('select[name="' + type + '"]').append('<option value="' + data[i].id + '">' + data[i].class_name +
+            $('select[name="' + type + '"]').append('<option value="' + data[i].id + '">' + data[i].class_name + " - " + data[i].grade +
               '</option>');
           })
         },

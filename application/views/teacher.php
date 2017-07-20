@@ -25,7 +25,7 @@
           <select name="class_id_" class="form-control" id="class_id_">
           <?php 
             foreach ($classes_of_teacher as $classes_of_teacher_data) {
-              echo '<option value="'.$classes_of_teacher_data->id.'">'.$classes_of_teacher_data->class_name.'</option>';
+              echo '<option value="'.$classes_of_teacher_data->id.'">'.$classes_of_teacher_data->class_name.' - '.$classes_of_teacher_data->grade.'</option>';
             }
           ?>
           </select>

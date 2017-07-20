@@ -478,9 +478,9 @@ class Sms_ajax extends CI_Controller {
 	public function get_api_data($value='')
 	{
 		$curl = curl_init();
-
+		$app_config_data = $this->db->get("app_config")->row();
 		curl_setopt_array($curl, array(
-		  CURLOPT_URL => "https://www.itexmo.com/php_api/apicode_info.php?apicode=ST-ROMEO290433_3CTWI",
+		  CURLOPT_URL => "https://www.itexmo.com/php_api/apicode_info.php?apicode=".$app_config_data->apicode,
 		  CURLOPT_RETURNTRANSFER => true,
 		  CURLOPT_TIMEOUT => 30,
 		  CURLOPT_SSL_VERIFYPEER => FALSE,
