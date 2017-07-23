@@ -387,7 +387,8 @@ class Student_ajax extends CI_Controller {
 			$student_data = $this->students_model->get_data($student_data);
 			$student_data["id"] = sprintf("%03d",$this->input->get("student_id"));
 			$student_data["birthday"] = date("m/d/Y",$student_data["birthdate"]);
-			$student_data["full_name"] = $student_data["first_name"]." ".$student_data["middle_name"][0].". ".$student_data["last_name"]." ".$student_data["suffix"];;
+			$student_data["middle_initial"] = ($student_data["middle_name"]==""?"":$student_data["middle_initial"][0].". ");
+			$student_data["full_name"] = $student_data["first_name"]." ".$student_data["middle_initial"].". ".$student_data["last_name"]." ".$student_data["suffix"];;
 			$student_data["age"] = age($student_data["birthdate"]);
 
 			if($student_data["guardian_id"] != 0){
@@ -414,7 +415,8 @@ class Student_ajax extends CI_Controller {
 					$get_data = array();
 					$get_data["id"] = $student_data["class_data"]["teacher_id"];
 					$student_data["class_data"]["teacher_data"] = $this->teachers_model->get_data($get_data);
-					$student_data["class_adviser"] = $student_data["class_data"]["teacher_data"]["first_name"]." ".$student_data["class_data"]["teacher_data"]["middle_name"][0].". ".$student_data["class_data"]["teacher_data"]["last_name"]." ".$student_data["class_data"]["teacher_data"]["suffix"];
+					$student_data["class_data"]["teacher_data"]["middle_initial"] = ($student_data["class_data"]["teacher_data"]["middle_name"]==""?"":$student_data["class_data"]["teacher_data"]["middle_name"][0].". ");
+					$student_data["class_adviser"] = $student_data["class_data"]["teacher_data"]["first_name"]." ".$student_data["class_data"]["teacher_data"]["middle_initial"].". ".$student_data["class_data"]["teacher_data"]["last_name"]." ".$student_data["class_data"]["teacher_data"]["suffix"];
 				}else{
 					$student_data["class_adviser"] = "";
 				}
