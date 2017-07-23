@@ -460,7 +460,8 @@ class Staff_ajax extends CI_Controller {
 			$staff_data["id"] = sprintf("%03d",$this->input->get("staff_id"));
 			$staff_data["birthday"] = date("m/d/Y",$staff_data["birthdate"]);
 			$staff_data["age"] = age($staff_data["birthdate"]);
-			$staff_data["full_name"] = $staff_data["first_name"]." ".$staff_data["middle_name"][0].". ".$staff_data["last_name"]." ".$staff_data["suffix"];
+			$staff_data["middle_initial"] = ($staff_data["middle_name"]==""?"":$staff_data["middle_initial"][0].". ");
+			$staff_data["full_name"] = $staff_data["first_name"]." ".$staff_data["middle_initial"]." ".$staff_data["last_name"]." ".$staff_data["suffix"];
 			echo json_encode($staff_data);
 		}else{
 			$staff_data["id"] = $this->input->get("staff_id");

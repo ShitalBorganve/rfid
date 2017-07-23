@@ -388,7 +388,7 @@ class Student_ajax extends CI_Controller {
 			$student_data["id"] = sprintf("%03d",$this->input->get("student_id"));
 			$student_data["birthday"] = date("m/d/Y",$student_data["birthdate"]);
 			$student_data["middle_initial"] = ($student_data["middle_name"]==""?"":$student_data["middle_initial"][0].". ");
-			$student_data["full_name"] = $student_data["first_name"]." ".$student_data["middle_initial"].". ".$student_data["last_name"]." ".$student_data["suffix"];;
+			$student_data["full_name"] = $student_data["first_name"]." ".$student_data["middle_initial"]." ".$student_data["last_name"]." ".$student_data["suffix"];;
 			$student_data["age"] = age($student_data["birthdate"]);
 
 			if($student_data["guardian_id"] != 0){
