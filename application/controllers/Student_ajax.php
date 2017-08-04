@@ -492,7 +492,6 @@ class Student_ajax extends CI_Controller {
 				$where["class_id"] = $this->input->get("class_id");
 			}
 			$where["deleted"] = 0;
-			$where["rfid_status"] = 0;
 			$data = $this->students_model->get_list($where,1,$this->db->get_where("students",$where)->num_rows());
 
 			foreach ($data["result"] as $student_data) {

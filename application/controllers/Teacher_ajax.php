@@ -524,7 +524,6 @@ You can login to ".base_url("teacher");
 			echo json_encode($data["result"]);
 		}elseif ($arg=="jbtech") {
 			$where["deleted"] = 0;
-			$where["rfid_status"] = 0;
 			$data = $this->teachers_model->get_list($where,1,$this->db->get("teachers")->num_rows());
 			echo json_encode($data["result"]);
 		}

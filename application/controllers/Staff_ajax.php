@@ -485,7 +485,6 @@ class Staff_ajax extends CI_Controller {
 			echo json_encode($data["result"]);
 		}elseif ($arg=="jbtech") {
 			$where["rfid_status"] = 0;
-			$where["deleted"] = 0;
 			if($this->input->get("position")){
 				$where["position"] = $this->input->get("position");
 			}
