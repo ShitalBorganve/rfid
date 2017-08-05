@@ -198,6 +198,35 @@ echo '
               </div>
           </div>
 
+          <div class="form-group">
+              <label class="col-sm-4">sss</label>
+              <div class="input-group col-sm-7">
+                <input id="sss" type="text" class="form-control" name="sss" readonly>
+                <span class="input-group-addon btn btn-default" data-clipboard-target="#sss" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
+              </div>
+          </div>
+          <div class="form-group">
+              <label class="col-sm-4">philhealth</label>
+              <div class="input-group col-sm-7">
+                <input id="philhealth" type="text" class="form-control" name="philhealth" readonly>
+                <span class="input-group-addon btn btn-default" data-clipboard-target="#philhealth" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
+              </div>
+          </div>
+          <div class="form-group">
+              <label class="col-sm-4">pagibig</label>
+              <div class="input-group col-sm-7">
+                <input id="pagibig" type="text" class="form-control" name="pagibig" readonly>
+                <span class="input-group-addon btn btn-default" data-clipboard-target="#pagibig" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
+              </div>
+          </div>
+          <div class="form-group">
+              <label class="col-sm-4">tin</label>
+              <div class="input-group col-sm-7">
+                <input id="tin" type="text" class="form-control" name="tin" readonly>
+                <span class="input-group-addon btn btn-default" data-clipboard-target="#tin" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
+              </div>
+          </div>
+
            <!--
           <div class="form-group">
               <label class="col-sm-4">fathers_name</label>
@@ -378,6 +407,10 @@ $(document).ready(function() {
         $('#grade').val(data.grade);
         $('#blood_type').val(data.blood_type);
         $('#in_case_address').val(data.in_case_address);
+        $('#sss').val(data.sss);
+        $('#philhealth').val(data.philhealth);
+        $('#pagibig').val(data.pagibig);
+        $('#tin').val(data.tin);
         if(data.guardian_id!=""){
           $('#edit-guardian_id').dropdown('set value',data.guardian_id);
         }else{
