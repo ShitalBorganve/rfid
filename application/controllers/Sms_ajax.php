@@ -41,7 +41,7 @@ class Sms_ajax extends CI_Controller {
 			$classes = ($this->input->post("class_id")?$this->input->post("class_id"):NULL);
 
 			$this->form_validation->set_rules('type_recipient', 'Recipient', 'required');
-			$this->form_validation->set_rules('message', 'Message', 'required|max_length[320]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('message', 'Message', 'required|max_length[480]|trim|htmlspecialchars');
 			if($type_recipient=="all_teachers"||$type_recipient=="all_teachers_students"||$type_recipient=="all_students"||$type_recipient=="all_members"||$type_recipient=="all_guardians"||$type_recipient=="staffs"){
 				
 				$is_valid_class = TRUE;
