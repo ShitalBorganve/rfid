@@ -157,7 +157,8 @@ if ( ! function_exists('admin_paging'))
 		));
 		$result = curl_exec($curl);
 		curl_close($curl);
-		return 0;
+		return $result;
+		// return 7;
 	}
 
 	function age($birthdate)
@@ -172,6 +173,6 @@ if ( ! function_exists('admin_paging'))
 
 	function current_build()
 	{
-		return "1.0001";
+		return "1.0002";
 	}
 }

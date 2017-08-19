@@ -122,6 +122,7 @@ if($navbar_type=="admin"){
             <li><a href="'.base_url("admin/gatelogs/students").'">Students</a></li>
             <li><a href="'.base_url("admin/gatelogs/teachers").'">Teachers</a></li>
             <li><a href="'.base_url("admin/gatelogs/staffs").'">Non-Teaching Staffs</a></li>
+            <li><a href="'.base_url("admin/gatelogs/fetchers").'">Fetchers</a></li>
             
           </ul>
         </li>

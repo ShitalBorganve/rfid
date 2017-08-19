@@ -1177,7 +1177,7 @@ if($modals_sets=="admin"){
       <div class="form-group">
         <label class="col-sm-4" for="message">Message:</label>
         <div class="col-sm-8">
-          <textarea class="form-control" name="message" placeholder="Enter your message."></textarea>
+          <textarea class="form-control" name="message" style="resize: vertical;" placeholder="Enter your message." rows="3">&nbsp;&#10;&nbsp;&#10;FROM: '.$app_config->client_name.'</textarea>
           <p class="help-block" id="message_help-block"></p>
         </div>
       </div>
@@ -1379,7 +1379,7 @@ echo '
         <div class="form-group">
           <label class="col-sm-4" for="message">Message:</label>
           <div class="col-sm-8">
-            <textarea class="form-control" name="message" placeholder="Enter your message."></textarea>
+            <textarea class="form-control" name="message" style="resize: vertical;" placeholder="Enter your message." rows="3">&nbsp;&#10;&nbsp;&#10;FROM: '.$app_config->client_name.'</textarea>
             <p class="help-block" id="message_help-block"></p>
           </div>
         </div>

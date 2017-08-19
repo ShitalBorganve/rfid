@@ -74,7 +74,6 @@
               <th>Birthday</th>
               <th>Guardian</th>
               <th>Contact Number</th>
-              <th>Fetcher</th>
               <th>Class</th>
               <th>Edit</th>
             </tr>

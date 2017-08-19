@@ -45,6 +45,7 @@ class Fetcher_ajax extends CI_Controller {
         $add = array();
         $add["ref_table"] = 'fetchers';
         $add["ref_id"] = $fetcher_data->id;
+        $add["valid"] = 1;
         $this->rfid_model->add($add);
         $data["is_valid"] = true;
     }
@@ -70,18 +71,22 @@ class Fetcher_ajax extends CI_Controller {
 
   public function edit()
   {
-      $fetcher_id = $this->input->post('fetcher_id');
-      $this->db->set('fetcher_id',0);
-      $this->db->where('fetcher_id',$fetcher_id);
-      $this->db->update('students');
       $students = $this->input->post('fetcher_student_id');
       if($students!=null){
+        $fetcher_id = $this->input->post('fetcher_id');
+        $this->db->set('fetcher_id',0);
+        $this->db->where('fetcher_id',$fetcher_id);
+        $this->db->update('students');
+        $data["is_valid"] = true;
         foreach ($students as $student_id) {
             $edit = array();
             $edit["fetcher_id"] = $fetcher_id;
             $this->students_model->edit_info($edit,$student_id);
         }
+      }else{
+        $data["is_valid"] = false;
       }
+      echo json_encode($data);
   }
 
   public function delete()

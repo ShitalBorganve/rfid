@@ -370,7 +370,12 @@ $(document).ready(function(e) {
         $("button[form='fetcher_add_form']").prop('disabled', true);
       },
       success: function(data) {
-        console.log(data);
+        if(data.is_valid){
+          alertify.success('Fetcher is added.');
+          $('#fetchers_add_modal').modal('hide');
+        }else{
+          alertify.error('Students to fetch is required.');
+        }
       },
       error: function(e) {
         console.log(e);

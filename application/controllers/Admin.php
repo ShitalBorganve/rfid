@@ -43,6 +43,7 @@ class Admin extends CI_Controller {
 		$modal_data["staffs_list"] = $this->staffs_model->get_list();
 		$modal_data["classes_list"] = $this->classes_model->get_list();
 		$modal_data["modals_sets"] = "admin";
+		$modal_data["app_config"] = $app_config_data = $this->db->get("app_config")->row();
 		$this->data["modaljs_scripts"] = $this->load->view("layouts/modals",$modal_data,true);
 		
 
@@ -120,6 +121,7 @@ class Admin extends CI_Controller {
 	public function fetchers($value='')
 	{
 		$this->data["title"] = "Fetchers List";
+		$this->data["fetchers_list"] = $this->db->get_where('fetchers',['deleted'=>0])->result();
 		$this->load->view("fetchers-list",$this->data);
 	}
 
@@ -136,6 +138,10 @@ class Admin extends CI_Controller {
 			$this->data["positions_list"] = $this->staffs_model->get_positions_list();
 			$this->data["title"] = "Non-teaching Staffs Gate Logs";
 			$this->load->view('gate-logs-staffs',$this->data);
+		}elseif ($arg=="fetchers") {
+			$this->data["fetchers_list"] = $this->db->get_where('fetchers',['deleted'=>0])->result();
+			$this->data["title"] = "Non-teaching fetchers Gate Logs";
+			$this->load->view('gate-logs-fetchers',$this->data);
 		}
 	}
 

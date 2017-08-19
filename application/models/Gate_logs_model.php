@@ -50,109 +50,128 @@ class Gate_logs_model extends CI_Model {
 
     function get_list($table="students",$where='',$or_where='',$between='',$page=1,$maxitem=50)
     {
-
-    
         $limit = ($page*$maxitem)-$maxitem;
-        $this->db->limit($maxitem,$limit);
-
-        //start repeat
-        $select[] = 'gate_logs.*';
-        if($table=="students"){
-            $select[] = 'classes.class_name';
-            $select[] = $table.'.class_id';
-        }
-        $select[] = $table.'.first_name';
-        $select[] = $table.'.last_name';
-        $select[] = $table.'.first_name';
-
-        if($or_where != ""){
-            foreach ($or_where as $or_where_data) {
-                $this->db->or_where($or_where_data);
+        if($table=='fetchers'){
+            $this->db->limit($maxitem,$limit);
+            if($where!=''){
+                $this->db->where($where);
             }
-        }
+            $this->db->where('ref_table','fetchers');
+            $this->db->order_by('id','DESC');
+            ($between!=""?$this->db->where($between):false);
+            $data["result"] = $this->db->get('gate_logs')->result();
+            $data["query"] = $this->db->last_query();
 
-        $this->db->where("ref_table",$table);
-        ($where!=""?$this->db->where($where):false);
-        ($between!=""?$this->db->where($between):false);
+            if($where!=''){
+                $this->db->where($where);
+            }
+            $this->db->where('ref_table','fetchers');
+            $this->db->order_by('id','DESC');
+            ($between!=""?$this->db->where($between):false);
+            $data["count"] = $this->db->count_all_results('gate_logs');
+        }else{
 
-        $this->db->order_by("id","DESC");
-        $this->db->select($select);
-        $this->db->from('gate_logs');
-        $this->db->join($table, $table.'.id = gate_logs.ref_id');
-        if($table=="students"){
-            $this->db->join("classes", $table.'.class_id = classes.id');
-        }
-        $gate_logs_query = $this->db->get();
-        //end repeat
+            $this->db->limit($maxitem,$limit);
 
-        // $gate_logs_data = $this->db->get("gate_logs")->result();
-        $data["query"] = $this->db->last_query();
+            //start repeat
+            $select[] = 'gate_logs.*';
+            if($table=="students"){
+                $select[] = 'classes.class_name';
+                $select[] = $table.'.class_id';
+            }
+            $select[] = $table.'.first_name';
+            $select[] = $table.'.last_name';
+            $select[] = $table.'.first_name';
+
+            if($or_where != ""){
+                foreach ($or_where as $or_where_data) {
+                    $this->db->or_where($or_where_data);
+                }
+            }
+
+            $this->db->where("ref_table",$table);
+            ($where!=""?$this->db->where($where):false);
+            ($between!=""?$this->db->where($between):false);
+
+            $this->db->order_by("id","DESC");
+            $this->db->select($select);
+            $this->db->from('gate_logs');
+            $this->db->join($table, $table.'.id = gate_logs.ref_id');
+            if($table=="students"){
+                $this->db->join("classes", $table.'.class_id = classes.id');
+            }
+            $gate_logs_query = $this->db->get();
+            //end repeat
+
+            // $gate_logs_data = $this->db->get("gate_logs")->result();
+            $data["query"] = $this->db->last_query();
 
 
 
-        // return $data;
-        // exit;
-        $gate_logs_data = $gate_logs_query->result();
-        foreach ($gate_logs_data as $gate_log_data) {
-            $get_rfid_data = array();
-            $get_rfid_data["id"] = $gate_log_data->rfid_id;
-            $gate_log_data->rfid_data = $this->db->get_where("rfid",$get_rfid_data)->row();
-            $get_owner_data = array();
-            $get_owner_data["id"] = $gate_log_data->ref_id;
-            $gate_log_data->owner_data = $this->db->get_where($gate_log_data->ref_table,$get_owner_data)->row();
+            // return $data;
+            // exit;
+            $gate_logs_data = $gate_logs_query->result();
+            foreach ($gate_logs_data as $gate_log_data) {
+                $get_rfid_data = array();
+                $get_rfid_data["id"] = $gate_log_data->rfid_id;
+                $gate_log_data->rfid_data = $this->db->get_where("rfid",$get_rfid_data)->row();
+                $get_owner_data = array();
+                $get_owner_data["id"] = $gate_log_data->ref_id;
+                $gate_log_data->owner_data = $this->db->get_where($gate_log_data->ref_table,$get_owner_data)->row();
+                
+            }
+
+            $data["result"] = $gate_logs_data;
+
+
+            // $this->db->select('*, gate_logs.id as gate_logs_id');
+            // $this->db->from('gate_logs');
+            // $this->db->join('students', 'students.id=gate_logs.student_id');
+            // $this->db->order_by("gate_logs_id","DESC");
+            // $query = $this->db->get();
             
+            // if($where!=""){
+            //     $this->db->where($where);
+            // }
+            // if($between!=""){
+            //     $this->db->where($between);
+            // }
+
+            // $limit = ($page*$maxitem)-$maxitem;
+            // $this->db->select('*, gate_logs.id as gate_logs_id');
+            // $this->db->from('gate_logs');
+            // $this->db->join('students', 'students.id=gate_logs.student_id');
+            // $this->db->order_by("gate_logs_id","DESC");
+            // $this->db->limit($maxitem,$limit);
+            // $query = $this->db->get();
+            // $data["result"] = $query->result();
+            // $data["query"] = $this->db->last_query();
+
+            //start repeat
+            $select[] = 'gate_logs.*';
+            if($table=="students"||$table=="teachers"){
+                $select[] = 'classes.class_name';
+                $select[] = $table.'.class_id';
+            }
+            $select[] = $table.'.first_name';
+            $select[] = $table.'.last_name';
+            $select[] = $table.'.first_name';
+
+            $this->db->where("ref_table",$table);
+            ($where!=""?$this->db->where($where):false);
+            ($between!=""?$this->db->where($between):false);
+
+            $this->db->order_by("id","DESC");
+            $this->db->select($select);
+            $this->db->from('gate_logs');
+            $this->db->join($table, $table.'.id = gate_logs.ref_id');
+            if($table=="students"||$table=="teachers"){
+                $this->db->join("classes", $table.'.class_id = classes.id');
+            }
+            $gate_logs_query = $this->db->get();
+            //end repeat
+            $data["count"] = $gate_logs_query->num_rows();
         }
-
-        $data["result"] = $gate_logs_data;
-
-
-        // $this->db->select('*, gate_logs.id as gate_logs_id');
-        // $this->db->from('gate_logs');
-        // $this->db->join('students', 'students.id=gate_logs.student_id');
-        // $this->db->order_by("gate_logs_id","DESC");
-        // $query = $this->db->get();
-        
-        // if($where!=""){
-        //     $this->db->where($where);
-        // }
-        // if($between!=""){
-        //     $this->db->where($between);
-        // }
-
-        // $limit = ($page*$maxitem)-$maxitem;
-        // $this->db->select('*, gate_logs.id as gate_logs_id');
-        // $this->db->from('gate_logs');
-        // $this->db->join('students', 'students.id=gate_logs.student_id');
-        // $this->db->order_by("gate_logs_id","DESC");
-        // $this->db->limit($maxitem,$limit);
-        // $query = $this->db->get();
-        // $data["result"] = $query->result();
-        // $data["query"] = $this->db->last_query();
-
-        //start repeat
-        $select[] = 'gate_logs.*';
-        if($table=="students"||$table=="teachers"){
-            $select[] = 'classes.class_name';
-            $select[] = $table.'.class_id';
-        }
-        $select[] = $table.'.first_name';
-        $select[] = $table.'.last_name';
-        $select[] = $table.'.first_name';
-
-        $this->db->where("ref_table",$table);
-        ($where!=""?$this->db->where($where):false);
-        ($between!=""?$this->db->where($between):false);
-
-        $this->db->order_by("id","DESC");
-        $this->db->select($select);
-        $this->db->from('gate_logs');
-        $this->db->join($table, $table.'.id = gate_logs.ref_id');
-        if($table=="students"||$table=="teachers"){
-            $this->db->join("classes", $table.'.class_id = classes.id');
-        }
-        $gate_logs_query = $this->db->get();
-        //end repeat
-        $data["count"] = $gate_logs_query->num_rows();
         return $data;
     }
 

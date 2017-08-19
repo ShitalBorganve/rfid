@@ -42,9 +42,10 @@ class Rfid_ajax extends CI_Controller {
 			$type = $this->input->post("type");
 			$id = $this->input->post("id");
 
-			if($type=="teachers" || $type=="students" || $type=="staffs"){
+			if($type=="teachers" || $type=="students" || $type=="staffs" || $type=="fetchers"){
 
-				(($type=="teachers" || $type=="students" || $type=="staffs")?false:$type="students");
+
+				(($type=="teachers" || $type=="students" || $type=="staffs" || $type=="fetchers")?false:$type="students");
 
 				$this->form_validation->set_rules('rfid', 'RFID', 'required|numeric|is_available[rfid.rfid]|max_length[50]|trim|htmlspecialchars');
 				$this->form_validation->set_rules('valid_m', 'Valid Until', 'required|is_valid_date[valid_m.valid_d.valid_y]|trim|htmlspecialchars');
@@ -83,52 +84,7 @@ class Rfid_ajax extends CI_Controller {
 					$model = $type."_model";
 					$this->$model->edit_info($update_data,$id);
 				}
-			}elseif($type=="fetchers"){
-
-				$this->form_validation->set_rules('rfid', 'RFID', 'required|numeric|is_available[rfid.rfid]|max_length[50]|trim|htmlspecialchars');
-				$this->form_validation->set_rules('valid_m', 'Valid Until', 'required|is_valid_date[valid_m.valid_d.valid_y]|trim|htmlspecialchars');
-				$this->form_validation->set_rules('valid_d', 'Valid Until', 'required|is_valid_date[valid_m.valid_d.valid_y]|trim|htmlspecialchars');
-				$this->form_validation->set_rules('valid_y', 'Valid Until', 'required|is_valid_date[valid_m.valid_d.valid_y]|trim|htmlspecialchars');
-
-				if ($this->form_validation->run() == FALSE)
-				{
-					$data["is_valid"] = FALSE;
-					$data["error"] = form_error("rfid");
-					$data["date_error"] = form_error("valid_m");
-				}else{
-					$data["is_valid"] = TRUE;
-					$data["error"] = "";
-					$data["date_error"] = "";
-
-
-					$fetcher_add["deleted"] = 0;
-					$fetcher_data = $this->fetchers_model->add($fetcher_add);
-
-					$get_data = array();
-					$get_data["ref_table"] = $type;
-					$get_data["ref_id"] = $fetcher_data->id;
-					$this->rfid_model->add($get_data);
-
-					$update_data = array();
-					$update_data["rfid"] = $rfid;
-
-
-					$valid_m = sprintf("%02d",$this->input->post("valid_m"));
-					$valid_d = sprintf("%02d",$this->input->post("valid_d"));
-					$valid_y = sprintf("%04d",$this->input->post("valid_y"));
-					$valid_date_str = $valid_m."/".$valid_d."/".$valid_y;
-
-					$update_data["valid_date"] = strtotime($valid_date_str);
-
-
-					$this->rfid_model->edit_info($update_data,$get_data);
-
-					$update_data = array();
-					$update_data["rfid_status"] = 1;
-
-					$model = $type."_model";
-					$this->$model->edit_info($update_data,$fetcher_data->id);
-				}
+				
 			}else{
 				$data = array();
 			}
@@ -140,6 +96,7 @@ class Rfid_ajax extends CI_Controller {
 	{
 		if($_POST){
 			$this->form_validation->set_rules('gate_rfid_scan', 'RFID', 'required|numeric|trim|htmlspecialchars|is_valid_rfid');
+			$app_config_data = $this->db->get("app_config")->row();
 			if ($this->form_validation->run() == FALSE)
 			{
 				$rfid_owner_data["is_valid"] = FALSE;
@@ -182,13 +139,27 @@ class Rfid_ajax extends CI_Controller {
 					$rfid_owner_data["rfid_data"]["owner_type"] = "staff";
 				}elseif ($rfid_owner_data["rfid_data"]["ref_table"]=="fetchers") {
 					$dir = "student_photo";
-
-					$get_class_data["id"] = $rfid_owner_data["students"][0]["class_id"];
-					$this->load->model("classes_model");
-					$class_data = $this->classes_model->get_data($get_class_data);
-					$rfid_owner_data["designation_label"] = "Grade Level:";
-					$rfid_owner_data["designation_value"] = $class_data["grade"];
-					$rfid_owner_data["rfid_data"]["owner_type"] = "student";
+					if($rfid_owner_data["students"]==array()){
+						$rfid_owner_data = array();
+						$rfid_owner_data["is_valid"] = FALSE;
+						$rfid_owner_data["display_photo"] = base_url("assets/images/empty.jpg");
+						$rfid_owner_data["full_name"] = "";
+						$rfid_owner_data["last_name"] = "";
+						$rfid_owner_data["first_name"] = "";
+						$rfid_owner_data["message"] = "";
+						$rfid_owner_data["middle_name"] = "";
+						$rfid_owner_data["suffix"] = "";
+						$rfid_owner_data["errors"] = validation_errors();
+						echo json_encode($rfid_owner_data);
+						exit;
+					}else{
+						$get_class_data["id"] = $rfid_owner_data["students"][0]["class_id"];
+						$this->load->model("classes_model");
+						$class_data = $this->classes_model->get_data($get_class_data);
+						$rfid_owner_data["designation_label"] = "Grade Level:";
+						$rfid_owner_data["designation_value"] = $class_data["grade"];
+						$rfid_owner_data["rfid_data"]["owner_type"] = "student";
+					}
 				}
 
 				if($rfid_owner_data["rfid_data"]["ref_table"]=="fetchers"){
@@ -200,34 +171,54 @@ class Rfid_ajax extends CI_Controller {
 					$rfid_owner_data["full_name"] = $rfid_owner_data["students"][0]["first_name"]." ".$rfid_owner_data["students"][0]["initial"]." ".$rfid_owner_data["students"][0]["last_name"];
 					$rfid_owner_data["birthdate"] = date("m/d/Y",$rfid_owner_data["students"][0]["birthdate"]);
 
-					// $rfid_owner_data["message"] = 'The Fetcher of '.$rfid_owner_data["full_name"].' enters the school premises on '.date("m/d/Y h:i:s A").'.';
+					$rfid_owner_log_data["rfid_id"] = $rfid_owner_data["rfid_data"]["id"];
+					$rfid_owner_log_data["ref_table"] = $rfid_owner_data["rfid_data"]["ref_table"];
+					$rfid_owner_log_data["ref_id"] = $rfid_owner_data["rfid_data"]["ref_id"];
+					$rfid_owner_log_data["date_time"] = strtotime(date("m/d/Y h:i:s A"));
+					$rfid_owner_log_data["date"] = strtotime(date("m/d/Y"));
 
-					foreach ($rfid_owner_data["students"] as $student_data) {
-						$student_data["initial"] = ($student_data["middle_name"]==""?"":$student_data["middle_name"][0].".");
-						$student_data["full_name"] = $student_data["first_name"]." ".$student_data["initial"]." ".$student_data["last_name"];
-						$message = 'The Fetcher of '.$student_data["full_name"].' enters the school premises on '.date("m/d/Y h:i:s A").'.';
+					$rfid_owner_data["gate_logs_data"] = $this->gate_logs_model->add_log($rfid_owner_log_data);
+					if($rfid_owner_data["gate_logs_data"]["is_valid"]){
+						if($rfid_owner_data["gate_logs_data"]["gate_logs_data"]->type=="entry"){
+							$type_status = "enters";
+							$rfid_owner_data["type_status"] = "enters";
+						}else{
+							$rfid_owner_data["type_status"] = "exits";
+							$type_status = "exits";
+						}
+						// $rfid_owner_data["sms_status"] = "";
 
-						if($student_data["guardian_id"]!="0"){
-							$get_data = array();
-							$get_data["id"] = $student_data["guardian_id"];
+						foreach ($rfid_owner_data["students"] as $student_data) {
+							$student_data["initial"] = ($student_data["middle_name"]==""?"":$student_data["middle_name"][0].".");
+							$student_data["full_name"] = $student_data["first_name"]." ".$student_data["initial"]." ".$student_data["last_name"];
+							$message = 'The Fetcher of '.$student_data["full_name"].' '.$type_status.' '.$app_config_data->client_name.' on '.date("F d, Y h:i:s A").'.';
 
-							$guardian_data = $this->guardian_model->get_data($get_data);
-							if($guardian_data["sms_subscription"]=="1"){
-								$app_config_data = $this->db->get("app_config")->row();
-								$student_data["status_code"] = send_sms($guardian_data["contact_number"],$message,$app_config_data->apicode);
-								if($student_data["status_code"]==0){
-									$student_data["sms_status"] = $guardian_data["name"]." had been successfully notified through SMS.";
+							if($student_data["guardian_id"]!="0"){
+								$get_data = array();
+								$get_data["id"] = $student_data["guardian_id"];
+
+								$guardian_data = $this->guardian_model->get_data($get_data);
+								if($guardian_data["sms_subscription"]=="1"){
+									$app_config_data = $this->db->get("app_config")->row();
+									$student_data["status_code"] = send_sms($guardian_data["contact_number"],$message,$app_config_data->apicode);
+									if($student_data["status_code"]==0){
+										$student_data["sms_status"] = $guardian_data["name"]." had been successfully notified through SMS.";
+									}else{
+										$student_data["sms_status"] = sms_status($student_data["status_code"]);
+									}
+									$rfid_owner_data["sms"]["message"][] = $student_data["sms_status"];
+									$rfid_owner_data["sms"]["status_code"][] = $student_data["status_code"];
+									$student_data["guardian_sms_subscription"] = "1";
 								}else{
-									$student_data["sms_status"] = sms_status($student_data["status_code"]);
+									$student_data["guardian_sms_subscription"] = "0";
 								}
-								$rfid_owner_data["sms"]["message"][] = $student_data["sms_status"];
-								$rfid_owner_data["sms"]["status_code"][] = $student_data["status_code"];
-								$student_data["guardian_sms_subscription"] = "1";
-							}else{
-								$student_data["guardian_sms_subscription"] = "0";
 							}
 						}
+					}else{
+						$rfid_owner_data["gate_logs_data"]["is_valid"] = FALSE;
 					}
+
+					// $rfid_owner_data["message"] = 'The Fetcher of '.$rfid_owner_data["full_name"].' enters the school premises on '.date("m/d/Y h:i:s A").'.';
 
 					$rfid_owner_data["display_photo"] = base_url("assets/images/".$dir."/".$rfid_owner_data["students"][0]["display_photo"]);
 					$rfid_owner_data["initial"] = ($rfid_owner_data["students"][0]["middle_name"]==""?"":$rfid_owner_data["students"][0]["middle_name"][0]);
@@ -236,7 +227,7 @@ class Rfid_ajax extends CI_Controller {
 					
 				}else{
 					$rfid_owner_data["display_photo"] = base_url("assets/images/".$dir."/".$rfid_owner_data["display_photo"]);
-					$rfid_owner_data["initial"] = ($rfid_owner_data["middle_name"]==""?"":$rfid_owner_data["middle_name"][0]);
+					$rfid_owner_data["initial"] = ($rfid_owner_data["middle_name"]==""?"":$rfid_owner_data["middle_name"][0].".");
 					$rfid_owner_data["full_name"] = $rfid_owner_data["first_name"]." ".$rfid_owner_data["initial"]." ".$rfid_owner_data["last_name"];
 					$rfid_owner_data["birthdate"] = date("m/d/Y",$rfid_owner_data["birthdate"]);
 					
@@ -257,7 +248,7 @@ class Rfid_ajax extends CI_Controller {
 						}
 						$rfid_owner_data["sms_status"] = "";
 						if($rfid_owner_log_data["ref_table"]=="students"){
-							$rfid_owner_data["message"] = $rfid_owner_data["full_name"].' '.$type_status.' the school premises on '.date("m/d/Y h:i:s A").'.';
+							$rfid_owner_data["message"] = $rfid_owner_data["full_name"].' '.$type_status.' '.$app_config_data->client_name.' on '.date("F d, Y h:i:s A").'.';
 							if($rfid_owner_data["guardian_id"]!="0"){
 								$get_data = array();
 								$get_data["id"] = $rfid_owner_data["guardian_id"];
@@ -295,8 +286,7 @@ class Rfid_ajax extends CI_Controller {
 							}
 						}elseif ($rfid_owner_log_data["ref_table"]=="teachers"||$rfid_owner_log_data["ref_table"]=="staffs") {
 							$rfid_owner_data["in_case_contact_number_sms"] = ($rfid_owner_data["dept_head_number"]!=""?1:0);
-							$rfid_owner_data["message"] = $rfid_owner_data["full_name"].' '.$type_status.' the school premises on '.date("m/d/Y h:i:s A").'.';
-							$app_config_data = $this->db->get("app_config")->row();
+							$rfid_owner_data["message"] = $rfid_owner_data["full_name"].' '.$type_status.' '.$app_config_data->client_name.' on '.date("F d, Y h:i:s A").'.';
 							if($rfid_owner_data["in_case_contact_number_sms"] == 1){
 								$rfid_owner_data["status_code"] = send_sms($rfid_owner_data["dept_head_number"],$rfid_owner_data["message"],$app_config_data->apicode);
 								if($rfid_owner_data["status_code"]==0){

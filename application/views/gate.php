@@ -105,14 +105,20 @@ $("document").ready(function() {
 					$("#rfid_owner").html(data.rfid_data.owner_type + "'S");
 
 					if(data.rfid_data.ref_table=="fetchers"){
-						$.each(data.sms.status_code, function( index, value ) {
-						  if(value == "0"){
-						  	alertify.success(data.sms.message[index]);
-						  }else{
-						  	alertify.error(data.sms.message[index]);
-						  }
-						});
-
+						if(data.gate_logs_data.is_valid){
+							$("#gate_status").html('The Fetcher of <b>'+data.full_name + "</b> " + data.type_status+ ' the school premises on <br><span style="font-size: 30px;">'+data.gate_logs_data.date_time_passed+"</span>");
+							$("#gate_status").removeClass( "danger success" ).addClass("success");
+							$.each(data.sms.status_code, function( index, value ) {
+							  if(value == "0"){
+							  	alertify.success(data.sms.message[index]);
+							  }else{
+							  	alertify.error(data.sms.message[index]);
+							  }
+							});
+						}else{
+							$("#gate_status").html("The Fetcher of <b>"+data.full_name+"</b> had recently passed the gate. Try again later.");
+							$("#gate_status").removeClass( "danger success" ).addClass("danger");
+						}
 					}else{
 						if(data.gate_logs_data.is_valid){
 							$("#gate_status").html('<b>'+data.full_name + "</b> " + data.type_status+ ' the school premises on <br><span style="font-size: 30px;">'+data.gate_logs_data.date_time_passed+"</span>");

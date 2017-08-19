@@ -23,10 +23,10 @@
       <div class="form-group">
       <label>Search Fetcher ID</label>
       <select class="ui search dropdown" name="owner_id" id="select_fetcher">
-        <option value="">Select fetcher's Last Name</option>
+        <option value="">Fetcher ID</option>
         <?php
-          foreach ($fetchers_list["all"] as $fetcher_data) {
-            echo '<option value="'.$fetcher_data->id.'">'.$fetcher_data->full_name.'</option>';
+          foreach ($fetchers_list as $fetcher_data) {
+            echo '<option value="'.$fetcher_data->id.'">'.sprintf("%04d",$fetcher_data->id).'</option>';
           }
         ?>
       </select>
@@ -239,12 +239,17 @@ $(document).ready(function() {
       processData: false,
       contentType: false,
       method:"POST",
+      dataType: 'json',
       beforeSend: function() {
         $('button[form="fetcher_edit_form"]').prop('disabled', true);
       },
       success: function(data) {
-        $('#fetcher_edit_modal').modal('hide');
-        alertify.success('Saved.')
+        if(data.is_valid){
+          $('#fetcher_edit_modal').modal('hide');
+          alertify.success('Saved.');
+        }else{
+          alertify.error('Students to fetch is required.');
+        }
       },
       error: function(e) {
         console.log(e);

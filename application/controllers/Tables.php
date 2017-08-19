@@ -81,11 +81,11 @@ class Tables extends CI_Controller {
 
 				$students_list_data = $this->students_model->get_list($where,$page,$this->config->item("max_item_perpage"),$search);
 
-				// var_dump($this->input->get("class_id"));
-				// echo '<tr><td>';
-				var_dump($students_list_data["query"]);
-				// echo '</td></tr>';
-				// exit;
+				// // var_dump($this->input->get("class_id"));
+				// // echo '<tr><td>';
+				// var_dump($students_list_data["query"]);
+				// // echo '</td></tr>';
+				// // exit;
 				foreach ($students_list_data["result"] as $student_data) {
 					if($student_data->guardian_id!=0){
 						$get_data = array();
@@ -154,7 +154,6 @@ class Tables extends CI_Controller {
 							<td>'.date("m/d/Y",$student_data->birthdate).'</td>
 							<td>'.$student_data->guardian_data->name.'</td>
 							<td>'.$student_data->contact_number.'</td>
-							<td><a href="javascript:void(0)" class="fetcher" id="'.$student_data->id.'">Scan</a></td>
 							<td>'.$class_name.'</td>
 							<td><a href="javascript:void(0)" class="edit_student" id="'.$student_data->id.'">Edit info</a></td>
 							<td><a href="javascript:void(0)" class="delete_student" id="'.$student_data->id.'" data-balloon="Delete" data-balloon-pos="down">&times;</a></td>
@@ -334,7 +333,11 @@ class Tables extends CI_Controller {
 	{
 		$page = $this->input->get("page");
 		if($arg=='list'){
-			$fetchers_list_data = $this->fetchers_model->get_list('',$page,$this->config->item("max_item_perpage"));
+			$where = '';
+			if($this->input->get('owner_id')){
+				$where["id"] = $this->input->get('owner_id');
+			}
+			$fetchers_list_data = $this->fetchers_model->get_list($where,$page,$this->config->item("max_item_perpage"));
 			// var_dump($fetchers_list_data);
 			// exit;
 			foreach ($fetchers_list_data["result"] as $fetcher_data) {
@@ -439,6 +442,7 @@ class Tables extends CI_Controller {
 		$table = ((
 			$this->input->get("ref_table") ||
 			$this->input->get("ref_table")=="students" ||
+			$this->input->get("ref_table")=="fetchers" ||
 			$this->input->get("ref_table")=="teachers"
 			)?$this->input->get("ref_table"):"students");
 		$page = $this->input->get("page");
@@ -479,33 +483,50 @@ class Tables extends CI_Controller {
 
 		// var_dump($gate_logs_data);
 		// exit;
-		foreach ($gate_logs_data["result"] as $gate_log_data) {
-			if($gate_log_data->type=="exit"){
-				$status = "danger";
-			}else{
-				$status = "success";
-			}
-			if($for_guardian){
+		if($table=='fetchers'){
+			foreach ($gate_logs_data["result"] as $gate_log_data) {
+				if($gate_log_data->type=="exit"){
+					$status = "danger";
+				}else{
+					$status = "success";
+				}
 				echo '
 					<tr class="'.$status.'">
-						<td>'.strtoupper($gate_log_data->type).'</td>
-						<td>'.date("m/d/Y",$gate_log_data->date).'</td>
-						<td>'.date("h:i:s A",$gate_log_data->date_time).'</td>
-					</tr>
-				';
-			}else{
-				echo '
-					<tr class="'.$status.'">
-						
-						<td>'.sprintf("%03d",$gate_log_data->owner_data->id).'</td>
-						<td><a href="javascript:void(0)" id="'.$gate_log_data->owner_data->id.'" class="gate_logs">'.$gate_log_data->owner_data->last_name.", ".$gate_log_data->owner_data->first_name." ".($gate_log_data->owner_data->middle_name==""?"":$gate_log_data->owner_data->middle_name[0].". ").$gate_log_data->owner_data->suffix.'</td>
+						<td>'.sprintf("%04d",$gate_log_data->ref_id).'</td>
 						<td>'.date("m/d/Y",$gate_log_data->date).'</td>
 						<td>'.date("h:i:s A",$gate_log_data->date_time).'</td>
 						<td>'.strtoupper($gate_log_data->type).'</td>
 					</tr>
 				';
 			}
-
+		}else{
+			foreach ($gate_logs_data["result"] as $gate_log_data) {
+				if($gate_log_data->type=="exit"){
+					$status = "danger";
+				}else{
+					$status = "success";
+				}
+				if($for_guardian){
+					echo '
+						<tr class="'.$status.'">
+							<td>'.strtoupper($gate_log_data->type).'</td>
+							<td>'.date("m/d/Y",$gate_log_data->date).'</td>
+							<td>'.date("h:i:s A",$gate_log_data->date_time).'</td>
+						</tr>
+					';
+				}else{
+					echo '
+						<tr class="'.$status.'">
+							
+							<td>'.sprintf("%03d",$gate_log_data->owner_data->id).'</td>
+							<td><a href="javascript:void(0)" id="'.$gate_log_data->owner_data->id.'" class="gate_logs">'.$gate_log_data->owner_data->last_name.", ".$gate_log_data->owner_data->first_name." ".($gate_log_data->owner_data->middle_name==""?"":$gate_log_data->owner_data->middle_name[0].". ").$gate_log_data->owner_data->suffix.'</td>
+							<td>'.date("m/d/Y",$gate_log_data->date).'</td>
+							<td>'.date("h:i:s A",$gate_log_data->date_time).'</td>
+							<td>'.strtoupper($gate_log_data->type).'</td>
+						</tr>
+					';
+				}
+			}
 		}
 		$attrib["href"] = "javascript:void(0);";
 		$attrib["class"] = "paging";
