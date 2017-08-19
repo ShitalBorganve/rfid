@@ -90,7 +90,6 @@ if($navbar_type=="admin"){
         <ul class="nav navbar-nav navbar-right"> ';
 
 
-
         echo '
         <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">Guardians
@@ -101,6 +100,19 @@ if($navbar_type=="admin"){
           </ul>
         </li>
         ';
+
+        echo '
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">Fetchers
+          <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="'.base_url("admin/fetchers").'">List of Fetchers</a></li>
+            <li><a href="javascript:void(0)" class="rfid_scan_add" id="fetchers">Add Fetcher</a></li>
+          </ul>
+        </li>
+        ';
+
+        // echo '<li><a href="javascript:void(0)" id="fetchers">Fetchers</a></li>';
 
         echo '
         <li class="dropdown">

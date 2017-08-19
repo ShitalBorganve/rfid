@@ -565,4 +565,9 @@ class Student_ajax extends CI_Controller {
 		echo base_url("students.csv");
 	}
 
+	public function add_fetcher()
+	{
+		# code...
+	}
+
 }

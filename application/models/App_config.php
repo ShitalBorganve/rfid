@@ -38,6 +38,9 @@ class App_config extends CI_Model {
                     // echo $app_config->version;
                     break;
                 case 1.0002:
+                    $this->db->query("CREATE TABLE `rfid`.`fetchers` ( `id` INT NOT NULL AUTO_INCREMENT , `rfid_status` INT NOT NULL , `deleted` INT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;");
+                    $this->db->query("ALTER TABLE `students` ADD `fetcher_id` INT NOT NULL AFTER `guardian_id`;");
+                    $this->db->query("UPDATE app_config SET version='".$app_config->version."' WHERE id='1'");
                     // echo $app_config->version;
                     break;
                 default:

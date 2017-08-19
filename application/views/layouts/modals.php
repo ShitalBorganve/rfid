@@ -82,87 +82,6 @@ if($modals_sets=="admin"){
   ';
 
   echo '
-  <!--RFID Scan to Add Student Modal -->
-  <div id="rfid_settings_modal" class="modal fade" role="dialog" tabindex="-1">
-    <div class="modal-dialog modal-sm">
-
-      <!-- Modal content-->
-      <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title" id="rfid_add_modal_title">Add students</h4>
-      </div>
-        <div class="modal-body">
-          <p>
-          '.form_open("rfid_ajax/scan_add",'id="rfid_scan_add_form"').'
-          <input type="hidden" name="type">
-          <input type="hidden" name="id">
-
-            <div class="form-group">
-
-              <label for="rfid"></label>
-              <div class="col-sm-12">
-                <input type="text" class="form-control" name="rfid" placeholder="Scan RFID using RFID Reader..." autocomplete="off">
-                <p class="help-block" id="rfid_scan_help-block"></p>
-              </div>
-
-            </div>
-
-            <div class="form-group">
-
-            <label class="col-sm-12" for="last_name">Valid Until:</label>
-
-            </div>
-
-             <div class="form-group">
-              
-              <div class="col-sm-12">
-                <select class="" name="valid_m" required>
-                  <option value="">MM</option>
-                  ';
-                  for ($i=1; $i <= 12; $i++) { 
-                    echo '<option value="'.$i.'">'.sprintf("%02d",$i).'</option>';
-                  }
-                  echo '
-                </select>
-                /
-                <select class="" name="valid_d" required>
-                  <option value="">DD</option>
-                  ';
-                  for ($i=1; $i <= 31; $i++) { 
-                    echo '<option value="'.$i.'">'.sprintf("%02d",$i).'</option>';
-                  }
-                  echo '
-                </select>
-                /
-                <select class="" name="valid_y" required>
-                  <option value="">YYYY</option>
-                  ';
-                  for ($i=date("Y"); $i <= (date("Y")+20); $i++) { 
-                    echo '<option value="'.$i.'">'.sprintf("%04d",$i).'</option>';
-                  }
-                  echo '
-                </select>
-                <p class="help-block" id="rfid_valid_date_help-block"></p>
-              </div>
-            </div>
-
-
-          </form>
-          </p>
-        </div>
-        <div class="modal-footer">
-         
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  ';
-
-  echo '
 
   <!--Add Student Modal -->
   <div id="students_add_modal" class="modal fade" role="dialog" tabindex="-1">
@@ -795,6 +714,46 @@ if($modals_sets=="admin"){
   ';
 
 
+  echo '
+
+  <!--Add fetcher Modal -->
+  <div id="fetchers_add_modal" class="modal fade" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Add Fetchers</h4>
+        </div>
+        <div class="modal-body" style="min-height: 300px;">
+          <p>'.form_open_multipart("fetcher_ajax/add",'id="fetcher_add_form" class="form-horizontal"').'
+            <!-- <input type="hidden" class="form-control rfid_scanned_add" name="rfid"> -->
+
+            <div class="form-group">
+              <label class="col-sm-3" for="student_id">Students to Fetch:</label>
+              <div class="col-sm-9"> 
+                <select class="ui fluid search dropdown" multiple="" name="fetcher_student_id[]">
+                  <option value="">Last Name</option>
+                </select>
+                <p class="help-block" id="fetcher_student_id_help-block"></p>
+              </div>
+            </div>
+
+          </form></p>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" form="fetcher_add_form">Submit</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  ';
+
+
 
 
   echo '
@@ -1234,7 +1193,7 @@ if($modals_sets=="admin"){
       </div>
 
       ';
-      echo '<span data-balloon="SMS has 1000 Max Messages per Day and will reset in 12MN." data-balloon-pos="right" data-balloon-length="fit">SMS Remaining: <b id="smsapi-message-left"></b></span>';
+      echo '<span id="smsapi-message-max" data-balloon-pos="right" data-balloon-length="fit">SMS Remaining: <b id="smsapi-message-left"></b></span>';
       echo '</form>';
 
       echo '</div>

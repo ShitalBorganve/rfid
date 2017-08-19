@@ -22,6 +22,7 @@ class Tables extends CI_Controller {
 		$this->load->model("classes_model");
 		$this->load->model("teachers_model");
 		$this->load->model("students_model");
+		$this->load->model("fetchers_model");
 		$this->load->model("gate_logs_model");
 		$this->load->model("rfid_model");
 		$this->load->model("canteen_model");
@@ -153,6 +154,7 @@ class Tables extends CI_Controller {
 							<td>'.date("m/d/Y",$student_data->birthdate).'</td>
 							<td>'.$student_data->guardian_data->name.'</td>
 							<td>'.$student_data->contact_number.'</td>
+							<td><a href="javascript:void(0)" class="fetcher" id="'.$student_data->id.'">Scan</a></td>
 							<td>'.$class_name.'</td>
 							<td><a href="javascript:void(0)" class="edit_student" id="'.$student_data->id.'">Edit info</a></td>
 							<td><a href="javascript:void(0)" class="delete_student" id="'.$student_data->id.'" data-balloon="Delete" data-balloon-pos="down">&times;</a></td>
@@ -325,6 +327,40 @@ class Tables extends CI_Controller {
 			$attrib["href"] = "javascript:void(0);";
 			$attrib["class"] = "paging";
 			echo paging($page,$staffs_list_data["count"],$this->config->item("max_item_perpage"),$attrib,'<tr><td colspan="20" style="text-align:center">','</td></tr>');	
+		}
+	}
+
+	public function fetchers($arg='')
+	{
+		$page = $this->input->get("page");
+		if($arg=='list'){
+			$fetchers_list_data = $this->fetchers_model->get_list('',$page,$this->config->item("max_item_perpage"));
+			// var_dump($fetchers_list_data);
+			// exit;
+			foreach ($fetchers_list_data["result"] as $fetcher_data) {
+				$get_data = array();
+				$get_data["ref_table"] = 'fetchers';
+				$get_data["ref_id"] = $fetcher_data->id;
+				$data = $this->rfid_model->get_data($get_data);
+				// var_dump($data);
+				// exit;
+				echo '
+					<tr>
+						<td style="text-align:center;">'.sprintf("%04d",$fetcher_data->id).'</td>';
+						if($fetcher_data->rfid_status==0){
+							echo '<td style="text-align:center;"><a href="javascript:void(0);" class="add_rfid_fetcher" id="'.$fetcher_data->id.'">Scan</a></td>';
+						}else{
+							echo '<td style="text-align:center;"><a href="javascript:void(0);" class="delete_rfid_fetcher" id="'.$fetcher_data->id.'">'.$data->rfid.'</a></td>';
+						}
+				echo '
+						<td style="text-align:center;"><a href="javascript:void(0);" class="edit_fetcher" id="'.$fetcher_data->id.'">Edit</a></td>
+						<td style="text-align:center;"><a href="javascript:void(0);" class="delete_fetcher" id="'.$fetcher_data->id.'">&times;</a></td>
+					</tr>
+				';
+			}
+			$attrib["href"] = "javascript:void(0);";
+			$attrib["class"] = "paging";
+			echo paging($page,$fetchers_list_data["count"],$this->config->item("max_item_perpage"),$attrib,'<tr><td colspan="20" style="text-align:center">','</td></tr>');
 		}
 	}
 

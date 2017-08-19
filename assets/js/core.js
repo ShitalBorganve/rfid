@@ -190,6 +190,9 @@ $(document).ready(function(e) {
   $(".rfid_scan_add#staffs").click(function(e) {
     $("#staffs_add_modal").modal("show");
   });
+  $(".rfid_scan_add#fetchers").click(function(e) {
+    $("#fetchers_add_modal").modal("show");
+  });
   $(document).on("submit", "#student_add_form", function(e) {
     e.preventDefault();
     $.ajax({
@@ -351,6 +354,29 @@ $(document).ready(function(e) {
       },
       complete: function() {
         $("button[form='staff_add_form']").prop('disabled', false);
+      }
+    })
+  });
+  $(document).on("submit", "#fetcher_add_form", function(e) {
+    e.preventDefault();
+    $.ajax({
+      url: $(this).attr('action'),
+      data: new FormData(this),
+      processData: false,
+      contentType: false,
+      method: "POST",
+      dataType: "json",
+      beforeSend: function() {
+        $("button[form='fetcher_add_form']").prop('disabled', true);
+      },
+      success: function(data) {
+        console.log(data);
+      },
+      error: function(e) {
+        console.log(e);
+      },
+      complete: function() {
+        $("button[form='fetcher_add_form']").prop('disabled', false);
       }
     })
   });
@@ -596,12 +622,13 @@ $(document).ready(function(e) {
       dataType: "json",
       success: function(data) {
         $("#smsapi-message-left").html(data.MessagesLeft);
+        $("#smsapi-message-max").attr('data-balloon',data.MaxMessages);
       },
       error: function(e) {
         console.log(e);
       }
-    });
-  });
+    })
+;  });
   var needToConfirm = false;
   $(document).on("submit", "#sms-form", function(e) {
     e.preventDefault();
@@ -697,6 +724,7 @@ $(document).ready(function(e) {
   update_select_options("class_adviser", base_url);
   update_select_options("class_id[]", base_url);
   update_select_options("class_id", base_url);
+  update_select_options("fetcher_student_id[]", base_url);
   function update_select_options(type, base_url) {
     if (type == "guardian_id") {
       $.ajax({
@@ -758,8 +786,33 @@ $(document).ready(function(e) {
           console.log(e);
         }
       });
+    } else if (type == "fetcher_student_id[]") {
+      $.ajax({
+        type: "GET",
+        url: base_url + "student_ajax/get_list/admin",
+        cache: false,
+        dataType: "json",
+        beforeSend: function() {
+          $('select[name="' + type + '"]').html("");
+          $('select[name="' + type + '"]').append('<option value="">Select a student</option>');
+        },
+        success: function(data) {
+          $.each(data, function(i, item) {
+            $('select[name="' + type + '"]').append('<option value="' + data[i].id + '">' + data[i].full_name +
+              '</option>');
+          })
+        },
+        error: function(e) {
+          console.log(e);
+        }
+      });
     }
   }
+
+  $(".modal").on('shown.bs.modal', function () {
+      $(this).find("input:visible:first").focus();
+  });
+
   //when closing a bootstrap modal
   $('button[data-dismiss="modal"]').click(function(e) {
     if(e.target.className=="btn btn-default"){

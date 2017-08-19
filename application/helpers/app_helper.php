@@ -157,7 +157,7 @@ if ( ! function_exists('admin_paging'))
 		));
 		$result = curl_exec($curl);
 		curl_close($curl);
-		return $result;
+		return 0;
 	}
 
 	function age($birthdate)

@@ -117,6 +117,12 @@ class Admin extends CI_Controller {
 		$this->load->view("sms",$this->data);
 	}
 
+	public function fetchers($value='')
+	{
+		$this->data["title"] = "Fetchers List";
+		$this->load->view("fetchers-list",$this->data);
+	}
+
 	public function gatelogs($arg='')
 	{
 		if($arg=="students"){

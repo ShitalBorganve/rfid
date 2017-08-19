@@ -74,6 +74,7 @@
               <th>Birthday</th>
               <th>Guardian</th>
               <th>Contact Number</th>
+              <th>Fetcher</th>
               <th>Class</th>
               <th>Edit</th>
             </tr>
@@ -162,8 +163,6 @@ echo '
               <p class="help-block" id="gender_help-block"></p>
             </div>
           </div>
-
-
 
           <div class="form-group">
             <label class="col-sm-2" for="last_name">Birth Date:</label>
@@ -296,6 +295,50 @@ echo '
 
 ';
 
+
+echo '
+<!--RFID Scan to Add Student Modal -->
+<div id="fetcher_modal" class="modal fade" role="dialog" tabindex="-1">
+  <div class="modal-dialog modal-sm">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <h4 class="modal-title" id="rfid_add_modal_title">Add Fetcher</h4>
+    </div>
+      <div class="modal-body">
+        <p>
+        '.form_open("student_ajax/add_fetcher",'id="add_fetcher_student"').'
+        <input type="hidden" name="type">
+        <input type="hidden" name="id">
+
+          <div class="form-group">
+
+            <label for="rfid"></label>
+            <div class="col-sm-12">
+              <input type="text" class="form-control" name="rfid" placeholder="Scan RFID using RFID Reader..." autocomplete="off">
+              <p class="help-block" id="add_fetcher_student_rfid_help-block"></p>
+            </div>
+
+          </div>
+
+
+        </form>
+        </p>
+      </div>
+      <div class="modal-footer">
+       
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+';
+
+
 ?>
 <?php echo $modaljs_scripts; ?>
 <?php echo $js_scripts; ?>
@@ -305,6 +348,29 @@ $(document).ready(function() {
     $(".ui").dropdown("clear");
     show_student_list();
   });
+
+  $('#add_fetcher_student').submit(function(e) {
+    e.preventDefault();
+    $.ajax({
+      type: 'POST',
+      url: $('#add_fetcher_student').attr('action'),
+      data: $('#add_fetcher_student').serialize(),
+      cache: false,
+      beforeSend: function(data) {
+        
+      },
+      success: function(data) {
+        // body...
+      },
+      complete: function(data) {
+        
+      },
+      error: function(e) {
+        console.log(e);
+      }
+    });
+  });
+
   $(document).on("click",".add_rfid_student",function(e) {
     var id = e.target.id;
     $('input[name="type"]').val("students");
@@ -342,6 +408,7 @@ $(document).ready(function() {
       cache: false,
       dataType: "json",
       success: function(data) {
+        console.log(data);
         if(data.is_valid){
           $("#rfid_scan_add_modal").modal("hide");
           $(".help-block").html("");
@@ -364,6 +431,12 @@ $(document).ready(function() {
       var id = e.target.id;
       show_student_data(id);
   });
+
+
+  $(document).on("click",".fetcher",function(e) {
+    $("#fetcher_modal").modal("show");
+  });
+
   $(document).on("click",".delete_student",function(e) {
     var datastr = "<?php echo $this->security->get_csrf_token_name();?>=<?php echo $this->security->get_csrf_hash();?>"+"&id="+e.target.id;
     alertify.confirm('DELETE STUDENT', 'Are you sure you want to delete this student in the list?<br> This action is irreversible.', function(){

@@ -496,6 +496,7 @@ class Sms_ajax extends CI_Controller {
 		$response = json_decode($response,true);
 		$data["MessagesLeft"] = $response["Result "]["MessagesLeft"];
 		$data["ExpiresOn"] = $response["Result "]["ExpiresOn"];
+		$data["MaxMessages"] = 'SMS has '.$response["Result "]["MaxMessages"].' Max Messages per Day and will reset in 12MN.';
 		echo json_encode($data);
 		// var_dump($response);
 		curl_close($curl);

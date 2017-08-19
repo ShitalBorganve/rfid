@@ -19,8 +19,15 @@ class Rfid_model extends CI_Model {
             if($to_array){
                 $rfid_data = $this->db->get_where("rfid",$data)->row_array();
                 $get_data["id"] = $rfid_data["ref_id"];
-                $owner_data = $this->db->get_where($rfid_data["ref_table"],$get_data)->row_array();
-                $owner_data["rfid_data"] = $rfid_data;
+                if($rfid_data["ref_table"]=="fetchers"){
+                    $this->db->where('fetcher_id',$rfid_data["ref_id"]);
+                    $this->db->where('deleted',0);
+                    $owner_data["students"] = $this->db->get("students")->result_array();
+                    $owner_data["rfid_data"] = $rfid_data;
+                }else{
+                    $owner_data = $this->db->get_where($rfid_data["ref_table"],$get_data)->row_array();
+                    $owner_data["rfid_data"] = $rfid_data;
+                }
             }else{
                 $rfid_data = $this->db->get_where("rfid",$data)->row();
                 $get_data["id"] = $rfid_data->ref_id;
