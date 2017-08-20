@@ -248,6 +248,7 @@ if($navbar_type=="admin"){
             <li><a href="'.base_url("jbtech/students").'">Students</a></li>
             <li><a href="'.base_url("jbtech/teachers").'">Teachers</a></li>
             <li><a href="'.base_url("jbtech/staffs").'">Non-Teaching Staffs</a></li>
+            <li><a href="'.base_url("jbtech/fetchers").'">Fetchers</a></li>
 
             ';
             

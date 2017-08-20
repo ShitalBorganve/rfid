@@ -56,6 +56,24 @@ class Fetcher_ajax extends CI_Controller {
   {
     if($arg=="jbtech"){
 
+      $get_data["id"] = $this->input->get('fetcher_id');
+      $fetcher_data = $this->fetchers_model->get_data($get_data);
+      $fetcher_data["id_string"] = sprintf("%04d",$fetcher_data["id"]);
+      $students = $this->db->get_where('students',"fetcher_id='".$get_data["id"]."'")->result();
+      if($students!=array()){
+        $fetcher_data["student_data"] = $students[0];
+        $fetcher_data["display_photo"] = $students[0]->display_photo;
+        $fetcher_data["full_name"] = $students[0]->last_name.', '.$students[0]->first_name." ".($students[0]->middle_name!=""?$students[0]->middle_name[0].".":"");
+        $fetcher_data["class_name"] = $this->db->get_where('classes',['id'=>$students[0]->class_id])->row()->class_name;
+        $fetcher_data["grade"] = $this->db->get_where('classes',['id'=>$students[0]->class_id])->row()->grade;
+      }else{
+        $fetcher_data["display_photo"] = "";
+        $fetcher_data["full_name"] = "";
+        $fetcher_data["class_name"] = "";
+        $fetcher_data["grade"] = "";
+      }
+      echo json_encode($fetcher_data);
+      
     }else{
         $get_data["id"] = $this->input->get('fetcher_id');
         $fetcher_data = $this->fetchers_model->get_data($get_data);
@@ -92,6 +110,8 @@ class Fetcher_ajax extends CI_Controller {
   public function delete()
   {
     $this->fetchers_model->delete($this->input->post('id'));
+    $data["id"] = sprintf("%04d",$this->input->post('id'));
+    echo json_encode($data);
   }
 
 }

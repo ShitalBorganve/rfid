@@ -197,7 +197,7 @@ $(document).ready(function() {
         dataType: "json",
         success: function(data) {
           show_fetcher_list();
-          alertify.success(data.last_name + ' has been deleted.');
+          alertify.success(data.id + ' has been deleted.');
         },
         error: function(e) {
           console.log(e);

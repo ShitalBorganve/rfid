@@ -14,67 +14,39 @@
 <?php echo $navbar_scripts; ?>
 
 <div class="container-fluid">
-	<div class="row">
-		<div class="col-sm-12">
-    <h1 style="text-align: center;">Students</h1>
-    <?php echo form_open("tables/students/list/jbtech",'id="student-list-form"');?>
-    <label>Class:</label>
-    <?php
-    echo '
-    <select class="ui search dropdown" id="select_class" name="class_id">
-      <option value="">All Class</option>
-      ';
-      foreach ($classes_list["result"] as $class_data) {
-        echo '<option value="'.$class_data->id.'">'.$class_data->class_name.'</option>';
-      }
-
-      echo '
-    </select>
-    ';
-    ?>
-    <label>Search Last Name</label>
-    <select class="ui search dropdown" name="owner_id" id="select_student">
-      <option value="">Select Student's Last Name</option>
-    </select>
-
-    <button class="btn btn-primary" type="submit">Search</button>
-    <button class="btn btn-danger" type="button" id="reset">Reset</button>
+  <div class="row">
+    <div class="col-sm-12">
+    <?php echo form_open("tables/fetchers/list/jbtech",'id="fetcher-list-form"');?>
+    
     </form>
+      <h1 style="text-align: center;">Fetchers</h1>
+      <table class="table table-hover" id="fetcher-list-table">
+        <thead>
+          <tr>
+            <th style="text-align:center;">ID</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
 
-			<table class="table table-hover" id="student-list-table">
-			  <thead>
-			    <tr>
-            <th>ID</th>
-			      <th>First Name</th>
-			      <th>Middle Name</th>
-			      <th>Last Name</th>
-			      <th>Birthday</th>
-			      <th>Guardian</th>
-			      <th>Contact Number</th>
-			      <th>Class</th>
-			      <th></th>
-			    </tr>
-			  </thead>
-			  <tbody>
-
-			  </tbody>
-			</table>
-		</div>
-	</div>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
 </div>
 <?php echo $modaljs_scripts;
 echo '
 
-<!--Edit Student Modal -->
-<div id="student_edit_modal" class="modal fade" role="dialog" tabindex="-1">
+<!--Edit fetcher Modal -->
+<div id="fetcher_edit_modal" class="modal fade" role="dialog" tabindex="-1">
   <div class="modal-dialog modal-lg">
 
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Student Data</h4>
+        <h4 class="modal-title">fetcher Data</h4>
       </div>
       <div class="modal-body">
         <p>
@@ -83,6 +55,7 @@ echo '
           <img class="img-responsive" id="display-photo" src="'.base_url("assets/images/empty.jpg").'">
         </div>
 
+          <!--
           <div class="form-group">
               <label class="col-sm-4">LRN Number</label>
               <div class="input-group col-sm-7">
@@ -90,8 +63,7 @@ echo '
                 <span class="input-group-addon btn btn-default" data-clipboard-target="#lrn_number" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
               </div>
           </div>
-
-
+          -->
           <div class="form-group">
               <label class="col-sm-4">ID</label>
               <div class="input-group col-sm-7">
@@ -101,13 +73,13 @@ echo '
           </div>
 
           <div class="form-group">
-              <label class="col-sm-4">Full Name</label>
+              <label class="col-sm-4">Student Name</label>
               <div class="input-group col-sm-7">
                 <input id="full_name" type="text" class="form-control" name="full_name" readonly>
                 <span class="input-group-addon btn btn-default" data-clipboard-target="#full_name" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
               </div>
           </div>
-
+          <!--
           <div class="form-group">
               <label class="col-sm-4">Last Name</label>
               <div class="input-group col-sm-7">
@@ -215,7 +187,7 @@ echo '
                 <span class="input-group-addon btn btn-default" data-clipboard-target="#guardian_contact_number" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
               </div>
           </div>
-
+          -->
           <div class="form-group">
               <label class="col-sm-4">Class</label>
               <div class="input-group col-sm-7">
@@ -232,6 +204,7 @@ echo '
               </div>
           </div>
 
+          <!--
           <div class="form-group">
               <label class="col-sm-4">Class Adviser</label>
               <div class="input-group col-sm-7">
@@ -239,7 +212,7 @@ echo '
                 <span class="input-group-addon btn btn-default" data-clipboard-target="#class_adviser" data-balloon="Copy to clipboard" data-balloon-pos="down"><i class="fa fa-files-o" aria-hidden="true"></i></span>
               </div>
           </div>
-
+          -->
 
 
 
@@ -278,115 +251,115 @@ clipboard.on('error', function(e) {
 });
 $(document).ready(function() {
   $(document).on("click",".paging",function(e) {
-    show_student_list(e.target.id);
+    show_fetcher_list(e.target.id);
   });
-  $(document).on("submit","#student-list-form",function(e) {
+  $(document).on("submit","#fetcher-list-form",function(e) {
     e.preventDefault();
     $('input[name="owner_id"]').removeAttr('value');
-    show_student_list();
+    show_fetcher_list();
   });
   $(document).on("change",'input[name="has_rfid"]',function(e) {
-    show_student_list();
+    show_fetcher_list();
   });
-  $(document).on("click",".view_student",function(e) {
+  $(document).on("click",".view_fetcher",function(e) {
     var id = e.target.id;
-    show_student_data(id);  
+    show_fetcher_data(id);  
   });
   $(document).on("change",'#select_class',function(e) {
     // show_gatelogs();
-    $('#select_student').dropdown("clear");
-    $('#select_student').html("");
-    $('#select_student').append('<option value="">Select a Class</option>');
+    $('#select_fetcher').dropdown("clear");
+    $('#select_fetcher').html("");
+    $('#select_fetcher').append('<option value="">Select a Class</option>');
     var datastr = "class_id="+e.target.value;
     $.ajax({
       type: "GET",
-      url: "<?php echo base_url("student_ajax/get_list/jbtech"); ?>",
+      url: "<?php echo base_url("fetcher_ajax/get_list/jbtech"); ?>",
       data: datastr,
       cache: false,
       dataType: "json",
       success: function(data) {
         $.each(data, function(i, item) {
-            $('#select_student').append('<option value="'+data[i].id+'">'+data[i].full_name+'</option>');
+            $('#select_fetcher').append('<option value="'+data[i].id+'">'+data[i].full_name+'</option>');
         });
       }
     });
   });
-  $('#select_student').dropdown("clear");
-  $('#select_student').html("");
-  $('#select_student').append('<option value="">Select a Class</option>');
+  $('#select_fetcher').dropdown("clear");
+  $('#select_fetcher').html("");
+  $('#select_fetcher').append('<option value="">Select a Class</option>');
   $.ajax({
     type: "GET",
-    url: "<?php echo base_url("student_ajax/get_list/jbtech"); ?>",
+    url: "<?php echo base_url("fetcher_ajax/get_list/jbtech"); ?>",
     data: "get=1",
     cache: false,
     dataType: "json",
     success: function(data) {
       $.each(data, function(i, item) {
-          $('#select_student').append('<option value="'+data[i].id+'">'+data[i].full_name+'</option>');
+          $('#select_fetcher').append('<option value="'+data[i].id+'">'+data[i].full_name+'</option>');
       });
     }
   });
   $(document).on("click","#reset",function(e) {
     $(".ui").dropdown("clear");
-    show_student_list();
+    show_fetcher_list();
   });
-  show_student_list();
-  function show_student_list(page='1',clear=false) {
+  show_fetcher_list();
+  function show_fetcher_list(page='1',clear=false) {
 
-    var datastr = $("#student-list-form").serialize();
+    var datastr = $("#fetcher-list-form").serialize();
     $.ajax({
       type: "GET",
-      url: $("#student-list-form").attr("action"),
+      url: $("#fetcher-list-form").attr("action"),
       data: datastr+"&page="+page,
       cache: false,
       success: function(data) {
         if(clear){
           $("#search_last_name").val("");
         }
-        $("#student-list-table tbody").html(data);
+        $("#fetcher-list-table tbody").html(data);
       }
     });
   }
-  function show_student_data(id) {
+  function show_fetcher_data(id) {
     $.ajax({
       type: "GET",
-      url: "<?php echo base_url("student_ajax/get_data/jbtech"); ?>",
-      data: "student_id="+id,
+      url: "<?php echo base_url("fetcher_ajax/get_data/jbtech"); ?>",
+      data: "fetcher_id="+id,
       cache: false,
       dataType: "json",
       success: function(data) {
         $("#display-photo").attr("src","<?php echo base_url("assets/images/student_photo/");?>"+data.display_photo);
-        $('#id').val(data.id);
-        $('#last_name').val(data.last_name);
-        $('#lrn_number').val(data.lrn_number);
-        $('#age').val(data.age);
+        $('#id').val(data.id_string);
+        // $('#last_name').val(data.last_name);
+        // $('#lrn_number').val(data.lrn_number);
+        // $('#age').val(data.age);
         $('#full_name').val(data.full_name);
-        $('#first_name').val(data.first_name);
-        $('#middle_name').val(data.middle_name);
-        $('#suffix').val(data.suffix);
-        $('#gender').val(data.gender);
-        $('#birthday').val(data.birthday);
-        $('#contact_number').val(data.contact_number);
-        $('#address').val(data.address);
-        $('#guardian_name').val(data.guardian_name);
-        $('#guardian_address').val(data.guardian_address);
-        $('#guardian_contact_number').val(data.guardian_contact_number);
-        $('#fathers_name').val(data.fathers_name);
-        $('#mothers_name').val(data.mothers_name);
+        // $('#first_name').val(data.first_name);
+        // $('#middle_name').val(data.middle_name);
+        // $('#suffix').val(data.suffix);
+        // $('#gender').val(data.gender);
+        // $('#birthday').val(data.birthday);
+        // $('#contact_number').val(data.contact_number);
+        // $('#address').val(data.address);
+        // $('#guardian_name').val(data.guardian_name);
+        // $('#guardian_address').val(data.guardian_address);
+        // $('#guardian_contact_number').val(data.guardian_contact_number);
+        // $('#fathers_name').val(data.fathers_name);
+        // $('#mothers_name').val(data.mothers_name);
         $('#class_name').val(data.class_name);
         $('#grade').val(data.grade);
-        $('#class_adviser').val(data.class_adviser);
-        if(data.guardian_id!=""){
-          $('#edit-guardian_id').dropdown('set value',data.guardian_id);
-        }else{
-          $('#edit-guardian_id').dropdown('clear');
-        }
-        if(data.class_id!=""){
-          $('#edit-class_id').dropdown('set value',data.class_id);
-        }else{
-          $('#edit-class_id').dropdown('clear');
-        }
-        $("#student_edit_modal").modal("show");
+        // $('#class_adviser').val(data.class_adviser);
+        // if(data.guardian_id!=""){
+          // $('#edit-guardian_id').dropdown('set value',data.guardian_id);
+        // }else{
+          // $('#edit-guardian_id').dropdown('clear');
+        // }
+        // if(data.class_id!=""){
+          // $('#edit-class_id').dropdown('set value',data.class_id);
+        // }else{
+          // $('#edit-class_id').dropdown('clear');
+        // }
+        $("#fetcher_edit_modal").modal("show");
       }
     });
   }

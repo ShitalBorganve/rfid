@@ -16,6 +16,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-sm-12">
+    <h1 style="text-align: center;">Teachers</h1>
       <?php echo form_open("tables/teachers/list/jbtech",'id="teacher-list-form"');?>
       <label>Search Last Name</label>
       <select class="ui search dropdown" name="owner_id" id="select_teacher">

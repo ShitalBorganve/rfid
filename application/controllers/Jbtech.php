@@ -89,6 +89,13 @@ class Jbtech extends CI_Controller {
 
 	}
 
+	public function fetchers($arg='')
+	{
+			$this->load->view('jbtech-fetchers',$this->data);
+
+	}
+
+
 	public function logout($value='')
 	{
 		$this->session->sess_destroy();

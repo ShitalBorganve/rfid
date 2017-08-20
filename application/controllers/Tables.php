@@ -329,7 +329,7 @@ class Tables extends CI_Controller {
 		}
 	}
 
-	public function fetchers($arg='')
+	public function fetchers($arg='',$arg_2='')
 	{
 		$page = $this->input->get("page");
 		if($arg=='list'){
@@ -347,19 +347,28 @@ class Tables extends CI_Controller {
 				$data = $this->rfid_model->get_data($get_data);
 				// var_dump($data);
 				// exit;
-				echo '
-					<tr>
-						<td style="text-align:center;">'.sprintf("%04d",$fetcher_data->id).'</td>';
-						if($fetcher_data->rfid_status==0){
-							echo '<td style="text-align:center;"><a href="javascript:void(0);" class="add_rfid_fetcher" id="'.$fetcher_data->id.'">Scan</a></td>';
-						}else{
-							echo '<td style="text-align:center;"><a href="javascript:void(0);" class="delete_rfid_fetcher" id="'.$fetcher_data->id.'">'.$data->rfid.'</a></td>';
-						}
-				echo '
-						<td style="text-align:center;"><a href="javascript:void(0);" class="edit_fetcher" id="'.$fetcher_data->id.'">Edit</a></td>
-						<td style="text-align:center;"><a href="javascript:void(0);" class="delete_fetcher" id="'.$fetcher_data->id.'">&times;</a></td>
-					</tr>
-				';
+				if($arg_2=='jbtech'){
+					echo '
+						<tr>
+							<td style="text-align:center;">'.sprintf("%04d",$fetcher_data->id).'</td>
+							<td style="text-align:center;"><a href="javascript:void(0);" class="view_fetcher" id="'.$fetcher_data->id.'">View</a></td>
+						</tr>
+					';
+				}else{
+					echo '
+						<tr>
+							<td style="text-align:center;">'.sprintf("%04d",$fetcher_data->id).'</td>';
+							if($fetcher_data->rfid_status==0){
+								echo '<td style="text-align:center;"><a href="javascript:void(0);" class="add_rfid_fetcher" id="'.$fetcher_data->id.'">Scan</a></td>';
+							}else{
+								echo '<td style="text-align:center;"><a href="javascript:void(0);" class="delete_rfid_fetcher" id="'.$fetcher_data->id.'" data-balloon="Valid until '.date("m/d/Y",$data->valid_date).'" data-balloon-pos="right">'.$data->rfid.'</a></td>';
+							}
+					echo '
+							<td style="text-align:center;"><a href="javascript:void(0);" class="edit_fetcher" id="'.$fetcher_data->id.'">Edit</a></td>
+							<td style="text-align:center;"><a href="javascript:void(0);" class="delete_fetcher" id="'.$fetcher_data->id.'">&times;</a></td>
+						</tr>
+					';
+				}
 			}
 			$attrib["href"] = "javascript:void(0);";
 			$attrib["class"] = "paging";
