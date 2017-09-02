@@ -41,8 +41,9 @@ class Guardian_model extends CI_Model {
         }else{
             $this->db->where($where);
         }
-        $this->db->order_by($order_by_col,$order_by_val);
+        $this->db->order_by('name');
         $query = $this->db->get("guardians");
+        $data["all"] = $query->result();
 
         $data["count"] = $query->num_rows();
         return $data;

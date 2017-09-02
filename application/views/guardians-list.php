@@ -19,7 +19,7 @@
         <select class="ui search dropdown form-control" name="id">
           <option value="">Select Guardian's Name</option>
           <?php
-            foreach ($guardians_list["result"] as $guardian_data) {
+            foreach ($guardians_list["all"] as $guardian_data) {
               echo '<option value="'.$guardian_data->id.'">'.$guardian_data->name.'</option>';
             }
           ?>

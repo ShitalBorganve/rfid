@@ -419,7 +419,7 @@ class Tables extends CI_Controller {
 					$where["id"] = $this->input->get("id");
 					$where["deleted"] = 0;
 				}
-				$guardians_list_data = $this->guardian_model->get_list($where,$page,$this->config->item("max_item_perpage"));
+				$guardians_list_data = $this->guardian_model->get_list($where,$page,$this->config->item("max_item_perpage"),'name','ASC');
 
 				// var_dump($guardians_list_data["query"]);
 				// exit;
