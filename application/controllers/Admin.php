@@ -140,7 +140,7 @@ class Admin extends CI_Controller {
 			$this->load->view('gate-logs-staffs',$this->data);
 		}elseif ($arg=="fetchers") {
 			$this->data["fetchers_list"] = $this->db->get_where('fetchers',['deleted'=>0])->result();
-			$this->data["title"] = "Fetchers Gate Logs";
+			$this->data["title"] = "Non-teaching fetchers Gate Logs";
 			$this->load->view('gate-logs-fetchers',$this->data);
 		}
 	}
