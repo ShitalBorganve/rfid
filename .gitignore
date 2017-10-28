@@ -2,6 +2,9 @@
 
 application/cache/*
 application/config/*
+assets/images/student_photo/*
+assets/images/teacher_photo/*
+assets/images/staff_photo/*
 !application/cache/index.html
 !application/cache/.htaccess
 
