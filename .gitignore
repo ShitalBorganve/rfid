@@ -29,3 +29,5 @@ application/logs/*
 *.sublime-workspace
 *.sublime-project
 *.csv
+
+.htaccess
