@@ -14,7 +14,7 @@ application/logs/*
 !application/logs/index.html
 !application/logs/.htaccess
 
-user_guide/
+/user_guide
 /vendor/
 
 # IDE Files
