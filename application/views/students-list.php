@@ -108,6 +108,23 @@ echo '
               <img class="img-responsive" id="display-photo" src="'.base_url("assets/images/empty.jpg").'">
             </div>
           </div>
+          
+          <div class="form-group">
+            <label class="col-sm-2" for="class_id">Class:</label>
+            <div class="col-sm-10"> 
+              <select name="class_id" id="edit-class_id" class="ui search dropdown form-control edit_field">
+                <option value="">Select a Class</option>
+                ';
+                foreach ($classes_list["result"] as $class_data) {
+                  echo '<option value="'.$class_data->id.'">'.$class_data->class_name.'</option>';
+                }
+
+                echo '
+              </select>
+
+              <p class="class_help-block"></p>
+            </div>
+          </div>
 
           <div class="form-group">
             <label class="col-sm-2" for="lrn_number">LRN Number:</label>
@@ -115,17 +132,7 @@ echo '
               <input type="text" class="form-control edit_field" name="lrn_number" placeholder="Enter LRN Number">
               <p class="help-block" id="lrn_number_help-block"></p>
             </div>
-          </div>
-
-
-          <div class="form-group">
-            <label class="col-sm-2" for="last_name">Last Name:</label>
-            <div class="col-sm-10"> 
-              <input type="text" class="form-control edit_field" name="last_name" placeholder="Enter Last Name">
-              <p class="help-block" id="last_name_help-block"></p>
-            </div>
-          </div>
-        
+          </div>        
 
           <div class="form-group">
             <label class="col-sm-2" for="first_name">First Name:</label>
@@ -143,12 +150,28 @@ echo '
               <p class="help-block" id="middle_name_help-block"></p>
             </div>
           </div>
+
+          <div class="form-group">
+            <label class="col-sm-2" for="last_name">Last Name:</label>
+            <div class="col-sm-10"> 
+              <input type="text" class="form-control edit_field" name="last_name" placeholder="Enter Last Name">
+              <p class="help-block" id="last_name_help-block"></p>
+            </div>
+          </div>
           
           <div class="form-group">
             <label class="col-sm-2" for="suffix">Suffix:</label>
             <div class="col-sm-10"> 
               <input type="text" class="form-control edit_field" name="suffix" placeholder="Enter Suffix (Jr. III etc.)">
               <p class="help-block" id="suffix_help-block"></p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2" for="contact_number">Contact Number:</label>
+            <div class="col-sm-10"> 
+              <input type="text" class="form-control edit_field" name="contact_number" placeholder="Enter Contact Number">
+              <p class="help-block" id="contact_number_help-block"></p>
             </div>
           </div>
 
@@ -196,13 +219,41 @@ echo '
             </div>
           </div>
 
-          <div class="form-group">
-            <label class="col-sm-2" for="contact_number">Contact Number:</label>
-            <div class="col-sm-10"> 
-              <input type="text" class="form-control edit_field" name="contact_number" placeholder="Enter Contact Number">
-              <p class="help-block" id="contact_number_help-block"></p>
+           <div class="form-group">
+              <label class="col-sm-2" for="age_as_of_august">Age as of August 31st(of the current year):</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control edit_field" name="age_as_of_august" placeholder="Enter Age">
+                <p class="help-block" id="age_help-block"></p>
+              </div>
+              
             </div>
-          </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="mother_tongue">Mother Tongue:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control edit_field" name="mother_tongue" placeholder="Enter Mother Tongue">
+                <p class="help-block" id="mother_tongue_help-block"></p>
+              </div>
+              
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="ethnic_group">Ethnic Group:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control edit_field" name="ethnic_group" placeholder="Enter Ethnic Group">
+                <p class="help-block" id="ethnic_group_help-block"></p>
+              </div>
+              
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="religion">Religion:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control edit_field" name="religion" placeholder="Enter Religion">
+                <p class="help-block" id="religion_help-block"></p>
+              </div>
+              
+            </div>
 
           <div class="form-group">
             <label class="col-sm-2" for="address">Address:</label>
@@ -212,6 +263,159 @@ echo '
             </div>
             
           </div>
+
+          <div class="form-group">
+              <label class="col-sm-2" for="is_transferee">Transferee:</label>
+              <div class="col-sm-10">
+                <label class="radio-inline"><input class="edit_field" type="radio" name="is_transferee" id="is_transferee_yes" value="1">Yes</label>
+                <label class="radio-inline"><input class="edit_field" type="radio" name="is_transferee" id="is_transferee_no" value="0">No</label>
+                <p class="help-block" id="is_transferee_help-block"></p>
+              </div>
+              
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="last_school_attended">Last School Attended:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control edit_field" name="last_school_attended" placeholder="Enter Last School Attended">
+                <p class="help-block" id="last_school_attended_help-block"></p>
+              </div>
+              
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="last_year_attended">Last Year Attended:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control edit_field" name="last_year_attended" placeholder="Enter Last Year Attended">
+                <p class="help-block" id="last_year_attended_help-block"></p>
+              </div>
+              
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="last_grade_attended">Last Grade Attended:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control edit_field" name="last_grade_attended" placeholder="Enter Last Grade Attended">
+                <p class="help-block" id="last_grade_attended_help-block"></p>
+              </div>
+              
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="last_track_strand">Last Track - Strand:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control edit_field" name="last_track_strand" placeholder="Enter Last Track - Strand">
+                <p class="help-block" id="last_track_strand_help-block"></p>
+              </div>
+              
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="academic_track">Academic Track:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control edit_field" name="academic_track" placeholder="Enter Academic Track">
+                <p class="help-block" id="academic_track_help-block"></p>
+              </div>
+              
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="tech_voc_track">Technical-Vocational Livelihood Track:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control edit_field" name="tech_voc_track" placeholder="Enter Technical-Vocational Livelihood Track">
+                <p class="help-block" id="tech_voc_track_help-block"></p>
+              </div>
+              
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="fathers_last_name">Father&apos;s Last Name:</label>
+              <div class="col-sm-10"> 
+                <input type="text" class="form-control edit_field" name="fathers_last_name" placeholder="Enter Father&apos;s Last Name">
+                <p class="help-block" id="fathers_last_name_help-block"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="fathers_middle_name">Father&apos;s Middle Name:</label>
+              <div class="col-sm-10"> 
+                <input type="text" class="form-control edit_field" name="fathers_middle_name" placeholder="Enter Father&apos;s Middle Name">
+                <p class="help-block" id="fathers_middle_name_help-block"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="fathers_first_name">Father&apos;s First Name:</label>
+              <div class="col-sm-10"> 
+                <input type="text" class="form-control edit_field" name="fathers_first_name" placeholder="Enter Father&apos;s First Name">
+                <p class="help-block" id="fathers_first_name_help-block"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="fathers_contact_number">Fathers&apos;s Contact Number:</label>
+              <div class="col-sm-10"> 
+                <input type="text" class="form-control edit_field" name="fathers_contact_number" placeholder="Enter Fathers&apos;s Contact Number">
+                <p class="help-block" id="fathers_contact_number_help-block"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="fathers_address">Fathers&apos;s Address:</label>
+              <div class="col-sm-10"> 
+                <input type="text" class="form-control edit_field" name="fathers_address" placeholder="Enter Fathers&apos;s Address">
+                <p class="help-block" id="fathers_address_help-block"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="mothers_last_name">Mother&apos;s Last Name:</label>
+              <div class="col-sm-10"> 
+                <input type="text" class="form-control edit_field" name="mothers_last_name" placeholder="Enter Mother&apos;s Last Name">
+                <p class="help-block" id="mothers_last_name_help-block"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="mothers_middle_name">Mother&apos;s Middle Name:</label>
+              <div class="col-sm-10"> 
+                <input type="text" class="form-control edit_field" name="mothers_middle_name" placeholder="Enter Mother&apos;s Middle Name">
+                <p class="help-block" id="mothers_middle_name_help-block"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="mothers_first_name">Mother&apos;s First Name:</label>
+              <div class="col-sm-10"> 
+                <input type="text" class="form-control edit_field" name="mothers_first_name" placeholder="Enter Mother&apos;s First Name">
+                <p class="help-block" id="mothers_first_name_help-block"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="mothers_contact_number">Mother&apos;s Contact Number:</label>
+              <div class="col-sm-10"> 
+                <input type="text" class="form-control edit_field" name="mothers_contact_number" placeholder="Enter Mother&apos;s Contact Number">
+                <p class="help-block" id="mothers_contact_number_help-block"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="mothers_address">Mother&apos;s Address:</label>
+              <div class="col-sm-10"> 
+                <input type="text" class="form-control edit_field" name="mothers_address" placeholder="Enter Mother&apos;s Address">
+                <p class="help-block" id="mothers_address_help-block"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="is_living_with_parents">Living with parents?:</label>
+              <div class="col-sm-10"> 
+                <label class="radio-inline"><input class="edit_field" type="radio" name="is_living_with_parents" id="is_living_with_parents_yes" value="1">Yes</label>
+                <label class="radio-inline"><input class="edit_field" type="radio" name="is_living_with_parents" id="is_living_with_parents_no" value="0">No</label>
+                <p class="help-block" id="is_living_with_parents_help-block"></p>
+              </div>
+            </div>
 
           <div class="form-group">
             <label class="col-sm-2" for="guardian">Guardians Contact Number:</label>
@@ -228,48 +432,11 @@ echo '
               <p class="guardian_id_help-block"></p>
             </div>
             <div class="col-sm-2"> 
-              <button type="button" class="btn btn-default btn-block" id="add_guardian">Add</button>
+              <button type="button" class="btn btn-default btn-block" id="student_add_guardian">Add</button>
             </div>
           </div>
 
 
-          <div class="form-group">
-            <label class="col-sm-2" for="guardian_name">Father&apos;s Name:</label>
-            <div class="col-sm-10"> 
-              <input type="text" class="form-control edit_field" name="fathers_name" placeholder="Enter Father&apos;s Name">
-              <p class="help-block" id="fathers_name_help-block"></p>
-            </div>
-          </div>
-
-
-
-          <div class="form-group">
-            <label class="col-sm-2" for="guardian_name">Mother&apos;s Name:</label>
-            <div class="col-sm-10"> 
-              <input type="text" class="form-control edit_field" name="mothers_name" placeholder="Enter Mother&apos;s Name">
-              <p class="help-block" id="mothers_name_help-block"></p>
-            </div>
-          </div>
-
-
-
-
-          <div class="form-group">
-            <label class="col-sm-2" for="class_id">Class:</label>
-            <div class="col-sm-10"> 
-              <select name="class_id" id="edit-class_id" class="ui search dropdown form-control edit_field">
-                <option value="">Select a Class</option>
-                ';
-                foreach ($classes_list["result"] as $class_data) {
-                  echo '<option value="'.$class_data->id.'">'.$class_data->class_name.'</option>';
-                }
-
-                echo '
-              </select>
-
-              <p class="class_help-block"></p>
-            </div>
-          </div>
 
 
           <div class="form-group">
@@ -467,6 +634,7 @@ $(document).ready(function() {
       cache: false,
       dataType: "json",
       success: function(data) {
+        console.log(data);
         $("#display-photo").attr("src","<?php echo base_url("assets/images/student_photo/");?>"+data.display_photo);
         $('input[name="student_id"]').val(id);
         $('input[name="first_name"].edit_field').val(data.first_name);
@@ -482,6 +650,36 @@ $(document).ready(function() {
         $('select[name="bday_m"].edit_field').val(data.bday_m);
         $('select[name="bday_d"].edit_field').val(data.bday_d);
         $('select[name="bday_y"].edit_field').val(data.bday_y);
+        $('input[name="age_as_of_august"].edit_field').val(data.age_as_of_august);
+        $('input[name="mother_tongue"].edit_field').val(data.mother_tongue);
+        $('input[name="ethnic_group"].edit_field').val(data.ethnic_group);
+        $('input[name="religion"].edit_field').val(data.religion);
+        if(data.is_transferee=="1"){
+          $('#is_transferee_yes').attr('checked',true);
+        }else{
+          $('#is_transferee_no').attr('checked',true);
+        }
+        if(data.is_living_with_parents=="1"){
+          $('#is_living_with_parents_yes').attr('checked',true);
+        }else{
+          $('#is_living_with_parents_no').attr('checked',true);
+        }
+        $('input[name="last_school_attended"].edit_field').val(data.last_school_attended);
+        $('input[name="last_year_attended"].edit_field').val(data.last_year_attended);
+        $('input[name="last_grade_attended"].edit_field').val(data.last_grade_attended);
+        $('input[name="last_track_strand"].edit_field').val(data.last_track_strand);
+        $('input[name="academic_track"].edit_field').val(data.academic_track);
+        $('input[name="tech_voc_track"].edit_field').val(data.tech_voc_track);
+        $('input[name="fathers_last_name"].edit_field').val(data.fathers_last_name);
+        $('input[name="fathers_middle_name"].edit_field').val(data.fathers_middle_name);
+        $('input[name="fathers_first_name"].edit_field').val(data.fathers_first_name);
+        $('input[name="fathers_contact_number"].edit_field').val(data.fathers_contact_number);
+        $('input[name="fathers_address"].edit_field').val(data.fathers_address);
+        $('input[name="mothers_last_name"].edit_field').val(data.mothers_last_name);
+        $('input[name="mothers_middle_name"].edit_field').val(data.mothers_middle_name);
+        $('input[name="mothers_first_name"].edit_field').val(data.mothers_first_name);
+        $('input[name="mothers_contact_number"].edit_field').val(data.mothers_contact_number);
+        $('input[name="mothers_address"].edit_field').val(data.mothers_address);
         if(data.guardian_id!=""){
           $('#edit-guardian_id').dropdown('set value',data.guardian_id);
         }else{

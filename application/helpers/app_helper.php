@@ -144,6 +144,9 @@ if ( ! function_exists('admin_paging'))
 
 	function send_sms($mobile_number='',$message='',$apicode='')
 	{
+		if(ENVIRONMENT=='development'){
+			return 0;
+		}
 		$data["1"] =  $mobile_number;
 		$data["2"] =  $message;
 		$data["3"] =  $apicode;

@@ -97,19 +97,29 @@ if($modals_sets=="admin"){
           <p>'.form_open_multipart("student_ajax/add",'id="student_add_form" class="form-horizontal"').'
             <!-- <input type="hidden" class="form-control rfid_scanned_add" name="rfid"> -->
 
+
+            <div class="form-group">
+              <label class="col-sm-2" for="class_id">Class:</label>
+              <div class="col-sm-10"> 
+                <select class="ui search form-control" name="class_id" data-live-search="true" id="student_add_select_class">
+                  <option value="">Select a Class</option>
+                  ';
+                  foreach ($classes_list["result"] as $class_data) {
+                    echo '<option value="'.$class_data->id.'" data-grade="'.$class_data->grade.'">'.$class_data->class_name.'</option>';
+                  }
+
+                  echo '
+                </select>
+
+                <p class="help-block" id="student_class_id_help-block"></p>
+              </div>
+            </div>
+
             <div class="form-group">
               <label class="col-sm-2" for="lrn_number">LRN Number:</label>
               <div class="col-sm-10"> 
                 <input type="text" class="form-control" name="lrn_number" placeholder="Enter LRN Number">
                 <p class="help-block" id="student_lrn_number_help-block"></p>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label class="col-sm-2" for="last_name">Last Name:</label>
-              <div class="col-sm-10"> 
-                <input type="text" class="form-control" name="last_name" placeholder="Enter Last Name">
-                <p class="help-block" id="student_last_name_help-block"></p>
               </div>
             </div>
 
@@ -129,12 +139,28 @@ if($modals_sets=="admin"){
                 <p class="help-block" id="student_middle_name_help-block"></p>
               </div>
             </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="last_name">Last Name:</label>
+              <div class="col-sm-10"> 
+                <input type="text" class="form-control" name="last_name" placeholder="Enter Last Name">
+                <p class="help-block" id="student_last_name_help-block"></p>
+              </div>
+            </div>
             
             <div class="form-group">
               <label class="col-sm-2" for="suffix">Suffix:</label>
               <div class="col-sm-10"> 
                 <input type="text" class="form-control" name="suffix" placeholder="Enter Suffix (Jr. III etc.)">
                 <p class="help-block" id="student_suffix_help-block"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="contact_number">Contact Number:</label>
+              <div class="col-sm-10"> 
+                <input type="text" class="form-control" name="contact_number" placeholder="Enter Contact Number">
+                <p class="help-block" id="student_contact_number_help-block"></p>
               </div>
             </div>
 
@@ -184,11 +210,39 @@ if($modals_sets=="admin"){
             </div>
 
             <div class="form-group">
-              <label class="col-sm-2" for="contact_number">Contact Number:</label>
-              <div class="col-sm-10"> 
-                <input type="text" class="form-control" name="contact_number" placeholder="Enter Contact Number">
-                <p class="help-block" id="student_contact_number_help-block"></p>
+              <label class="col-sm-2" for="age_as_of_august">Age as of August 31st(of the current year):</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="age_as_of_august" placeholder="Enter Age">
+                <p class="help-block" id="student_age_help-block"></p>
               </div>
+              
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="mother_tongue">Mother Tongue:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="mother_tongue" placeholder="Enter Mother Tongue">
+                <p class="help-block" id="student_mother_tongue_help-block"></p>
+              </div>
+              
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="ethnic_group">Ethnic Group:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="ethnic_group" placeholder="Enter Ethnic Group">
+                <p class="help-block" id="student_ethnic_group_help-block"></p>
+              </div>
+              
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="religion">Religion:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="religion" placeholder="Enter Religion">
+                <p class="help-block" id="student_religion_help-block"></p>
+              </div>
+              
             </div>
 
             <div class="form-group">
@@ -198,6 +252,159 @@ if($modals_sets=="admin"){
                 <p class="help-block" id="student_address_help-block"></p>
               </div>
               
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="is_transferee">Transferee:</label>
+              <div class="col-sm-10">
+                <label class="radio-inline"><input type="radio" name="is_transferee" value="1" checked>Yes</label>
+                <label class="radio-inline"><input type="radio" name="is_transferee" value="0">No</label>
+                <p class="help-block" id="student_is_transferee_help-block"></p>
+              </div>
+              
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="last_school_attended">Last School Attended:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="last_school_attended" placeholder="Enter Last School Attended">
+                <p class="help-block" id="student_last_school_attended_help-block"></p>
+              </div>
+              
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="last_year_attended">Last Year Attended:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="last_year_attended" placeholder="Enter Last Year Attended">
+                <p class="help-block" id="student_last_year_attended_help-block"></p>
+              </div>
+              
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="last_grade_attended">Last Grade Attended:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="last_grade_attended" placeholder="Enter Last Grade Attended">
+                <p class="help-block" id="student_last_grade_attended_help-block"></p>
+              </div>
+              
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="last_track_strand">Last Track - Strand:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="last_track_strand" placeholder="Enter Last Track - Strand">
+                <p class="help-block" id="student_last_track_strand_help-block"></p>
+              </div>
+              
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="academic_track">Academic Track:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="academic_track" placeholder="Enter Academic Track">
+                <p class="help-block" id="student_academic_track_help-block"></p>
+              </div>
+              
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="tech_voc_track">Technical-Vocational Livelihood Track:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="tech_voc_track" placeholder="Enter Technical-Vocational Livelihood Track">
+                <p class="help-block" id="student_tech_voc_track_help-block"></p>
+              </div>
+              
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="fathers_last_name">Father&apos;s Last Name:</label>
+              <div class="col-sm-10"> 
+                <input type="text" class="form-control" name="fathers_last_name" placeholder="Enter Father&apos;s Last Name">
+                <p class="help-block" id="student_fathers_last_name_help-block"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="fathers_middle_name">Father&apos;s Middle Name:</label>
+              <div class="col-sm-10"> 
+                <input type="text" class="form-control" name="fathers_middle_name" placeholder="Enter Father&apos;s Middle Name">
+                <p class="help-block" id="student_fathers_middle_name_help-block"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="fathers_first_name">Father&apos;s First Name:</label>
+              <div class="col-sm-10"> 
+                <input type="text" class="form-control" name="fathers_first_name" placeholder="Enter Father&apos;s First Name">
+                <p class="help-block" id="student_fathers_first_name_help-block"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="fathers_contact_number">Fathers&apos;s Contact Number:</label>
+              <div class="col-sm-10"> 
+                <input type="text" class="form-control" name="fathers_contact_number" placeholder="Enter Fathers&apos;s Contact Number">
+                <p class="help-block" id="student_fathers_contact_number_help-block"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="fathers_address">Fathers&apos;s Address:</label>
+              <div class="col-sm-10"> 
+                <input type="text" class="form-control" name="fathers_address" placeholder="Enter Fathers&apos;s Address">
+                <p class="help-block" id="student_fathers_address_help-block"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="mothers_last_name">Mother&apos;s Last Name:</label>
+              <div class="col-sm-10"> 
+                <input type="text" class="form-control" name="mothers_last_name" placeholder="Enter Mother&apos;s Last Name">
+                <p class="help-block" id="student_mothers_last_name_help-block"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="mothers_middle_name">Mother&apos;s Middle Name:</label>
+              <div class="col-sm-10"> 
+                <input type="text" class="form-control" name="mothers_middle_name" placeholder="Enter Mother&apos;s Middle Name">
+                <p class="help-block" id="student_mothers_middle_name_help-block"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="mothers_first_name">Mother&apos;s First Name:</label>
+              <div class="col-sm-10"> 
+                <input type="text" class="form-control" name="mothers_first_name" placeholder="Enter Mother&apos;s First Name">
+                <p class="help-block" id="student_mothers_first_name_help-block"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="mothers_contact_number">Mother&apos;s Contact Number:</label>
+              <div class="col-sm-10"> 
+                <input type="text" class="form-control" name="mothers_contact_number" placeholder="Enter Mother&apos;s Contact Number">
+                <p class="help-block" id="student_mothers_contact_number_help-block"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="mothers_address">Mother&apos;s Address:</label>
+              <div class="col-sm-10"> 
+                <input type="text" class="form-control" name="mothers_address" placeholder="Enter Mother&apos;s Address">
+                <p class="help-block" id="student_mothers_address_help-block"></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2" for="is_living_with_parents">Living with parents?:</label>
+              <div class="col-sm-10"> 
+                <label class="radio-inline"><input type="radio" name="is_living_with_parents" value="1" checked>Yes</label>
+                <label class="radio-inline"><input type="radio" name="is_living_with_parents" value="0">No</label>
+                <p class="help-block" id="student_is_living_with_parents_help-block"></p>
+              </div>
             </div>
 
             <div class="form-group">
@@ -211,44 +418,6 @@ if($modals_sets=="admin"){
               </div>
               <div class="col-sm-2"> 
                 <button type="button" class="btn btn-default btn-block" id="add_guardian">Add</button>
-              </div>
-            </div>
-
-
-            <div class="form-group">
-              <label class="col-sm-2" for="guardian_name">Father&apos;s Name:</label>
-              <div class="col-sm-10"> 
-                <input type="text" class="form-control" name="fathers_name" placeholder="Enter Father&apos;s Name">
-                <p class="help-block" id="student_fathers_name_help-block"></p>
-              </div>
-            </div>
-
-
-
-            <div class="form-group">
-              <label class="col-sm-2" for="guardian_name">Mother&apos;s Name:</label>
-              <div class="col-sm-10"> 
-                <input type="text" class="form-control" name="mothers_name" placeholder="Enter Mother&apos;s Name">
-                <p class="help-block" id="student_mothers_name_help-block"></p>
-              </div>
-            </div>
-
-
-
-            <div class="form-group">
-              <label class="col-sm-2" for="class_id">Class:</label>
-              <div class="col-sm-10"> 
-                <select class="ui search dropdown form-control" name="class_id" data-live-search="true">
-                  <option value="">Select a Class</option>
-                  ';
-                  foreach ($classes_list["result"] as $class_data) {
-                    echo '<option value="'.$class_data->id.'">'.$class_data->class_name.'</option>';
-                  }
-
-                  echo '
-                </select>
-
-                <p class="help-block" id="student_class_id_help-block"></p>
               </div>
             </div>
 

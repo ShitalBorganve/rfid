@@ -102,7 +102,7 @@ $(document).ready(function(e) {
     $("#register_guardian_modal").modal("show");
     $('input[name="auto"]').val("0");
   });
-  $(document).on("click", "#add_guardian", function(e) {
+  $(document).on("click", "#add_guardian,#student_add_guardian", function(e) {
     $('input[name="auto"]').val("1");
     $("#register_guardian_modal").modal("show");
   });
@@ -826,4 +826,25 @@ $(document).ready(function(e) {
   });
   // alertify settings
   alertify.dialog('confirm').set({transition:'zoom'});
+
+  var require_mothers_tongue = false;
+  $('#student_add_select_class').dropdown({
+    onChange: function (value, text, choice) {
+      let str = text.toLowerCase();
+      let grade_str_position = str.search(/grade/i);
+      let grade = str.slice(grade_str_position, str.length);
+      switch (grade) {
+        case 'grade 1':
+        case 'grade 2':
+        case 'grade 3':
+          require_mothers_tongue = true
+          break;
+          
+        default:
+          require_mothers_tongue = false
+          break;
+      }
+      console.log(require_mothers_tongue);
+    }
+  });
 });
