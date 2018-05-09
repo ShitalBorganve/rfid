@@ -229,6 +229,18 @@ $(document).ready(function(e) {
           $("#student_guardian_id_help-block").html(data.guardian_id_error);
           $("#student_class_id_help-block").html(data.class_id_error);
           $("#student_photo_help-block").html(data.photo_error);
+          $("#student_mother_tongue_help-block").html(data.mother_tongue_error);
+          $("#student_age_as_of_august_help-block").html(data.age_as_of_august_error);
+          $("#student_fathers_last_name_help-block").html(data.fathers_last_name_error);
+          $("#student_fathers_middle_name_help-block").html(data.fathers_middle_name_error);
+          $("#student_fathers_first_name_help-block").html(data.fathers_first_name_error);
+          $("#student_fathers_contact_number_help-block").html(data.fathers_contact_number_error);
+          $("#student_fathers_address_help-block").html(data.fathers_address_error);
+          $("#student_mothers_last_name_help-block").html(data.mothers_last_name_error);
+          $("#student_mothers_middle_name_help-block").html(data.mothers_middle_name_error);
+          $("#student_mothers_first_name_help-block").html(data.mothers_first_name_error);
+          $("#student_mothers_contact_number_help-block").html(data.mothers_contact_number_error);
+          $("#student_mothers_address_help-block").html(data.mothers_address_error);
         }
       },
       error: function(e) {
@@ -844,7 +856,7 @@ $(document).ready(function(e) {
           require_mothers_tongue = false
           break;
       }
-      console.log(require_mothers_tongue);
+      $('#grade').val(grade);
     }
   });
 });

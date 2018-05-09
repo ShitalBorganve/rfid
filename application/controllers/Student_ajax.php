@@ -57,6 +57,21 @@ class Student_ajax extends CI_Controller {
 			$this->form_validation->set_rules('bday_y', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('guardian_id', 'Guardian', 'is_in_db[guardians.id]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('class_id', 'Class', 'required|is_valid[classes.id]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('age_as_of_august', 'Age as of August', 'numeric|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('fathers_last_name', 'Father&apos;s Last Name', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('fathers_middle_name', 'Father&apos;s Middle Name', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('fathers_first_name', 'Father&apos;s First Name', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('fathers_contact_number', 'Father&apos;s Contact Number', 'numeric|min_length[11]|max_length[11]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('fathers_address', 'Mother&apos;s Address', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('mothers_last_name', 'Mother&apos;s Last Name', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('mothers_middle_name', 'Mother&apos;s Middle Name', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('mothers_first_name', 'Mother&apos;s First Name', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('mothers_contact_number', 'Mother&apos;s Contact Number', 'numeric|min_length[11]|max_length[11]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('mothers_address', 'Mother&apos;s Address', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$grade = $this->input->post('grade');
+			if($grade == 'grade 1' || $grade == 'grade 2' || $grade == 'grade 3'){
+				$this->form_validation->set_rules('mother_tongue', 'Mother Tongue', 'required|max_length[50]|trim|htmlspecialchars');
+			}
 
 			$this->form_validation->set_message('is_in_db', 'This account is invalid');
 			$has_uploaded_pic = FALSE;
@@ -142,6 +157,18 @@ class Student_ajax extends CI_Controller {
 				$data["guardian_id_error"] = form_error('guardian_id');
 				$data["class_id_error"] = form_error('class_id');
 				$data["contact_number_error"] = form_error('contact_number');
+				$data["mother_tongue_error"] = form_error('mother_tongue');
+				$data["age_as_of_august_error"] = form_error('age_as_of_august');
+				$data["fathers_last_name_error"] = form_error('fathers_last_name');
+				$data["fathers_middle_name_error"] = form_error('fathers_middle_name');
+				$data["fathers_first_name_error"] = form_error('fathers_first_name');
+				$data["fathers_contact_number_error"] = form_error('fathers_contact_number');
+				$data["fathers_address_error"] = form_error('fathers_address');
+				$data["mothers_last_name_error"] = form_error('mothers_last_name');
+				$data["mothers_middle_name_error"] = form_error('mothers_middle_name');
+				$data["mothers_first_name_error"] = form_error('mothers_first_name');
+				$data["mothers_contact_number_error"] = form_error('mothers_contact_number');
+				$data["mothers_address_error"] = form_error('mothers_address');
 			}
 			else
 			{
@@ -159,6 +186,18 @@ class Student_ajax extends CI_Controller {
 				$data["guardian_id_error"] = "";
 				$data["class_id_error"] = "";
 				$data["contact_number_error"] = "";
+				$data["mother_tongue_error"] = "";
+				$data["age_as_of_august"] = "";
+				$data["fathers_last_name_error"] = "";
+				$data["fathers_middle_name_error"] = "";
+				$data["fathers_first_name_error"] = "";
+				$data["fathers_contact_number_error"] = "";
+				$data["fathers_address_error"] = "";
+				$data["mothers_last_name_error"] = "";
+				$data["mothers_middle_name_error"] = "";
+				$data["mothers_first_name_error"] = "";
+				$data["mothers_contact_number_error"] = "";
+				$data["mothers_address_error"] = "";
 
 				$student_data["lrn_number"] = $this->input->post("lrn_number");
 				$student_data["first_name"] = $this->input->post("first_name");
@@ -245,6 +284,25 @@ class Student_ajax extends CI_Controller {
 			$this->form_validation->set_rules('guardian_id', 'Guardian', 'is_in_db[guardians.id]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('class_id', 'Class', 'required|is_valid[classes.id]|trim|htmlspecialchars');
 			$this->form_validation->set_message('is_in_db', 'An Error has occured please refresh the page and try again.');
+			$this->form_validation->set_rules('age_as_of_august', 'Age as of August', 'numeric|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('fathers_last_name', 'Father&apos;s Last Name', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('fathers_middle_name', 'Father&apos;s Middle Name', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('fathers_first_name', 'Father&apos;s First Name', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('fathers_contact_number', 'Father&apos;s Contact Number', 'numeric|min_length[11]|max_length[11]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('fathers_address', 'Mother&apos;s Address', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('mothers_last_name', 'Mother&apos;s Last Name', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('mothers_middle_name', 'Mother&apos;s Middle Name', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('mothers_first_name', 'Mother&apos;s First Name', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('mothers_contact_number', 'Mother&apos;s Contact Number', 'numeric|min_length[11]|max_length[11]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('mothers_address', 'Mother&apos;s Address', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$get_data = array();
+			$class_id = $this->input->post('class_id');
+	    	$get_data["id"] = $class_id;
+			$class_data = $this->classes_model->get_data($get_data);
+			$grade = strtolower($class_data['grade']);
+			if($grade == 'grade 1' || $grade == 'grade 2' || $grade == 'grade 3'){
+				$this->form_validation->set_rules('mother_tongue', 'Mother Tongue', 'required|max_length[50]|trim|htmlspecialchars');
+			}
 
 
 			$get_data = array();
@@ -345,6 +403,19 @@ class Student_ajax extends CI_Controller {
 				$data["guardian_id_error"] = form_error('guardian_id');
 				$data["class_id_error"] = form_error('class_id');
 				$data["student_id_error"] = form_error('student_id');
+				$data["mother_tongue_error"] = form_error('mother_tongue');
+				$data["age_as_of_august_error"] = form_error('age_as_of_august');
+				$data["fathers_last_name_error"] = form_error('fathers_last_name');
+				$data["fathers_middle_name_error"] = form_error('fathers_middle_name');
+				$data["fathers_first_name_error"] = form_error('fathers_first_name');
+				$data["fathers_contact_number_error"] = form_error('fathers_contact_number');
+				$data["fathers_address_error"] = form_error('fathers_address');
+				$data["mothers_last_name_error"] = form_error('mothers_last_name');
+				$data["mothers_middle_name_error"] = form_error('mothers_middle_name');
+				$data["mothers_first_name_error"] = form_error('mothers_first_name');
+				$data["mothers_contact_number_error"] = form_error('mothers_contact_number');
+				$data["mothers_address_error"] = form_error('mothers_address');
+				// echo validation_errors();
 			}
 			else
 			{
@@ -362,6 +433,18 @@ class Student_ajax extends CI_Controller {
 				$data["bday_error"] = "";
 				$data["guardian_id_error"] = "";
 				$data["class_id_error"] = "";
+				$data["mother_tongue_error"] = "";
+				$data["age_as_of_august_error"] = "";
+				$data["fathers_last_name_error"] = "";
+				$data["fathers_middle_name_error"] = "";
+				$data["fathers_first_name_error"] = "";
+				$data["fathers_contact_number_error"] = "";
+				$data["fathers_address_error"] = "";
+				$data["mothers_last_name_error"] = "";
+				$data["mothers_middle_name_error"] = "";
+				$data["mothers_first_name_error"] = "";
+				$data["mothers_contact_number_error"] = "";
+				$data["mothers_address_error"] = "";
 
 				$student_data["first_name"] = $this->input->post("first_name");
 				$student_data["lrn_number"] = $this->input->post("lrn_number");

@@ -710,6 +710,7 @@ $(document).ready(function() {
         $('button[form="student_edit_form"]').prop('disabled', true);
       },
       success: function(data) {
+        console.log(data);
         $("#lrn_number_help-block").html(data.lrn_number_error);
         $("#first_name_help-block").html(data.first_name_error);
         $("#last_name_help-block").html(data.last_name_error);
@@ -724,6 +725,18 @@ $(document).ready(function() {
         $("#guardian_id_help-block").html(data.guardian_id_error);
         $("#photo_help-block").html(data.photo_error);
         $("#student_id_help-block").html(data.student_id_error);
+        $("#mother_tongue_help-block").html(data.mother_tongue_error);
+        $("#age_as_of_august_help-block").html(data.age_as_of_august_error);
+        $("#fathers_last_name_help-block").html(data.fathers_last_name_error);
+        $("#fathers_middle_name_help-block").html(data.fathers_middle_name_error);
+        $("#fathers_first_name_help-block").html(data.fathers_first_name_error);
+        $("#fathers_contact_number_help-block").html(data.fathers_contact_number_error);
+        $("#fathers_address_help-block").html(data.fathers_address_error);
+        $("#mothers_last_name_help-block").html(data.mothers_last_name_error);
+        $("#mothers_middle_name_help-block").html(data.mothers_middle_name_error);
+        $("#mothers_first_name_help-block").html(data.mothers_first_name_error);
+        $("#mothers_contact_number_help-block").html(data.mothers_contact_number_error);
+        $("#mothers_address_help-block").html(data.mothers_address_error);
         if(data.is_valid){
           $("#student_edit_form")[0].reset();
           $(".ui .dropdown").dropdown("clear");

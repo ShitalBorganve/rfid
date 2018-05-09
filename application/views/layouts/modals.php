@@ -112,6 +112,7 @@ if($modals_sets=="admin"){
                 </select>
 
                 <p class="help-block" id="student_class_id_help-block"></p>
+                <input type="hidden" id="grade" name="grade">
               </div>
             </div>
 
