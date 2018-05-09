@@ -493,7 +493,9 @@ class Student_ajax extends CI_Controller {
 
 				if($has_uploaded_pic){
 					if(file_exists("assets/images/student_photo/".$student_data_db["display_photo"])){
-						unlink("assets/images/student_photo/".$student_data_db["display_photo"]);
+						if($student_data_db["display_photo"]!='empty.jpg'){
+							unlink("assets/images/student_photo/".$student_data_db["display_photo"]);
+						}
 					}
 					$student_id = $this->input->post("student_id");
 					rename($full_path,$file_path.$student_id."_".$file_name);

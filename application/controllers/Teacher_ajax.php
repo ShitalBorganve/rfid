@@ -467,7 +467,9 @@ You can login to ".base_url("teacher");
 
 				if($has_uploaded_pic){
 					if(file_exists("assets/images/student_photo/".$teacher_data_db["display_photo"])){
-						unlink("assets/images/student_photo/".$teacher_data_db["display_photo"]);
+						if($teacher_data_db["display_photo"]=='empty.jpg'){
+							unlink("assets/images/student_photo/".$teacher_data_db["display_photo"]);
+						}
 					}
 					$teacher_id = $this->input->post("teacher_id");
 					rename($full_path,$file_path.$teacher_id."_".$file_name);
