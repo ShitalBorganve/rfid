@@ -7,7 +7,8 @@ class Gate extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->database();
+		$this->load->helper('app_helper');
+		$this->load->database(database());
 		$this->load->helper('form');
 		$this->load->helper('url');
 

@@ -1,4 +1,5 @@
 <?php
+echo footer();
 echo '<script>var base_url = "'.base_url().'";</script>';
 echo '<script type="text/javascript" src="'.base_url("assets/js/jquery.min.js").'"></script>';
 echo '<script type="text/javascript" src="'.base_url("assets/js/bootstrap.min.js").'"></script>';

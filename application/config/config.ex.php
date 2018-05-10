@@ -23,6 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
+//must have http:// for file database.json
 $config['base_url'] = '';
 
 /*

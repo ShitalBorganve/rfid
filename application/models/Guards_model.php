@@ -6,7 +6,8 @@ class Guards_model extends CI_Model {
     function __construct(){
         // Call the Model constructor
         parent::__construct();
-        $this->load->database();
+        $this->load->helper('app_helper');
+        $this->load->database(database());
     }
 
     function add($students_data=""){

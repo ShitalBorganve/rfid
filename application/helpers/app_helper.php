@@ -178,4 +178,61 @@ if ( ! function_exists('admin_paging'))
 	{
 		return "1.0003";
 	}
+
+	function init_database_settings()
+	{
+		if(!file_exists((custom_base_url().'/settings/database.json'))){
+			$data = array();
+			$data = [
+				'databases' => [
+					'2017',
+					'2018',
+				],
+				'default_database' => 'rfid'
+			];
+			$fp = fopen('settings/database.json', 'w');
+			fwrite($fp, json_encode($data));
+			fclose($fp);
+		}
+	}
+
+	function get_database_settings()
+	{
+		$string = file_get_contents((custom_base_url()."/settings/database.json"));
+		return $string;
+	}
+
+	function database()
+	{
+		$CI =& get_instance();
+		$CI->load->helper('cookie');
+		$settings = json_decode(get_database_settings(),true);
+		$database = get_cookie('db',true);
+		if($database == null){
+			//43200s = 12hrs
+			$CI->input->set_cookie('db',$settings['default_database'],43200);
+			$database = $settings['default_database'];
+		}else{
+			if(!in_array($database,$settings['databases'])){
+				$database = $settings['default_database'];
+			}
+		}
+		return $database;
+		return $CI->input->cookie('db');
+	}
+
+	function custom_base_url()
+	{
+		$CI =& get_instance();
+		return $CI->config->item('base_url');
+	}
+
+	function footer()
+	{
+		$CI =& get_instance();
+		$CI->load->database(database());
+		$school_year = $CI->db->school_year;
+		$app_config = $CI->db->get('app_config')->row();
+		return '<br><br><br><p style="text-align:center"><small>'.$app_config->client_name.' '.$school_year.'</i></small></p>';
+	}
 }
