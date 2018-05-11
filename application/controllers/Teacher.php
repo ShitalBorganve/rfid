@@ -42,7 +42,7 @@ class Teacher extends CI_Controller {
 		$this->data["navbar_scripts"] = $this->load->view("layouts/navbar",$navbar_data,true);
 		$this->data["teacher_data"] = $this->session->userdata("teacher_sessions");
 
-		if(current_url()==base_url("teacher")||current_url()==base_url("teacher/login")){
+		if(current_url()==base_url("teacher")||current_url()==base_url("teacher/login")||current_url()==base_url("change-school-year")){
 			
 		}else{
 			if($this->session->userdata("teacher_sessions")==NULL){
@@ -62,6 +62,8 @@ class Teacher extends CI_Controller {
 			$this->data["title"] = "Teachers Login";
 			$this->data["account_password_error"] = "";
 			$this->data["type"] = "TEACHER LOGIN";
+			$this->data["databases"] = $settings = json_decode(get_database_settings(),true);
+			$this->data['databases']['current_database'] = database();
 			$this->load->view('app-login',$this->data);
 		}
 	}
@@ -105,6 +107,8 @@ class Teacher extends CI_Controller {
 				$this->data["login_type"] = "teacher";
 				$this->data["account_password_error"] = form_error('account_password');
 				$this->data["type"] = "TEACHER LOGIN";
+				$this->data["databases"] = $settings = json_decode(get_database_settings(),true);
+				$this->data['databases']['current_database'] = database();
 				$this->load->view('app-login',$this->data);
 			}
 			else
@@ -129,6 +133,8 @@ class Teacher extends CI_Controller {
 					$this->data["title"] = "Teachers Login";
 					$this->data["account_password_error"] = "Incorrect Passord. Try Again.";
 					$this->data["type"] = "TEACHER LOGIN";
+					$this->data["databases"] = $settings = json_decode(get_database_settings(),true);
+					$this->data['databases']['current_database'] = database();
 					$this->load->view('app-login',$this->data);
 				}
 			}

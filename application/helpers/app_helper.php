@@ -181,19 +181,21 @@ if ( ! function_exists('admin_paging'))
 
 	function init_database_settings()
 	{
-		if(!file_exists((custom_base_url().'/settings/database.json'))){
+		$has_settings = file_exists('settings/database.json');
+		if(!$has_settings){
 			$data = array();
 			$data = [
 				'databases' => [
 					'2017',
 					'2018',
 				],
-				'default_database' => '2017'
+				'default_database' => (string)date('Y')
 			];
 			$fp = fopen('settings/database.json', 'w');
 			fwrite($fp, json_encode($data));
 			fclose($fp);
 		}
+		return $has_settings;
 	}
 
 	function get_database_settings()
@@ -232,8 +234,22 @@ if ( ! function_exists('admin_paging'))
 	{
 		$CI =& get_instance();
 		$CI->load->database(database());
+		$CI->load->model("app_config");
+		$CI->app_config->updates(current_build());
 		$school_year = $CI->db->school_year;
 		$app_config = $CI->db->get('app_config')->row();
 		return '<br><br><br><p style="text-align:center"><small>'.$app_config->client_name.' SY '.$school_year.'</i></small></p>';
+	}
+
+	function change_database($database)
+	{
+		$CI =& get_instance();
+		$CI->load->helper('cookie');
+		$CI->input->set_cookie('db',$database,43200);
+		$settings = json_decode(get_database_settings(),true);
+		if(!in_array($database,$settings['databases'])){
+			$database = $settings['default_database'];
+		}
+		return $database;
 	}
 }

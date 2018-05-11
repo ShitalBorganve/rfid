@@ -23,9 +23,6 @@ class Admin extends CI_Controller {
 
 		$this->load->library('form_validation');
 		$this->load->library('session');
-
-		//updates
-		$this->app_config->updates(current_build());
 		
 		$this->data["title"] = "Main Title";
 		$this->data["css_scripts"] = $this->load->view("scripts/css","",true);
@@ -51,7 +48,7 @@ class Admin extends CI_Controller {
 		$navbar_data["school_name"] = $this->db->get("app_config")->row()->client_name;
 		$this->data["navbar_scripts"] = $this->load->view("layouts/navbar",$navbar_data,true);
 
-		if(current_url()==base_url("admin")||current_url()==base_url("admin/login")){
+		if(current_url()==base_url("admin")||current_url()==base_url("admin/login")||current_url()==base_url("change-school-year")){
 			
 		}else{
 			if($this->session->userdata("admin_sessions")==NULL){
@@ -72,6 +69,8 @@ class Admin extends CI_Controller {
 			$this->data["title"] = "Admin Login";
 			$this->data["type"] = "ADMINISTRATOR LOGIN";
 			$this->data["account_password_error"] = "";
+			$this->data["databases"] = $settings = json_decode(get_database_settings(),true);
+			$this->data['databases']['current_database'] = database();
 			$this->load->view('app-login',$this->data);
 		}
 	}
@@ -163,6 +162,8 @@ class Admin extends CI_Controller {
 				$this->data["account_password_error"] = form_error('account_password');
 				$this->data["title"] = "Admin Login";
 				$this->data["type"] = "ADMINISTRATOR LOGIN";
+				$this->data["databases"] = $settings = json_decode(get_database_settings(),true);
+				$this->data['databases']['current_database'] = database();
 				$this->load->view('app-login',$this->data);
 			}
 			else
@@ -186,6 +187,8 @@ class Admin extends CI_Controller {
 					$this->data["login_type"] = "admin";
 					$this->data["title"] = "Admin Login";
 					$this->data["type"] = "ADMINISTRATOR LOGIN";
+					$this->data["databases"] = $settings = json_decode(get_database_settings(),true);
+					$this->data['databases']['current_database'] = database();
 					$this->load->view('app-login',$this->data);
 					// echo json_encode($data);
 				}
@@ -197,6 +200,11 @@ class Admin extends CI_Controller {
 	public function change_school_name()
 	{
 		
+	}
+
+	public function change_school_year()
+	{
+		echo json_encode(change_database($this->input->post('school_year')));
 	}
 
 }

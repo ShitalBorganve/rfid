@@ -38,7 +38,7 @@ class Home extends CI_Controller {
 		$this->data["navbar_scripts"] = $this->load->view("layouts/navbar",$navbar_data,true);
 
 
-		if(current_url()==base_url()||current_url()==base_url("home")||current_url()==base_url("/login")||current_url()==base_url("home/login")){
+		if(current_url()==base_url()||current_url()==base_url("home")||current_url()==base_url("/login")||current_url()==base_url("home/login")||current_url()==base_url("change-school-year")){
 			
 		}else{
 			if($this->session->userdata("guardian_sessions")==NULL){
@@ -56,6 +56,8 @@ class Home extends CI_Controller {
 			$this->data["account_password_error"] = "";
 			$this->data["login_type"] = "home";
 			$this->data["type"] = "GUARDIAN LOGIN";
+			$this->data["databases"] = $settings = json_decode(get_database_settings(),true);
+			$this->data['databases']['current_database'] = database();
 			$this->load->view('app-login',$this->data);
 		}else{
 			$this->data["title"] = "My Students";
@@ -94,6 +96,8 @@ class Home extends CI_Controller {
 				$this->data["title"] = "Guardian Login";
 				$this->data["login_type"] = "home";
 				$this->data["type"] = "GUARDIAN LOGIN";
+				$this->data["databases"] = $settings = json_decode(get_database_settings(),true);
+				$this->data['databases']['current_database'] = database();
 				$this->load->view('app-login',$this->data);
 			}
 			else
@@ -118,6 +122,8 @@ class Home extends CI_Controller {
 					$this->data["title"] = "Guardian Login";
 					$this->data["login_type"] = "home";
 					$this->data["type"] = "GUARDIAN LOGIN";
+					$this->data["databases"] = $settings = json_decode(get_database_settings(),true);
+					$this->data['databases']['current_database'] = database();
 					$this->load->view('app-login',$this->data);
 				}
 			}

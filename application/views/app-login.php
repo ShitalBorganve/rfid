@@ -33,12 +33,24 @@
 						</div>
 					<?php endif ?>
 					<div class="form-group">
+					  <label class="col-sm-2 col-xs-4 col-md-3" for="email">School Year:</label>
+					  <div class="col-sm-10 col-xs-8 col-md-9">
+							<select class="form-control" id="school_year" name="school_year">
+								<?php foreach ($databases['databases'] as $database): ?>
+									<option value="<?= $database ?>" <?= ($database==$databases['current_database']?"selected":"") ?> ><?= $database." - ".($database + 1) ?></option>
+								<?php endforeach; ?>
+							</select>
+					    
+					    <p class="help-block" id="account_help-block"><?php echo form_error('account'); ?></p>
+					  </div>
+					</div>
+					<div class="form-group">
 					  <label class="col-sm-2 col-xs-4 col-md-3" for="email">Account:</label>
 					  <div class="col-sm-10 col-xs-8 col-md-9">
-					  <div class="ui left icon input fluid">
-					    <input type="text" class="form-control" id="account" name="account" placeholder="Enter Account">
-					    <i class="user icon"></i>
-					  </div>
+							<div class="ui left icon input fluid">
+								<input type="text" class="form-control" id="account" name="account" placeholder="Enter Account">
+								<i class="user icon"></i>
+							</div>
 					    
 					    <p class="help-block" id="account_help-block"><?php echo form_error('account'); ?></p>
 					  </div>
@@ -55,7 +67,7 @@
 					</div>
 					<div class="form-group"> 
 					  <div class="col-sm-12">
-					    <button type="submit" class="btn btn-primary btn-block">Login</button>
+					    <button type="submit" class="btn btn-primary btn-block" id="login">Login</button>
 					  </div>
 					</div>
 				</form>
@@ -65,5 +77,31 @@
 
 </div>
 <?php echo $js_scripts; ?>
+<script>
+$(document).ready(function() {
+	$('#school_year').change(function() {
+		$.ajax({
+      type: "POST",
+      data: 'school_year='+$('#school_year').val()+"&<?php echo $this->security->get_csrf_token_name();?>=<?php echo $this->security->get_csrf_hash();?>",
+      url: 'change-school-year',
+      cache: false,
+      dataType: "json",
+      beforeSend: function() {
+				$('#login').prop('disabled', true);
+				document.write("Changing School Year");
+      },
+      success: function(data) {
+				location.reload();
+      },
+      error: function(e) {
+        console.log(e);
+      },
+      complete: function() {
+
+      }
+    });
+	});
+});
+</script>
 </body>
 </html>
