@@ -188,7 +188,7 @@ if ( ! function_exists('admin_paging'))
 					'2017',
 					'2018',
 				],
-				'default_database' => 'rfid'
+				'default_database' => '2017'
 			];
 			$fp = fopen('settings/database.json', 'w');
 			fwrite($fp, json_encode($data));
@@ -204,10 +204,11 @@ if ( ! function_exists('admin_paging'))
 
 	function database()
 	{
+		init_database_settings();
 		$CI =& get_instance();
 		$CI->load->helper('cookie');
 		$settings = json_decode(get_database_settings(),true);
-		$database = get_cookie('db',true);
+		$database = $CI->input->cookie('db',true);
 		if($database == null){
 			//43200s = 12hrs
 			$CI->input->set_cookie('db',$settings['default_database'],43200);
@@ -233,6 +234,6 @@ if ( ! function_exists('admin_paging'))
 		$CI->load->database(database());
 		$school_year = $CI->db->school_year;
 		$app_config = $CI->db->get('app_config')->row();
-		return '<br><br><br><p style="text-align:center"><small>'.$app_config->client_name.' '.$school_year.'</i></small></p>';
+		return '<br><br><br><p style="text-align:center"><small>'.$app_config->client_name.' SY '.$school_year.'</i></small></p>';
 	}
 }

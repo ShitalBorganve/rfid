@@ -7,6 +7,8 @@ assets/images/teacher_photo/*
 !assets/images/teacher_photo/empty.jpg
 assets/images/staff_photo/*
 !assets/images/staff_photo/empty.jpg
+assets/images/logo.jpg
+assets/images/logo.png
 !application/cache/index.html
 !application/cache/.htaccess
 
