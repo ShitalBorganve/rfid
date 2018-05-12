@@ -40,7 +40,10 @@ class Guardian_ajax extends CI_Controller {
 			$this->form_validation->set_rules('guardian_address', 'Guardian Address', 'required|trim|htmlspecialchars|min_length[2]|max_length[50]');
 			$this->form_validation->set_rules('email_address', 'Email Address', 'valid_email|trim|htmlspecialchars|min_length[2]|max_length[50]');
 			$this->form_validation->set_rules('email_subscription', 'Email Address', 'email_subscription[email_address]');
-			$this->form_validation->set_rules('guardian_name', 'Guardian Name', 'required|custom_alpha_dash|trim|htmlspecialchars|min_length[2]|max_length[50]');
+			// $this->form_validation->set_rules('guardian_name', 'Guardian Name', 'required|custom_alpha_dash|trim|htmlspecialchars|min_length[2]|max_length[50]');
+			$this->form_validation->set_rules('guardian_last_name', 'Guardian Last Name', 'required|trim|htmlspecialchars|max_length[50]');
+			$this->form_validation->set_rules('guardian_middle_name', 'Guardian Middle Name', 'trim|htmlspecialchars|max_length[50]');
+			$this->form_validation->set_rules('guardian_first_name', 'Guardian First Name', 'trim|htmlspecialchars|max_length[50]');
 			$this->form_validation->set_rules('contact_number', 'Contact Number', 'numeric|required|is_available[guardians.contact_number]|trim|htmlspecialchars|min_length[11]|max_length[11]');
 			$this->form_validation->set_message('is_available', 'This %s is invalid or already taken');
 
@@ -48,6 +51,9 @@ class Guardian_ajax extends CI_Controller {
 			{
 				$data["is_valid"] = FALSE;
 				$data["guardian_name_error"] = form_error("guardian_name");
+				$data["guardian_last_name_error"] = form_error("guardian_last_name");
+				$data["guardian_middle_name_error"] = form_error("guardian_middle_name");
+				$data["guardian_first_name_error"] = form_error("guardian_first_name");
 				$data["guardian_address_error"] = form_error("guardian_address");
 				$data["email_address_error"] = form_error("email_address");
 				$data["contact_number_error"] = form_error("contact_number");
@@ -56,14 +62,20 @@ class Guardian_ajax extends CI_Controller {
 				$data["is_valid"] = TRUE;
 				$data["guardian_address_error"] = "";
 				$data["guardian_name_error"] = "";
+				$data["guardian_last_name_error"] = "";
+				$data["guardian_middle_name_error"] = "";
+				$data["guardian_first_name_error"] = "";
 				$data["email_address_error"] = "";
 				$data["contact_number_error"] = "";
 				$data["subscription_error"] = "";
 
 				($this->input->post("email_subscription")!=NULL?$email_subscription=1:$email_subscription=0);
 				($this->input->post("sms_subscription")!=NULL?$sms_subscription=1:$sms_subscription=0);
-
+				
 				$guardian_data["name"] = $this->input->post("guardian_name");
+				$guardian_data["middle_name"] = $this->input->post("guardian_middle_name");
+				$guardian_data["first_name"] = $this->input->post("guardian_first_name");
+				// $guardian_data["name"] = $guardian_data['last_name'] . " " .$guardian_data['first_name'] . " " .$guardian_data['middle_name'];
 				$guardian_data["email_address"] = $this->input->post("email_address");
 				$guardian_data["guardian_address"] = $this->input->post("guardian_address");
 				$guardian_data["contact_number"] = $this->input->post("contact_number");
@@ -95,6 +107,9 @@ You can login to ".base_url();
 		if($_POST){
 			$this->form_validation->set_rules('guardian_address', 'Guardian Address', 'required|trim|htmlspecialchars|min_length[2]|max_length[50]');
 			$this->form_validation->set_rules('guardian_name', 'Guardian Name', 'required|custom_alpha_dash|trim|htmlspecialchars|min_length[2]|max_length[50]');
+			$this->form_validation->set_rules('guardian_last_name', 'Guardian Last Name', 'required|trim|htmlspecialchars|max_length[50]');
+			$this->form_validation->set_rules('guardian_middle_name', 'Guardian Middle Name', 'trim|htmlspecialchars|max_length[50]');
+			$this->form_validation->set_rules('guardian_first_name', 'Guardian First Name', 'trim|htmlspecialchars|max_length[50]');
 			$this->form_validation->set_rules('email_subscription', 'Email Address', 'email_subscription[email_address]');
 			$this->form_validation->set_rules('guardian_id', 'Guardian', 'trim|htmlspecialchars|is_in_db[guardians.id]');
 			$this->form_validation->set_rules('email_address', 'Email Address', 'valid_email|trim|htmlspecialchars|min_length[2]|max_length[50]');
@@ -105,6 +120,9 @@ You can login to ".base_url();
 			{
 				$data["is_valid"] = FALSE;
 				$data["guardian_name_error"] = form_error("guardian_name");
+				$data["guardian_last_name_error"] = form_error("guardian_last_name");
+				$data["guardian_middle_name_error"] = form_error("guardian_middle_name");
+				$data["guardian_first_name_error"] = form_error("guardian_first_name");
 				$data["guardian_address_error"] = form_error("guardian_address");
 				$data["email_address_error"] = form_error("email_address");
 				$data["contact_number_error"] = form_error("contact_number");
@@ -112,6 +130,9 @@ You can login to ".base_url();
 			}else{
 				$data["is_valid"] = TRUE;
 				$data["guardian_name_error"] = "";
+				$data["guardian_last_name_error"] = "";
+				$data["guardian_middle_name_error"] = "";
+				$data["guardian_first_name_error"] = "";
 				$data["guardian_address_error"] = "";
 				$data["email_address_error"] = "";
 				$data["contact_number_error"] = "";
@@ -122,6 +143,10 @@ You can login to ".base_url();
 
 				$guardian_id = $this->input->post("guardian_id");
 				$guardian_data["name"] = $this->input->post("guardian_name");
+				$guardian_data["last_name"] = $this->input->post("guardian_last_name");
+				$guardian_data["middle_name"] = $this->input->post("guardian_middle_name");
+				$guardian_data["first_name"] = $this->input->post("guardian_first_name");
+				// $guardian_data["name"] = $guardian_data['last_name'] . " " .$guardian_data['first_name'] . " " .$guardian_data['middle_name'];
 				$guardian_data["email_address"] = $this->input->post("email_address");
 				$guardian_data["guardian_address"] = $this->input->post("guardian_address");
 				$guardian_data["contact_number"] = $this->input->post("contact_number");

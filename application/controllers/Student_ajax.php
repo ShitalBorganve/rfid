@@ -234,8 +234,8 @@ class Student_ajax extends CI_Controller {
 				$student_data["mothers_contact_number"] = $this->input->post("mothers_contact_number");
 				$student_data["mothers_address"] = $this->input->post("mothers_address");
 				$student_data["is_living_with_parents"] = $this->input->post("is_living_with_parents");
-				$student_data["fathers_name"] = $student_data["fathers_first_name"]." ".$student_data["fathers_middle_name"]." ".$student_data["fathers_middle_name"];
-				$student_data["mothers_name"] = $student_data["mothers_first_name"]." ".$student_data["mothers_middle_name"]." ".$student_data["mothers_middle_name"];
+				$student_data["fathers_name"] = $student_data["fathers_last_name"]." ".$student_data["fathers_middle_name"]." ".$student_data["fathers_middle_name"];
+				$student_data["mothers_name"] = $student_data["mothers_last_name"]." ".$student_data["mothers_middle_name"]." ".$student_data["mothers_middle_name"];
 				$bday_m = sprintf("%02d",$this->input->post("bday_m"));
 				$bday_d = sprintf("%02d",$this->input->post("bday_d"));
 				$bday_y = sprintf("%04d",$this->input->post("bday_y"));
@@ -486,8 +486,8 @@ class Student_ajax extends CI_Controller {
 				$student_data["mothers_contact_number"] = $this->input->post("mothers_contact_number");
 				$student_data["mothers_address"] = $this->input->post("mothers_address");
 				$student_data["is_living_with_parents"] = $this->input->post("is_living_with_parents");
-				$student_data["fathers_name"] = $student_data["fathers_first_name"]." ".$student_data["fathers_middle_name"]." ".$student_data["fathers_middle_name"];
-				$student_data["mothers_name"] = $student_data["mothers_first_name"]." ".$student_data["mothers_middle_name"]." ".$student_data["mothers_middle_name"];
+				$student_data["fathers_name"] = $student_data["fathers_last_name"]." ".$student_data["fathers_middle_name"]." ".$student_data["fathers_middle_name"];
+				$student_data["mothers_name"] = $student_data["mothers_last_name"]." ".$student_data["mothers_middle_name"]." ".$student_data["mothers_middle_name"];
 
 				($this->students_model->edit_info($student_data,$this->input->post("student_id"))?$data["is_successful"] = TRUE:$data["is_successful"] = FALSE);
 

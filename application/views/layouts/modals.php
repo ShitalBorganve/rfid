@@ -1048,13 +1048,28 @@ if($modals_sets=="admin"){
           echo '
           <input type="hidden" name="auto">
           <div class="form-group">
-            <label class="col-sm-4" for="guardian_name">Guardian Name:</label>
+            <label class="col-sm-4" for="guardian_last_name">Guardian Last Name:</label>
             <div class="col-sm-8"> 
-              <input type="text" class="form-control" name="guardian_name" placeholder="Enter Guardian Name">
-              <p class="help-block" id="add_guardian_name_help-block"></p>
+              <input type="text" class="form-control" name="guardian_last_name" placeholder="Enter Guardian Last Name" id="add_guardian_last_name">
+              <p class="help-block" id="add_guardian_last_name_help-block"></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4" for="guardian_middle_name">Guardian Middle Name:</label>
+            <div class="col-sm-8"> 
+              <input type="text" class="form-control" name="guardian_middle_name" placeholder="Enter Guardian Middle Name" id="add_guardian_middle_name">
+              <p class="help-block" id="add_guardian_middle_name_help-block"></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4" for="guardian_first_name">Guardian First Name:</label>
+            <div class="col-sm-8"> 
+              <input type="text" class="form-control" name="guardian_first_name" placeholder="Enter Guardian First Name" id="add_guardian_first_name">
+              <p class="help-block" id="add_guardian_first_name_help-block"></p>
             </div>
           </div>
 
+          <input type="hidden" class="form-control" name="guardian_name" placeholder="Enter Guardian Name" id="add_guardian_name">
 
           <div class="form-group">
             <label class="col-sm-4" for="guardian_name">Guardian&apos;s Address:</label>

@@ -137,6 +137,10 @@ $(document).ready(function(e) {
       }
     });
   });
+  $('#add_guardian_last_name,#add_guardian_middle_name,#add_guardian_first_name').keyup(function() {
+    let guardian_name = $('#add_guardian_last_name').val() + " " + $('#add_guardian_first_name').val() + " " + $('#add_guardian_middle_name').val();
+    $('#add_guardian_name').val(guardian_name);
+  });
   $(document).on("submit", "#register_guardian_form", function(e) {
     e.preventDefault();
     $("button[form='register_guardian_form']").prop('disabled', true);
@@ -149,6 +153,9 @@ $(document).ready(function(e) {
       success: function(data) {
         $("button[form='register_guardian_form']").prop('disabled', false);
         $("#add_guardian_address_help-block").html(data.guardian_address_error);
+        $("#add_guardian_last_name_help-block").html(data.guardian_last_name_error);
+        $("#add_guardian_middle_name_help-block").html(data.guardian_middle_name_error);
+        $("#add_guardian_first_name_help-block").html(data.guardian_first_name_error);
         $("#add_guardian_name_help-block").html(data.guardian_name_error);
         $("#add_email_address_help-block").html(data.email_address_error);
         $("#add_contact_number_help-block").html(data.contact_number_error);

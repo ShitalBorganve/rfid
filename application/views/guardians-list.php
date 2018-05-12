@@ -74,12 +74,27 @@
           echo '
 
           <div class="form-group">
-            <label class="col-sm-4" for="guardian_name">Guardian Name:</label>
+            <label class="col-sm-4" for="guardian_last_name">Guardian Last Name:</label>
             <div class="col-sm-8"> 
-              <input type="text" class="form-control edit_field" name="guardian_name" placeholder="Enter Guardian Name">
-              <p class="help-block" id="guardian_name_help-block"></p>
+              <input type="text" class="form-control edit_field" name="guardian_last_name" placeholder="Enter Guardian Last Name" id="edit_guardian_last_name">
+              <p class="help-block" id="guardian_last_name_help-block"></p>
             </div>
           </div>
+          <div class="form-group">
+            <label class="col-sm-4" for="guardian_middle_name">Guardian Middle Name:</label>
+            <div class="col-sm-8"> 
+              <input type="text" class="form-control edit_field" name="guardian_middle_name" placeholder="Enter Guardian Middle Name" id="edit_guardian_middle_name">
+              <p class="help-block" id="guardian_middle_name_help-block"></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4" for="guardian_first_name">Guardian First Name:</label>
+            <div class="col-sm-8"> 
+              <input type="text" class="form-control edit_field" name="guardian_first_name" placeholder="Enter Guardian First Name" id="edit_guardian_first_name">
+              <p class="help-block" id="guardian_first_name_help-block"></p>
+            </div>
+          </div>
+          <input type="hidden" class="form-control edit_field" name="guardian_name" placeholder="Enter Guardian Name" id="edit_guardian_name">
 
 
           <div class="form-group">
@@ -202,6 +217,10 @@ $(document).ready(function() {
       var id = e.target.id;
       show_guardian_data(id);
   });
+  $('#edit_guardian_last_name,#edit_guardian_middle_name,#edit_guardian_first_name').keyup(function() {
+    let guardian_name = $('#edit_guardian_last_name').val() + " " + $('#edit_guardian_first_name').val() + " " + $('#edit_guardian_middle_name').val();
+    $('#edit_guardian_name').val(guardian_name);
+  });
   function show_guardian_data(id) {
     $.ajax({
       type: "GET",
@@ -212,6 +231,9 @@ $(document).ready(function() {
       success: function(data) {
         $('input[name="guardian_id"]').val(id);
         $('input[name="guardian_name"].edit_field').val(data.name);
+        $('input[name="guardian_last_name"].edit_field').val(data.last_name);
+        $('input[name="guardian_middle_name"].edit_field').val(data.middle_name);
+        $('input[name="guardian_first_name"].edit_field').val(data.first_name);
         $('input[name="email_address"].edit_field').val(data.email_address);
         $('input[name="contact_number"].edit_field').val(data.contact_number);
         $('input[name="guardian_address"].edit_field').val(data.guardian_address);

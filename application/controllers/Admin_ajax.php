@@ -74,7 +74,7 @@ class Admin_ajax extends CI_Controller {
 			$admin_data = $this->db->get("admins")->row();
 			$this->load->library('email');
 
-			$this->email->from('no-reply@rfid-ph.net', 'Admin Password Reset');
+			$this->email->from('do-not-reply@systemph.com', 'Admin Password Reset');
 			$this->email->to($this->input->post("email_address"));
 
 			$this->email->subject('Admin Password Reset');
@@ -115,7 +115,7 @@ You can login to ".base_url("admin");
 
 			$this->load->library('email');
 
-			$this->email->from('no-reply@rfid-ph.net', 'Admin Account');
+			$this->email->from('do-not-reply@systemph.com', 'Admin Account');
 			$this->email->to($this->input->post("email_address"));
 
 			$this->email->subject('Admin Account');
