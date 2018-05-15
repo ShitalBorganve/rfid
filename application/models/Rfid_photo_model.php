@@ -18,7 +18,7 @@ class Rfid_photo_model extends CI_Model {
         $this->db->order_by("id","DESC");
         $photo_data = $this->db->get("rfid_photo")->row();
 
-        return md5("_jbtech_11".$photo_data->id);
+        return md5("_jbtech_11".database().$photo_data->id);
     }
 }
 
