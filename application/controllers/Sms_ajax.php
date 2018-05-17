@@ -158,6 +158,12 @@ class Sms_ajax extends CI_Controller {
 							if($students_list["result"] != array()){
 								foreach ($students_list["result"] as $students_data) {
 									$get_data["id"] = $students_data->guardian_id;
+									if($students_data->fathers_contact_number!=""){
+										$data["recipients_number"][] = $students_data->fathers_contact_number;
+									}
+									if($students_data->mothers_contact_number!=""){
+										$data["recipients_number"][] = $students_data->mothers_contact_number;
+									}
 									if($students_data->guardian_id != 0){
 										$guardian_data = $this->guardian_model->get_data($get_data,TRUE);
 										if($guardian_data->contact_number!=""){
@@ -208,6 +214,12 @@ class Sms_ajax extends CI_Controller {
 							$students_list = $this->students_model->get_list($get_list,1,$this->db->get("students")->num_rows());
 							if($students_list["result"] != array()){
 								foreach ($students_list["result"] as $students_data) {
+									if($students_data->fathers_contact_number!=""){
+										$data["recipients_number"][] = $students_data->fathers_contact_number;
+									}
+									if($students_data->mothers_contact_number!=""){
+										$data["recipients_number"][] = $students_data->mothers_contact_number;
+									}
 									$get_data["id"] = $students_data->guardian_id;
 									if($students_data->guardian_id != 0){
 										$guardian_data = $this->guardian_model->get_data($get_data,TRUE);
@@ -304,6 +316,12 @@ class Sms_ajax extends CI_Controller {
 						if($students_list["result"] != array()){
 							foreach ($students_list["result"] as $students_data) {
 								$get_data["id"] = $students_data->guardian_id;
+								if($students_data->fathers_contact_number!=""){
+									$data["recipients_number"][] = $students_data->fathers_contact_number;
+								}
+								if($students_data->mothers_contact_number!=""){
+									$data["recipients_number"][] = $students_data->mothers_contact_number;
+								}
 								if($students_data->guardian_id != 0){
 									$guardian_data = $this->guardian_model->get_data($get_data,TRUE);
 									if($guardian_data->contact_number!=""){
@@ -345,6 +363,12 @@ class Sms_ajax extends CI_Controller {
 						$students_list = $this->students_model->get_list("",1,$this->db->get("students")->num_rows());
 						if($students_list["result"] != array()){
 							foreach ($students_list["result"] as $students_data) {
+								if($students_data->fathers_contact_number!=""){
+									$data["recipients_number"][] = $students_data->fathers_contact_number;
+								}
+								if($students_data->mothers_contact_number!=""){
+									$data["recipients_number"][] = $students_data->mothers_contact_number;
+								}
 								$get_data["id"] = $students_data->guardian_id;
 								if($students_data->guardian_id != 0){
 									$guardian_data = $this->guardian_model->get_data($get_data,TRUE);
@@ -411,6 +435,10 @@ class Sms_ajax extends CI_Controller {
 		$data["status_code"] = send_sms($data["mobile_number"],$data["message"],$app_config_data->apicode);
 		$data["status"] = sms_status($data["status_code"]);
 		$owner_data = $this->sms_model->find_owner($data["mobile_number"]);
+		if(!$owner_data){
+			echo json_encode($data);
+			exit;
+		}
 		$data["ref_table"] = $owner_data->table;
 		$data["ref_id"] = $owner_data->id;
 		$get_data["id"] = $owner_data->id;

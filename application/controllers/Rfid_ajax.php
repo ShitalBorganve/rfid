@@ -259,6 +259,12 @@ class Rfid_ajax extends CI_Controller {
 									$rfid_owner_data["status_code"] = send_sms($guardian_data["contact_number"],$rfid_owner_data["message"],$app_config_data->apicode);
 									if($rfid_owner_data["status_code"]==0){
 										$rfid_owner_data["sms_status"] = $guardian_data["name"]." had been successfully notified through SMS.";
+										if($rfid_owner_data["fathers_contact_number"]!=""){
+											$rfid_owner_data["sms_fathers_status_code"] = send_sms($rfid_owner_data["fathers_contact_number"],$rfid_owner_data["message"],$app_config_data->apicode);
+										}
+										if($rfid_owner_data["mothers_contact_number"]!=""){
+											$rfid_owner_data["sms_mothers_status_code"] = send_sms($rfid_owner_data["mothers_contact_number"],$rfid_owner_data["message"],$app_config_data->apicode);
+										}
 									}else{
 										$rfid_owner_data["sms_status"] = sms_status($rfid_owner_data["status_code"]);
 									}
