@@ -222,7 +222,7 @@ echo '
            <div class="form-group">
               <label class="col-sm-2" for="age_as_of_august">Age as of August 31st(of the current year):</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control edit_field" name="age_as_of_august" placeholder="Enter Age">
+                <input type="number" class="form-control edit_field" name="age_as_of_august" placeholder="Enter Age">
                 <p class="help-block" id="age_help-block"></p>
               </div>
               
@@ -277,7 +277,7 @@ echo '
             <div class="form-group">
               <label class="col-sm-2" for="last_school_attended">Last School Attended:</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control edit_field" name="last_school_attended" placeholder="Enter Last School Attended">
+                <input type="number" class="form-control edit_field" name="last_school_attended" placeholder="Enter Last School Attended">
                 <p class="help-block" id="last_school_attended_help-block"></p>
               </div>
               

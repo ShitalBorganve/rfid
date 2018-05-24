@@ -213,7 +213,7 @@ if($modals_sets=="admin"){
             <div class="form-group">
               <label class="col-sm-2" for="age_as_of_august">Age as of August 31st(of the current year):</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" name="age_as_of_august" placeholder="Enter Age">
+                <input type="number" class="form-control" name="age_as_of_august" placeholder="Enter Age">
                 <p class="help-block" id="student_age_help-block"></p>
               </div>
               
@@ -277,7 +277,7 @@ if($modals_sets=="admin"){
             <div class="form-group">
               <label class="col-sm-2" for="last_year_attended">Last Year Attended:</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" name="last_year_attended" placeholder="Enter Last Year Attended">
+                <input type="number" class="form-control" name="last_year_attended" placeholder="Enter Last Year Attended">
                 <p class="help-block" id="student_last_year_attended_help-block"></p>
               </div>
               
