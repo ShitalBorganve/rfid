@@ -26,16 +26,16 @@ copy database.ex.php database.php
 5. Update the client_name, apicode and school_year columns in app_config table
 
 ## DEFAULT ADMIN ACCOUNT (http://domain.com/admin)
-username: admin
+username: admin<br>
 password: admin
 
 ## DEFAULT GATE PASSWORD (http://domain.com/gate)
-password: admin
+password: admin<br>
 
 ## DEFAULT JBTECH ACCOUNT (http://domain.com/gate)
-username: admin
-password: admin
-***JBTECH ACCOUNT is for information of students and teachers for ID**
+username: admin<br>
+password: admin<br>
+***JBTECH ACCOUNT is for information of students and teachers for ID**<br>
 
 ## SWITCHING SCHOOL YEAR (NEW DATABASE) FEATURE
 1. Create new database
