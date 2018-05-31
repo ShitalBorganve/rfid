@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Sep 23, 2017 at 12:53 PM
--- Server version: 5.7.19
+-- Generation Time: May 31, 2018 at 07:24 AM
+-- Server version: 10.1.9-MariaDB
 -- PHP Version: 5.6.31
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `rfid`
+-- Database: `rfid_test`
 --
 
 -- --------------------------------------------------------
@@ -54,15 +54,16 @@ CREATE TABLE `app_config` (
   `client_name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `version` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `deleted` int(11) NOT NULL,
-  `apicode` varchar(100) COLLATE utf8_unicode_ci NOT NULL
+  `apicode` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `school_year` varchar(255) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `app_config`
 --
 
-INSERT INTO `app_config` (`id`, `password`, `client_name`, `version`, `deleted`, `apicode`) VALUES
-(1, '92b910411fe9fd57251361f064d4cfbe', 'Thompson Christian School', '1.0002', 0, 'DE-JBTEC679067_718UI');
+INSERT INTO `app_config` (`id`, `password`, `client_name`, `version`, `deleted`, `apicode`, `school_year`) VALUES
+(1, '21232f297a57a5a743894a0e4a801fc3', 'School Name', '1.0003', 0, 'DE-JBTEC679067_718UI', '2018 - 2019');
 
 -- --------------------------------------------------------
 
@@ -243,6 +244,9 @@ CREATE TABLE `gate_logs` (
 CREATE TABLE `guardians` (
   `id` bigint(20) NOT NULL,
   `name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `last_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `first_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `middle_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `guardian_address` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `contact_number` varchar(11) COLLATE utf8_unicode_ci NOT NULL,
   `sms_subscription` int(11) NOT NULL,
@@ -402,6 +406,7 @@ CREATE TABLE `students` (
   `contact_number` varchar(11) COLLATE utf8_unicode_ci NOT NULL,
   `address` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `birthdate` int(11) NOT NULL,
+  `age_as_of_august` int(11) NOT NULL,
   `gender` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `mothers_name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `fathers_name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
@@ -411,6 +416,27 @@ CREATE TABLE `students` (
   `fetcher_id` int(11) NOT NULL,
   `class_id` bigint(20) NOT NULL,
   `rfid_status` int(11) NOT NULL,
+  `mother_tongue` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `ethnic_group` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `religion` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `is_transferee` int(11) NOT NULL,
+  `last_school_attended` text COLLATE utf8_unicode_ci NOT NULL,
+  `last_year_attended` int(11) NOT NULL,
+  `last_grade_attended` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `last_track_strand` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `academic_track` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `tech_voc_track` text COLLATE utf8_unicode_ci NOT NULL,
+  `fathers_last_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `fathers_middle_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `fathers_first_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `fathers_contact_number` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `fathers_address` text COLLATE utf8_unicode_ci NOT NULL,
+  `mothers_last_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `mothers_middle_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `mothers_first_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `mothers_contact_number` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `mothers_address` text COLLATE utf8_unicode_ci NOT NULL,
+  `is_living_with_parents` int(11) NOT NULL,
   `deleted` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
