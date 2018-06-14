@@ -75,6 +75,7 @@ class Guardian_ajax extends CI_Controller {
 				$guardian_data["name"] = $this->input->post("guardian_name");
 				$guardian_data["middle_name"] = $this->input->post("guardian_middle_name");
 				$guardian_data["first_name"] = $this->input->post("guardian_first_name");
+				$guardian_data["last_name"] = $this->input->post("guardian_last_name");
 				// $guardian_data["name"] = $guardian_data['last_name'] . " " .$guardian_data['first_name'] . " " .$guardian_data['middle_name'];
 				$guardian_data["email_address"] = $this->input->post("email_address");
 				$guardian_data["guardian_address"] = $this->input->post("guardian_address");

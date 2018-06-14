@@ -207,4 +207,10 @@ class Admin extends CI_Controller {
 		echo json_encode(change_database($this->input->post('school_year')));
 	}
 
+	public function upload_students()
+	{
+		$this->data["title"] = "Students Gate Logs";
+		$this->load->view('upload-student',$this->data);
+	}
+
 }

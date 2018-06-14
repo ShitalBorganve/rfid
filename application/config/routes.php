@@ -56,3 +56,4 @@ $route['default_controller'] = 'home';
 $route['404_override'] = 'My404';
 $route['translate_uri_dashes'] = FALSE;
 $route['change-school-year'] = 'admin/change_school_year';
+$route['admin/upload/students'] = 'admin/upload_students';

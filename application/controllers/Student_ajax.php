@@ -731,8 +731,8 @@ class Student_ajax extends CI_Controller {
 		    	$guardian_data["first_name"],
 		    	$guardian_data["middle_name"],
 		    	$guardian_data["last_name"],
-		    	$guardian_data["guardian_address"],
 		    	$guardian_data["contact_number"],
+		    	$guardian_data["guardian_address"],
 		    	$class_data["class_name"],
 		    	$class_data["grade"]
 		    	);
@@ -745,6 +745,326 @@ class Student_ajax extends CI_Controller {
 	public function add_fetcher()
 	{
 		# code...
+	}
+
+	public function upload()
+	{
+		$config['allowed_types'] = 'csv';
+		$config['overwrite'] = true;
+		$config['upload_path'] = './uploads/';
+
+		$this->load->library('upload', $config);
+
+		if ( ! $this->upload->do_upload('student_csv'))
+		{
+			$error = array('error' => $this->upload->display_errors());
+			$this->output->set_status_header(422);
+			echo json_encode($error);
+			// $this->load->view('upload_form', $error);
+		}
+		else
+		{
+			$data = array('upload_data' => $this->upload->data());
+			$file = fopen(base_url("uploads/".$data['upload_data']["orig_name"]),"r");
+			$iterations = 0;
+			$columns = array();
+			$rows = array();
+			while(! feof($file))
+			{
+				$student_data_array = fgetcsv($file);
+				if($iterations == 0){
+					foreach ($student_data_array as $key => $labels) {
+						if($this->label_to_column_name($labels)!=false){
+							$columns[] = [
+								"value" => $this->label_to_column_name($labels),
+								"key" => $key,
+								"name" => $labels
+							];
+						}
+					}
+					$index = 0;
+				}else{
+					foreach ($student_data_array as $row) {
+						$rows[$index][] = $row;
+					}
+					$index++;
+				}
+				$iterations++;
+			}
+			fclose($file);
+			$exported_data = array();
+			$index = 0;
+			foreach ($rows as $key => $row) {
+				$exported_data[$key] = array();
+				for ($i=0; $i < count($columns); $i++) {
+					$columns[$i]['value'] = (string)$columns[$i]['value'];
+					if($columns[$i]['value'] == 'birthdate'){
+						$exploded_birthdate = explode('/',$row[$columns[$i]['key']]);
+						if(checkdate($exploded_birthdate[0],$exploded_birthdate[1],$exploded_birthdate[2])){
+							$exported_data[$key]['bday_m'] = $exploded_birthdate[0];
+							$exported_data[$key]['bday_d'] = $exploded_birthdate[1];
+							$exported_data[$key]['bday_y'] = $exploded_birthdate[2];
+						}
+					}
+					if($columns[$i]['value'] == 'class_name'){
+						$class_name = $row[$columns[$i]['key']];
+						$get_data = array();
+						$get_data["class_name"] = $class_name;
+						$class_data = $this->classes_model->get_data($get_data,TRUE);
+						if($class_data){
+							$exported_data[$key]['class_id'] = $class_data->id;
+						}
+					}
+					if($columns[$i]['value'] == 'guardian_contact_number'){
+						$guardian_contact_number = $row[$columns[$i]['key']];
+						$get_data = array();
+						$get_data["contact_number"] = $guardian_contact_number;
+						$guardian_data = $this->guardian_model->get_data($get_data,TRUE);
+						if($guardian_data){
+							$exported_data[$key]['guardian_id'] = $guardian_data->id;
+						}
+					}
+					$exported_data[$key][$columns[$i]['value']] = $row[$columns[$i]['key']];
+				}
+
+				$index++;
+			}
+			echo json_encode([
+				'exported_data' => $exported_data,
+				'columns' => $columns,
+			]);
+		}
+	}
+
+	public function validate_upload()
+	{
+		if ($_POST) {
+			$compiled_errors = array();
+			$this->form_validation->set_rules('address', 'Address', 'required|min_length[2]|max_length[100]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('lrn_number', 'LRN Number', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('gender', 'Gender', 'required|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('mothers_name', 'Mother&apos;s Name', 'max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('fathers_name', 'Father&apos;s Name', 'max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('first_name', 'First Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('last_name', 'Last Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('middle_name', 'Middle Name', 'custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('suffix', 'Suffix', 'custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('contact_number', 'Contact Number', 'numeric|min_length[11]|max_length[11]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('bday_m', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('bday_d', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('bday_y', 'Birth Date', 'required|is_valid_date[bday_m.bday_d.bday_y]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('guardian_id', 'Guardian', 'is_in_db[guardians.id]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('class_id', 'Class', 'required|is_valid[classes.id]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('age_as_of_august', 'Age as of August', 'numeric|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('fathers_last_name', 'Father&apos;s Last Name', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('fathers_middle_name', 'Father&apos;s Middle Name', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('fathers_first_name', 'Father&apos;s First Name', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('fathers_contact_number', 'Father&apos;s Contact Number', 'numeric|min_length[11]|max_length[11]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('fathers_address', 'Mother&apos;s Address', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('mothers_last_name', 'Mother&apos;s Last Name', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('mothers_middle_name', 'Mother&apos;s Middle Name', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('mothers_first_name', 'Mother&apos;s First Name', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('mothers_contact_number', 'Mother&apos;s Contact Number', 'numeric|min_length[11]|max_length[11]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('mothers_address', 'Mother&apos;s Address', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
+
+			$grade = $this->input->post('grade');
+			if($grade == 'grade 1' || $grade == 'grade 2' || $grade == 'grade 3'){
+				$this->form_validation->set_rules('mother_tongue', 'Mother Tongue', 'required|max_length[50]|trim|htmlspecialchars');
+			}
+
+			$this->form_validation->set_message('is_in_db', 'This account is invalid');
+
+			if ($this->form_validation->run() == FALSE)
+			{
+				$errors["lrn_number_error"] = form_error('lrn_number');
+				$errors["address_error"] = form_error('address');
+				$errors["gender_error"] = form_error('gender');
+				$errors["mothers_name_error"] = form_error('mothers_name');
+				$errors["fathers_name_error"] = form_error('fathers_name');
+				$errors["first_name_error"] = form_error('first_name');
+				$errors["last_name_error"] = form_error('last_name');
+				$errors["middle_name_error"] = form_error('middle_name');
+				$errors["suffix_error"] = form_error('suffix');
+				$errors["bday_error"] = form_error('bday_m');
+				$errors["guardian_id_error"] = "Guardian is not registered";;
+				$errors["class_id_error"] = "Class is not registered";
+				$errors["contact_number_error"] = form_error('contact_number');
+				$errors["mother_tongue_error"] = form_error('mother_tongue');
+				$errors["age_as_of_august_error"] = form_error('age_as_of_august');
+				$errors["fathers_last_name_error"] = form_error('fathers_last_name');
+				$errors["fathers_middle_name_error"] = form_error('fathers_middle_name');
+				$errors["fathers_first_name_error"] = form_error('fathers_first_name');
+				$errors["fathers_contact_number_error"] = form_error('fathers_contact_number');
+				$errors["fathers_address_error"] = form_error('fathers_address');
+				$errors["mothers_last_name_error"] = form_error('mothers_last_name');
+				$errors["mothers_middle_name_error"] = form_error('mothers_middle_name');
+				$errors["mothers_first_name_error"] = form_error('mothers_first_name');
+				$errors["mothers_contact_number_error"] = form_error('mothers_contact_number');
+				$errors["mothers_address_error"] = form_error('mothers_address');
+				$data['is_valid'] = FALSE;
+				foreach ($errors as $value) {
+					if($value!=""){
+						$compiled_errors[] = $value;
+					}
+				}
+				$data["compiled_errors"] = $compiled_errors;
+			}
+			else
+			{
+				$data["is_valid"] = TRUE;
+				$data["lrn_number_error"] = "";
+				$data["address_error"] = "";
+				$data["gender_error"] = "";
+				$data["mothers_name_error"] = "";
+				$data["fathers_name_error"] = "";
+				$data["first_name_error"] = "";
+				$data["last_name_error"] = "";
+				$data["middle_name_error"] = "";
+				$data["suffix_error"] = "";
+				$data["bday_error"] = "";
+				$data["guardian_id_error"] = "";
+				$data["class_id_error"] = "";
+				$data["contact_number_error"] = "";
+				$data["mother_tongue_error"] = "";
+				$data["age_as_of_august"] = "";
+				$data["fathers_last_name_error"] = "";
+				$data["fathers_middle_name_error"] = "";
+				$data["fathers_first_name_error"] = "";
+				$data["fathers_contact_number_error"] = "";
+				$data["fathers_address_error"] = "";
+				$data["mothers_last_name_error"] = "";
+				$data["mothers_middle_name_error"] = "";
+				$data["mothers_first_name_error"] = "";
+				$data["mothers_contact_number_error"] = "";
+				$data["mothers_address_error"] = "";
+				$data["compiled_errors"] = $compiled_errors;
+			}
+			echo json_encode($data);
+		}
+	}
+
+	private function label_to_column_name($label)
+	{
+		$label = strtolower($label);
+		switch ($label) {
+			case 'lrn':
+				return "lrn_number";
+				break;
+			case 'first name':
+				return "first_name";
+				break;
+			case 'middle name':
+				return "middle_name";
+				break;
+			case 'last name':
+				return "last_name";
+				break;
+			case 'suffix':
+				return "suffix";
+				break;
+			case 'middle name':
+				return "middle_name";
+				break;
+			case 'contact number':
+				return "contact_number";
+				break;
+			case 'gender':
+				return "gender";
+				break;
+			case 'birthdate':
+				return "birthdate";
+				break;
+			case 'age as of august 31st (of the current year)':
+				return "age_as_of_august";
+				break;
+			case 'mother tongue':
+				return "mother_tongue";
+				break;
+			case 'ethnic group':
+				return "ethnic_group";
+				break;
+			case 'religion':
+				return "religion";
+				break;
+			case 'complete address':
+				return "address";
+				break;
+			case 'transferee?':
+				return "is_transferee";
+				break;
+			case 'last school attended':
+				return "last_school_attended";
+				break;
+			case 'last year attended':
+				return "last_year_attended";
+				break;
+			case 'last grade level':
+				return "last_grade_attended";
+				break;
+			case 'last track - strand':
+				return "last_track_strand";
+				break;
+			case 'academic track':
+				return "academic_track";
+				break;
+			case 'technical-vocational livelihood track':
+				return "tech_voc_track";
+				break;
+			case "father's first name":
+				return "fathers_first_name";
+				break;
+			case "father's middle name":
+				return "fathers_middle_name";
+				break;
+			case "father's last name":
+				return "fathers_last_name";
+				break;
+			case "father's contact number":
+				return "fathers_contact_number";
+				break;
+			case "father's complete address":
+				return "fathers_address";
+				break;
+			case "mother's first name":
+				return "mothers_first_name";
+				break;
+			case "mother's middle name":
+				return "mothers_middle_name";
+				break;
+			case "mother's last name":
+				return "mothers_last_name";
+				break;
+			case "mother's contact number":
+				return "mothers_contact_number";
+				break;
+			case "mother's complete address":
+				return "mothers_address";
+				break;
+			case "living with parents?":
+				return "is_living_with_parents";
+				break;
+			case "guardian's first name":
+				return "guardian_first_name";
+				break;
+			case "guardian's middle name":
+				return "guardian_middle_name";
+				break;
+			case "guardian's last name":
+				return "guardian_last_name";
+				break;
+			case "guardian's complete address":
+				return "guardian_address";
+				break;
+			case "guardian's contact number":
+				return "guardian_contact_number";
+				break;
+			case "class":
+				return "class_name";
+				break;
+			default:
+				return false;
+				break;
+		}
 	}
 
 }

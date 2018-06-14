@@ -23,6 +23,7 @@ if($navbar_type=="admin"){
             <ul class="dropdown-menu">
               <li><a href="'.base_url("admin/students").'">List of Students</a></li>
               <li><a href="javascript:void(0)" class="rfid_scan_add" id="students">Add Students</a></li>
+              <li><a href="'.base_url("admin/upload/students").'">Import Students from CSV Data</a></li>
               ';
               
               echo '
