@@ -10,5 +10,6 @@ $lang['is_available']		= 'The %s is invalid or not available.';
 $lang['is_valid_rfid']		= 'This RFID is invalid.';
 $lang['is_valid']		= 'This %s is invalid.';
 $lang['is_unique_edit']		= 'This %s is already taken.';
+$lang['is_unique_name']		= 'This person is already in the list';
 $lang['is_valid_current_password']		= 'This %s is incorrect.';
 $lang['email_subscription']		= 'The %s field is required if email subscription is checked.';

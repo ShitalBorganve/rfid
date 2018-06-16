@@ -1074,7 +1074,7 @@ if($modals_sets=="admin"){
           <div class="form-group">
             <label class="col-sm-4" for="guardian_name">Guardian&apos;s Address:</label>
             <div class="col-sm-8"> 
-              <input type="text" class="form-control" name="guardian_address" placeholder="Enter Guardian&apos;s Address">
+              <input type="text" class="form-control" name="guardian_address" placeholder="Enter Guardian&apos;s Address" id="add_guardian_address">
               <p class="help-block" id="add_guardian_address_help-block"></p>
             </div>
           </div>
@@ -1085,7 +1085,7 @@ if($modals_sets=="admin"){
           <div class="form-group">
             <label class="col-sm-4" for="email_address">Email Address:</label>
             <div class="col-sm-8"> 
-              <input type="text" class="form-control" name="email_address" placeholder="Enter Email Address">
+              <input type="text" class="form-control" name="email_address" placeholder="Enter Email Address" id="add_guardian_email_address">
               <p class="help-block" id="add_email_address_help-block"></p>
             </div>
           </div>
@@ -1093,7 +1093,7 @@ if($modals_sets=="admin"){
           <div class="form-group">
             <label class="col-sm-4" for="contact_number">Contact Number:</label>
             <div class="col-sm-8"> 
-              <input type="text" class="form-control" name="contact_number" placeholder="Enter Contact Number">
+              <input type="text" class="form-control" name="contact_number" placeholder="Enter Contact Number" id="add_guardian_contact_number">
               <p class="help-block" id="add_contact_number_help-block"></p>
             </div>
           </div>
@@ -1278,7 +1278,7 @@ if($modals_sets=="admin"){
             <div class="form-group">
               <label class="col-sm-4" for="class_name">Class Name:</label>
               <div class="col-sm-8">
-                <input type="text" class="form-control" name="class_name" placeholder="Enter Class Name">
+                <input type="text" class="form-control" name="class_name" placeholder="Enter Class Name" id="add_class_name">
                 <p class="help-block" id="class_name_help-block"></p>
               </div>
             </div>
@@ -1286,7 +1286,7 @@ if($modals_sets=="admin"){
             <div class="form-group">
               <label class="col-sm-4" for="grade">Grade or Year:</label>
               <div class="col-sm-8">
-                <input type="text" class="form-control" name="grade" placeholder="Enter Grade or Year">
+                <input type="text" class="form-control" name="grade" placeholder="Enter Grade or Year" id="add_class_grade">
                 <p class="help-block" id="grade_help-block"></p>
               </div>
             </div>
