@@ -53,6 +53,8 @@ class App_config extends CI_Model {
                     // echo $app_config->version;
                     break;
                 default:
+                $this->db->query("ALTER TABLE `students` CHANGE `last_year_attended` `last_year_attended` VARCHAR(255) NOT NULL");
+                $this->db->query("UPDATE app_config SET version='".$app_config->version."' WHERE id='1'");
                     
                     break;
             }

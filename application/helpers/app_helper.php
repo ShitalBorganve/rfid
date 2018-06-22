@@ -176,7 +176,7 @@ if ( ! function_exists('admin_paging'))
 
 	function current_build()
 	{
-		return "1.0003";
+		return "1.0004";
 	}
 
 	function init_database_settings()
