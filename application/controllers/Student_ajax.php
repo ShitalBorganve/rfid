@@ -788,7 +788,7 @@ class Student_ajax extends CI_Controller {
 				if($iterations == 0){
 					if($student_data_array!=array()){
 						foreach ($student_data_array as $key => $labels) {
-							if($this->label_to_column_name($labels)!=false){
+							if($labels != "" && $this->label_to_column_name($labels)!=false){
 								$columns[] = [
 									"value" => $this->label_to_column_name($labels),
 									"key" => $key,
@@ -799,16 +799,33 @@ class Student_ajax extends CI_Controller {
 					}
 					$index = 0;
 				}else{
-					foreach ($student_data_array as $row) {
-						$rows[$index][] = $row;
+					$is_not_empty = true;
+					foreach ($student_data_array as $value) {
+						if($value!=""){
+							$is_not_empty = false;
+							break;
+						}
 					}
-					$index++;
+					if(!$is_not_empty){
+						if($student_data_array!=array()){
+							foreach ($student_data_array as $row) {
+								$rows[$index][] = strtoupper($row)=="NA" || strtoupper($row)=="N/A" ?"":$row;
+							}
+							$index++;
+						}
+					}
 				}
 				$iterations++;
 			}
 			fclose($file);
 			$exported_data = array();
 			$index = 0;
+			if($columns==array()){
+				$error = array('error' => ["File is not valid"]);
+				$this->output->set_status_header(422);
+				echo json_encode($error);
+				exit;
+			}
 			foreach ($rows as $key => $row) {
 				$exported_data[$key] = array();
 				for ($i=0; $i < count($columns); $i++) {
@@ -846,11 +863,46 @@ class Student_ajax extends CI_Controller {
 
 				$index++;
 			}
-			echo json_encode([
+			$result = [
 				'exported_data' => $exported_data,
-				'columns' => $columns,
-			]);
+				'columns' => $columns
+			];
+			
+			echo $this->safe_json_encode($result);
 		}
+	}
+
+	private function safe_json_encode($value, $options = 0, $depth = 512){
+		$encoded = json_encode($value, $options, $depth);
+		switch (json_last_error()) {
+			case JSON_ERROR_NONE:
+				return $encoded;
+			case JSON_ERROR_DEPTH:
+				return 'Maximum stack depth exceeded'; // or trigger_error() or throw new Exception()
+			case JSON_ERROR_STATE_MISMATCH:
+				return 'Underflow or the modes mismatch'; // or trigger_error() or throw new Exception()
+			case JSON_ERROR_CTRL_CHAR:
+				return 'Unexpected control character found';
+			case JSON_ERROR_SYNTAX:
+				return 'Syntax error, malformed JSON'; // or trigger_error() or throw new Exception()
+			case JSON_ERROR_UTF8:
+				$clean = $this->utf8ize($value);
+				return $this->safe_json_encode($clean, $options, $depth);
+			default:
+				return 'Unknown error'; // or trigger_error() or throw new Exception()
+
+		}
+	}
+
+	private function utf8ize($d) {
+		if (is_array($d)) {
+			foreach ($d as $k => $v) {
+				$d[$k] = $this->utf8ize($v);
+			}
+		} else if (is_string ($d)) {
+			return utf8_encode($d);
+		}
+		return $d;
 	}
 
 	public function validate_upload()
