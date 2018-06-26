@@ -849,6 +849,9 @@ $(document).ready(function(e) {
   var require_mothers_tongue = false;
   $('#student_add_select_class').dropdown({
     onChange: function (value, text, choice) {
+      if (typeof text == "undefined"){
+        return false;
+      }
       let str = text.toLowerCase();
       let grade_str_position = str.search(/grade/i);
       let grade = str.slice(grade_str_position, str.length);
