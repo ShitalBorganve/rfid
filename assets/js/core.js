@@ -162,7 +162,6 @@ $(document).ready(function(e) {
         $("#add_subscription_help-block").html(data.subscription_error);
         if (data.is_valid) {          
           $("#register_guardian_form")[0].reset();
-          $('.ui.dropdown').dropdown('clear');
           $(".help-block").html("");
           $("#register_guardian_modal").modal("hide");
           update_select_options("guardian_id", base_url);
