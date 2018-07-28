@@ -48,7 +48,7 @@ class Teacher_ajax extends CI_Controller {
 			$this->form_validation->set_rules('gender', 'Gender', 'max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('dept_head', 'Department Head', 'max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('dept_head_number', 'Department Head Contact Number', 'numeric|max_length[11]|min_length[11]|trim|htmlspecialchars');
-			$this->form_validation->set_rules('address', 'Address', 'required|min_length[2]|max_length[100]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('address', 'Address', 'required|min_length[2]|max_length[200]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('first_name', 'First Name', 'required|is_unique_name[teachers.first_name.middle_name.last_name.NULL]|custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('last_name', 'Last Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('middle_name', 'Middle Name', 'custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
@@ -254,7 +254,7 @@ You can login to ".base_url("teacher");
 			$this->form_validation->set_rules('dept_head_number', 'Department Head Contact Number', 'numeric|max_length[11]|min_length[11]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('teacher_id', 'First Name', 'required|trim|htmlspecialchars|is_in_db[teachers.id]');
 			$this->form_validation->set_rules('first_name', 'First Name', 'required|is_unique_name[teachers.first_name.middle_name.last_name.teacher_id]|custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
-			$this->form_validation->set_rules('address', 'Address', 'required|min_length[2]|max_length[100]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('address', 'Address', 'required|min_length[2]|max_length[200]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('last_name', 'Last Name', 'required|custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('middle_name', 'Middle Name', 'custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('suffix', 'Suffix', 'custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');

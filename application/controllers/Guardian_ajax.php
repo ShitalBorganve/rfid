@@ -37,7 +37,7 @@ class Guardian_ajax extends CI_Controller {
 	public function register($value='')
 	{
 		if($_POST){
-			$this->form_validation->set_rules('guardian_address', 'Guardian Address', 'required|trim|htmlspecialchars|min_length[2]|max_length[50]');
+			$this->form_validation->set_rules('guardian_address', 'Guardian Address', 'required|trim|htmlspecialchars|min_length[2]|max_length[200]');
 			$this->form_validation->set_rules('email_address', 'Email Address', 'valid_email|trim|htmlspecialchars|min_length[2]|max_length[50]');
 			$this->form_validation->set_rules('email_subscription', 'Email Address', 'email_subscription[email_address]');
 			// $this->form_validation->set_rules('guardian_name', 'Guardian Name', 'required|custom_alpha_dash|trim|htmlspecialchars|min_length[2]|max_length[50]');
@@ -106,7 +106,7 @@ You can login to ".base_url();
 	public function edit($value='')
 	{
 		if($_POST){
-			$this->form_validation->set_rules('guardian_address', 'Guardian Address', 'required|trim|htmlspecialchars|min_length[2]|max_length[50]');
+			$this->form_validation->set_rules('guardian_address', 'Guardian Address', 'required|trim|htmlspecialchars|min_length[2]|max_length[200]');
 			$this->form_validation->set_rules('guardian_name', 'Guardian Name', 'required|custom_alpha_dash|trim|htmlspecialchars|min_length[2]|max_length[50]');
 			$this->form_validation->set_rules('guardian_last_name', 'Guardian Last Name', 'required|is_unique_name[guardians.guardian_first_name.guardian_middle_name.guardian_last_name.guardian_id]|trim|htmlspecialchars|max_length[50]');
 			$this->form_validation->set_rules('guardian_middle_name', 'Guardian Middle Name', 'trim|htmlspecialchars|max_length[50]');
