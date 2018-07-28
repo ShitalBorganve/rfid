@@ -83,7 +83,7 @@ $(document).ready(function() {
 		$.ajax({
       type: "POST",
       data: 'school_year='+$('#school_year').val()+"&<?php echo $this->security->get_csrf_token_name();?>=<?php echo $this->security->get_csrf_hash();?>",
-      url: 'change-school-year',
+      url: '/change-school-year',
       cache: false,
       dataType: "json",
       beforeSend: function() {
