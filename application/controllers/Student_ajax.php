@@ -867,7 +867,7 @@ class Student_ajax extends CI_Controller {
 				if($this->students_model->get_data($get_data) != null){
 					unset($exported_data[$key]);
 				}
-				// $index++;
+				$index++;
 			}
 			$result = [
 				'exported_data' => array_values($exported_data),
