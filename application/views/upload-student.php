@@ -90,8 +90,8 @@
         <h4 class="modal-title">ERRORS</h4>
       </div>
         <div class="modal-body">
-          <p ng-repeat="error in errors">
-            {{ error }}
+          <p ng-repeat="error in errors track by $index">
+            <span ng-bind-html="deliberatelyTrustDangerousSnippet(error)"></span>
             <button class="btn btn-primary" ng-if="error=='Guardian is not registered.'" ng-click="addGuardianForm()">ADD GUARDIAN</button>
             <button class="btn btn-primary" ng-if="error=='Class is not registered.'" ng-click="addClassForm()">ADD CLASS</button>
           </p>
@@ -115,9 +115,10 @@
 <?php echo $modaljs_scripts; ?>
 <?php echo $js_scripts; ?>
 <?php echo '<script type="text/javascript" src="'.base_url("assets/js/angular.min.js").'"></script>'; ?>
+<?php echo '<script type="text/javascript" src="'.base_url("assets/js/angular-sanitize.min.js").'"></script>'; ?>
 <script>
 
-var app = angular.module('myApp', []);
+var app = angular.module('myApp', ['ngSanitize']);
 app.filter('isEmpty', function () {
     var bar;
     return function (obj) {
@@ -340,6 +341,10 @@ $scope.addStudent = function(specificIndex) {
   $scope.toggleRows = function(data) {
     $scope.filterRowsBy = data.filterRowsBy;
   }
+
+  $scope.deliberatelyTrustDangerousSnippet = function(data) {
+    return $sce.trustAsHtml(data);
+  };
 
 });
 </script>
