@@ -42,7 +42,7 @@ class Student_ajax extends CI_Controller {
 		$compiled_errors = array();
 		if($_POST){
 
-			$this->form_validation->set_rules('address', 'Address', 'required|min_length[2]|max_length[100]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('address', 'Address', 'required|min_length[2]|max_length[200]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('lrn_number', 'LRN Number', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('gender', 'Gender', 'required|max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('mothers_name', 'Mother&apos;s Name', 'max_length[50]|trim|htmlspecialchars');
@@ -62,12 +62,12 @@ class Student_ajax extends CI_Controller {
 			$this->form_validation->set_rules('fathers_middle_name', 'Father&apos;s Middle Name', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('fathers_first_name', 'Father&apos;s First Name', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('fathers_contact_number', 'Father&apos;s Contact Number', 'numeric|min_length[11]|max_length[11]|trim|htmlspecialchars');
-			$this->form_validation->set_rules('fathers_address', 'Mother&apos;s Address', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('fathers_address', 'Mother&apos;s Address', 'min_length[2]|max_length[200]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('mothers_last_name', 'Mother&apos;s Last Name', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('mothers_middle_name', 'Mother&apos;s Middle Name', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('mothers_first_name', 'Mother&apos;s First Name', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('mothers_contact_number', 'Mother&apos;s Contact Number', 'numeric|min_length[11]|max_length[11]|trim|htmlspecialchars');
-			$this->form_validation->set_rules('mothers_address', 'Mother&apos;s Address', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('mothers_address', 'Mother&apos;s Address', 'min_length[2]|max_length[200]|trim|htmlspecialchars');
 			$grade = $this->input->post('grade');
 			if($grade == 'grade 1' || $grade == 'grade 2' || $grade == 'grade 3'){
 				$this->form_validation->set_rules('mother_tongue', 'Mother Tongue', 'required|max_length[50]|trim|htmlspecialchars');
@@ -282,7 +282,7 @@ class Student_ajax extends CI_Controller {
 			$this->form_validation->set_rules('lrn_number', 'LRN Number', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('student_id', 'First Name', 'required|trim|htmlspecialchars|is_in_db[students.id]');
 			$this->form_validation->set_rules('gender', 'Gender', 'required|max_length[50]|trim|htmlspecialchars');
-			$this->form_validation->set_rules('address', 'Address', 'required|min_length[2]|max_length[100]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('address', 'Address', 'required|min_length[2]|max_length[200]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('mothers_name', 'Mother&apos;s Name', 'max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('fathers_name', 'Father&apos;s Name', 'max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('first_name', 'First Name', 'required|is_unique_name[students.first_name.middle_name.last_name.student_id]|custom_alpha_dash|min_length[2]|max_length[50]|trim|htmlspecialchars');
@@ -301,12 +301,12 @@ class Student_ajax extends CI_Controller {
 			$this->form_validation->set_rules('fathers_middle_name', 'Father&apos;s Middle Name', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('fathers_first_name', 'Father&apos;s First Name', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('fathers_contact_number', 'Father&apos;s Contact Number', 'numeric|min_length[11]|max_length[11]|trim|htmlspecialchars');
-			$this->form_validation->set_rules('fathers_address', 'Mother&apos;s Address', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('fathers_address', 'Mother&apos;s Address', 'min_length[2]|max_length[200]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('mothers_last_name', 'Mother&apos;s Last Name', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('mothers_middle_name', 'Mother&apos;s Middle Name', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('mothers_first_name', 'Mother&apos;s First Name', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('mothers_contact_number', 'Mother&apos;s Contact Number', 'numeric|min_length[11]|max_length[11]|trim|htmlspecialchars');
-			$this->form_validation->set_rules('mothers_address', 'Mother&apos;s Address', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('mothers_address', 'Mother&apos;s Address', 'min_length[2]|max_length[200]|trim|htmlspecialchars');
 			$get_data = array();
 			$class_id = $this->input->post('class_id');
 	    	$get_data["id"] = $class_id;
@@ -939,12 +939,12 @@ class Student_ajax extends CI_Controller {
 			$this->form_validation->set_rules('fathers_middle_name', 'Father&apos;s Middle Name', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('fathers_first_name', 'Father&apos;s First Name', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('fathers_contact_number', 'Father&apos;s Contact Number', 'numeric|min_length[11]|max_length[11]|trim|htmlspecialchars');
-			$this->form_validation->set_rules('fathers_address', 'Mother&apos;s Address', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('fathers_address', 'Mother&apos;s Address', 'min_length[2]|max_length[200]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('mothers_last_name', 'Mother&apos;s Last Name', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('mothers_middle_name', 'Mother&apos;s Middle Name', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('mothers_first_name', 'Mother&apos;s First Name', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
 			$this->form_validation->set_rules('mothers_contact_number', 'Mother&apos;s Contact Number', 'numeric|min_length[11]|max_length[11]|trim|htmlspecialchars');
-			$this->form_validation->set_rules('mothers_address', 'Mother&apos;s Address', 'min_length[2]|max_length[50]|trim|htmlspecialchars');
+			$this->form_validation->set_rules('mothers_address', 'Mother&apos;s Address', 'min_length[2]|max_length[200]|trim|htmlspecialchars');
 
 			$grade = $this->input->post('grade');
 			if($grade == 'grade 1' || $grade == 'grade 2' || $grade == 'grade 3'){
