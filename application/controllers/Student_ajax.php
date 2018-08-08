@@ -540,7 +540,7 @@ class Student_ajax extends CI_Controller {
 				$get_data = array();
 				$get_data["id"] = $student_data["guardian_id"];
 				$student_data["guardian_data"] = $this->guardian_model->get_data($get_data);
-				$student_data["guardian_name"] = $student_data["guardian_data"]["name"];
+				$student_data["guardian_name"] = $student_data["guardian_data"]["first_name"]." ".$student_data["guardian_data"]["middle_name"]." ".$student_data["guardian_data"]["last_name"];
 				$student_data["guardian_address"] = $student_data["guardian_data"]["guardian_address"];
 				$student_data["guardian_contact_number"] = $student_data["guardian_data"]["contact_number"];
 			}else{
