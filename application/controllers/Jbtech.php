@@ -147,4 +147,31 @@ class Jbtech extends CI_Controller {
 		}
 	}
 
+	public function sms()
+	{
+		$curl = curl_init();
+		$app_config_data = $this->db->get("app_config")->row();
+		curl_setopt_array($curl, array(
+		  CURLOPT_URL => "https://www.itexmo.com/php_api/apicode_info.php?apicode=".$app_config_data->apicode,
+		  CURLOPT_RETURNTRANSFER => true,
+		  CURLOPT_TIMEOUT => 30,
+		  CURLOPT_SSL_VERIFYPEER => FALSE,
+		  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+		  CURLOPT_CUSTOMREQUEST => "GET",
+		  CURLOPT_HTTPHEADER => array(
+		    "cache-control: no-cache"
+		  ),
+		));
+
+		$response = curl_exec($curl);
+		$err = curl_error($curl);
+		$response = json_decode($response,true);
+		$this->data["MessagesLeft"] = $response["Result "]["MessagesLeft"];
+		$this->data["ApiCode"] = $response["Result "]["ApiCode"];
+		$this->data["ExpiresOn"] = $response["Result "]["ExpiresOn"];
+		$this->data["MaxMessages"] = 'SMS has '.$response["Result "]["MaxMessages"].' Max Messages per Day and will reset in 12MN.';
+		// echo json_encode($data);
+		$this->load->view('jbtech-sms-status',$this->data);
+	}
+
 }
