@@ -697,6 +697,7 @@ $(document).ready(function() {
       }
     });
   }
+  $(".ui").dropdown("clear");
   $(document).on("submit","#student_edit_form",function(e) {
     e.preventDefault();
     $.ajax({

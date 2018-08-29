@@ -426,6 +426,7 @@ $(document).ready(function() {
     $(".ui").dropdown("clear");
     show_teacher_list();
   });
+  $(".ui").dropdown("clear");
   $(document).on("submit","#teacher_edit_form",function(e) {
     e.preventDefault();
     $.ajax({

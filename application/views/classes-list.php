@@ -150,6 +150,7 @@ $(document).ready(function(e) {
       var id = e.target.id;
       show_class_data(id);
   });
+  $(".ui").dropdown("clear");
   $(document).on("click",".delete_class",function(e) {
     var datastr = "<?php echo $this->security->get_csrf_token_name();?>=<?php echo $this->security->get_csrf_hash();?>"+"&id="+e.target.id;
     alertify.confirm('DELETE CLASS', 'Are you sure you want to delete this class in the list?<br> This action is irreversible.', function(){

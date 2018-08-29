@@ -180,6 +180,7 @@ $(document).ready(function() {
       var id = e.target.id;
       show_fetcher_data(id);
   });
+  $(".ui").dropdown("clear");
 
 
   $(document).on("click",".fetcher",function(e) {

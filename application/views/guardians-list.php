@@ -208,6 +208,7 @@ $(document).ready(function() {
       alertify.error('Cancelled')
     });
   });
+  $(".ui").dropdown("clear");
   $(document).on("click","#reset",function(e) {
     $(".ui").dropdown("clear");
     show_guardian_list();

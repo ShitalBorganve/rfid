@@ -300,6 +300,7 @@ echo '
 <?php echo $js_scripts; ?>
 <script>
 $(document).ready(function() {
+  $(".ui").dropdown("clear");
   $(document).on("click",".add_rfid_staff",function(e) {
     var id = e.target.id;
     $('input[name="type"]').val("staffs");
